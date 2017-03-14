@@ -16,60 +16,66 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
-free=()
-nonfree=()
+good_licences=(
+	"AGPLv3"
+	"AGPLv3+"
+	"BSD"
+	"CC0"
+	"CC-BY"
+	"CC-BY-SA"
+	"GPL+"
+	"GPLv2"
+	"GPLv2+"
+	"GPLv3"
+	"GPL-3.0"
+	"LGPLv2"
+	"LGPLv2+"
+	"LGPLv3"
+	"MIT"
+	"MPLv1.0"
+	"MPLv1.1"
+	"MPLv2.0"
+	"Public domain"
+	"Public Domain"
+	"Unlicense"
+	"WTFPL"
+	"zlib"
+)
+
+good_licences_argstring=""
+for ((l=0; l<${#good_licences[@]}; ++l)); do
+	good_licences_argstring="$good_licences_argstring	--regexp	${good_licences[$l]}"
+done
 
 function classify_package() {
-	good_licenses=(
-		"AGPLv3"
-		"AGPLv3+"
-		"BSD"
-		"CC0"
-		"CC-BY"
-		"CC-BY-SA"
-		"GPL+"
-		"GPLv2"
-		"GPLv2+"
-		"GPLv3"
-		"GPL-3.0"
-		"LGPLv2"
-		"LGPLv2+"
-		"LGPLv3"
-		"MIT"
-		"MPLv1.0"
-		"MPLv1.1"
-		"MPLv2.0"
-		"Public domain"
-		"Public Domain"
-		"Unlicense"
-		"WTFPL"
-		"zlib"
-	)
+	echo "$2" | grep --quiet --fixed-strings --word-regexp $good_licences_argstring
 	
-	for ((l=0; l<${#good_licenses[@]}; ++l)); do
-		echo "$2" | grep --quiet --fixed-strings --word-regexp --regexp "${good_licenses[$l]}"
-		
-		if [[ "$?" -eq 0 ]]; then
-			free[${#free[@]}]=$1
-			return
-		fi
-	done
-	
-	nonfree[${#nonfree[@]}]=$1
+	if [[ "$?" -eq 0 ]]; then
+		free[${#free[@]}]=$1
+	else
+		nonfree[${#nonfree[@]}]=$1
+	fi
 }
 
+# For splitting the package list line-by-line
 IFS="
 "
 
 packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n'`
 packages=($packages)
 
+free=()
+nonfree=()
+
+# Will be used later when expanding $good_licences_argstring to separate args
+IFS="	"
+
 for ((i=0; i< ${#packages[@]}; ++i)); do
 	line=${packages[$i]}
 	name=${line%%:*}
-	license=${line##*:}
+	licence=${line##*:}
 	
-	classify_package $name $license
+	classify_package "$name" "$licence"
 done
 
 echo "${#free[@]} free packages"
