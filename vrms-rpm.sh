@@ -17,6 +17,31 @@
 #
 
 
+# Set initial option values
+list=0
+
+while [[ "$#" -gt 0 ]]; do
+	case "$1" in
+		--help)
+			help=$(cat <<EOT
+Usage: vrms-rpm [options]
+  --help    Display this help.
+  --list    List nonfree packages.
+EOT
+);
+			echo "$help"
+			exit
+		;;
+		
+		--list)
+			list=1
+		;;
+	esac
+	
+	shift
+done
+
+
 # List based on https://fedoraproject.org/wiki/Licensing:Main#Good_Licenses
 good_licences=(
 	"AAL"
@@ -138,6 +163,7 @@ good_licences=(
 	"LBNL BSD"
 	"LDPL"
 	"Leptonica"
+	"LGPL-2.0"
 	"LGPLv2"
 	"LGPLv2+"
 	"LGPLv3"
@@ -181,6 +207,7 @@ good_licences=(
 	"NOSL"
 	"Noweb"
 	"OAL"
+	"OFL"
 	"OFSFDL"
 	"OGL"
 	"OML"
@@ -203,6 +230,7 @@ good_licences=(
 	"psfrag"
 	"psutils"
 	"PTFL"
+	"pubkey"
 	"Public domain"
 	"Public Domain"
 	"Public use"
@@ -293,7 +321,7 @@ function classify_package() {
 IFS="
 "
 
-packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n'`
+packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n' | sort`
 packages=($packages)
 
 free=()
@@ -310,5 +338,12 @@ for ((i=0; i< ${#packages[@]}; ++i)); do
 	classify_package "$name" "$licence"
 done
 
+
 echo "${#free[@]} free packages"
+
 echo "${#nonfree[@]} nonfree packages"
+if [[ "$list" -eq 1 ]]; then
+	for ((p=0; p<${#nonfree[@]}; ++p)); do
+		echo " - ${nonfree[$p]}"
+	done
+fi
