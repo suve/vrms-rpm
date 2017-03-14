@@ -18,15 +18,19 @@
 
 
 # Set initial option values
-list=0
+list="nonfree"
 
+# Read options
 while [[ "$#" -gt 0 ]]; do
 	case "$1" in
 		--help)
 			help=$(cat <<EOT
 Usage: vrms-rpm [options]
-  --help    Display this help.
-  --list    List nonfree packages.
+  --help
+    Display this help.
+  --list <none,free,nonfree,all>
+    Apart from displaying a summary number of free & nonfree packages,
+    print them by name. The default value is "nonfree".
 EOT
 );
 			echo "$help"
@@ -34,7 +38,17 @@ EOT
 		;;
 		
 		--list)
-			list=1
+			if [[ "$#" -eq 1 ]]; then
+				echo "vrms-rpm: --list option requires an argument"
+				exit 1
+			fi
+			if [ "$2" != "none" ] && [ "$2" != "free" ] && [ "$2" != "nonfree" ] && [ "$2" != "all" ]; then
+				echo "vrms-rpm: argument for --list option must be one of 'none', 'free', 'nonfree' or 'all'"
+				exit 1
+			fi
+			
+			list=$2
+			shift
 		;;
 	esac
 	
@@ -339,11 +353,21 @@ for ((i=0; i< ${#packages[@]}; ++i)); do
 done
 
 
-echo "${#free[@]} free packages"
+total_free=${#free[@]}
+total_nonfree=${#nonfree[@]}
 
-echo "${#nonfree[@]} nonfree packages"
-if [[ "$list" -eq 1 ]]; then
-	for ((p=0; p<${#nonfree[@]}; ++p)); do
+
+echo "$total_free free packages"
+if [ $list == "free" ] || [ $list == "all" ]; then
+	for ((p=0; p<$total_free; ++p)); do
+		echo " - ${free[$p]}"
+	done
+fi
+
+
+echo "$total_nonfree nonfree packages"
+if [ $list == "nonfree" ] || [ $list == "all" ]; then
+	for ((p=0; p<$total_nonfree; ++p)); do
 		echo " - ${nonfree[$p]}"
 	done
 fi
