@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# vrms-rpm - list non-free packages on an rpm-based Linux distribution
+# vrms-rpm - list nonfree packages on an rpm-based Linux distribution
 # Copyright (C) 2017 Artur "suve" Iwicki
 #
 # This program is free software: you can redistribute it and/or modify
@@ -9,7 +9,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License along with
@@ -43,10 +43,12 @@ Usage: vrms-rpm [options]
     When listing packages, display licences as to justify
     the free / nonfree classification.
   --help
-    Display this help.
+    Display this help and exit.
   --list <none,free,nonfree,all>
     Apart from displaying a summary number of free & nonfree packages,
     print them by name. The default value is "nonfree".
+  --version
+    Display version information and exit.
 EOT
 );
 			echo "$help"
@@ -65,6 +67,10 @@ EOT
 			
 			list=$2
 			shift
+		;;
+		
+		--version)
+			"vrms-rpm v.0.12 by suve"
 		;;
 	esac
 	
@@ -332,6 +338,8 @@ good_licences=(
 	"ZPLv2.1"
 )
 
+# Prepare a string composed of the good licence names.
+# It will later be expanded into arguments to be consumed by grep
 good_licences_argstring=""
 for ((l=0; l<${#good_licences[@]}; ++l)); do
 	good_licences_argstring="$good_licences_argstring	--regexp	${good_licences[$l]}"

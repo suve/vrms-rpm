@@ -41,6 +41,9 @@ Display a short help on program usage and exit.
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
 Apart from displaying the total number of free and nonfree packages, 
 also list packages by name. The default value for this option is \fInonfree\fR.
+.TP
+\fB\-\-version\fR
+Display version information and exit.
 .SH SEE ALSO
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
