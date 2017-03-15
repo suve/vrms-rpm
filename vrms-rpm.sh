@@ -70,7 +70,7 @@ EOT
 		;;
 		
 		--version)
-			"vrms-rpm v.0.12 by suve"
+			echo "vrms-rpm v.0.13 by suve"
 		;;
 	esac
 	
