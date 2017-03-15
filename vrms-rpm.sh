@@ -19,6 +19,7 @@
 
 # Set initial option values
 ascii="0"
+explain="0"
 list="nonfree"
 
 # Read options
@@ -28,12 +29,19 @@ while [[ "$#" -gt 0 ]]; do
 			ascii="1"
 		;;
 		
+		--explain)
+			explain="1"
+		;;
+		
 		--help)
 			help=$(cat <<EOT
 Usage: vrms-rpm [options]
   --ascii
     Display rms ASCII-art when no nonfree packages are found,
     or when nonfree packages are 10% or more of the total.
+  --explain
+    When listing packages, display licences as to justify
+    the free / nonfree classification.
   --help
     Display this help.
   --list <none,free,nonfree,all>
@@ -330,12 +338,20 @@ for ((l=0; l<${#good_licences[@]}; ++l)); do
 done
 
 function classify_package() {
+	local push_value
+	if [[ "$explain" -eq 1 ]]; then
+		push_value="$1: $2"
+	else
+		push_value="$1"
+	fi
+	
+	
 	echo "$2" | grep --quiet --fixed-strings --word-regexp $good_licences_argstring
 	
 	if [[ "$?" -eq 0 ]]; then
-		free[${#free[@]}]=$1
+		free[${#free[@]}]="$push_value"
 	else
-		nonfree[${#nonfree[@]}]=$1
+		nonfree[${#nonfree[@]}]="$push_value"
 	fi
 }
 
