@@ -18,14 +18,22 @@
 
 
 # Set initial option values
+ascii="0"
 list="nonfree"
 
 # Read options
 while [[ "$#" -gt 0 ]]; do
 	case "$1" in
+		--ascii)
+			ascii="1"
+		;;
+		
 		--help)
 			help=$(cat <<EOT
 Usage: vrms-rpm [options]
+  --ascii
+    Display rms ASCII-art when no nonfree packages are found,
+    or when nonfree packages are 10% or more of the total.
   --help
     Display this help.
   --list <none,free,nonfree,all>
@@ -374,6 +382,7 @@ if [ $list == "nonfree" ] || [ $list == "all" ]; then
 	done
 fi
 
+
 if [[ "$total_nonfree" -eq 0 ]]; then
 	rms_happy=$(cat <<EOHAPPY
 ?????????????????++++=~===,~::+IIIIIIIIIIIIIIII???+==+++++?IIIIII?+++++?II?+++?I
@@ -412,11 +421,15 @@ if [[ "$total_nonfree" -eq 0 ]]; then
 EOHAPPY
 );
 	
-	echo ""
-	echo "$rms_happy"
-	echo "Only free packages - rms would be proud!                           rms is happy."
+	if [[ "$ascii" -eq 1 ]]; then
+		echo ""
+		echo "$rms_happy"
+		echo "Only free packages - rms would be proud!                           rms is happy."
+	else
+		echo "Only free packages - rms would be proud!"
+	fi
 elif [[ "$percentage_nonfree" -ge 10 ]]; then
-	rms_facepalm=$(cat <<EODISAPPOINT
+	rms_disappoint=$(cat <<EODISAPPOINT
 ......................,,:::::::+==I?++~~~??????????+??+~::,,,:,,.,.,............
 ......................,:::::::+??+++~:,~+?????????????+=,:,,,,,,,,,.,.,,,,......
 ......................,,:::::??+=~:::+????IIII???????++=~,,,,,,,,,,,.,::,.......
@@ -455,7 +468,11 @@ elif [[ "$percentage_nonfree" -ge 10 ]]; then
 EODISAPPOINT
 );
 
-	echo ""
-	echo "$rms_facepalm"
-	echo "Over 10% nonfree packages. Do you hate freedom?               rms is disappoint."
+	if [[ "$ascii" -eq 1 ]]; then
+		echo ""
+		echo "$rms_disappoint"
+		echo "Over 10% nonfree packages. Do you hate freedom?               rms is disappoint."
+	else
+		echo "Over 10% nonfree packages. Do you hate freedom?"
+	fi
 fi

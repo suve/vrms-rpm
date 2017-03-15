@@ -27,6 +27,10 @@ know whether they’re running nonfree software on their systems.
 This program is an attempt to fulfil that need.
 .SH OPTIONS
 .TP
+\fB\-\-ascii\fR
+Display rms ASCII-art when no nonfree packages are found, 
+or when nonfree packages are 10% or more of the total.
+.TP
 \fB\-\-help\fR
 Display a short help on program usage and exit.
 .TP
