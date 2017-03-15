@@ -22,8 +22,14 @@ complicate matters. After all, removing code is hard.
 No installation needed. Although if you insist on having the program in 
 your PATH, you can just do the following:
 ```
-sudo cp ./vrms-rpm.sh  /usr/bin/vrms-rpm
-sudo cp ./vrms-rpm.man /usr/share/man/man1/vrms-rpm.1
+$ sudo cp ./vrms-rpm.sh  /usr/bin/vrms-rpm
+$ sudo cp ./vrms-rpm.man /usr/share/man/man1/vrms-rpm.1
+```
+
+Fedora users can use the *copr* repository [suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
+```
+$ dnf copr enable suve/vrms-rpm
+$ dnf install vrms-rpm
 ```
 
 

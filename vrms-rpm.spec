@@ -1,5 +1,5 @@
 Name:          vrms-rpm
-Version:       0.12
+Version:       1.0
 Release:       1  
 Summary:       Report nonfree software
 BuildArch:     noarch
