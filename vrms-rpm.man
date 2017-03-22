@@ -11,12 +11,12 @@ brilliant idea over to RPM-based GNU/Linux distributions.
 .PP
 This program analyses the list of currently installed RPM packages and reports
 found nonfree packages to stdout. The decision on whether to classify a package
-as free or nonfree is based on the Fedora Project licencing guidelines.
+as free or nonfree is based on the Fedora Project licensing guidelines.
 .PP
 Fedora / CentOS users using additional repositories, such as \fBRPM Fusion\fR, 
 may notice that not all packages coming from non-official repos are marked as 
 nonfree. This is because the distinction, as noted before, is made depending 
-on the package license. There are various reasons, apart from licensing, why 
+on the package licence. There are various reasons, apart from licensing, why 
 a package may not have been accepted into the official 
 Fedora / CentOS repository – such as software patents or export restrictions.
 .PP
@@ -40,7 +40,8 @@ Display a short help on program usage and exit.
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
 Apart from displaying the total number of free and nonfree packages, 
-also list packages by name. The default value for this option is \fInonfree\fR.
+also list packages by name.
+The default value for this option is "\fInonfree\fR".
 .TP
 \fB\-\-version\fR
 Display version information and exit.
@@ -56,4 +57,3 @@ This program itself it available under the terms of the GNU General Public
 License, version 3, as published by the Free Software Foundation.
 .SH AUTHOR
 Written in early 2017 by Artur "\fBsuve\fR" Iwicki.
-

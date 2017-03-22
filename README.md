@@ -33,7 +33,7 @@ $ dnf install vrms-rpm
 ```
 
 
-**Licencing**
+**Licensing**
 ----------
 This program is made available under the terms of the GNU
 General Public License, version 3, as published by the
