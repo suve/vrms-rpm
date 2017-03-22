@@ -60,7 +60,7 @@ EOT
 				echo "vrms-rpm: --list option requires an argument"
 				exit 1
 			fi
-			if [ "$2" != "none" ] && [ "$2" != "free" ] && [ "$2" != "nonfree" ] && [ "$2" != "all" ]; then
+			if [ "$2" != "none" ] && [ "$2" != "free" ] && [ "$2" != "nonfree" ] && [ "$2" != "non-free" ] && [ "$2" != "all" ]; then
 				echo "vrms-rpm: argument for the --list option must be one of 'none', 'free', 'nonfree' or 'all'"
 				exit 1
 			fi
@@ -393,7 +393,7 @@ percentage_nonfree=`expr $total_nonfree '*' 100 / $total`
 
 
 echo "$total_free free packages"
-if [ $list == "free" ] || [ $list == "all" ]; then
+if [ "$list" == "free" ] || [ "$list" == "all" ]; then
 	for ((p=0; p<$total_free; ++p)); do
 		echo " - ${free[$p]}"
 	done
@@ -401,7 +401,7 @@ fi
 
 
 echo "$total_nonfree non-free packages"
-if [ $list == "nonfree" ] || [ $list == "all" ]; then
+if [ "$list" == "nonfree" ] || [ "$list" = "non-free" ] || [ "$list" == "all" ]; then
 	for ((p=0; p<$total_nonfree; ++p)); do
 		echo " - ${nonfree[$p]}"
 	done
