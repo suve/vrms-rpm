@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# vrms-rpm - list nonfree packages on an rpm-based Linux distribution
+# vrms-rpm - list non-free packages on an rpm-based Linux distribution
 # Copyright (C) 2017 Artur "suve" Iwicki
 #
 # This program is free software: you can redistribute it and/or modify
@@ -37,15 +37,15 @@ while [[ "$#" -gt 0 ]]; do
 			help=$(cat <<EOT
 Usage: vrms-rpm [options]
   --ascii
-    Display rms ASCII-art when no nonfree packages are found,
-    or when nonfree packages are 10% or more of the total.
+    Display rms ASCII-art when no non-free packages are found,
+    or when non-free packages are 10% or more of the total.
   --explain
     When listing packages, display licences as to justify
-    the free / nonfree classification.
+    the free / non-free classification.
   --help
     Display this help and exit.
   --list <none,free,nonfree,all>
-    Apart from displaying a summary number of free & nonfree packages,
+    Apart from displaying a summary number of free & non-free packages,
     print them by name. The default value is "nonfree".
   --version
     Display version information and exit.
@@ -61,7 +61,7 @@ EOT
 				exit 1
 			fi
 			if [ "$2" != "none" ] && [ "$2" != "free" ] && [ "$2" != "nonfree" ] && [ "$2" != "all" ]; then
-				echo "vrms-rpm: argument for --list option must be one of 'none', 'free', 'nonfree' or 'all'"
+				echo "vrms-rpm: argument for the --list option must be one of 'none', 'free', 'nonfree' or 'all'"
 				exit 1
 			fi
 			
@@ -400,7 +400,7 @@ if [ $list == "free" ] || [ $list == "all" ]; then
 fi
 
 
-echo "$total_nonfree nonfree packages"
+echo "$total_nonfree non-free packages"
 if [ $list == "nonfree" ] || [ $list == "all" ]; then
 	for ((p=0; p<$total_nonfree; ++p)); do
 		echo " - ${nonfree[$p]}"
@@ -496,8 +496,8 @@ EODISAPPOINT
 	if [[ "$ascii" -eq 1 ]]; then
 		echo ""
 		echo "$rms_disappoint"
-		echo "Over 10% nonfree packages. Do you hate freedom?               rms is disappoint."
+		echo "Over 10% non-free packages. Do you hate freedom?              rms is disappoint."
 	else
-		echo "Over 10% nonfree packages. Do you hate freedom?"
+		echo "Over 10% non-free packages. Do you hate freedom?"
 	fi
 fi

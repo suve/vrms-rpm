@@ -1,7 +1,7 @@
 Name:          vrms-rpm
 Version:       1.0
 Release:       1  
-Summary:       Report nonfree software
+Summary:       Report non-free software
 BuildArch:     noarch
 License:       GPLv3
 URL:           https://github.com/suve/vrms-rpm/
@@ -11,7 +11,7 @@ URL:           https://github.com/suve/vrms-rpm/
 Source0:       %{name}-%{version}.zip
 
 %description
-vrms-rpm reports nonfree packages installed on the system.
+vrms-rpm reports non-free packages installed on the system.
 
 %prep
 %setup
