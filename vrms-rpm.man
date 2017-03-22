@@ -20,7 +20,7 @@ on the package license. There are various reasons, apart from licensing, why
 a package may not have been accepted into the official 
 Fedora / CentOS repository – such as software patents or export restrictions.
 .PP
-Richard Stallman for has been, for years, the most prominent and vocal figure 
+Richard Stallman has been, for years, the most prominent and vocal figure 
 in the Free Software movement, relentlessly reminding us on issues of 
 software ethics. Like Richard, we believe that users should have an easy way to
 know whether they’re running nonfree software on their systems. 
@@ -56,3 +56,4 @@ This program itself it available under the terms of the GNU General Public
 License, version 3, as published by the Free Software Foundation.
 .SH AUTHOR
 Written in early 2017 by Artur "\fBsuve\fR" Iwicki.
+
