@@ -1,29 +1,43 @@
 Name:          vrms-rpm
 Version:       1.0
-Release:       1  
+Release:       3%{dist}  
 Summary:       Report non-free software
 BuildArch:     noarch
+Requires:      bash
 License:       GPLv3
-URL:           https://github.com/suve/vrms-rpm/
 
-# Archive generated from git repository
-# No modifications made
-Source0:       %{name}-%{version}.zip
+%global githubowner suve
+%global gittag0 release-%{version}
+URL:           https://github.com/%{githubowner}/%{name}/
+Source0:       https://github.com/%{githubowner}/%{name}/archive/%{gittag0}.tar.gz
+
 
 %description
-vrms-rpm reports non-free packages installed on the system.
+vrms-rpm ("virtual Richard M. Stallman") reports non-free packages 
+installed on the system.
 
 %prep
-%setup
+%autosetup -n %{name}-%{gittag0} 
+
 %build
 
 %install
 install -m 755 -d %{buildroot}/%{_bindir}/
 install -m 755 -d %{buildroot}/%{_mandir}/man1/
 
-install -m 755 %{_builddir}/%{name}-%{version}/vrms-rpm.sh %{buildroot}%{_bindir}/vrms-rpm
-install -m 644 %{_builddir}/%{name}-%{version}/vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
+install -m 755 ./vrms-rpm.sh %{buildroot}%{_bindir}/vrms-rpm
+install -m 644 ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
 
 %files
 %{_bindir}/vrms-rpm
-%{_mandir}/man1/vrms-rpm.1.gz
+%{_mandir}/man1/vrms-rpm.1*
+%license LICENCE.txt
+
+%changelog
+* Wed Mar 22 2017 suve <veg@svgames.pl> 1.0-3
+- Use the GitHub archive link for Source0
+- Do not use the _builddir variable during install section
+- Use wildcard for the manpage in files section
+- Include licence in files section
+- Add bash as a dependency
+
