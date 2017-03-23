@@ -1,9 +1,9 @@
 Name:          vrms-rpm
 Version:       1.0
-Release:       3%{dist}  
+Release:       4%{dist}  
 Summary:       Report non-free software
 BuildArch:     noarch
-Requires:      bash
+Requires:      bash, grep
 License:       GPLv3
 
 %global githubowner suve
@@ -34,6 +34,9 @@ install -m 644 ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
 %license LICENCE.txt
 
 %changelog
+* Thu Mar 23 2017 suve <veg@svgames.pl> 1.0-4
+- Add grep as a dependency
+
 * Wed Mar 22 2017 suve <veg@svgames.pl> 1.0-3
 - Use the GitHub archive link for Source0
 - Do not use the _builddir variable during install section
