@@ -16,6 +16,8 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
+# Treat unitiliased variables as errors
+set -u       
 
 # Set initial option values
 ascii="0"
