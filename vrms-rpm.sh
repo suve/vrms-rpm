@@ -370,6 +370,7 @@ function classify_package() {
 IFS="
 "
 
+# In Fedora, package names cannot contain the ":" character, so it's safe to use as delimiter
 packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n' | sort`
 packages=($packages)
 
@@ -381,8 +382,11 @@ IFS="	"
 
 for ((i=0; i< ${#packages[@]}; ++i)); do
 	line=${packages[$i]}
+	
+	# Remove the longest :* pattern from end of $line = everything after first colon.
 	name=${line%%:*}
-	licence=${line##*:}
+	# Remove the shortest *: pattern from beginning of $line = everything up to the first colon.
+	licence=${line#*:}
 	
 	classify_package "$name" "$licence"
 done
