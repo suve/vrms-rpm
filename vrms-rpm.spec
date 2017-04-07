@@ -1,6 +1,6 @@
 Name:          vrms-rpm
 Version:       1.0
-Release:       4%{dist}  
+Release:       5%{dist}
 Summary:       Report non-free software
 BuildArch:     noarch
 Requires:      bash, grep
@@ -9,7 +9,7 @@ License:       GPLv3
 %global githubowner suve
 %global gittag0 release-%{version}
 URL:           https://github.com/%{githubowner}/%{name}/
-Source0:       https://github.com/%{githubowner}/%{name}/archive/%{gittag0}.tar.gz
+Source0:       %{url}archive/%{gittag0}.tar.gz#/%{name}-%{gittag0}.tar.gz
 
 
 %description
@@ -34,6 +34,10 @@ install -m 644 ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
 %license LICENCE.txt
 
 %changelog
+* Fri Apr 07 2017 suve <veg@svgames.pl> 1.0-5
+- Use URL variable when defining Source0
+- Use #/ in Source0 to request a better archive name from GitHub
+
 * Thu Mar 23 2017 suve <veg@svgames.pl> 1.0-4
 - Add grep as a dependency
 
