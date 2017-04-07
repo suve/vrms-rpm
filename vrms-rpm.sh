@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# vrms-rpm - list nonfree packages on an rpm-based Linux distribution
+# vrms-rpm - list non-free packages on an rpm-based Linux distribution
 # Copyright (C) 2017 Artur "suve" Iwicki
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,8 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
+# Treat unitiliased variables as errors
+set -u       
 
 # Set initial option values
 ascii="0"
@@ -37,15 +39,15 @@ while [[ "$#" -gt 0 ]]; do
 			help=$(cat <<EOT
 Usage: vrms-rpm [options]
   --ascii
-    Display rms ASCII-art when no nonfree packages are found,
-    or when nonfree packages are 10% or more of the total.
+    Display rms ASCII-art when no non-free packages are found,
+    or when non-free packages are 10% or more of the total.
   --explain
     When listing packages, display licences as to justify
-    the free / nonfree classification.
+    the free / non-free classification.
   --help
     Display this help and exit.
   --list <none,free,nonfree,all>
-    Apart from displaying a summary number of free & nonfree packages,
+    Apart from displaying a summary number of free & non-free packages,
     print them by name. The default value is "nonfree".
   --version
     Display version information and exit.
@@ -60,8 +62,8 @@ EOT
 				echo "vrms-rpm: --list option requires an argument"
 				exit 1
 			fi
-			if [ "$2" != "none" ] && [ "$2" != "free" ] && [ "$2" != "nonfree" ] && [ "$2" != "all" ]; then
-				echo "vrms-rpm: argument for --list option must be one of 'none', 'free', 'nonfree' or 'all'"
+			if [ "$2" != "none" ] && [ "$2" != "free" ] && [ "$2" != "nonfree" ] && [ "$2" != "non-free" ] && [ "$2" != "all" ]; then
+				echo "vrms-rpm: argument for the --list option must be one of 'none', 'free', 'nonfree' or 'all'"
 				exit 1
 			fi
 			
@@ -70,7 +72,7 @@ EOT
 		;;
 		
 		--version)
-			echo "vrms-rpm v.1.0 by suve"
+			echo "vrms-rpm v.1.1 by suve"
 			exit
 		;;
 	esac
@@ -368,6 +370,7 @@ function classify_package() {
 IFS="
 "
 
+# In Fedora, package names cannot contain the ":" character, so it's safe to use as delimiter
 packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n' | sort`
 packages=($packages)
 
@@ -379,8 +382,11 @@ IFS="	"
 
 for ((i=0; i< ${#packages[@]}; ++i)); do
 	line=${packages[$i]}
+	
+	# Remove the longest :* pattern from end of $line = everything after first colon.
 	name=${line%%:*}
-	licence=${line##*:}
+	# Remove the shortest *: pattern from beginning of $line = everything up to the first colon.
+	licence=${line#*:}
 	
 	classify_package "$name" "$licence"
 done
@@ -393,15 +399,15 @@ percentage_nonfree=`expr $total_nonfree '*' 100 / $total`
 
 
 echo "$total_free free packages"
-if [ $list == "free" ] || [ $list == "all" ]; then
+if [ "$list" == "free" ] || [ "$list" == "all" ]; then
 	for ((p=0; p<$total_free; ++p)); do
 		echo " - ${free[$p]}"
 	done
 fi
 
 
-echo "$total_nonfree nonfree packages"
-if [ $list == "nonfree" ] || [ $list == "all" ]; then
+echo "$total_nonfree non-free packages"
+if [ "$list" == "nonfree" ] || [ "$list" = "non-free" ] || [ "$list" == "all" ]; then
 	for ((p=0; p<$total_nonfree; ++p)); do
 		echo " - ${nonfree[$p]}"
 	done
@@ -496,8 +502,8 @@ EODISAPPOINT
 	if [[ "$ascii" -eq 1 ]]; then
 		echo ""
 		echo "$rms_disappoint"
-		echo "Over 10% nonfree packages. Do you hate freedom?               rms is disappoint."
+		echo "Over 10% non-free packages. Do you hate freedom?              rms is disappoint."
 	else
-		echo "Over 10% nonfree packages. Do you hate freedom?"
+		echo "Over 10% non-free packages. Do you hate freedom?"
 	fi
 fi

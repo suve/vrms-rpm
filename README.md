@@ -4,13 +4,13 @@ A clone of *vrms* ("*virtual Richard M. Stallman*") for
 RPM-based GNU/Linux distributions.
 
 This program analyses the list of currently installed RPM packages and reports
-found nonfree packages to stdout. 
+found non-free packages to stdout. 
 
 
 **Why a clone instead of a fork?**
 ----------
-Because my only experience with perl (which *vrms* is written in) was
-one semester of Operating Systems class, and that was a long time ago.
+Because my only experience with Perl (which the original *vrms* is written in)
+has been one semester of Operating Systems class, and that was a long time ago.
 
 Also, seeing how much the resulting program differs from the original, it's
 quite possible that making a fork instead of starting fresh would only
@@ -26,14 +26,15 @@ $ sudo cp ./vrms-rpm.sh  /usr/bin/vrms-rpm
 $ sudo cp ./vrms-rpm.man /usr/share/man/man1/vrms-rpm.1
 ```
 
-Fedora users can use the *copr* repository [suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
+Fedora users can use the *copr* repository 
+[suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
 ```
 $ dnf copr enable suve/vrms-rpm
 $ dnf install vrms-rpm
 ```
 
 
-**Licencing**
+**Licensing**
 ----------
 This program is made available under the terms of the GNU
 General Public License, version 3, as published by the

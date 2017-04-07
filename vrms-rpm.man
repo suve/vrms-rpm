@@ -1,6 +1,6 @@
 .TH VRMS-RPM 1
 .SH NAME
-vrms-rpm - report of installed nonfree software
+vrms-rpm - report of installed non-free software
 .SH SYNOPSIS
 \fBvrms-rpm\fR \fI[OPTION]\fR ...
 .SH DESCRIPTION
@@ -10,37 +10,38 @@ program for Debian GNU/Linux, created with the purpose of bringing its
 brilliant idea over to RPM-based GNU/Linux distributions.
 .PP
 This program analyses the list of currently installed RPM packages and reports
-found nonfree packages to stdout. The decision on whether to classify a package
-as free or nonfree is based on the Fedora Project licencing guidelines.
+found non-free packages to stdout. The decision on whether to classify a package
+as free or non-free is based on the Fedora Project licensing guidelines.
 .PP
 Fedora / CentOS users using additional repositories, such as \fBRPM Fusion\fR, 
 may notice that not all packages coming from non-official repos are marked as 
-nonfree. This is because the distinction, as noted before, is made depending 
-on the package license. There are various reasons, apart from licensing, why 
+non-free. This is because the distinction, as noted before, is made depending 
+on the package licence. There are various reasons, apart from licensing, why 
 a package may not have been accepted into the official 
 Fedora / CentOS repository – such as software patents or export restrictions.
 .PP
-Richard Stallman for has been, for years, the most prominent and vocal figure 
+Richard Stallman has been, for years, the most prominent and vocal figure 
 in the Free Software movement, relentlessly reminding us on issues of 
 software ethics. Like Richard, we believe that users should have an easy way to
-know whether they’re running nonfree software on their systems. 
+know whether they’re running non-free software on their systems. 
 This program is an attempt to fulfil that need.
 .SH OPTIONS
 .TP
 \fB\-\-ascii\fR
-Display rms ASCII-art when no nonfree packages are found, 
-or when nonfree packages are 10% or more of the total.
+Display rms ASCII-art when no non-free packages are found, 
+or when non-free packages are 10% or more of the total.
 .TP
 \fB\-\-explain\fR
 When listing packages, display licences as to justify
-the free / nonfree classification.
+the free / non-free classification.
 .TP
 \fB\-\-help\fR
 Display a short help on program usage and exit.
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
-Apart from displaying the total number of free and nonfree packages, 
-also list packages by name. The default value for this option is \fInonfree\fR.
+Apart from displaying the total number of free and non-free packages, 
+also list packages by name.
+The default value for this option is "\fInonfree\fR".
 .TP
 \fB\-\-version\fR
 Display version information and exit.
