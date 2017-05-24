@@ -1,3 +1,9 @@
+msgid ""
+msgstr ""
+"Language: English\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
 msgid "msg_help_usage"
 msgstr "Usage: vrms-rpm [options]"
 msgid "msg_help_option_ascii"    

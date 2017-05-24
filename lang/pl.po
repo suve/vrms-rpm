@@ -1,3 +1,9 @@
+msgid ""
+msgstr ""
+"Language: Polish\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
 msgid "msg_help_usage"
 msgstr "Składnia: %s [opcje]"
 msgid "msg_help_option_ascii"    

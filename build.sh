@@ -69,9 +69,12 @@ if [ "$mode" == "build" ]; then
 		po_lang=${po_lang%\.po}
 
 		po_langdir="build/locale/$po_lang/LC_MESSAGES/"
-		
 		mkdir -p "$po_langdir"
-		msgfmt -o "$po_langdir/vrms-rpm.mo" "lang/$po_lang.po"
+		
+		msgfmt --check -o "$po_langdir/vrms-rpm.mo" "lang/$po_lang.po"
+		if [ "$?" -ne 0 ]; then
+			exit
+		fi
 
 		echo "Created .mo file for: '$po_lang'"
 	done	
