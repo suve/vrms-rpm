@@ -17,14 +17,36 @@ quite possible that making a fork instead of starting fresh would only
 complicate matters. After all, removing code is hard.
 
 
+**Dependencies**
+----------
+- bash, obviously
+
+- grep, for all that nifty pattern matching
+
+- gettext, for handling multiple languages
+
+
+**Building**
+----------
+Right now You're probably wondering why the hell do you need to build a 
+bash script. Well, the script itself doesn't need any processing;
+however, the locale files it uses, do.
+
+To build, simply use `build.sh` with the `build` argument.
+```
+$ ./build.sh build
+```
+
+
 **Installing**
 ----------
-No installation needed. Although if you insist on having the program in 
-your PATH, you can just do the following:
+To install, simply use `build.sh` with the `install` argument.
 ```
-$ sudo cp ./vrms-rpm.sh  /usr/bin/vrms-rpm
-$ sudo cp ./vrms-rpm.man /usr/share/man/man1/vrms-rpm.1
+$ sudo ./build.sh install
 ```
+Should you want to install to a chroot (for example, while packaging),
+you can use the `--prefix ARG` option to specify a prefix to go before `/usr`.
+
 
 Fedora users can use the *copr* repository 
 [suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
@@ -32,6 +54,14 @@ Fedora users can use the *copr* repository
 $ dnf copr enable suve/vrms-rpm
 $ dnf install vrms-rpm
 ```
+
+**Getting rid of it**
+----------
+Should you decide to uninstall the program `build.sh` has got you covered.
+```
+$ sudo ./build.sh remove
+```
+The `--prefix` option can be used here, too.
 
 
 **Licensing**
