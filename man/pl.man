@@ -1,0 +1,68 @@
+.TH VRMS-RPM 1
+
+.SH NAZWA
+vrms-rpm - raportuj zainstalowane nie-wolne oprogramowanie
+
+.SH SKŁADNIA
+\fBvrms-rpm\fR \fI[OPCJE]\fR ...
+
+.SH OPIS
+Ten program jest klonem oryginalnego programu \fBvrms\fR 
+("\fBwirtualny Richard M. Stallman\fR") dla Debiana, stworzonym w celu
+udostępnienia jego funkcjonalności dla dystrybucji opartych o RPM.
+.PP
+Program analizuje listę obecnie zainstalowanych paczek RPM, po czym zgłasza
+znalezione wolne oraz nie-wolne paczki na standardowe wyjście. Decyzja, czy
+zaklasyfikować paczkę jako wolną, bądź nie-wolną, oparta jest o 
+przepisy nt. licencji obowiązujące w ramach Projektu Fedora.
+.PP
+Użytkownicy Fedory/CentOS używający dodatkowych repozytoriów, takich jak
+np. \fBRPM Fusion\fR, mogą zauważyć, że nie wszystkie paczki pochodzące 
+z tych źródeł oznaczone są jako nie-wolne. Dzieje się tak, ponieważ - jak
+opisano wcześniej - klasyfikacja dokonywana jest na podstawie licencji
+paczki. Istnieją inne powody, oprócz licencyjnych, dla których paczka
+mogła zostać nie zaakceptowana do oficjalnego repozytorium Fedory/CentOS - 
+jak np. patenty na oprogramowanie czy regulacje eksportowe.
+.PP
+Richard Stallman jest, od wielu lat, najbardziej prominentną i najczęściej
+zabierającą głos osobą w ruchu Wolnego Oprogramowania, nieustannie 
+przypominającą nam o kwestiach etyki oprogramowania. Jak Richard, wierzymy,
+że użytkownicy powinni mieć dostęp do prostego sposobu, aby sprawdzić, 
+czy na ich systemach działa nie-wolne oprogramowanie.
+Ten program jest próbą dostarczenia takiego mechanizmu.
+
+.SH OPCJE
+.TP
+\fB\-\-ascii\fR
+Wyświetl ASCII-art rmsa gdy nie zostaną znalezione żadne nie-wolne paczki,
+lub gdy nie-wolne paczki stanowią co najmniej 10% całości.
+.TP
+\fB\-\-explain\fR
+Podczas listowania paczek, wyświetlaj informacje o licencjach,
+aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych.
+.TP
+\fB\-\-help\fR
+Wyświetl krótką instrukcję obsługi programu i zakończ.
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+Oprócz wypisania łącznej liczby wolnych oraz nie-wolnych paczek,
+wylistuj paczki nazwami.
+Domyślną wartością tej opcji jest "\fInonfree\fR".
+.TP
+\fB\-\-version\fR
+Wyświetl informację o wersji programu i zakończ.
+
+.SH ZOBACZ TAKŻE
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+Strona wiki Fedora Project opisująca akceptowane licencje oprogramowania.
+.TP
+\fBhttps://vrms.alioth.debian.org/\fR
+Strona domowa oryginalnego programu \fBvrms\fR.
+
+.SH LICENCJA
+Ten program jest dostępny na zasadach GNU General Public License, 
+wersji 3, opublikowanej przez Free Software Foundation.
+
+.SH AUTOR
+Program napisany na początku 2017 roku przez \fBsuve\fR.
