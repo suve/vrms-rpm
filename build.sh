@@ -41,7 +41,9 @@ while [ $# -gt 0 ]; do
 			if [ "$#" -lt 2 ]; then
 				echo "The --prefix option requires an argument"
 			fi
-			prefix="$2"
+
+			shift
+			prefix="$1"
 		;;
 
 		*)
@@ -79,6 +81,7 @@ if [ "$mode" == "build" ]; then
 		echo "Created .mo file for: '$po_lang'"
 	done	
 elif [ "$mode" == "install" ]; then
+	install -v -m 755 -d "$prefix/usr/bin"
 	install -v -p -m 755 src/vrms-rpm.sh "$prefix/usr/bin/vrms-rpm"
 	
 	install -v -m 755 -d "$prefix/usr/share/suve/vrms-rpm/"
