@@ -14,6 +14,10 @@ while [ $# -gt 0 ]; do
 		install)
 			mode="install"
 		;;
+
+		remove)
+			mode="remove"
+		;;
 		
 		--prefix)
 			if [ "$#" -lt 2 ]; then
@@ -23,7 +27,10 @@ while [ $# -gt 0 ]; do
 		;;
 
 		*)
-			echo "Unrecognized argument: $1"
+			echo "Unrecognized argument: '$1'"
+			echo "Supported modes: 'build', 'install', 'remove'"
+			echo "Supported options: --prefix"
+			exit
 		;;
 	esac
 	shift
@@ -74,5 +81,8 @@ elif [ "$mode" == "install" ]; then
 		install -v -m 755 -d  "$man_langdir"
 		install -v -p -m 644 "man/$man_lang.man" "$man_langdir/vrms-rpm.1"
 	done
+elif [ "$mode" == "remove" ]; then
+	rm -v "$prefix/usr/bin/vrms-rpm"
+	rm -v -rf "$prefix/usr/share/suve/vrms-rpm"
+	find "$prefix/usr/share/man" -name 'vrms-rpm.1*' -delete
 fi
-
