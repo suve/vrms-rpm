@@ -1,6 +1,6 @@
 Name:          vrms-rpm
 Version:       1.1
-Release:       1%{dist}
+Release:       3%{?dist}
 Summary:       Report non-free software
 BuildArch:     noarch
 Requires:      bash, grep
@@ -20,13 +20,15 @@ installed on the system.
 %autosetup -n %{name}-%{gittag0} 
 
 %build
+# Nothing to do, this is a bash script.
+# Omitting the build section causes rpmlint to complain.
 
 %install
 install -m 755 -d %{buildroot}/%{_bindir}/
 install -m 755 -d %{buildroot}/%{_mandir}/man1/
 
-install -m 755 ./vrms-rpm.sh %{buildroot}%{_bindir}/vrms-rpm
-install -m 644 ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
+install -m 755 -p ./vrms-rpm.sh %{buildroot}%{_bindir}/vrms-rpm
+install -m 644 -p ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
 
 %files
 %{_bindir}/vrms-rpm
@@ -34,6 +36,12 @@ install -m 644 ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
 %license LICENCE.txt
 
 %changelog
+* Sat May 20 2017 suve <veg@svgames.pl> 1.1-3
+- Use "{?dist}" instead of "{dist}" in release number
+
+* Sat Apr 15 2017 suve <veg@svgames.pl> 1.1-2
+- Use the -p option (preserve timestamps) with install
+
 * Fri Apr 07 2017 suve <veg@svgames.pl> 1.1-1
 - Change version number to match upstream
 
@@ -50,4 +58,7 @@ install -m 644 ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
 - Use wildcard for the manpage in files section
 - Include licence in files section
 - Add bash as a dependency
+
+* Sun Mar 19 2017 suve <veg@svgames.pl> 1.0-2
+- Initial packaging
 
