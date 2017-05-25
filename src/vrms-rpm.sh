@@ -32,6 +32,13 @@ function printmsg() {
 export TEXTDOMAINDIR="$prog_dir/locale/"
 export TEXTDOMAIN="vrms-rpm"
 
+# Test gettext and revert to English if we don't get back a translated string
+testgettext=`gettext -s "msg_help_usage"`
+if [[ "$testgettext" == "msg_help_usage" ]]; then
+	export LANGUAGE="en"
+fi
+
+
 # Treat unitiliased variables as errors
 set -u       
 
