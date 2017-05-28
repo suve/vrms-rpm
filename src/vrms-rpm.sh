@@ -29,7 +29,7 @@ function printmsg() {
 }
 
 # Initialize gettext
-export TEXTDOMAINDIR="$prog_dir/locale/"
+export TEXTDOMAINDIR="/usr/share/locale/"
 export TEXTDOMAIN="vrms-rpm"
 
 # Test gettext and revert to English if we don't get back a translated string

@@ -87,7 +87,7 @@ elif [ "$mode" == "install" ]; then
 	install -v -m 755 -d "$prefix/usr/share/suve/vrms-rpm/"
 	install -v -m 644 src/good-licences.txt "$prefix/usr/share/suve/vrms-rpm/"
 
-	cp -vR build/locale/ "$prefix/usr/share/suve/vrms-rpm/"
+	cp -vR -- build/locale/* "$prefix/usr/share/locale/"
 
 	man_languages=`ls man/*.man`
 	for man_lang in $man_languages; do
