@@ -29,10 +29,12 @@ complicate matters. After all, removing code is hard.
 **Building**
 ----------
 Right now You're probably wondering why the hell do you need to build a 
-bash script. Well, the script itself doesn't need any processing;
-however, the locale files it uses, do.
+bash script. Well, basically we need to process the gettext translation
+files and set up data paths (e.g. `/usr/local` vs `/usr`).
 
-To build, simply use `build.sh` with the `build` argument.
+To build, simply use `build.sh` with the `build` argument. 
+If you intend to perform a local install later on, 
+use the `--local` option.
 ```
 $ ./build.sh build
 ```
@@ -61,7 +63,7 @@ Should you decide to uninstall the program `build.sh` has got you covered.
 ```
 $ sudo ./build.sh remove
 ```
-The `--prefix` option can be used here, too.
+The `--local` and `--prefix` options can be used here, too.
 
 
 **Licensing**

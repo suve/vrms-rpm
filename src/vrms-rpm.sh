@@ -17,8 +17,11 @@
 #
 
 # Variable containing program name - in case we need to change it someday
+# prog_usr is set appropriately by build.sh 
+# prog_dir tells us where to look for data files
 prog_name="vrms-rpm"
-prog_dir="/usr/share/suve/$prog_name"
+prog_usr="/usr"
+prog_dir="$prog_usr/share/suve/$prog_name"
 
 # Function for printing translated printf-messages
 function printmsg() {
@@ -29,7 +32,7 @@ function printmsg() {
 }
 
 # Initialize gettext
-export TEXTDOMAINDIR="/usr/share/locale/"
+export TEXTDOMAINDIR="$prog_usr/share/locale/"
 export TEXTDOMAIN="vrms-rpm"
 
 # Test gettext and revert to English if we don't get back a translated string

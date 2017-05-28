@@ -21,6 +21,7 @@ set -u
 
 # Set default values for vars
 mode="build"
+usr="usr"
 prefix=""
 
 while [ $# -gt 0 ]; do
@@ -37,6 +38,10 @@ while [ $# -gt 0 ]; do
 			mode="remove"
 		;;
 		
+		--local)
+			usr="usr/local"
+		;;
+
 		--prefix)
 			if [ "$#" -lt 2 ]; then
 				echo "The --prefix option requires an argument"
@@ -49,7 +54,9 @@ while [ $# -gt 0 ]; do
 		*)
 			echo "Unrecognized argument: '$1'"
 			echo "Supported modes: 'build', 'install', 'remove'"
-			echo "Supported options: --prefix"
+			echo "Supported options:"
+			echo "  --local    Use /usr/local/ instead of /usr/"
+			echo "  --prefix   Prepend all install paths with this"
 			exit
 		;;
 	esac
@@ -79,15 +86,20 @@ if [ "$mode" == "build" ]; then
 		fi
 
 		echo "Created .mo file for: '$po_lang'"
-	done	
-elif [ "$mode" == "install" ]; then
-	install -v -m 755 -d "$prefix/usr/bin"
-	install -v -p -m 755 src/vrms-rpm.sh "$prefix/usr/bin/vrms-rpm"
-	
-	install -v -m 755 -d "$prefix/usr/share/suve/vrms-rpm/"
-	install -v -m 644 src/good-licences.txt "$prefix/usr/share/suve/vrms-rpm/"
+	done
 
-	cp -vR -- build/locale/* "$prefix/usr/share/locale/"
+	cp -p src/vrms-rpm.sh build/vrms-rpm
+	sed -e 's|prog_usr="/usr"|prog_usr="/'"$usr"'"|' -i build/vrms-rpm
+
+elif [ "$mode" == "install" ]; then
+	install -v -m 755 -d "$prefix/$usr/bin"
+	install -v -p -m 755 build/vrms-rpm "$prefix/$usr/bin/vrms-rpm"
+	
+	install -v -m 755 -d "$prefix/$usr/share/suve/vrms-rpm/"
+	install -v -m 644 src/good-licences.txt "$prefix/$usr/share/suve/vrms-rpm/"
+
+	install -v -m 755 -d "$prefix/$usr/share/locale"
+	cp -vR -- build/locale/* "$prefix/$usr/share/locale/"
 
 	man_languages=`ls man/*.man`
 	for man_lang in $man_languages; do
@@ -97,16 +109,16 @@ elif [ "$mode" == "install" ]; then
 		man_lang=${man_lang%\.man}
 
 		if [ "$man_lang" == "en" ]; then
-			man_langdir="$prefix/usr/share/man/man1"
+			man_langdir="$prefix/$usr/share/man/man1"
 		else
-			man_langdir="$prefix/usr/share/man/$man_lang/man1"
+			man_langdir="$prefix/$usr/share/man/$man_lang/man1"
 		fi
 
 		install -v -m 755 -d  "$man_langdir"
 		install -v -p -m 644 "man/$man_lang.man" "$man_langdir/vrms-rpm.1"
 	done
 elif [ "$mode" == "remove" ]; then
-	rm -v "$prefix/usr/bin/vrms-rpm"
-	rm -v -rf "$prefix/usr/share/suve/vrms-rpm"
-	find "$prefix/usr/share/man" -name 'vrms-rpm.1*' -delete
+	rm -v "$prefix/$usr/bin/vrms-rpm"
+	rm -v -rf "$prefix/$usr/share/suve/vrms-rpm"
+	find "$prefix/$usr/share/man" -name 'vrms-rpm.1*' -delete
 fi
