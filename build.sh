@@ -57,7 +57,7 @@ while [ $# -gt 0 ]; do
 		;;
 
 		*)
-			echo "Unrecognized argument: '$1'"
+			echo "ERROR: Unrecognized argument: '$1'"
 			echo "Supported modes: 'build', 'install', 'remove'"
 			echo "Supported options:"
 			echo "  --global    Place data in /usr"
@@ -70,13 +70,13 @@ while [ $# -gt 0 ]; do
 done	
 
 if [ -z "$mode" ]; then
-	echo "No mode specified"
+	echo "ERROR: No mode specified"
 	echo "Supported modes: 'build', 'install', 'remove'"
 	exit
 fi
 
 if [ -z "$usr" ]; then
-	echo "No install location selected"
+	echo "ERROR: No install location selected"
 	echo "Use --global for /usr or --local for /usr/local"
 	exit
 fi
@@ -106,10 +106,26 @@ if [ "$mode" == "build" ]; then
 		echo "Created .mo file for: '$po_lang'"
 	done
 
+	# Copy program source and set up paths according to install location
 	cp -p src/vrms-rpm.sh build/vrms-rpm
 	sed -e 's|prog_usr="/usr"|prog_usr="/'"$usr"'"|' -i build/vrms-rpm
 
+	# Add an install-location marker
+	echo "$usr" > build/usr
+
 elif [ "$mode" == "install" ]; then
+	if [ ! -d build ]; then
+		echo "ERROR: You must build the program first. Use ./build.sh build"
+		exit
+	else
+		built_usr=`cat build/usr`
+		if [ "$built_usr" != "$usr" ]; then
+			echo "ERROR: build and install location options differ"
+			echo "Use --global or --local to specify your preferred location"
+			exit
+		fi
+	fi
+
 	install -v -m 755 -d "$prefix/$usr/bin"
 	install -v -p -m 755 build/vrms-rpm "$prefix/$usr/bin/vrms-rpm"
 	
