@@ -20,8 +20,8 @@
 set -u
 
 # Set default values for vars
-mode="build"
-usr="usr"
+mode=""
+usr=""
 prefix=""
 
 while [ $# -gt 0 ]; do
@@ -37,6 +37,11 @@ while [ $# -gt 0 ]; do
 		remove)
 			mode="remove"
 		;;
+		
+		--global)
+			usr="usr"
+		;;
+
 		
 		--local)
 			usr="usr/local"
@@ -55,13 +60,26 @@ while [ $# -gt 0 ]; do
 			echo "Unrecognized argument: '$1'"
 			echo "Supported modes: 'build', 'install', 'remove'"
 			echo "Supported options:"
-			echo "  --local    Use /usr/local/ instead of /usr/"
-			echo "  --prefix   Prepend all install paths with this"
+			echo "  --global    Place data in /usr"
+			echo "  --local     Place data in /usr/local"
+			echo "  --prefix    Prepend all install paths with this"
 			exit
 		;;
 	esac
 	shift
 done	
+
+if [ -z "$mode" ]; then
+	echo "No mode specified"
+	echo "Supported modes: 'build', 'install', 'remove'"
+	exit
+fi
+
+if [ -z "$usr" ]; then
+	echo "No install location selected"
+	echo "Use --global for /usr or --local for /usr/local"
+	exit
+fi
 
 
 if [ "$mode" == "build" ]; then

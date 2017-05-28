@@ -30,13 +30,15 @@ complicate matters. After all, removing code is hard.
 ----------
 Right now You're probably wondering why the hell do you need to build a 
 bash script. Well, basically we need to process the gettext translation
-files and set up data paths (e.g. `/usr/local` vs `/usr`).
+files and set up data paths.
+
+At this point you should've already decided whether you'll be performing
+a local install (into `/usr/local`) or a global one (into `/usr`).
+Use the `--local` or `--global` options to specify your choice.
 
 To build, simply use `build.sh` with the `build` argument. 
-If you intend to perform a local install later on, 
-use the `--local` option.
 ```
-$ ./build.sh build
+$ ./build.sh build (--global|--local)
 ```
 
 
@@ -44,7 +46,7 @@ $ ./build.sh build
 ----------
 To install, simply use `build.sh` with the `install` argument.
 ```
-$ sudo ./build.sh install
+$ sudo ./build.sh install (--global|--local) [--prefix ARG]
 ```
 Should you want to install to a chroot (for example, while packaging),
 you can use the `--prefix ARG` option to specify a prefix to go before `/usr`.
@@ -61,7 +63,7 @@ $ dnf install vrms-rpm
 ----------
 Should you decide to uninstall the program `build.sh` has got you covered.
 ```
-$ sudo ./build.sh remove
+$ sudo ./build.sh remove (--global|--local) [--prefix ARG]
 ```
 The `--local` and `--prefix` options can be used here, too.
 
