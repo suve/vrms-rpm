@@ -70,7 +70,7 @@ install/prepare: install/bin/vrms-rpm
 install/prepare: install/share/suve/vrms-rpm/good-licenses.txt
 install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(shell for MAN in $(NON_EN_MANS); do echo "install/share/man/$$MAN/man1/vrms-rpm.1" ; done)
-	rsync -av build/* install
+	rsync -av build/*/ install
 
 .PHONY: install
 install: install/prepare
