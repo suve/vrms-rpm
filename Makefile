@@ -34,7 +34,7 @@ help:
 	@echo "    PREFIX - installation prefix (default: /usr/local)"
 
 .PHONY: build
-build: $(LANGS) build/vrms-rpm build/usr
+build: $(LANGS) build/vrms-rpm
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(shell dirname "$@")"
