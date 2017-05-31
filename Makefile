@@ -69,7 +69,7 @@ install/prepare: build
 install/prepare: install/bin/vrms-rpm
 install/prepare: install/share/suve/vrms-rpm/good-licences.txt
 install/prepare: install/share/man/man1/vrms-rpm.1
-install/prepare: $(NON_EN_MAN_LANGS:%/install/share/man/%/man1/vrms-rpm.1)
+install/prepare: $(NON_EN_MAN_LANGS:%=install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)
 
 install: install/prepare
