@@ -17,41 +17,8 @@ quite possible that making a fork instead of starting fresh would only
 complicate matters. After all, removing code is hard.
 
 
-**Dependencies**
+**Installing from a repository**
 ----------
-- bash, obviously
-
-- grep, for all that nifty pattern matching
-
-- gettext, for handling multiple languages
-
-
-**Building**
-----------
-Right now You're probably wondering why the hell do you need to build a 
-bash script. Well, basically we need to process the gettext translation
-files and set up data paths.
-
-At this point you should've already decided whether you'll be performing
-a local install (into `/usr/local`) or a global one (into `/usr`).
-Use the `--local` or `--global` options to specify your choice.
-
-To build, simply use `build.sh` with the `build` argument. 
-```
-$ ./build.sh build (--global|--local)
-```
-
-
-**Installing**
-----------
-To install, simply use `build.sh` with the `install` argument.
-```
-$ sudo ./build.sh install (--global|--local) [--prefix ARG]
-```
-Should you want to install to a chroot (for example, while packaging),
-you can use the `--prefix ARG` option to specify a prefix to go before `/usr`.
-
-
 Fedora users can use the *copr* repository 
 [suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
 ```
@@ -59,13 +26,52 @@ $ dnf copr enable suve/vrms-rpm
 $ dnf install vrms-rpm
 ```
 
+
+**Building it on your own: dependencies**
+----------
+- bash, since 'tis a shell script
+
+- grep, for all that nifty pattern matching
+
+- gettext, for handling multiple languages
+
+- make, for simplifying the build & install process
+
+
+**Building**
+----------
+Right now you're probably wondering why the hell do you need to build a 
+bash script. Well, basically we need to process the gettext translation
+files and set up data paths.
+
+At this point you should've already decided where do you want to install
+the program. As stated before, some paths are set in the code during build,
+so if these don't match during build and install, the whole thing will
+probably fail spectacularly in runtime.
+
+To build, use `make` with the `build` target. The `PREFIX` variable can be
+used for controlling the install-dir. The default is `/usr/local`.
+```
+$ make build [PREFIX=/usr/local]
+```
+
+
+**Installing**
+----------
+To install, perform your usual `make install`.
+```
+$ [sudo] make install [PREFIX=/usr/local]
+```
+Remember that to install stuff inside `/usr` you will need root capabilities.
+
+
 **Getting rid of it**
 ----------
-Should you decide to uninstall the program `build.sh` has got you covered.
+Should you decide to remove the program, the Makefile has got you covered.
 ```
-$ sudo ./build.sh remove (--global|--local) [--prefix ARG]
+$ [sudo] make remove [PREFIX=/usr/local]
 ```
-The `--local` and `--prefix` options can be used here, too.
+Once again, remember that messing inside `/usr` requires extra privileges.
 
 
 **Licensing**

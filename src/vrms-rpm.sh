@@ -17,7 +17,7 @@
 #
 
 # Variable containing program name - in case we need to change it someday
-# prog_usr is set appropriately by build.sh 
+# prog_usr is set appropriately during "make build"
 # prog_dir tells us where to look for data files
 prog_name="vrms-rpm"
 prog_usr="/usr"
