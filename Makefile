@@ -24,6 +24,8 @@ MANS := $(shell ls man/*.man)
 MAN_LANGS := $(MANS:man/%.man=%)
 NON_EN_MAN_LANGS := $(filter-out en, $(MAN_LANGS))
 
+.PHONY: build build/vrms-rpm clean install remove
+
 help:
 	@echo "TARGETS:"
 	@echo "    build - compile project"
@@ -34,7 +36,6 @@ help:
 	@echo "VARIABLES:"
 	@echo "    PREFIX - installation prefix (default: /usr/local)"
 
-.PHONY: build
 build: $(MO_FILES) build/vrms-rpm
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
@@ -42,12 +43,10 @@ build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	msgfmt --check -o "$@" "$<"
 
 # force rebuild every time, to make sure PREFIX is correct
-.PHONY: build/vrms-rpm
 build/vrms-rpm: src/vrms-rpm.sh
 	cp -p "$<" "$@"
 	sed -e 's|prog_usr="/usr"|prog_usr="/$(PREFIX)"|' -i "$@"
 
-.PHONY: clean
 clean:
 	rm -rf build
 
@@ -73,13 +72,11 @@ install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(NON_EN_MAN_LANGS:%/install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)
 
-.PHONY: install
 install: install/prepare
 	mkdir -p "$(PREFIX)"
 	rsync -av install/* "$(PREFIX)"
 	rm -rf install
 
-.PHONY: remove
 remove: install/prepare
 	find install -type f | sed -e 's|^install|$(PREFIX)|' | xargs rm -vf
 	find install -depth -type d | sed -e 's|^install|$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
