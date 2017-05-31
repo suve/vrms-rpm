@@ -53,7 +53,7 @@ clean:
 install/bin/vrms-rpm: build/vrms-rpm
 	install -vD -p -m 755 "$<" "$@"
 
-install/share/suve/vrms-rpm/good-licenses.txt:
+install/share/suve/vrms-rpm/good-licences.txt:
 	install -vD -m 644 src/good-licences.txt "$@"
 
 install/share/man/man1/vrms-rpm.1: man/en.man
@@ -67,7 +67,7 @@ install/share/locale/%: build/locale/%
 
 install/prepare: build
 install/prepare: install/bin/vrms-rpm
-install/prepare: install/share/suve/vrms-rpm/good-licenses.txt
+install/prepare: install/share/suve/vrms-rpm/good-licences.txt
 install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(NON_EN_MAN_LANGS:%/install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)
