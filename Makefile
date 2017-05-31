@@ -74,7 +74,7 @@ install/prepare: $(MO_FILES:build/%=install/share/%)
 
 install: install/prepare
 	mkdir -p "$(PREFIX)"
-	rsync -av install/* "$(PREFIX)"
+	cp -a install/* "$(PREFIX)"
 	rm -rf install
 
 remove: install/prepare
