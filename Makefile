@@ -35,6 +35,7 @@ help:
 	@echo ""
 	@echo "VARIABLES:"
 	@echo "    PREFIX - installation prefix (default: /usr/local)"
+	@echo "             used during build to set up file paths"
 
 build: $(MO_FILES) build/vrms-rpm
 
@@ -45,7 +46,7 @@ build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 # force rebuild every time, to make sure PREFIX is correct
 build/vrms-rpm: src/vrms-rpm.sh
 	cp -p "$<" "$@"
-	sed -e 's|prog_usr="/usr"|prog_usr="/$(PREFIX)"|' -i "$@"
+	sed -e 's|prog_usr="/usr"|prog_usr="$(PREFIX)"|' -i "$@"
 
 clean:
 	rm -rf build
