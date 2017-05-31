@@ -17,11 +17,12 @@
 
 PREFIX ?= /usr/local
 
-CMD := 'for I in lang/*.po; do echo "build/locale/$$(basename $$I .po)/LC_MESSAGES/vrms-rpm.mo"; done'
-LANGS := $(shell bash -c $(CMD))
+PO_FILES := $(shell ls lang/*.po)
+MO_FILES := $(PO_FILES:lang/%.po=build/locale/%/LC_MESSAGES/vrms-rpm.mo)
 
-CMD := 'for I in man/*.man; do [ "$$I" != "man/en.man" ] && echo "$$(basename "$$I" .man)"; done'
-NON_EN_MANS := $(shell bash -c $(CMD))
+MANS := $(shell ls man/*.man)
+MAN_LANGS := $(MANS:man/%.man=%)
+NON_EN_MAN_LANGS := $(filter-out en, $(MAN_LANGS))
 
 help:
 	@echo "TARGETS:"
@@ -34,7 +35,7 @@ help:
 	@echo "    PREFIX - installation prefix (default: /usr/local)"
 
 .PHONY: build
-build: $(LANGS) build/vrms-rpm
+build: $(MO_FILES) build/vrms-rpm
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(shell dirname "$@")"
@@ -69,8 +70,8 @@ install/prepare: build
 install/prepare: install/bin/vrms-rpm
 install/prepare: install/share/suve/vrms-rpm/good-licenses.txt
 install/prepare: install/share/man/man1/vrms-rpm.1
-install/prepare: $(shell for MAN in $(NON_EN_MANS); do echo "install/share/man/$$MAN/man1/vrms-rpm.1" ; done)
-	rsync -av build/*/ install
+install/prepare: $(NON_EN_MAN_LANGS:%/install/share/man/%/man1/vrms-rpm.1)
+install/prepare: $(MO_FILES:build/%=install/share/%)
 
 .PHONY: install
 install: install/prepare
