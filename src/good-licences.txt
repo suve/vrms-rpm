@@ -1,0 +1,257 @@
+# List based on https://fedoraproject.org/wiki/Licensing:Main#Good_Licenses
+AAL
+Abstyles
+Adobe
+ADSL
+AFL
+Afmparse
+AGPLv1
+AGPLv3
+AGPLv3+
+AMDPLPA
+AML
+AMPAS BSD
+AMS
+APAFML
+App-s2p
+APSL 2.0
+ARL
+Arphic
+Artistic 2.0
+Artistic clarified
+ASL 1.0
+ASL 1.1
+ASL 2.0
+Baekmuk
+Bahyph
+Barr
+Beerware
+BeOpen
+Bibtex
+Bitstream Vera
+BitTorrent
+Boost
+Borceux
+BSD
+CATOSL
+CC0
+CC-BY
+CC-BY-SA
+CDDL
+CDL
+CeCILL
+CeCILL-B
+CeCILL-C
+Charter
+CNRI
+Condor
+Copyright only
+CPAL
+CPL
+CRC32
+Crossword
+Crystal Stacker
+Cube
+diffmark
+DMIT
+DOC
+Dotseqn
+DoubleStroke
+DSDP
+DSL
+dvipdfm
+DWPL
+ec
+ECL 1.0
+ECL 2.0
+eCos
+EFL 2.0
+eGenix
+Elvish
+Entessa
+EPICS
+EPL
+ERPL
+EU Datagrid
+EUPL 1.1
+Eurosym
+Fair
+FBSDDL
+Free Art
+FSFUL
+FSFULLR
+FTL
+GeoGratis
+GFDL
+Giftware
+GL2PS
+Glide
+Glulxe
+gnuplot
+GPL
+GPL+
+GPLv1
+GPLv2
+GPLv2+
+GPLv3
+GPLv3+
+Green OpenMusic
+HaskellReport
+Hershey
+HSRL
+IBM
+IEEE
+IJG
+ImageMagick
+iMatix
+Imlib2
+Intel ACPI
+Interbase
+IPA
+ISC
+Jabber
+JasPer
+JPython
+Julius
+Knuth
+Latex2e
+LBNL BSD
+LDPL
+Leptonica
+LGPL-2.0
+LGPLv2
+LGPLv2+
+LGPLv3
+LGPLv3+
+Lhcyr
+Liberation
+libtiff
+LLGPL
+Logica
+LOSLA
+LPL
+LPPL
+Lucida
+MakeIndex
+mecab-ipadic
+MgOpen
+midnight
+MirOS
+MIT
+MITNFA
+mod_macro
+Motosoto
+mplus
+MPLv1.0
+MPLv1.1
+MPLv2.0
+MS-PL
+MS-RL
+MTLL
+Mup
+Naumen
+NCSA
+NetCDF
+Netscape
+Newmat
+Newsletr
+NGPL
+NLPL
+Nmap
+Nokia
+NOSL
+Noweb
+OAL
+OFL
+OFSFDL
+OGL
+OML
+OpenLDAP
+OpenPBS
+Open Publication
+OpenSSL
+OReilly
+OSL 1.0
+OSL 1.1
+OSL 2.0
+OSL 2.1
+OSL 3.0
+Par
+Phorum
+PHP
+PlainTeX
+Plexus
+PostgreSQL
+psfrag
+psutils
+PTFL
+pubkey
+Public domain
+Public Domain
+Public use
+Public Use
+Punknova
+Python
+Qhull
+QPL
+Rdisc
+REX
+RiceBSD
+Romio
+RPSL
+Rsfs
+Ruby
+Saxpath
+SCEA
+SCRIP
+Sendmail
+Sequence
+SISSL
+Sleepycat
+SLIB
+SNIA
+softSurfer
+SPL
+STIX
+STMPL
+SWL
+TCGL
+TCL
+Teeworlds
+TGPPL
+Threeparttable
+TMate
+Tolua
+TORQUEv1.1
+TOSL
+TPDL
+TPL
+TTWL
+UCAR
+UCD
+Unicode
+Unlicense
+Utopia
+Verbatim
+Vim
+VNLSL
+VOSTROM
+VSL
+W3C
+Wadalab
+Webmin
+Wsuipa
+WTFPL
+wxWidgets
+XANO
+Xerox
+xinetd
+xpp
+XSkat
+YPLv1.1
+Zed
+Zend
+zlib
+ZPLv1.0
+ZPLv2.0
+ZPLv2.1

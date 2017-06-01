@@ -17,21 +17,61 @@ quite possible that making a fork instead of starting fresh would only
 complicate matters. After all, removing code is hard.
 
 
-**Installing**
+**Installing from a repository**
 ----------
-No installation needed. Although if you insist on having the program in 
-your PATH, you can just do the following:
-```
-$ sudo cp ./vrms-rpm.sh  /usr/bin/vrms-rpm
-$ sudo cp ./vrms-rpm.man /usr/share/man/man1/vrms-rpm.1
-```
-
 Fedora users can use the *copr* repository 
 [suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
 ```
 $ dnf copr enable suve/vrms-rpm
 $ dnf install vrms-rpm
 ```
+
+
+**Building it on your own: dependencies**
+----------
+- bash, since 'tis a shell script
+
+- grep, for all that nifty pattern matching
+
+- gettext, for handling multiple languages
+
+- make, for simplifying the build & install process
+
+
+**Building**
+----------
+Right now you're probably wondering why the hell do you need to build a 
+bash script. Well, basically we need to process the gettext translation
+files and set up data paths.
+
+At this point you should've already decided where do you want to install
+the program. As stated before, some paths are set in the code during build,
+so if these don't match during build and install, the whole thing will
+probably fail spectacularly in runtime.
+
+To build, use `make` with the `build` target. The `PREFIX` variable can be
+used for controlling the install-dir. The default is `/usr/local`.
+```
+$ make build [PREFIX=/usr/local]
+```
+
+
+**Installing**
+----------
+To install, perform your usual `make install`.
+```
+$ [sudo] make install [PREFIX=/usr/local]
+```
+Remember that to install stuff inside `/usr` you will need root capabilities.
+
+
+**Getting rid of it**
+----------
+Should you decide to remove the program, the Makefile has got you covered.
+```
+$ [sudo] make remove [PREFIX=/usr/local]
+```
+Once again, remember that messing inside `/usr` requires extra privileges.
 
 
 **Licensing**

@@ -1,9 +1,10 @@
 Name:          vrms-rpm
-Version:       1.1
-Release:       1%{dist}
+Version:       1.2
+Release:       1%{?dist}
 Summary:       Report non-free software
 BuildArch:     noarch
-Requires:      bash, grep
+BuildRequires: gettext
+Requires:      bash, grep, gettext
 License:       GPLv3
 
 %global githubowner suve
@@ -20,20 +21,30 @@ installed on the system.
 %autosetup -n %{name}-%{gittag0} 
 
 %build
+make build PREFIX=/usr %{?_smp_mflags}
 
 %install
-install -m 755 -d %{buildroot}/%{_bindir}/
-install -m 755 -d %{buildroot}/%{_mandir}/man1/
+make install PREFIX=%{buildroot}/usr %{?_smp_mflags}
+%{find_lang} %{name} --with-man
 
-install -m 755 ./vrms-rpm.sh %{buildroot}%{_bindir}/vrms-rpm
-install -m 644 ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
-
-%files
-%{_bindir}/vrms-rpm
-%{_mandir}/man1/vrms-rpm.1*
+%files -f %{name}.lang
+%{_bindir}/%{name}
+%{_mandir}/man1/%{name}*
+%{_datadir}/suve/
 %license LICENCE.txt
 
 %changelog
+* Thu Jun 01 2017 suve <veg@svgames.pl> 1.2-1
+- New upstream version
+- gettext added as depencency
+- Install section now relies on upstream's Makefile
+
+* Sat May 20 2017 suve <veg@svgames.pl> 1.1-3
+- Use "{?dist}" instead of "{dist}" in release number
+
+* Sat Apr 15 2017 suve <veg@svgames.pl> 1.1-2
+- Use the -p option (preserve timestamps) with install
+
 * Fri Apr 07 2017 suve <veg@svgames.pl> 1.1-1
 - Change version number to match upstream
 
@@ -50,4 +61,7 @@ install -m 644 ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
 - Use wildcard for the manpage in files section
 - Include licence in files section
 - Add bash as a dependency
+
+* Sun Mar 19 2017 suve <veg@svgames.pl> 1.0-2
+- Initial packaging
 

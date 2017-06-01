@@ -16,6 +16,32 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
+# Variable containing program name - in case we need to change it someday
+# prog_usr is set appropriately during "make build"
+# prog_dir tells us where to look for data files
+prog_name="vrms-rpm"
+prog_usr="/usr"
+prog_dir="$prog_usr/share/suve/$prog_name"
+
+# Function for printing translated printf-messages
+function printmsg() {
+	local translated=`gettext -s "msg_$1"`
+	shift
+
+	printf "$translated\n" $@
+}
+
+# Initialize gettext
+export TEXTDOMAINDIR="$prog_usr/share/locale/"
+export TEXTDOMAIN="vrms-rpm"
+
+# Test gettext and revert to English if we don't get back a translated string
+testgettext=`gettext -s "msg_help_usage"`
+if [[ "$testgettext" == "msg_help_usage" ]]; then
+	export LANGUAGE="en"
+fi
+
+
 # Treat unitiliased variables as errors
 set -u       
 
@@ -36,34 +62,33 @@ while [[ "$#" -gt 0 ]]; do
 		;;
 		
 		--help)
-			help=$(cat <<EOT
-Usage: vrms-rpm [options]
-  --ascii
-    Display rms ASCII-art when no non-free packages are found,
-    or when non-free packages are 10% or more of the total.
-  --explain
-    When listing packages, display licences as to justify
-    the free / non-free classification.
-  --help
-    Display this help and exit.
-  --list <none,free,nonfree,all>
-    Apart from displaying a summary number of free & non-free packages,
-    print them by name. The default value is "nonfree".
-  --version
-    Display version information and exit.
-EOT
-);
-			echo "$help"
+			printmsg "help_usage" "$prog_name"
+
+			echo "  --ascii"
+			printmsg "help_option_ascii"
+			
+			echo "  --explain"
+			printmsg "help_option_explain"
+			
+			echo "  --help"
+			printmsg "help_option_help"
+  			
+			echo "  --list <none,free,nonfree,all>"
+			printmsg "help_option_list"
+			
+			echo "  --version"
+			printmsg "help_option_version"
+			
 			exit
 		;;
 		
 		--list)
 			if [[ "$#" -eq 1 ]]; then
-				echo "vrms-rpm: --list option requires an argument"
+				printmsg "list_noargument" "$prog_name"
 				exit 1
 			fi
 			if [ "$2" != "none" ] && [ "$2" != "free" ] && [ "$2" != "nonfree" ] && [ "$2" != "non-free" ] && [ "$2" != "all" ]; then
-				echo "vrms-rpm: argument for the --list option must be one of 'none', 'free', 'nonfree' or 'all'"
+				printmsg "list_badargument" "$prog_name"
 				exit 1
 			fi
 			
@@ -72,8 +97,12 @@ EOT
 		;;
 		
 		--version)
-			echo "vrms-rpm v.1.1 by suve"
+			echo "$prog_name v.1.2 by suve"
 			exit
+		;;
+
+		*)
+			printmsg "unknown_option" "$prog_name" "$1"
 		;;
 	esac
 	
@@ -81,265 +110,13 @@ EOT
 done
 
 
-# List based on https://fedoraproject.org/wiki/Licensing:Main#Good_Licenses
-good_licences=(
-	"AAL"
-	"Abstyles"
-	"Adobe"
-	"ADSL"
-	"AFL"
-	"Afmparse"
-	"AGPLv1"
-	"AGPLv3"
-	"AGPLv3+"
-	"AMDPLPA"
-	"AML"
-	"AMPAS BSD"
-	"AMS"
-	"APAFML"
-	"App-s2p"
-	"APSL 2.0"
-	"ARL"
-	"Arphic"
-	"Artistic 2.0"
-	"Artistic clarified"
-	"ASL 1.0"
-	"ASL 1.1"
-	"ASL 2.0"
-	"Baekmuk"
-	"Bahyph"
-	"Barr"
-	"Beerware"
-	"BeOpen"
-	"Bibtex"
-	"Bitstream Vera"
-	"BitTorrent"
-	"Boost"
-	"Borceux"
-	"BSD"
-	"CATOSL"
-	"CC0"
-	"CC-BY"
-	"CC-BY-SA"
-	"CDDL"
-	"CDL"
-	"CeCILL"
-	"CeCILL-B"
-	"CeCILL-C"
-	"Charter"
-	"CNRI"
-	"Condor"
-	"Copyright only"
-	"CPAL"
-	"CPL"
-	"CRC32"
-	"Crossword"
-	"Crystal Stacker"
-	"Cube"
-	"diffmark"
-	"DMIT"
-	"DOC"
-	"Dotseqn"
-	"DoubleStroke"
-	"DSDP"
-	"DSL"
-	"dvipdfm"
-	"DWPL"
-	"ec"
-	"ECL 1.0"
-	"ECL 2.0"
-	"eCos"
-	"EFL 2.0"
-	"eGenix"
-	"Elvish"
-	"Entessa"
-	"EPICS"
-	"EPL"
-	"ERPL"
-	"EU Datagrid"
-	"EUPL 1.1"
-	"Eurosym"
-	"Fair"
-	"FBSDDL"
-	"Free Art"
-	"FSFUL"
-	"FSFULLR"
-	"FTL"
-	"GeoGratis"
-	"GFDL"
-	"Giftware"
-	"GL2PS"
-	"Glide"
-	"Glulxe"
-	"gnuplot"
-	"GPL"
-	"GPL+"
-	"GPLv1"
-	"GPLv2"
-	"GPLv2+"
-	"GPLv3"
-	"GPLv3+"
-	"Green OpenMusic"
-	"HaskellReport"
-	"Hershey"
-	"HSRL"
-	"IBM"
-	"IEEE"
-	"IJG"
-	"ImageMagick"
-	"iMatix"
-	"Imlib2"
-	"Intel ACPI"
-	"Interbase"
-	"IPA"
-	"ISC"
-	"Jabber"
-	"JasPer"
-	"JPython"
-	"Julius"
-	"Knuth"
-	"Latex2e"
-	"LBNL BSD"
-	"LDPL"
-	"Leptonica"
-	"LGPL-2.0"
-	"LGPLv2"
-	"LGPLv2+"
-	"LGPLv3"
-	"LGPLv3+"
-	"Lhcyr"
-	"Liberation"
-	"libtiff"
-	"LLGPL"
-	"Logica"
-	"LOSLA"
-	"LPL"
-	"LPPL"
-	"Lucida"
-	"MakeIndex"
-	"mecab-ipadic"
-	"MgOpen"
-	"midnight"
-	"MirOS"
-	"MIT"
-	"MITNFA"
-	"mod_macro"
-	"Motosoto"
-	"mplus"
-	"MPLv1.0"
-	"MPLv1.1"
-	"MPLv2.0"
-	"MS-PL"
-	"MS-RL"
-	"MTLL"
-	"Mup"
-	"Naumen"
-	"NCSA"
-	"NetCDF"
-	"Netscape"
-	"Newmat"
-	"Newsletr"
-	"NGPL"
-	"NLPL"
-	"Nmap"
-	"Nokia"
-	"NOSL"
-	"Noweb"
-	"OAL"
-	"OFL"
-	"OFSFDL"
-	"OGL"
-	"OML"
-	"OpenLDAP"
-	"OpenPBS"
-	"Open Publication"
-	"OpenSSL"
-	"OReilly"
-	"OSL 1.0"
-	"OSL 1.1"
-	"OSL 2.0"
-	"OSL 2.1"
-	"OSL 3.0"
-	"Par"
-	"Phorum"
-	"PHP"
-	"PlainTeX"
-	"Plexus"
-	"PostgreSQL"
-	"psfrag"
-	"psutils"
-	"PTFL"
-	"pubkey"
-	"Public domain"
-	"Public Domain"
-	"Public use"
-	"Public Use"
-	"Punknova"
-	"Python"
-	"Qhull"
-	"QPL"
-	"Rdisc"
-	"REX"
-	"RiceBSD"
-	"Romio"
-	"RPSL"
-	"Rsfs"
-	"Ruby"
-	"Saxpath"
-	"SCEA"
-	"SCRIP"
-	"Sendmail"
-	"Sequence"
-	"SISSL"
-	"Sleepycat"
-	"SLIB"
-	"SNIA"
-	"softSurfer"
-	"SPL"
-	"STIX"
-	"STMPL"
-	"SWL"
-	"TCGL"
-	"TCL"
-	"Teeworlds"
-	"TGPPL"
-	"Threeparttable"
-	"TMate"
-	"Tolua"
-	"TORQUEv1.1"
-	"TOSL"
-	"TPDL"
-	"TPL"
-	"TTWL"
-	"UCAR"
-	"UCD"
-	"Unicode"
-	"Unlicense"
-	"Utopia"
-	"Verbatim"
-	"Vim"
-	"VNLSL"
-	"VOSTROM"
-	"VSL"
-	"W3C"
-	"Wadalab"
-	"Webmin"
-	"Wsuipa"
-	"WTFPL"
-	"wxWidgets"
-	"XANO"
-	"Xerox"
-	"xinetd"
-	"xpp"
-	"XSkat"
-	"YPLv1.1"
-	"Zed"
-	"Zend"
-	"zlib"
-	"ZPLv1.0"
-	"ZPLv2.0"
-	"ZPLv2.1"
-)
+# For splitting the licence list (and later, package list) line-by-line
+IFS="
+"
+
+# Read the good licences file, stripping out comments
+good_licences=`grep -v -e '^[ ]*#' "$prog_dir/good-licences.txt"`
+good_licences=($good_licences)
 
 # Prepare a string composed of the good licence names.
 # It will later be expanded into arguments to be consumed by grep
@@ -365,10 +142,6 @@ function classify_package() {
 		nonfree[${#nonfree[@]}]="$push_value"
 	fi
 }
-
-# For splitting the package list line-by-line
-IFS="
-"
 
 # In Fedora, package names cannot contain the ":" character, so it's safe to use as delimiter
 packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n' | sort`
@@ -398,7 +171,7 @@ total=`expr $total_free + $total_nonfree`
 percentage_nonfree=`expr $total_nonfree '*' 100 / $total`
 
 
-echo "$total_free free packages"
+printmsg "total_free" $total_free
 if [ "$list" == "free" ] || [ "$list" == "all" ]; then
 	for ((p=0; p<$total_free; ++p)); do
 		echo " - ${free[$p]}"
@@ -406,7 +179,7 @@ if [ "$list" == "free" ] || [ "$list" == "all" ]; then
 fi
 
 
-echo "$total_nonfree non-free packages"
+printmsg "total_nonfree" $total_nonfree
 if [ "$list" == "nonfree" ] || [ "$list" = "non-free" ] || [ "$list" == "all" ]; then
 	for ((p=0; p<$total_nonfree; ++p)); do
 		echo " - ${nonfree[$p]}"
@@ -455,9 +228,9 @@ EOHAPPY
 	if [[ "$ascii" -eq 1 ]]; then
 		echo ""
 		echo "$rms_happy"
-		echo "Only free packages - rms would be proud!                           rms is happy."
+		printmsg "rms_happy_ascii"
 	else
-		echo "Only free packages - rms would be proud!"
+		printmsg "rms_happy"
 	fi
 elif [[ "$percentage_nonfree" -ge 10 ]]; then
 	rms_disappoint=$(cat <<EODISAPPOINT
@@ -502,8 +275,8 @@ EODISAPPOINT
 	if [[ "$ascii" -eq 1 ]]; then
 		echo ""
 		echo "$rms_disappoint"
-		echo "Over 10% non-free packages. Do you hate freedom?              rms is disappoint."
+		printmsg "rms_disappoint_ascii"
 	else
-		echo "Over 10% non-free packages. Do you hate freedom?"
+		printmsg "rms_disappoint"
 	fi
 fi
