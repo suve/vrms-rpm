@@ -25,12 +25,11 @@ make build PREFIX=/usr %{?_smp_mflags}
 
 %install
 make install PREFIX=%{buildroot}/usr %{?_smp_mflags}
+%{find_lang} %{name} --with-man
 
-%files
+%files -f %{name}.lang
 %{_bindir}/%{name}
-%{_mandir}/man1/%{name}.1*
-%{_mandir}/*//man1/%{name}.1*
-%{_datadir}/locale/*/LC_MESSAGES/%{name}.mo
+%{_mandir}/man1/%{name}*
 %{_datadir}/suve/
 %license LICENCE.txt
 
