@@ -24,7 +24,7 @@ MANS := $(shell ls man/*.man)
 MAN_LANGS := $(MANS:man/%.man=%)
 NON_EN_MAN_LANGS := $(filter-out en, $(MAN_LANGS))
 
-.PHONY: build build/vrms-rpm clean install remove
+.PHONY: build clean install remove
 
 help:
 	@echo "TARGETS:"
