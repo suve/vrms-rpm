@@ -1,9 +1,10 @@
 Name:          vrms-rpm
-Version:       1.1
-Release:       3%{?dist}
+Version:       1.2
+Release:       1%{?dist}
 Summary:       Report non-free software
 BuildArch:     noarch
-Requires:      bash, grep
+BuildRequires: gettext
+Requires:      bash, grep, gettext
 License:       GPLv3
 
 %global githubowner suve
@@ -20,22 +21,25 @@ installed on the system.
 %autosetup -n %{name}-%{gittag0} 
 
 %build
-# Nothing to do, this is a bash script.
-# Omitting the build section causes rpmlint to complain.
+make build PREFIX=/usr %{?_smp_mflags}
 
 %install
-install -m 755 -d %{buildroot}/%{_bindir}/
-install -m 755 -d %{buildroot}/%{_mandir}/man1/
-
-install -m 755 -p ./vrms-rpm.sh %{buildroot}%{_bindir}/vrms-rpm
-install -m 644 -p ./vrms-rpm.man %{buildroot}%{_mandir}/man1/vrms-rpm.1
+make install PREFIX=%{buildroot}/usr %{?_smp_mflags}
 
 %files
-%{_bindir}/vrms-rpm
-%{_mandir}/man1/vrms-rpm.1*
+%{_bindir}/%{name}
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/*//man1/%{name}.1*
+%{_datadir}/locale/*/LC_MESSAGES/%{name}.mo
+%{_datadir}/suve/
 %license LICENCE.txt
 
 %changelog
+* Thu Jun 01 2017 suve <veg@svgames.pl> 1.2-1
+- New upstream version
+- gettext added as depencency
+- Install section now relies on upstream's Makefile
+
 * Sat May 20 2017 suve <veg@svgames.pl> 1.1-3
 - Use "{?dist}" instead of "{dist}" in release number
 
