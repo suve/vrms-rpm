@@ -1,0 +1,59 @@
+.TH VRMS-RPM 1
+.SH NAMA
+vrms-rpm - laporan dari pemasangan perangkat lunak non-free
+.SH SINOPSI
+\fBvrms-rpm\fR \fI[OPTION]\fR ...
+.SH DESKRIPSI
+Program ini merupakan salinan dari
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
+program asli untuk Debian GNU/Linux, dibuat dengan kebutuhan membawa 
+ide brilian ke distribusi GNU/Linux berbasis RPM.
+.PP
+Program ini menganalisa daftar paket RPM yang terpasang sekarang dan melaporkan
+paket non-free yang ditemukan ke stdout. Keputusan untuk mengklasisfikasi paket
+sebagai free atau non-free berdasarkan petunjuk lisensi proyek Fedora 
+.PP
+Pengguna Fedora / CentOS menggunakan lumbung tambahan, seperti \fBRPM Fusion\fR, 
+mungkin melihat tidak semua paket berasal dari lumbung ofisial ditandai sebagai 
+non-free. Ini karena perbedaan, seperti yang disebutkan sebelumnya, dibuat bergantung pada 
+lisensi paket. Ada berbagai alasan, terlepas dari lisensi, mengapa 
+sebuah paket mungkin tidak diterima di lumbung resmi 
+Fedora / CentOS –  seperti paten perangkat lunak atau batasan ekspor.
+.PP
+Richard Stallman telah bertahun-tahun, menjadi tokoh yang paling menonjol dan vokal 
+dalam gerakan Perangkat Lunak Bebas, tanpa henti mengingatkan kita pada masalah 
+etika perangkat lunak. Seperti Richard, kami percaya bahwa pengguna harus memiliki cara mudah 
+untuk mengetahui apakah mereka menjalankan perangkat lunak non-free di sistem mereka. 
+Program ini merupakan upaya untuk memenuhi kebutuhan tersebut.
+.SH OPSI
+.TP
+\fB\-\-ascii\fR
+Tampilkan rms ASCII-art ketika tidak ada paket non-free ditemukan, 
+atau ketika paket non-free hanya 10% atau kurang dari total.
+.TP
+\fB\-\-explain\fR
+Ketika mendaftar paket, tampilkan lisensi sebagai justifikasi
+klasifikasi free / non-free.
+.TP
+\fB\-\-help\fR
+Tampilkan pertolongan singkat dari penggunaan dan keluar program.
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+Terpisah dari menampilkan jumlah total dari paket free dan non-free, 
+daftarkan juga paket berdasarkan nama.
+Nilai default untuk opsi ini adalah "\fInonfree\fR".
+.TP
+\fB\-\-version\fR
+Tampilkan informasi versi dan keluar.
+.SH LIHAT JUGA
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+Halaman wiki Proyek Fedora pada menyetujui lisensi perangkat lunak.
+.TP
+\fBhttps://vrms.alioth.debian.org/\fR
+Beranda asli dari program \fBvrms\fR.
+.SH LISENSI
+Program ini sendiri tersedia dibawah GNU General Public
+License, versi 3, seperti yang dipublikasi oleh Free Software Foundation.
+.SH AUTHOR
+Dibuat pada awal tahun 2017 by \fBsuve\fR.
