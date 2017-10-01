@@ -2,7 +2,7 @@
 .SH NAMA
 vrms-rpm - laporan dari pemasangan perangkat lunak non-free
 .SH SINOPSI
-\fBvrms-rpm\fR \fI[OPTION]\fR ...
+\fBvrms-rpm\fR \fI[OPSI]\fR ...
 .SH DESKRIPSI
 Program ini merupakan salinan dari
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
@@ -55,5 +55,5 @@ Beranda asli dari program \fBvrms\fR.
 .SH LISENSI
 Program ini sendiri tersedia dibawah GNU General Public
 License, versi 3, seperti yang dipublikasi oleh Free Software Foundation.
-.SH AUTHOR
+.SH PENULIS
 Dibuat pada awal tahun 2017 by \fBsuve\fR.

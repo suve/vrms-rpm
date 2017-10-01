@@ -13,7 +13,7 @@ msgstr ""
 "Language: id_ID\n"
 
 msgid "msg_help_usage"
-msgstr "Penggunaan: vrms-rpm [options]"
+msgstr "Penggunaan: vrms-rpm [opsi]"
 
 msgid "msg_help_option_ascii"
 msgstr ""
@@ -52,13 +52,13 @@ msgid "msg_total_nonfree"
 msgstr "%d paket non-free"
 
 msgid "msg_rms_happy_ascii"
-msgstr "Hanya paket free - rms akan bangga!                           rms bahagia."
+msgstr "Hanya paket free - rms akan bangga!                                   rms bahagia."
 
 msgid "msg_rms_happy"
 msgstr "Hanya paket free - rms akan bangga!"
 
 msgid "msg_rms_disappoint_ascii"
-msgstr "Lebih dari 10%% paket non-free. Apakah Anda benci kebebasan?              rms kecewa."
+msgstr "Lebih dari 10%% paket non-free. Apakah Anda benci kebebasan?          rms kecewa."
 
 msgid "msg_rms_disappoint"
 msgstr "Lebih dari 10%% paket non-free. Apakah Anda benci kebebasan?"
