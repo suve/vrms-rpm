@@ -1,0 +1,59 @@
+.TH VRMS-RPM 1
+.SH NAME
+vrms-rpm - oversigt af installeret betalings-software
+.SH SYNOPSIS
+\fBvrms-rpm\fR \fI[OPTION]\fR ...
+.SH BESKRIVELSE
+Dette program er en klon af det originale
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
+program for Debian GNU/Linux, skabt med formålet at bringe dets 
+fantastiske idé over til RPM-baseret GNU/Linux distributioner.
+.PP
+dette program analyserer listen af installeret RPM software og rapporterer
+alt betalings-software til stdout. Klassifiseringen af gratis / betalings-
+software sker på baggrund af Fedora Project licens retningslinjer.
+.PP
+Fedora / CentOS brugere, som benytter yderligere repositories sådan som \fBRPM Fusion\fR,
+kan opleve at al software fra ikke-officielle repos vil blive markeret som
+betalings-software. Det sker, som nævnt tidligere, på baggrund af licensen.
+Der er mange andre grunde, ud over licensen, som gør at en pakke ikke er blevet
+accepteret som et officielt Fedora / CentOS repository - sådan som patenter og
+eksport restriktioner.
+.PP
+Richard Stallman har i mange år været en fremstående profil i Free Software-
+bevægelsen, og har påmindet os om problemstillingerne ang. etik i software.
+På samme måde som Richard tror vi at brugere bør have en nem vej til viden
+om de benytter betalings-software.
+Dette program er et forsøg på at udfylde det behov.
+.SH OPTIONS
+.TP
+\fB\-\-ascii\fR
+Vis rms ASCII-kunst når betalingssoftware er fundet,
+eller når betalingssoftware er 10%% eller mere af total.
+.TP
+\fB\-\-explain\fR
+Vis licenser i oversigten, for at fremhæve
+gratis / betalings-klassificering.
+.TP
+\fB\-\-help\fR
+Vis denne hjælp og  exit.
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+Vis ikke kun antal gratis / betalings-pakker, men vis
+også navn.
+Standardinstillingen er 'gratis'.
+.TP
+\fB\-\-version\fR
+Vis information om version og exit.
+.SH SEE ALSO
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+The Fedora Project wiki side om acceptering af software licenser.
+.TP
+\fBhttps://vrms.alioth.debian.org/\fR
+Hjem for the originale \fBvrms\fR program.
+.SH LICENCE
+Dette program er tilgængeligt under GNU General Public License, version 3,
+som publiceret af Free Software Foundation.
+.SH AUTHOR
+Skrevet primo 2017 af \fBsuve\fR.
