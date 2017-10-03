@@ -1,9 +1,9 @@
 .TH VRMS-RPM 1
 .SH NAME
 vrms-rpm - maakt een rapport van geïnstalleerde niet-vrije software
-.SH Samenvatting
+.SH SAMENVATTING
 \fBvrms-rpm\fR \fI[OPTIE]\fR ...
-.SH Beschrijving
+.SH BESCHRIJVING
 Dit programma is een kloon van het oorspronkelijke
 \fBvrms\fR ("\fBvirtuele Richard M. Stallman\fR")
 programma voor Debian GNU/Linux, gemaakt om zijn briljante idee 
