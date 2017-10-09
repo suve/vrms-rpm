@@ -1,0 +1,61 @@
+.TH VRMS-RPM 1
+.SH NOMBRE
+vrms-rpm - informa del software privativo instalado
+.SH SINTAXIS
+\fBvrms-rpm\fR \fI[OPCIÓN]\fR ...
+.SH DESCRIPCIÓN
+Este programa es un clon del programa
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
+original para Debian GNU/Linux, creado con el propósito de traer su
+brillante idea a las distribuciones de GNU/Linux basadas en RPM.
+.PP
+Este programa analiza la lista de paquetes RPM instalados actualmente e informa
+de los paquetes privativos encontrados por la salida estándar.  La decisión de
+clasificar un paquete como libre o privativo se basa en las directrices sobre
+licencias del proyecto Fedora.
+.PP
+Los usuarios de Fedora/CentOS que usen repositorios adicionales, como
+\fBRPM Fusion\fR, notarán que no todos los paquetes procedentes de repositorios
+no oficiales están marcados como privativos.  Esto se debe a que la distinción,
+como se ha indicado antes, se hace dependiendo de la licencia del paquete.
+Hay varias razones, aparte de la licencia, por las que un paquete puede no haber
+sido aceptado en el repositorio oficial de Fedora/CentOS – como patentes de
+software o restricciones a la exportación.
+.PP
+Richard Stallman ha sido, durante años, la figura más prominente y vocal del
+movimiento del Software Libre, recordándonos incansablemente de los principios
+morales del software.  Como Richard, creemos que los usaurios deberían tener una
+manera fácil de saber si están ejecutando software privativo en sus sistemas.
+Este programa es un intento de satisfacer esa necesidad.
+.SH OPCIONES
+.TP
+\fB\-\-ascii\fR
+Muestra arte ASCII de rms cuando no se encuentra ningún paquete privativo,
+o cuando los paquetes privativos son un 10% o más del total.
+.TP
+\fB\-\-explain\fR
+Al listar los paquetes, muestra las licencias para justificar la clasificación
+libre/privativo.
+.TP
+\fB\-\-help\fR
+Muestra una breve ayuda del programa y sale.
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+Aparte de mostrar el número total de paquetes libres y privativos,
+los lista también por su nombre.
+El valor predefinido para esta opción es "\fInonfree\fR".
+.TP
+\fB\-\-version\fR
+Muestra información de la versión y sale.
+.SH VEA TAMBIÉN
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+La página wiki del Proyecto Fedora sobre las licencias de software aceptadas.
+.TP
+\fBhttps://vrms.alioth.debian.org/\fR
+Página del programa \fBvrms\fR original.
+.SH LICENCIA
+Este programa está disponible bajo los términos de la Licencia Pública General
+de GNU, versión 3, publicada por la Free Software Foundation.
+.SH AUTOR
+Escrito a principios de 2017 por \fBsuve\fR.
