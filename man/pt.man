@@ -1,24 +1,24 @@
 .TH VRMS-RPM 1
-.SH NAME
+.SH NOME
 vrms-rpm - relatório de software não grátis instalado
-.SH SYNOPSIS
-\fBvrms-rpm\fR \fI[OPTION]\fR ...
-.SH DESCRIPTION
+.SH SINOPSE
+\fBvrms-rpm\fR \fI[OPÇÃO]\fR ...
+.SH DESCRIÇÃO
 Este programa é um clone do programa original
-\ fBvrms \ fR ("\ fBvirtual Richard M. Stallman \ fR")
-para Debian GNU / Linux, criado com o objetivo de trazer a sua
-idéia brilhante para as distribuições GNU / Linux baseadas em RPM.
+\fBvrms\fR("\fBvirtual Richard M. Stallman\fR")
+para Debian GNU/Linux, criado com o objetivo de trazer a sua
+idéia brilhante para as distribuições GNU/Linux baseadas em RPM.
 .PP
 Este programa analisa a lista de pacotes RPM não grátis atualmente instalados
 e reporta o que encontrou para o stdout. A decisão de classificar um pacote
 como livre ou não é baseada nas diretrizes de licenciamento do Projeto Fedora.
 .PP
-Os utilizadores de Fedora / CentOS que utilizem repositórios adicionais, como
-\ fBRPM Fusion \ fR, podem notar que nem todos os pacotes provenientes de
+Os utilizadores de Fedora/CentOS que utilizem repositórios adicionais, como
+\fBRPM Fusion\fR, podem notar que nem todos os pacotes provenientes de
 repositórios não oficiais são marcados como não livres. Isso ocorre porque a
 distinção, conforme indicado anteriormente, é feita dependendo da licença do
 pacote. Existem vários motivos, para além do licenciamento, porque um pacote
-pode não ter sido aceite no Repositório oficial Fedora / CentOS - como
+pode não ter sido aceite no Repositório oficial Fedora/CentOS - como
 patentes de software ou restrições de exportação.
 .PP
 Richard Stallman tem sido, há anos, a figura mais proeminente e vocal
@@ -27,7 +27,7 @@ no movimento do Software Livre, lembrando implacavelmente algumas questões de
 uma maneira fácil de saber se eles estão a usar software não livre nos seus
 sistemas.
 Este programa é uma tentativa de cumprir essa necessidade.
-.SH OPTIONS
+.SH OPÇÕES
 .TP
 \fB\-\-ascii\fR
 Exibir Art ASCII do rms quando não são encontrados pacotes não gratuitos,
@@ -43,19 +43,19 @@ Exibir uma ajuda resumida sobre o uso do programa e terminar.
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
 Além de exibir o número total de pacotes gratuitos e não gratuitos,
 também lista os pacotes pelo seu nome.
-O valor por defeito para esta opção é "\ fInonfree \ fR".
+O valor por defeito para esta opção é "\fInonfree\fR".
 .TP
-\fB\-\-version\fR
+\fB\-\-versão\fR
 Exibir informação da versão do programa e terminar.
-.SH SEE ALSO
+.SH VER TAMBÉM
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 A página wiki do Projeto Fedora para licenças de software aceites.
 .TP
 \fBhttps://vrms.alioth.debian.org/\fR
-Página web da versão original do programa \ fBvrms \ fR.
-.SH LICENCE
-Este programa em si está disponível sob o termo público em geral da Licença GNU,
+Página web da versão original do programa \fBvrms\fR.
+.SH LICENÇA
+Este programa em si está disponível sob o termo público da Licença GNU,
  versão 3, conforme publicado pela Free Software Foundation.
-.SH AUTHOR
-Escrito no início de 2017 por \ fBsuve \ fR.
+.SH AUTOR
+Escrito no início de 2017 por \fBsuve\fR.
