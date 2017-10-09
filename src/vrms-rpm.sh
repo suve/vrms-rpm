@@ -47,6 +47,7 @@ set -u
 
 # Set initial option values
 ascii="0"
+describe="0"
 explain="0"
 list="nonfree"
 
@@ -55,6 +56,10 @@ while [[ "$#" -gt 0 ]]; do
 	case "$1" in
 		--ascii)
 			ascii="1"
+		;;
+		
+		--describe)
+			describe="1"
 		;;
 		
 		--explain)
@@ -66,6 +71,9 @@ while [[ "$#" -gt 0 ]]; do
 
 			echo "  --ascii"
 			printmsg "help_option_ascii"
+			
+			echo "  --describe"
+			printmsg "help_option_describe"
 			
 			echo "  --explain"
 			printmsg "help_option_explain"
@@ -127,10 +135,14 @@ done
 
 function classify_package() {
 	local push_value
+	push_value="$1"
+
 	if [[ "$explain" -eq 1 ]]; then
-		push_value="$1: $2"
-	else
-		push_value="$1"
+		push_value+=": $2"
+	fi
+
+	if [[ "$describe" -eq 1 ]]; then
+		push_value+=": $3"
 	fi
 	
 	
@@ -144,7 +156,7 @@ function classify_package() {
 }
 
 # In Fedora, package names cannot contain the ":" character, so it's safe to use as delimiter
-packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n' | sort`
+packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}:%{SUMMARY}\n' | sort`
 packages=($packages)
 
 free=()
@@ -154,14 +166,16 @@ nonfree=()
 IFS="	"
 
 for ((i=0; i< ${#packages[@]}; ++i)); do
-	line=${packages[$i]}
+	# Beware spaces
+	line="${packages[$i]}"
 	
-	# Remove the longest :* pattern from end of $line = everything after first colon.
-	name=${line%%:*}
-	# Remove the shortest *: pattern from beginning of $line = everything up to the first colon.
-	licence=${line#*:}
+	name="${line%%:*}"
+	line="${line#*:}"
 	
-	classify_package "$name" "$licence"
+	licence="${line%%:*}"
+	line="${line#*:}"
+	
+	classify_package "$name" "$licence" "$line"
 done
 
 
