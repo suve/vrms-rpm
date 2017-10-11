@@ -55,7 +55,7 @@ A página wiki do Projeto Fedora para licenças de software aceites.
 \fBhttps://vrms.alioth.debian.org/\fR
 Página web da versão original do programa \fBvrms\fR.
 .SH LICENÇA
-Este programa em si está disponível sob o termo público da Licença GNU,
+Este programa em si está disponível sob o termo Licença Pública Geral GNU,
  versão 3, conforme publicado pela Free Software Foundation.
 .SH AUTOR
 Escrito no início de 2017 por \fBsuve\fR.
