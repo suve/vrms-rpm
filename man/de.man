@@ -9,14 +9,14 @@ Dieses Programm ist ein Clone des Originals
 Programm fuer Debian GNU/Linux, geschrieben mit der Absicht diese  
 brilliante Idee ueber die RPM-basierten GNU/Linux Distrubitionen zu bringen.
 .PP
-Dieses Programm analysiert die Liste der installierten RPM Pakete und berichtet
-eine Liste der gefundenen kommerziellen Pakete nach stdout. Die Entscheidung 
-ueber die Klassifizierung eines kommerziellen oder freien Paketes erfolgt
+Dieses Programm analysiert die  installierten RPM Pakete und gibt eine 
+Liste der gefundenen proprietaeren Pakete nach stdout aus. Die Entscheidung 
+ueber die Klassifizierung eines proprietaeren oder freien Paketes erfolgt
 nach den Fedora Projekt Lizensierungs-Richtlinien.
 .PP
 Fedora / CentOS User die zusaetzliche Repositories nutzen, wie z.B.
 \fBRPM Fusion\fR, werden bemerken, dass nicht alle Pakete die aus 
-nicht offiziellen Quellen kommen als kommerziell angezeigt werden.
+nicht offiziellen Quellen kommen als proprietaer angezeigt werden.
 Die Anzeige basiert, wie bereits vorher erwaehnt, auf der Paket Lizenz.
 Es gibt vielfaeltige Gruende, neben der Lizenz, warum ein Paket nicht in
 den offiziellen Quellen akzeptiert wird. 
@@ -30,19 +30,20 @@ Moeglichkeit zu schaffen.
 .SH OPTIONS
 .TP
 \fB\-\-ascii\fR
-Display rms ASCII-art wenn keine kommerziellen Pakete gefunden wurden
-oder wenn kommerzielle Pakete 10%% oder mehr der gesamten Pakete ausmachen.
+Display rms ASCII-art wenn keine proprietaere Pakete gefunden wurden
+oder wenn proprietaere Pakete 10%% oder mehr der gesamten Pakete ausmachen.
 .TP
 \fB\-\-explain\fR
-Bei den gelisteten Paketen sind die gezeigten Lizenzen da, um kommerzielle
+Bei den gelisteten Paketen sind die gezeigten Lizenzen da, um proprietaere
 und freie Pakete zu klasifizieren.
 .TP
 \fB\-\-help\fR
 Zeigt eine kurze Hilfe an und beendet das Programm.
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
-Abgesehen von der Anzeige einer zusammenfassenden Anzahl von freien & kommerziellen
-Paketen, werden sie alphabetisch angezeigt. Der default Wert ist kommerziell(non-free).
+Abgesehen von der Anzeige einer zusammenfassenden Anzahl von freien
+und proprietaeren Paketen, werden sie alphabetisch angezeigt. 
+Der default Wert ist proprietaer(non-free).
 .TP
 \fB\-\-version\fR
 Zeige Version und beende das Programm.
@@ -52,9 +53,9 @@ Zeige Version und beende das Programm.
 Die Fedora Project Wiki Seite ueber akzeptierte Software Lizenzen.
 .TP
 \fBhttps://vrms.alioth.debian.org/\fR
-Home of the original \fBvrms\fR program.
+Ort des originalen \fBvrms\fR Programms.
 .SH LICENCE
-This program itself is available under the terms of the GNU General Public
-License, version 3, as published by the Free Software Foundation.
+Dieses Programm steht unter den Bedingungen der GNU General Public
+Lizenz, Version 3, veröffentlicht von der Free Software Foundation.
 .SH AUTHOR
-Written in early 2017 by \fBsuve\fR.
+Geschrieben Anfang 2017 von \fBsuve\fR.
