@@ -5,7 +5,7 @@ vrms-rpm - relatório de software não grátis instalado
 \fBvrms-rpm\fR \fI[OPÇÃO]\fR ...
 .SH DESCRIÇÃO
 Este programa é um clone do programa original
-\fBvrms\fR("\fBvirtual Richard M. Stallman\fR")
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
 para Debian GNU/Linux, criado com o objetivo de trazer a sua
 idéia brilhante para as distribuições GNU/Linux baseadas em RPM.
 .PP
