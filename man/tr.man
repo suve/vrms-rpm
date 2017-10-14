@@ -2,7 +2,7 @@
 .SH NAME
 vrms-rpm - Ücretsiz olmayan yüklü yazılımların rapor edilmesi
 .SH SYNOPSIS
-\fBvrms-rpm\fR \fI[OPTION]\fR ...
+\fBvrms-rpm\fR \fI[seçenekler]\fR ...
 .SH DESCRIPTION
 Bu program orijinalinin bir klonudur.
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
