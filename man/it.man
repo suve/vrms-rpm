@@ -1,37 +1,37 @@
 .TH VRMS-RPM 1
-.SH NAME
+.SH NOME
 vrms-rpm - Segnala i software non liberi installati 
 .SH SOMMARIO
-\fBvrms-rpm\fR \fI[OPTION]\fR ...
+\fBvrms-rpm\fR \fI[OPZIONE]\fR ...
 .SH DESCRIZIONE
-Questo programma e' un clone del programma per Debian GNU/Linux \fBvrms\fR
+Questo programma è un clone del programma per Debian GNU/Linux \fBvrms\fR
 ("\fBvirtual Richard M. Stallman\fR"), creato con l'obiettivo di portare la
 sua brillante idea su distribuzioni GNU/Linux basate su RPM.
 .PP
 Questo programma analizza la lista dei pacchetti RPM correntemente installati
 e stampa i pacchetti non liberi sullo stdout. La decisione di classificare un
-pacchetto come libero o non libero e' basata sulle linee guida per le licenze 
+pacchetto come libero o non libero è basata sulle linee guida per le licenze 
 del proggetto Fedora.
 .PP
 Utenti di Fedora / CentOS che usano repository addizionali, come 
 \fBRPM Fusion\fR  noteranno che tutti i pacchetti che arrivano da repository 
-non ufficiali sono segnalati come non liberi. Questo e' causato dal fatto che
-la distinzione, come indicato in precedenza, e' basata sulla licenza del 
+non ufficiali sono segnalati come non liberi. Questo è causato dal fatto che
+la distinzione, come indicato in precedenza, è basata sulla licenza del 
 pacchetto. Ci sono altre ragioni, oltre alla licenza, per cui un pacchetto non
-e' stato accettato nel repository ufficiale di Fedora / CentOS - quali patenti
+è stato accettato nel repository ufficiale di Fedora / CentOS - quali patenti
 software o restrizioni all'esportazione.
 .PP
-Richard Stallman e' stato, per anni, la figura piu' importante e piu' vocale
+Richard Stallman è stato, per anni, la figura più importante e più vocale
 nel movimento per il Free Software, ricordandoci incessantemente i principi 
 morali riguardanti il software. Come Richard, noi crediamo che gli utenti 
 debbano avere a disposizione un modo semplice per capire se stanno usando 
-software non libero nei loro sistemi. Questo programma e' un tentativo di 
+software non libero nei loro sistemi. Questo programma è un tentativo di 
 soddisfare questa esigenza.
-.SH OPTIONS
+.SH OPZIONI
 .TP
 \fB\-\-ascii\fR
 Mostra una ASCII-art di rms quando non esiste nessun pacchetto libero
-o quando i pacchetti non liberi sono piu' del 10% del totale.
+o quando i pacchetti non liberi sono più del 10% del totale.
 .TP
 \fB\-\-explain\fR
 Quando si elencano i pacchetti, mostra le licenze per giustificare
@@ -43,7 +43,7 @@ Mostra un breve messaggio di aiuto ed esce.
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
 Oltre a mostrare un sommario del numero di pacchetti liberi e non,
 li stampa per nome.  
-Il valore di default e' "\fInonfree\fR".
+Il valore di default è "\fInonfree\fR".
 .TP
 \fB\-\-version\fR
 Mostra informazioni sulla versione ed esce.
@@ -55,7 +55,7 @@ pagina wiki del progetto Fedora sulle licenze software accettate.
 \fBhttps://vrms.alioth.debian.org/\fR
 homepage del programma \fBvrms\fR originale.
 .SH LICENZA
-Questo programma e' reso disponibile secondo i termine della GNU General 
+Questo programma è reso disponibile secondo i termine della GNU General 
 Public License, versione 3, come pubblicato dalla Free Software Foundation.
 .SH AUTORE
 Scritto all'inizio del 2017 da \fBsuve\fR.
