@@ -58,4 +58,4 @@ Orijinal programın ana sayfası \fBvrms\fR.
 Bu program GNU General Public lisansına göre ulaşılabilir ve Free Software
 Foundation tarafından yayınlanmıştır
 .SH AUTHOR
-Written in early 2017 by \fBsuve\fR.
+2017'nin başında tarafından yazılmıştır\fBsuve\fR.
