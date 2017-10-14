@@ -1,9 +1,9 @@
 .TH VRMS-RPM 1
-.SH NAME
+.SH İSİM
 vrms-rpm - Ücretsiz olmayan yüklü yazılımların rapor edilmesi
-.SH SYNOPSIS
+.SH ÖZET
 \fBvrms-rpm\fR \fI[seçenekler]\fR ...
-.SH DESCRIPTION
+.SH TANITIM
 Bu program orijinalinin bir klonudur.
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
 Bu program kendi müthiş fikrini bütün RPM bazlı ve
@@ -27,7 +27,7 @@ hatırlatırken. Richard gibi, biz de kullanıcıların bilgisayarlarındaki
 ücretsiz olmayan uygulamaların çalıştığı konusunda kolay bir yola sahip
 olmalarına inanıyoruz. Bu program bu ihtiyacı yerine getirmek için
 bir denemedir.
-.SH OPTIONS
+.SH SEÇENEKLER
 .TP
 \fB\-\-ascii\fR
 Ücretli menü bulunmazsa ya da ücretli paketler 10% ve fazlaysa
@@ -47,15 +47,15 @@ Ayarlar için varsayılan değer: "\fInonfree\fR".
 .TP
 \fB\-\-version\fR
 Versiyon bilgisini göster ve kapat.
-.SH SEE ALSO
+.SH DETAYLAR İÇİN
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 The Fedora Project wiki sayfası kabul görmüş yazılım lisanları içerir.
 .TP
 \fBhttps://vrms.alioth.debian.org/\fR
 Orijinal programın ana sayfası \fBvrms\fR.
-.SH LICENCE
+.SH LİSANS
 Bu program GNU General Public lisansına göre ulaşılabilir ve Free Software
 Foundation tarafından yayınlanmıştır
-.SH AUTHOR
+.SH YAZAR
 2017'nin başında tarafından yazılmıştır\fBsuve\fR.
