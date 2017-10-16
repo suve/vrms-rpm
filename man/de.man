@@ -3,7 +3,7 @@
 vrms-rpm - Report der installierten kommerziellen Software
 .SH SYNOPSIS
 \fBvrms-rpm\fR \fI[OPTION]\fR ...
-.SH DESCRIPTION
+.SH BESCHREIBUNG
 Dieses Programm ist ein Clone des Originals
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
 Programm fuer Debian GNU/Linux, geschrieben mit der Absicht diese  
