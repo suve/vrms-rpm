@@ -27,7 +27,7 @@ der Software Ethik. Wie Richard, glauben wir das Anwender eine einfache
 Moeglichkeit haben sollten um festzustellen ob sie freie oder kommerzielle
 Software auf ihrem System betreiben. Dieses Programm ist ein Versuch diese
 Moeglichkeit zu schaffen. 
-.SH OPTIONS
+.SH OPTIONEN
 .TP
 \fB\-\-ascii\fR
 Display rms ASCII-art wenn keine proprietaere Pakete gefunden wurden
@@ -47,15 +47,15 @@ Der default Wert ist proprietaer(non-free).
 .TP
 \fB\-\-version\fR
 Zeige Version und beende das Programm.
-.SH SEE ALSO
+.SH SIEHE AUCH
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 Die Fedora Project Wiki Seite ueber akzeptierte Software Lizenzen.
 .TP
 \fBhttps://vrms.alioth.debian.org/\fR
 Ort des originalen \fBvrms\fR Programms.
-.SH LICENCE
+.SH LIZENZ
 Dieses Programm steht unter den Bedingungen der GNU General Public
 Lizenz, Version 3, veröffentlicht von der Free Software Foundation.
-.SH AUTHOR
+.SH AUTOR
 Geschrieben Anfang 2017 von \fBsuve\fR.
