@@ -26,7 +26,7 @@ msgstr "%s: l'argument pour --list option doit être 'none', 'free', 'nonfree' o
 msgid "msg_unknown_option"
 msgstr "%s: option inconnue '%s'"
 msgid "msg_total_free"
-msgstr "%d progiciels gratuits"
+msgstr "%d progiciels libres"
 msgid "msg_total_nonfree"
 msgstr "%d progiciels non-libres"
 msgid "msg_rms_happy_ascii"
