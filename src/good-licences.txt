@@ -1,4 +1,3 @@
-# List based on https://fedoraproject.org/wiki/Licensing:Main#Good_Licenses
 AAL
 Abstyles
 Adobe

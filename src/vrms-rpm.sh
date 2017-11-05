@@ -110,21 +110,6 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 
-# For splitting the licence list (and later, package list) line-by-line
-IFS="
-"
-
-# Read the good licences file, stripping out comments
-good_licences=`grep -v -e '^[ ]*#' "$prog_dir/good-licences.txt"`
-good_licences=($good_licences)
-
-# Prepare a string composed of the good licence names.
-# It will later be expanded into arguments to be consumed by grep
-good_licences_argstring=""
-for ((l=0; l<${#good_licences[@]}; ++l)); do
-	good_licences_argstring="$good_licences_argstring	--regexp	${good_licences[$l]}"
-done
-
 function classify_package() {
 	local push_value
 	if [[ "$explain" -eq 1 ]]; then
@@ -134,7 +119,7 @@ function classify_package() {
 	fi
 	
 	
-	echo "$2" | grep --quiet --fixed-strings --word-regexp $good_licences_argstring
+	echo "$2" | grep --quiet --fixed-strings --word-regexp --file "$prog_dir/good-licences.txt"
 	
 	if [[ "$?" -eq 0 ]]; then
 		free[${#free[@]}]="$push_value"
@@ -143,15 +128,15 @@ function classify_package() {
 	fi
 }
 
+# Set the field separator to a newline for splitting the package list
+IFS=$'\n'
+
 # In Fedora, package names cannot contain the ":" character, so it's safe to use as delimiter
 packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n' | sort`
 packages=($packages)
 
 free=()
 nonfree=()
-
-# Will be used later when expanding $good_licences_argstring to separate args
-IFS="	"
 
 for ((i=0; i< ${#packages[@]}; ++i)); do
 	line=${packages[$i]}
