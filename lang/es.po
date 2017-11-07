@@ -16,8 +16,7 @@ msgstr "Sintaxis: vrms-rpm [opciones]"
 
 msgid "msg_help_option_ascii"
 msgstr ""
-"    Muestra arte ASCII de rms cuando no se encuentra ningún paquete"
-" privativo,\n"
+"    Muestra arte ASCII de rms cuando no se encuentra ningún paquete privativo,\n"
 "    o cuando los paguetes privativos son un 10%% o más del total."
 
 msgid "msg_help_option_explain"
@@ -31,7 +30,7 @@ msgstr "    Mostrar esta ayuda y salir."
 msgid "msg_help_option_list"
 msgstr ""
 "    Aparte de mostrar un número resumen de los paquetes libres y privativos,\n"
-"    mostrarlos por su nombre.  El valor predefinido es 'nonfree'."
+"    mostrarlos por su nombre. El valor predefinido es 'nonfree'."
 
 msgid "msg_help_option_version"
 msgstr "    Mostrar información de la versión y salir."
@@ -54,15 +53,13 @@ msgid "msg_total_nonfree"
 msgstr "%d paquetes privativos"
 
 msgid "msg_rms_happy_ascii"
-msgstr ""
-"Sólo paquetes libres - ¡rms estaría orgulloso!                   rms está feliz."
+msgstr "Sólo paquetes libres - ¡rms estaría orgulloso!                   rms está feliz."
 
 msgid "msg_rms_happy"
 msgstr "Sólo paquetes libres - ¡rms estaría orgulloso!"
 
 msgid "msg_rms_disappoint_ascii"
-msgstr ""
-"Más de un 10%% de paquetes privativos. ¿Odia usted la libertad? rms está triste."
+msgstr "Más de un 10%% de paquetes privativos. ¿Odia usted la libertad?  rms está triste."
 
 msgid "msg_rms_disappoint"
 msgstr "Más de un 10%% de paquetes privativos. ¿Odia usted la libertad?"

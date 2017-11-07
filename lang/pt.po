@@ -34,6 +34,6 @@ msgstr "Só pacotes livres - rms estaria orgulhoso!                   rms está 
 msgid "msg_rms_happy"
 msgstr "Só pacotes livres - rms estaria orgulhoso!"
 msgid "msg_rms_disappoint_ascii"
-msgstr "Mais de 10%% pacotes não livres. Odeias Liberdade?           rms está desapontado."
+msgstr "Mais de 10%% pacotes não livres. Odeias Liberdade?          rms está desapontado."
 msgid "msg_rms_disappoint"
 msgstr "Mais de 10%% pacotes não livres. Odeias Liberdade?"

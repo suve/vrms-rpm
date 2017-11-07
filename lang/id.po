@@ -10,7 +10,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 "Last-Translator: Syah Dwi Prihatmoko <sdmoko@sdmoko.net>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: id_ID\n"
+"Language: id\n"
 
 msgid "msg_help_usage"
 msgstr "Penggunaan: vrms-rpm [opsi]"
@@ -52,7 +52,7 @@ msgid "msg_total_nonfree"
 msgstr "%d paket non-free"
 
 msgid "msg_rms_happy_ascii"
-msgstr "Hanya paket free - rms akan bangga!                                   rms bahagia."
+msgstr "Hanya paket free - rms akan bangga!                                 rms bahagia."
 
 msgid "msg_rms_happy"
 msgstr "Hanya paket free - rms akan bangga!"
