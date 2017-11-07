@@ -1,4 +1,3 @@
-# List based on https://fedoraproject.org/wiki/Licensing:Main#Good_Licenses
 AAL
 Abstyles
 Adobe
@@ -9,6 +8,7 @@ AGPLv1
 AGPLv3
 AGPLv3+
 AMDPLPA
+ANTLR-PD
 AML
 AMPAS BSD
 AMS
@@ -38,6 +38,8 @@ CC0
 CC-BY
 CC-BY-SA
 CDDL
+CDDL-1.0
+CDDL-1.1
 CDL
 CeCILL
 CeCILL-B

@@ -19,12 +19,13 @@ complicate matters. After all, removing code is hard.
 
 **Installing from a repository**
 ----------
-Fedora users can use the *copr* repository 
-[suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
+Fedora users can install *vrms-rpm* from the official distro repository.
+RHEL/CentOS users can get the package from the Fedora EPEL repositories.
 ```
-$ dnf copr enable suve/vrms-rpm
 $ dnf install vrms-rpm
 ```
+You can also grab the package from the *copr* repository 
+[suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
 
 
 **Building it on your own: dependencies**

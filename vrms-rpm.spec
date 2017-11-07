@@ -1,5 +1,5 @@
 Name:          vrms-rpm
-Version:       1.2
+Version:       1.3
 Release:       1%{?dist}
 Summary:       Report non-free software
 BuildArch:     noarch
@@ -9,8 +9,8 @@ License:       GPLv3
 
 %global githubowner suve
 %global gittag0 release-%{version}
-URL:           https://github.com/%{githubowner}/%{name}/
-Source0:       %{url}archive/%{gittag0}.tar.gz#/%{name}-%{gittag0}.tar.gz
+URL:           https://github.com/%{githubowner}/%{name}
+Source0:       %{url}/archive/%{gittag0}/%{name}-%{gittag0}.tar.gz
 
 
 %description
@@ -21,11 +21,11 @@ installed on the system.
 %autosetup -n %{name}-%{gittag0} 
 
 %build
-make build PREFIX=/usr %{?_smp_mflags}
+make build PREFIX=%{_prefix} %{?_smp_mflags}
 
 %install
-make install PREFIX=%{buildroot}/usr %{?_smp_mflags}
-%{find_lang} %{name} --with-man
+make install PREFIX=%{buildroot}%{_prefix} %{?_smp_mflags}
+%find_lang %{name} --with-man
 
 %files -f %{name}.lang
 %{_bindir}/%{name}
@@ -34,6 +34,14 @@ make install PREFIX=%{buildroot}/usr %{?_smp_mflags}
 %license LICENCE.txt
 
 %changelog
+* Tue Nov 07 2017 suve <veg@svgames.pl> 1.3-1
+- New upstream version
+
+* Tue Nov 07 2017 suve <veg@svgames.pl> 1.2-2
+- Use "_prefix" macro instead of bare string "/usr" during build & install
+- Remove curly braces from "find_lang" macro call
+- Use tag/name-tag.tar.gz as Source0 instead of tag.tar.gz#/name-tag.tar.gz
+
 * Thu Jun 01 2017 suve <veg@svgames.pl> 1.2-1
 - New upstream version
 - gettext added as depencency
