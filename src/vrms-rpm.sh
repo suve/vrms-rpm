@@ -101,8 +101,14 @@ while [[ "$#" -gt 0 ]]; do
 			exit
 		;;
 
-		*)
-			printmsg "unknown_option" "$prog_name" "$1"
+		-*)
+			if [ $1 == '--' ]; then
+				shift
+				break
+			else
+				printmsg "unknown_option" "$prog_name" "$1"
+				exit 1
+			fi
 		;;
 	esac
 	
