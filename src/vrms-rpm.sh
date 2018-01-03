@@ -102,7 +102,7 @@ while [[ "$#" -gt 0 ]]; do
 		;;
 
 		-*)
-			if [ $1 == '--' ]; then
+			if [ "$1" == '--' ]; then
 				shift
 				break
 			else
@@ -158,13 +158,13 @@ done
 
 total_free=${#free[@]}
 total_nonfree=${#nonfree[@]}
-total=`expr $total_free + $total_nonfree`
-percentage_nonfree=`expr $total_nonfree '*' 100 / $total`
+((total = total_free + total_nonfree))
+((percentage_nonfree = total_nonfree * 100 / total))
 
 
 printmsg "total_free" $total_free
 if [ "$list" == "free" ] || [ "$list" == "all" ]; then
-	for ((p=0; p<$total_free; ++p)); do
+	for ((p=0; p<total_free; ++p)); do
 		echo " - ${free[$p]}"
 	done
 fi
@@ -172,7 +172,7 @@ fi
 
 printmsg "total_nonfree" $total_nonfree
 if [ "$list" == "nonfree" ] || [ "$list" = "non-free" ] || [ "$list" == "all" ]; then
-	for ((p=0; p<$total_nonfree; ++p)); do
+	for ((p=0; p<total_nonfree; ++p)); do
 		echo " - ${nonfree[$p]}"
 	done
 fi
