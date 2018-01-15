@@ -15,7 +15,7 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
-PREFIX ?= /usr/local
+PREFIX ?= $(DESTDIR)/usr/local
 
 PO_FILES := $(shell ls lang/*.po)
 MO_FILES := $(PO_FILES:lang/%.po=build/locale/%/LC_MESSAGES/vrms-rpm.mo)
@@ -34,7 +34,7 @@ help:
 	@echo "    remove - uninstall project"
 	@echo ""
 	@echo "VARIABLES:"
-	@echo "    PREFIX - installation prefix (default: /usr/local)"
+	@echo "    PREFIX - installation prefix (default: \$$DESTDIR/usr/local)"
 	@echo "             used during build to set up file paths"
 
 build: $(MO_FILES) build/vrms-rpm
