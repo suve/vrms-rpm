@@ -83,6 +83,6 @@ install: install/prepare
 	rm -rf install
 
 remove: install/prepare
-	find install -type f | sed -e 's|^install|$(PREFIX)|' | xargs rm -vf
-	find install -depth -type d | sed -e 's|^install|$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
+	find install -type f | sed -e 's|^install|$(INSTALL_ROOT)|' | xargs rm -vf
+	find install -depth -type d | sed -e 's|^install|$(INSTALL_ROOT)|' | xargs rmdir -v --ignore-fail-on-non-empty
 	rm -rf install
