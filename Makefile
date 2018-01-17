@@ -15,7 +15,10 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
+DESTDIR ?=
 PREFIX ?= /usr/local
+
+INSTALL_ROOT := $(DESTDIR)$(PREFIX)
 
 PO_FILES := $(shell ls lang/*.po)
 MO_FILES := $(PO_FILES:lang/%.po=build/locale/%/LC_MESSAGES/vrms-rpm.mo)
@@ -34,8 +37,9 @@ help:
 	@echo "    remove - uninstall project"
 	@echo ""
 	@echo "VARIABLES:"
+	@echo "    DESTDIR - directory to store installed files in."
 	@echo "    PREFIX - installation prefix (default: /usr/local)"
-	@echo "             used during build to set up file paths"
+	@echo "             used during build to set up file paths."
 
 build: $(MO_FILES) build/vrms-rpm
 
@@ -74,11 +78,11 @@ install/prepare: $(NON_EN_MAN_LANGS:%=install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)
 
 install: install/prepare
-	mkdir -p "$(PREFIX)"
-	cp -a install/* "$(PREFIX)"
+	mkdir -p "$(INSTALL_ROOT)"
+	cp -a install/* "$(INSTALL_ROOT)"
 	rm -rf install
 
 remove: install/prepare
-	find install -type f | sed -e 's|^install|$(PREFIX)|' | xargs rm -vf
-	find install -depth -type d | sed -e 's|^install|$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
+	find install -type f | sed -e 's|^install|$(INSTALL_ROOT)|' | xargs rm -vf
+	find install -depth -type d | sed -e 's|^install|$(INSTALL_ROOT)|' | xargs rmdir -v --ignore-fail-on-non-empty
 	rm -rf install
