@@ -18,7 +18,7 @@ _vrms_rpm() {
 
 	local curr="${COMP_WORDS[COMP_CWORD]}"
 	local prev="${COMP_WORDS[COMP_CWORD-1]}"
-	local opts="--ascii --explain --help --list --version"
+	local opts="--ascii --describe --explain --help --list --version"
 
 	if [[ "$prev" == "--list" ]]; then
 		local listmodes="none free non-free all"
