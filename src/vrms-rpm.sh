@@ -124,6 +124,10 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 
+# Bash doesn't let us name the function args, so we need a quick reference:
+# $1 contains the package name.
+# $2 contains the package licence.
+# $3 contains the package summary.
 function classify_package() {
 	local push_value
 	if [[ "$describe" -eq 1 ]]; then
@@ -153,35 +157,29 @@ function classify_package() {
 
 # I think it's safe to assume no one is going to use the tab character
 # inside the package summary, so we're gonna use that as the field separator.
+# For separating the packages themselves, let's use a newline.
 if [[ "$describe" -eq 1 ]]; then
 	packages=$(rpm --all --query --queryformat '%{NAME}\t%{LICENSE}\t%{SUMMARY}\n' | sort)
 else
 	packages=$(rpm --all --query --queryformat '%{NAME}\t%{LICENSE}\n' | sort)
 fi
 
-# Set the field separator to a newline and split the package list into an array
+# We need to split the big string into an array of packages,
+# so we set the field separator to a newline and use the string-to-array cast.
 IFS=$'\n'
 packages=($packages)
 
+# Set up empty arrays for classifying packages
 free=()
 nonfree=()
 
+# Now we're going to classify packages. We set the field separator to the
+# tab character, since that's what we used in the rpm query.
+# The variable in the function call is not quoted, because this time
+# we actually DO want the shell to expand the string into multiple arguments.
+IFS=$'\t'
 for ((i=0; i< ${#packages[@]}; ++i)); do
-	# Set the field separator to a tab character and split the package info into an array
-	IFS=$'\t'
-	line=${packages[$i]}
-	info=($line)
-	
-	name=${info[0]}
-	licence=${info[1]}
-
-	if [[ "$describe" -eq 1 ]]; then
-		summary=${info[2]}
-	else
-		summary=""
-	fi
-
-	classify_package "$name" "$licence" "$summary"
+	classify_package ${packages[$i]}
 done
 
 
