@@ -80,9 +80,11 @@ install/prepare: $(MO_FILES:build/%=install/share/%)
 install: install/prepare
 	mkdir -p "$(INSTALL_ROOT)"
 	cp -a install/* "$(INSTALL_ROOT)"
+	install -vD -m 644 src/bash-completion.sh $(DESTDIR)/etc/bash_completion.d/vrms-rpm
 	rm -rf install
 
 remove: install/prepare
 	find install -type f | sed -e 's|^install|$(INSTALL_ROOT)|' | xargs rm -vf
 	find install -depth -type d | sed -e 's|^install|$(INSTALL_ROOT)|' | xargs rmdir -v --ignore-fail-on-non-empty
+	rm $(DESTDIR)/etc/bash_completion.d/vrms-rpm
 	rm -rf install
