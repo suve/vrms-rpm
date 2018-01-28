@@ -47,6 +47,7 @@ set -u
 
 # Set initial option values
 ascii="0"
+describe="0"
 explain="0"
 list="nonfree"
 
@@ -57,6 +58,10 @@ while [[ "$#" -gt 0 ]]; do
 			ascii="1"
 		;;
 		
+		--describe)
+			describe="1"
+		;;
+
 		--explain)
 			explain="1"
 		;;
@@ -67,6 +72,9 @@ while [[ "$#" -gt 0 ]]; do
 			echo "  --ascii"
 			printmsg "help_option_ascii"
 			
+			echo "  --describe"
+			printmsg "help_option_describe"
+
 			echo "  --explain"
 			printmsg "help_option_explain"
 			
@@ -118,10 +126,18 @@ done
 
 function classify_package() {
 	local push_value
-	if [[ "$explain" -eq 1 ]]; then
-		push_value="$1: $2"
+	if [[ "$describe" -eq 1 ]]; then
+		if [[ "$explain" -eq 1 ]]; then
+			push_value=" - $1: $3"$'\n'"   $2"
+		else
+			push_value=" - $1: $3"
+		fi
 	else
-		push_value="$1"
+		if [[ "$explain" -eq 1 ]]; then
+			push_value=" - $1: $2"
+		else
+			push_value=" - $1"
+		fi
 	fi
 	
 	
@@ -134,25 +150,38 @@ function classify_package() {
 	fi
 }
 
-# Set the field separator to a newline for splitting the package list
-IFS=$'\n'
 
-# In Fedora, package names cannot contain the ":" character, so it's safe to use as delimiter
-packages=`rpm --all --query --queryformat '%{NAME}:%{LICENSE}\n' | sort`
+# I think it's safe to assume no one is going to use the tab character
+# inside the package summary, so we're gonna use that as the field separator.
+if [[ "$describe" -eq 1 ]]; then
+	packages=$(rpm --all --query --queryformat '%{NAME}\t%{LICENSE}\t%{SUMMARY}\n' | sort)
+else
+	packages=$(rpm --all --query --queryformat '%{NAME}\t%{LICENSE}\n' | sort)
+fi
+
+# Set the field separator to a newline and split the package list into an array
+IFS=$'\n'
 packages=($packages)
 
 free=()
 nonfree=()
 
 for ((i=0; i< ${#packages[@]}; ++i)); do
+	# Set the field separator to a tab character and split the package info into an array
+	IFS=$'\t'
 	line=${packages[$i]}
+	info=($line)
 	
-	# Remove the longest :* pattern from end of $line = everything after first colon.
-	name=${line%%:*}
-	# Remove the shortest *: pattern from beginning of $line = everything up to the first colon.
-	licence=${line#*:}
-	
-	classify_package "$name" "$licence"
+	name=${info[0]}
+	licence=${info[1]}
+
+	if [[ "$describe" -eq 1 ]]; then
+		summary=${info[2]}
+	else
+		summary=""
+	fi
+
+	classify_package "$name" "$licence" "$summary"
 done
 
 
@@ -165,7 +194,7 @@ total_nonfree=${#nonfree[@]}
 printmsg "total_free" $total_free
 if [ "$list" == "free" ] || [ "$list" == "all" ]; then
 	for ((p=0; p<total_free; ++p)); do
-		echo " - ${free[$p]}"
+		echo "${free[$p]}"
 	done
 fi
 
@@ -173,7 +202,7 @@ fi
 printmsg "total_nonfree" $total_nonfree
 if [ "$list" == "nonfree" ] || [ "$list" = "non-free" ] || [ "$list" == "all" ]; then
 	for ((p=0; p<total_nonfree; ++p)); do
-		echo " - ${nonfree[$p]}"
+		echo "${nonfree[$p]}"
 	done
 fi
 
