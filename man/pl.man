@@ -1,11 +1,8 @@
 .TH VRMS-RPM 1
-
 .SH NAZWA
 vrms-rpm - raportuj zainstalowane nie-wolne oprogramowanie
-
 .SH SKŁADNIA
 \fBvrms-rpm\fR \fI[OPCJE]\fR ...
-
 .SH OPIS
 Ten program jest klonem oryginalnego programu \fBvrms\fR 
 ("\fBwirtualny Richard M. Stallman\fR") dla Debiana, stworzonym w celu
@@ -30,12 +27,14 @@ przypominającą nam o kwestiach etyki oprogramowania. Jak Richard, wierzymy,
 że użytkownicy powinni mieć dostęp do prostego sposobu, aby sprawdzić, 
 czy na ich systemach działa nie-wolne oprogramowanie.
 Ten program jest próbą dostarczenia takiego mechanizmu.
-
 .SH OPCJE
 .TP
 \fB\-\-ascii\fR
 Wyświetl ASCII-art rmsa gdy nie zostaną znalezione żadne nie-wolne paczki,
 lub gdy nie-wolne paczki stanowią co najmniej 10% całości.
+.TP
+\fB\-\-describe\fR
+Podczas listowania paczek, wyświetl krótki opis (podsumowanie) każdej z nich.
 .TP
 \fB\-\-explain\fR
 Podczas listowania paczek, wyświetlaj informacje o licencjach,
@@ -51,7 +50,6 @@ Domyślną wartością tej opcji jest "\fInonfree\fR".
 .TP
 \fB\-\-version\fR
 Wyświetl informację o wersji programu i zakończ.
-
 .SH ZOBACZ TAKŻE
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
@@ -59,10 +57,8 @@ Strona wiki Fedora Project opisująca akceptowane licencje oprogramowania.
 .TP
 \fBhttps://vrms.alioth.debian.org/\fR
 Strona domowa oryginalnego programu \fBvrms\fR.
-
 .SH LICENCJA
 Ten program jest dostępny na zasadach GNU General Public License, 
 wersji 3, opublikowanej przez Free Software Foundation.
-
 .SH AUTOR
 Program napisany na początku 2017 roku przez \fBsuve\fR.

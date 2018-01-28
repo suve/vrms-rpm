@@ -31,6 +31,9 @@ This program is an attempt to fulfil that need.
 Display rms ASCII-art when no non-free packages are found, 
 or when non-free packages are 10% or more of the total.
 .TP
+\fB\-\-describe\fR
+When listing packages, display a short description (summary) for each of them.
+.TP
 \fB\-\-explain\fR
 When listing packages, display licences as to justify
 the free / non-free classification.
