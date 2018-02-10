@@ -7,11 +7,12 @@ Afmparse
 AGPLv1
 AGPLv3
 AGPLv3+
+AGPLv3 with exceptions
 AMDPLPA
-ANTLR-PD
 AML
 AMPAS BSD
 AMS
+ANTLR-PD
 APAFML
 App-s2p
 APSL 2.0
@@ -33,11 +34,14 @@ BitTorrent
 Boost
 Borceux
 BSD
+BSD Protection
+BSD with advertising
+BSD with attribution
 CATOSL
 CC0
 CC-BY
+CC-BY-ND
 CC-BY-SA
-CDDL
 CDDL-1.0
 CDDL-1.1
 CDL
@@ -56,6 +60,7 @@ Crystal Stacker
 Cube
 diffmark
 DMIT
+DMTF
 DOC
 Dotseqn
 DoubleStroke
@@ -68,6 +73,7 @@ ECL 1.0
 ECL 2.0
 eCos
 EFL 2.0
+EFML
 eGenix
 Elvish
 Entessa
@@ -79,6 +85,7 @@ EUPL 1.1
 Eurosym
 Fair
 FBSDDL
+FDK-AAC
 Free Art
 FSFUL
 FSFULLR
@@ -90,16 +97,24 @@ GL2PS
 Glide
 Glulxe
 gnuplot
-GPL
 GPL+
+GPL+ or Artistic
 GPLv1
 GPLv2
 GPLv2+
+GPLv2 or Artistic
+GPLv2+ or Artistic
+GPLv2 with exceptions
+GPLv2+ with exceptions
 GPLv3
 GPLv3+
+GPLv3 with exceptions
+GPLv3+ with exceptions
+GPL+ with exceptions
 Green OpenMusic
 HaskellReport
 Hershey
+HOFL
 HSRL
 IBM
 IEEE
@@ -120,11 +135,15 @@ Latex2e
 LBNL BSD
 LDPL
 Leptonica
-LGPL-2.0
 LGPLv2
 LGPLv2+
+LGPLv2+ or Artistic
+LGPLv2 with exceptions
+LGPLv2+ with exceptions
 LGPLv3
 LGPLv3+
+LGPLv3 with exceptions
+LGPLv3+ with exceptions
 Lhcyr
 Liberation
 libtiff
@@ -132,6 +151,7 @@ LLGPL
 Logica
 LOSLA
 LPL
+LPPL
 LPPL
 Lucida
 MakeIndex
@@ -141,6 +161,7 @@ midnight
 MirOS
 MIT
 MITNFA
+MIT with advertising
 mod_macro
 Motosoto
 mplus
@@ -164,7 +185,6 @@ Nokia
 NOSL
 Noweb
 OAL
-OFL
 OFSFDL
 OGL
 OML
@@ -187,10 +207,7 @@ PostgreSQL
 psfrag
 psutils
 PTFL
-pubkey
-Public domain
 Public Domain
-Public use
 Public Use
 Punknova
 Python
@@ -254,6 +271,7 @@ YPLv1.1
 Zed
 Zend
 zlib
+zlib with acknowledgement
 ZPLv1.0
 ZPLv2.0
 ZPLv2.1
