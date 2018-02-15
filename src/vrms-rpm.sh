@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # vrms-rpm - list non-free packages on an rpm-based Linux distribution
-# Copyright (C) 2017 Artur "suve" Iwicki
+# Copyright (C) 2017-2018 Artur "suve" Iwicki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
