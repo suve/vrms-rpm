@@ -71,8 +71,12 @@ install/share/man/%/man1/vrms-rpm.1: man/%.man
 install/share/locale/%: build/locale/%
 	install -vD -p -m 644 "$<" "$@"
 
+install/share/bash-completion/completions/vrms-rpm:
+	install -vD -m 644 src/bash-completion.sh "$@"
+
 install/prepare: build
 install/prepare: install/bin/vrms-rpm
+install/prepare: install/share/bash-completion/completions/vrms-rpm
 install/prepare: install/share/suve/vrms-rpm/good-licences.txt
 install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(NON_EN_MAN_LANGS:%=install/share/man/%/man1/vrms-rpm.1)
@@ -81,11 +85,9 @@ install/prepare: $(MO_FILES:build/%=install/share/%)
 install: install/prepare
 	mkdir -p "$(INSTALL_ROOT)"
 	cp -a install/* "$(INSTALL_ROOT)"
-	install -vD -m 644 src/bash-completion.sh $(DESTDIR)/etc/bash_completion.d/vrms-rpm
 	rm -rf install
 
 remove: install/prepare
 	find install -type f | sed -e 's|^install|$(INSTALL_ROOT)|' | xargs rm -vf
 	find install -depth -type d | sed -e 's|^install|$(INSTALL_ROOT)|' | xargs rmdir -v --ignore-fail-on-non-empty
-	rm $(DESTDIR)/etc/bash_completion.d/vrms-rpm
 	rm -rf install
