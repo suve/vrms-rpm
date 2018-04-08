@@ -17,39 +17,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 #include "licences.h"
+#include "packages.h"
 #include "stringutils.h"
-
-int get_packages(void) {
-	int pipefd[2];
-	if(pipe(pipefd) != 0) exit(EXIT_FAILURE);
-	
-	pid_t pid = fork();
-	if(pid == -1) exit(EXIT_FAILURE);
-	
-	if(pid == 0) {
-		close(1);
-		dup2(pipefd[1], 1);
-		
-		char *args[] = {
-			"/usr/bin/rpm",
-			"--all",
-			"--query",
-			"--queryformat",
-			"%{NAME}\\t%{LICENSE}\\n",
-			(char*)NULL
-		};
-		execv(args[0], args);
-		
-		perror("-- execv() failed"); 
-	} else {
-		close(0);
-		dup2(pipefd[0], 0);
-		close(pipefd[1]);
-	}
-}
 
 void list_licences(char *buffer) {
 	char* separators[4] = {
@@ -77,13 +50,27 @@ void list_licences(char *buffer) {
 }
 
 int main(void) {
-	get_packages();
-	licences_read();
+	FILE* pkgs = packages_read();
+	if(pkgs == NULL) exit(EXIT_FAILURE);
+	if(licences_read() != 0) exit(EXIT_FAILURE);
+	
+	// Check if the child process that should exec() into /usr/bin/rpm
+	// has exited or not. If it has exited, it most likely failed.
+	//
+	// Of course, there's the risk that the child process has been
+	// stalled and has not made it to exec() yet.
+	//
+	// Hopefully, reading the licence file took us enough time.
+	// If someone has a better idea on how to solve this,
+	// I encourage them to submit a Pull Request.
+	int wstatus;
+	waitpid(-1, &wstatus, WNOHANG);
+	if(WEXITSTATUS(wstatus) != 0) exit(EXIT_FAILURE);
 	
 	char buffer[1024];
 	char *name, *licence;
 	
-	while(fgets(buffer, sizeof(buffer), stdin)) {
+	while(fgets(buffer, sizeof(buffer), pkgs)) {
 		char *tab = strchr(buffer, '\t');
 		if(!tab) continue;
 		
@@ -97,4 +84,5 @@ int main(void) {
 	}
 	
 	licences_free();
+	fclose(pkgs);
 }
