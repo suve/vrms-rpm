@@ -28,6 +28,7 @@
 #define ANSI_RESET   ANSI_COLOUR(0)
 
 
-char* trim(char *buffer, size_t *length);
+char* trim(char *buffer, size_t *const length);
+char* trim_extra(char *buffer, size_t *const length, const char *const extrachars);
 
 #endif

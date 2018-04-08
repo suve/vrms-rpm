@@ -70,7 +70,7 @@ void list_licences(char *buffer) {
 	}
 	
 	size_t trimmed_length;
-	buffer = trim(buffer, &trimmed_length);
+	buffer = trim_extra(buffer, &trimmed_length, "()");
 	if(trimmed_length) {
 		printf("%s%s" ANSI_RESET "\n", licence_is_free(buffer) ? ANSI_GREEN : ANSI_RED, buffer);
 	}

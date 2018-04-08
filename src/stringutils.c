@@ -19,19 +19,19 @@
 #include "stringutils.h"
 
 
-#define IS_WHITESPACE_OR_PAREN(chr)  \
-	((chr) > '\0' && ((chr) <= ' ' || (chr) == '(' || (chr) == ')'))
+#define IS_WHITESPACE(chr)  ((chr) > '\0' && (chr) <= ' ')
+#define IS_EXTRA(chr)  (strchr(extrachars, (chr)) != NULL)
 
-char* trim(char *buffer, size_t *length) {
+char* trim_extra(char *buffer, size_t *const length, const char *const extrachars) {
 	size_t len = strlen(buffer);
 	if(len > 0) {
 		char *end = buffer + len - 1;
-		while(IS_WHITESPACE_OR_PAREN(*end)) {
+		while(IS_WHITESPACE(*end) || IS_EXTRA(*end)) {
 			*end = '\0';
 			--end;
 			--len;
 		}
-		while(IS_WHITESPACE_OR_PAREN(*buffer)) {
+		while(IS_WHITESPACE(*buffer) || IS_EXTRA(*buffer)) {
 			*buffer = '\0';
 			++buffer;
 			--len;
@@ -40,4 +40,8 @@ char* trim(char *buffer, size_t *length) {
 	
 	if(length != NULL) *length = len;
 	return buffer;
+}
+
+char* trim(char *buffer, size_t *const length) {
+	return trim_extra(buffer, length, "");
 }
