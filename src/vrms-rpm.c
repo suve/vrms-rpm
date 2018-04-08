@@ -20,6 +20,31 @@
 #include <string.h>
 #include <unistd.h>
 
+
+#define IS_WHITESPACE_OR_PAREN(chr)  \
+	((chr) > '\0' && ((chr) <= ' ' || (chr) == '(' || (chr) == ')'))
+
+char* trim(char *buffer, size_t *length) {
+	size_t len = strlen(buffer);
+	if(len > 0) {
+		char *end = buffer + len - 1;
+		while(IS_WHITESPACE_OR_PAREN(*end)) {
+			*end = '\0';
+			--end;
+			--len;
+		}
+		while(IS_WHITESPACE_OR_PAREN(*buffer)) {
+			*buffer = '\0';
+			++buffer;
+			--len;
+		}
+	}
+	
+	if(length != NULL) *length = len;
+	return buffer;
+}
+
+
 int get_packages(void) {
 	int pipefd[2];
 	if(pipe(pipefd) != 0) exit(EXIT_FAILURE);
@@ -49,29 +74,54 @@ int get_packages(void) {
 	}
 }
 
+char *licence_list[512];
+int licence_count = 0;
 
-#define IS_WHITESPACE_OR_PAREN(chr)  \
-	((chr) > '\0' && ((chr) <= ' ' || (chr) == '(' || (chr) == ')'))
+char licence_buffer[4096];
 
-char* trim(char *buffer, size_t *length) {
-	size_t len = strlen(buffer);
-	if(len > 0) {
-		char *end = buffer + len - 1;
-		while(IS_WHITESPACE_OR_PAREN(*end)) {
-			*end = '\0';
-			--end;
-			--len;
-		}
-		while(IS_WHITESPACE_OR_PAREN(*buffer)) {
-			*buffer = '\0';
-			++buffer;
-			--len;
-		}
+int get_licences(void) {
+	FILE *goodlicences = fopen("/usr/share/suve/vrms-rpm/good-licences.txt", "r");
+	if(goodlicences == NULL) exit(EXIT_FAILURE);
+	
+	size_t buffer_pos = 0;
+	
+	char linebuffer[256];
+	while(fgets(linebuffer, sizeof(linebuffer), goodlicences)) {
+		size_t line_len;
+		char *line;
+		line = trim(linebuffer, &line_len);
+		
+		licence_list[licence_count] = licence_buffer + buffer_pos;
+		++licence_count;
+		
+		memcpy(licence_buffer + buffer_pos, line, line_len+1);
+		buffer_pos += line_len + 1;
 	}
 	
-	if(length != NULL) *length = len;
-	return buffer;
+	fclose(goodlicences);
 }
+
+int binary_search(const char *const value, const int minpos, const int maxpos) {
+	if(minpos > maxpos) return -1;
+	
+	const int pos = (minpos + maxpos) / 2;
+	const int cmpres = strcasecmp(value, licence_list[pos]);
+	
+	if(cmpres == 0) return pos;
+	if(cmpres < 0) return binary_search(value, minpos, pos-1);
+	if(cmpres > 0) return binary_search(value, pos+1, maxpos);
+}
+
+int is_good_licence(const char *const licence) {
+	return binary_search(licence, 0, licence_count-1) >= 0;
+}
+
+
+#define ANSI_COLOUR(colour)  "\x1B" "[" #colour "m"
+
+#define ANSI_RED     ANSI_COLOUR(31)
+#define ANSI_GREEN   ANSI_COLOUR(32)
+#define ANSI_RESET   ANSI_COLOUR(0)
 
 void list_licences(char *buffer) {
 	char* separators[4] = {
@@ -93,11 +143,14 @@ void list_licences(char *buffer) {
 	
 	size_t trimmed_length;
 	buffer = trim(buffer, &trimmed_length);
-	if(trimmed_length) puts(buffer);
+	if(trimmed_length) {
+		printf("%s%s" ANSI_RESET "\n", is_good_licence(buffer) ? ANSI_GREEN : ANSI_RED, buffer);
+	}
 }
 
 int main(void) {
 	get_packages();
+	get_licences();
 	
 	char buffer[1024];
 	char *name, *licence;
