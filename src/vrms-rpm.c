@@ -14,36 +14,12 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-
-#define IS_WHITESPACE_OR_PAREN(chr)  \
-	((chr) > '\0' && ((chr) <= ' ' || (chr) == '(' || (chr) == ')'))
-
-char* trim(char *buffer, size_t *length) {
-	size_t len = strlen(buffer);
-	if(len > 0) {
-		char *end = buffer + len - 1;
-		while(IS_WHITESPACE_OR_PAREN(*end)) {
-			*end = '\0';
-			--end;
-			--len;
-		}
-		while(IS_WHITESPACE_OR_PAREN(*buffer)) {
-			*buffer = '\0';
-			++buffer;
-			--len;
-		}
-	}
-	
-	if(length != NULL) *length = len;
-	return buffer;
-}
-
+#include "stringutils.h"
 
 int get_packages(void) {
 	int pipefd[2];
@@ -115,13 +91,6 @@ int binary_search(const char *const value, const int minpos, const int maxpos) {
 int is_good_licence(const char *const licence) {
 	return binary_search(licence, 0, licence_count-1) >= 0;
 }
-
-
-#define ANSI_COLOUR(colour)  "\x1B" "[" #colour "m"
-
-#define ANSI_RED     ANSI_COLOUR(31)
-#define ANSI_GREEN   ANSI_COLOUR(32)
-#define ANSI_RESET   ANSI_COLOUR(0)
 
 void list_licences(char *buffer) {
 	char* separators[4] = {
