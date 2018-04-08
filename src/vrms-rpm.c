@@ -18,15 +18,25 @@
 #include <stdio.h>
 #include <string.h>
 
-char* trim(char *buffer) {
+#define IS_WHITESPACE(chr)  ((chr) > '\0' && (chr) <= ' ')
+
+char* trim(char *buffer, size_t *length) {
 	size_t len = strlen(buffer);
-	if(len == 0) return buffer;
+	if(len > 0) {
+		char *end = buffer + len - 1;
+		while(IS_WHITESPACE(*end)) {
+			*end = '\0';
+			--end;
+			--len;
+		}
+		while(IS_WHITESPACE(*buffer)) {
+			*buffer = '\0';
+			++buffer;
+			--len;
+		}
+	}
 	
-	char *end = buffer + len - 1;
-	while(*end > '\0' && *end <= ' ') *end-- = '\0';
-	
-	while(*buffer > '\0' && *buffer <= ' ') *buffer++ = '\0';
-	
+	if(length != NULL) *length = len;
 	return buffer;
 }
 
@@ -61,8 +71,9 @@ void list_licences(char *buffer) {
 		return;
 	}
 	
-	buffer = trim(buffer);
-	if(strlen(buffer)) puts(buffer);
+	size_t trimmed_length;
+	buffer = trim(buffer, &trimmed_length);
+	if(trimmed_length) puts(buffer);
 }
 
 int main(void) {
@@ -75,7 +86,7 @@ int main(void) {
 		
 		*tab = '\0';
 		name = buffer;
-		licence = trim(tab+1);
+		licence = trim(tab+1, NULL);
 		
 		puts(licence);
 		list_licences(licence);
