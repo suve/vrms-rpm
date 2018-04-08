@@ -20,12 +20,58 @@
 #include "licences.h"
 #include "stringutils.h"
 
-static char *licence_list[512];
-static int licence_count = 0;
+static int list_count = 0;
+static int list_size = 0;
+static char **licence_list;
 
-static char licence_buffer[4096];
+#define LIST_STEP 512
+
+static int expand_list(void) {
+	const size_t bytes = (list_size + LIST_STEP) * sizeof(char*);
+	
+	if(licence_list == NULL) {
+		licence_list = malloc(bytes);
+		if(licence_list == NULL) return 1;
+	} else {
+		char** newptr = realloc(licence_list, bytes);
+		if(newptr == NULL) return 1;
+		licence_list = newptr;
+	}
+	
+	list_size += LIST_STEP;
+	return 0;
+}
+
+static size_t buffer_size = 0;
+static char *licence_buffer;
+
+#define BUFFER_STEP 2048
+
+static int expand_buffer(void) {
+	const size_t bytes = buffer_size + BUFFER_STEP;
+	
+	if(licence_buffer == NULL) {
+		licence_buffer = malloc(bytes);
+		if(licence_buffer == NULL) return 1;
+	} else {
+		char* newptr = realloc(licence_buffer, bytes);
+		if(newptr == NULL) return 1;
+		licence_buffer = newptr;
+	}
+	
+	char *buf = licence_buffer;
+	for(int i = 0; i < list_count; ++i) {
+		licence_list[i] = buf;
+		buf += strlen(buf) + 1;
+	}
+	
+	buffer_size += BUFFER_STEP;
+	return 0;
+}
 
 int licences_read(void) {
+	licences_free();
+	
 	FILE *goodlicences = fopen("/usr/share/suve/vrms-rpm/good-licences.txt", "r");
 	if(goodlicences == NULL) return 1;
 	
@@ -37,8 +83,15 @@ int licences_read(void) {
 		char *line;
 		line = trim(linebuffer, &line_len);
 		
-		licence_list[licence_count] = licence_buffer + buffer_pos;
-		++licence_count;
+		if(buffer_pos + line_len + 1 >= buffer_size) {
+			if(expand_buffer() != 0) return 1;
+		}
+		if(list_count == list_size) {
+			if(expand_list() != 0) return 1;
+		}
+		
+		licence_list[list_count] = licence_buffer + buffer_pos;
+		++list_count;
 		
 		memcpy(licence_buffer + buffer_pos, line, line_len+1);
 		buffer_pos += line_len + 1;
@@ -49,9 +102,17 @@ int licences_read(void) {
 }
 
 void licences_free(void) {
-	memset(licence_buffer, 0, sizeof(licence_buffer));
-	memset(licence_list, 0, sizeof(licence_list));
-	licence_count = 0;
+	if(licence_list != NULL) {
+		free(licence_list);
+		licence_list = NULL;
+	}
+	list_count = list_size = 0;
+	
+	if(licence_buffer != NULL) {
+		free(licence_buffer);
+		licence_buffer = NULL;
+	}
+	buffer_size = 0;
 }
 
 static int binary_search(const char *const value, const int minpos, const int maxpos) {
@@ -66,9 +127,9 @@ static int binary_search(const char *const value, const int minpos, const int ma
 }
 
 int licence_is_free(const char *const licence) {
-	return binary_search(licence, 0, licence_count-1) >= 0;
+	return binary_search(licence, 0, list_count-1) >= 0;
 }
 
 int licence_is_nonfree(const char *const licence) {
-	return binary_search(licence, 0, licence_count-1) < 0;
+	return binary_search(licence, 0, list_count-1) < 0;
 }
