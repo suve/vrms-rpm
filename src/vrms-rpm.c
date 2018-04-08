@@ -18,18 +18,19 @@
 #include <stdio.h>
 #include <string.h>
 
-#define IS_WHITESPACE(chr)  ((chr) > '\0' && (chr) <= ' ')
+#define IS_WHITESPACE_OR_PAREN(chr)  \
+	((chr) > '\0' && ((chr) <= ' ' || (chr) == '(' || (chr) == ')'))
 
 char* trim(char *buffer, size_t *length) {
 	size_t len = strlen(buffer);
 	if(len > 0) {
 		char *end = buffer + len - 1;
-		while(IS_WHITESPACE(*end)) {
+		while(IS_WHITESPACE_OR_PAREN(*end)) {
 			*end = '\0';
 			--end;
 			--len;
 		}
-		while(IS_WHITESPACE(*buffer)) {
+		while(IS_WHITESPACE_OR_PAREN(*buffer)) {
 			*buffer = '\0';
 			++buffer;
 			--len;
@@ -41,19 +42,6 @@ char* trim(char *buffer, size_t *length) {
 }
 
 void list_licences(char *buffer) {
-	char *openParen = strchr(buffer, '(');
-	if(openParen) {
-		char *closeParen = strchr(buffer, ')');
-		
-		*openParen = '\0';
-		*closeParen = '\0';
-		
-		if(openParen != buffer) list_licences(buffer);
-		list_licences(openParen + 1);
-		list_licences(closeParen + 1);
-		return;
-	}
-	
 	char* separators[4] = {
 		" and ", " or ", " And ", " Or "
 	};
