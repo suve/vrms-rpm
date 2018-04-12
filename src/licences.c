@@ -121,15 +121,111 @@ static int binary_search(const char *const value, const int minpos, const int ma
 	const int pos = (minpos + maxpos) / 2;
 	const int cmpres = strcasecmp(value, licence_list[pos]);
 	
-	if(cmpres == 0) return pos;
 	if(cmpres < 0) return binary_search(value, minpos, pos-1);
 	if(cmpres > 0) return binary_search(value, pos+1, maxpos);
+	return pos;
 }
 
-int licence_is_free(const char *const licence) {
+static int is_free(const char *const licence) {
 	return binary_search(licence, 0, list_count-1) >= 0;
 }
 
-int licence_is_nonfree(const char *const licence) {
-	return binary_search(licence, 0, list_count-1) < 0;
+static char* find_closing_paren(char *start) {
+	int depth = 1;
+	while(depth > 0) {
+		switch(*(++start)) {
+			case '(': ++depth; break;
+			case ')': --depth; break;
+			case '\0': return NULL;
+		}
+	}
+	return start;
+}
+
+static enum LicenceTreeNodeType detect_type(char *licence) {
+	if(*licence == '(') {
+		char *closingparen = find_closing_paren(licence);
+		if(closingparen) return detect_type(closingparen + 1);
+	}
+	
+	char* and_ptr = strstr(licence, " and ");
+	char* or_ptr = strstr(licence, " or ");
+	
+	if(and_ptr != NULL) {
+		return ((or_ptr == NULL) || (and_ptr < or_ptr)) ? LTNT_AND : LTNT_OR;
+	} else {
+		return (or_ptr != NULL) ? LTNT_OR : LTNT_LICENCE;
+	}
+}
+
+static int count_members(char *licence, char *joiner_str) {
+	int count = 0;
+	const size_t joiner_len = strlen(joiner_str);
+	
+	for(;;) {
+		char *joiner = strstr(licence, joiner_str);
+		if(joiner == NULL) return count;
+		
+		char *openparen = strchr(licence, '(');
+		if(openparen != NULL) {
+			char *closingparen = find_closing_paren(openparen);
+			if(closingparen != NULL) {
+				licence = closingparen + 1;
+				continue;
+			}
+		}
+		
+		++count;
+		licence = joiner + joiner_len;
+	}
+}
+
+struct LicenceTreeNode* licence_classify(char* licence) {
+	enum LicenceTreeNodeType type = detect_type(licence);
+	if(type == LTNT_LICENCE) {
+		struct LicenceTreeNode_Licence *node = malloc(sizeof(struct LicenceTreeNode_Licence));
+		node->type = LTNT_LICENCE;
+		node->licence = licence;
+		node->is_free = is_free(licence);
+		
+		return (struct LicenceTreeNode*)node;
+	}
+	
+	char *joiner_str = type == LTNT_AND ? " and " : " or ";
+	size_t joiner_len = strlen(joiner_str);
+	
+	int members = count_members(licence, joiner_str);
+	
+	struct LicenceTreeNode_Joiner *node = malloc(sizeof(struct LicenceTreeNode_Joiner) + members * sizeof(struct LicenceTreeNode*));
+	node->type = type;
+	node->members = 0;
+	node->is_free = type == LTNT_AND ? 1 : 0;
+	
+	for(;;) {
+		char *joiner_ptr = strstr(licence, joiner_str);
+		char *paren_ptr = strchr(licence, '(');
+		
+		if((joiner_ptr == NULL) && (paren_ptr == NULL)) return (struct LicenceTreeNode*)node;
+		
+		struct LicenceTreeNode *child;
+		if((joiner_ptr != NULL) && ((paren_ptr == NULL) || (joiner_ptr < paren_ptr))) {
+			*joiner_ptr = '\0';
+			child = licence_classify(licence);
+			licence = joiner_ptr + joiner_len;
+		} else {
+			char *closingparen = find_closing_paren(paren_ptr);
+			if(closingparen != NULL) {
+				*closingparen = '\0';
+				child = licence_classify(licence);
+				licence = closingparen + 1;
+			} else {
+				licence = paren_ptr + 1;
+			}
+		}
+		
+		if(child != NULL) {
+			node->child[node->members++] = child;
+			node->is_free = (type == LTNT_AND) ? (node->is_free && child->is_free) : (node->is_free || child->is_free);
+		}
+	}
 }

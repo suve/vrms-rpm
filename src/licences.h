@@ -18,10 +18,34 @@
 #ifndef VRMS_RPM_LICENCES_H
 #define VRMS_RPM_LICENCES_H
 
+enum LicenceTreeNodeType {
+	LTNT_LICENCE,
+	LTNT_AND,
+	LTNT_OR
+};
+
+struct LicenceTreeNode {
+	enum LicenceTreeNodeType type;
+	int is_free;
+};
+
+struct LicenceTreeNode_Licence {
+	enum LicenceTreeNodeType type;
+	int is_free;
+	char *licence;
+};
+
+struct LicenceTreeNode_Joiner {
+	enum LicenceTreeNodeType type;
+	int is_free;
+	int members;
+	struct LicenceTreeNode *child[];
+};
+
+
 int licences_read(void);
 void licences_free(void);
 
-int licence_is_free(const char *const licence);
-int licence_is_nonfree(const char *const licence);
+struct LicenceTreeNode* licence_classify(char *licence);
 
 #endif
