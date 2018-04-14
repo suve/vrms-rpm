@@ -27,25 +27,20 @@ enum LicenceTreeNodeType {
 struct LicenceTreeNode {
 	enum LicenceTreeNodeType type;
 	int is_free;
+	
+	union {
+		char *licence;
+		struct {
+			int members;
+			struct LicenceTreeNode *child[];
+		};
+	};
 };
-
-struct LicenceTreeNode_Licence {
-	enum LicenceTreeNodeType type;
-	int is_free;
-	char *licence;
-};
-
-struct LicenceTreeNode_Joiner {
-	enum LicenceTreeNodeType type;
-	int is_free;
-	int members;
-	struct LicenceTreeNode *child[];
-};
-
 
 int licences_read(void);
 void licences_free(void);
 
 struct LicenceTreeNode* licence_classify(char *licence);
+void licence_freeTree(struct LicenceTreeNode *node);
 
 #endif

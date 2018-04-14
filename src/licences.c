@@ -73,7 +73,7 @@ int licences_read(void) {
 	licences_free();
 	
 	FILE *goodlicences = fopen("/usr/share/suve/vrms-rpm/good-licences.txt", "r");
-	if(goodlicences == NULL) return 1;
+	if(goodlicences == NULL) return -1;
 	
 	size_t buffer_pos = 0;
 	
@@ -84,10 +84,10 @@ int licences_read(void) {
 		line = trim(linebuffer, &line_len);
 		
 		if(buffer_pos + line_len + 1 >= buffer_size) {
-			if(expand_buffer() != 0) return 1;
+			if(expand_buffer() != 0) return -1;
 		}
 		if(list_count == list_size) {
-			if(expand_list() != 0) return 1;
+			if(expand_list() != 0) return -1;
 		}
 		
 		licence_list[list_count] = licence_buffer + buffer_pos;
@@ -98,7 +98,7 @@ int licences_read(void) {
 	}
 	
 	fclose(goodlicences);
-	return 0;
+	return list_count;
 }
 
 void licences_free(void) {
@@ -159,7 +159,7 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 }
 
 static int count_members(char *licence, char *joiner_str) {
-	int count = 0;
+	int count = 1;
 	const size_t joiner_len = strlen(joiner_str);
 	
 	for(;;) {
@@ -180,14 +180,18 @@ static int count_members(char *licence, char *joiner_str) {
 	}
 }
 
+static void add_child(struct LicenceTreeNode *node, struct LicenceTreeNode *child) {
+	node->child[node->members++] = child;
+	node->is_free = (node->type == LTNT_AND) ? (node->is_free && child->is_free) : (node->is_free || child->is_free);
+}
+
 struct LicenceTreeNode* licence_classify(char* licence) {
 	enum LicenceTreeNodeType type = detect_type(licence);
 	if(type == LTNT_LICENCE) {
-		struct LicenceTreeNode_Licence *node = malloc(sizeof(struct LicenceTreeNode_Licence));
+		struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode));
 		node->type = LTNT_LICENCE;
 		node->licence = licence;
 		node->is_free = is_free(licence);
-		
 		return (struct LicenceTreeNode*)node;
 	}
 	
@@ -196,7 +200,7 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 	
 	int members = count_members(licence, joiner_str);
 	
-	struct LicenceTreeNode_Joiner *node = malloc(sizeof(struct LicenceTreeNode_Joiner) + members * sizeof(struct LicenceTreeNode*));
+	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + members * sizeof(struct LicenceTreeNode*));
 	node->type = type;
 	node->members = 0;
 	node->is_free = type == LTNT_AND ? 1 : 0;
@@ -205,7 +209,13 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		char *joiner_ptr = strstr(licence, joiner_str);
 		char *paren_ptr = strchr(licence, '(');
 		
-		if((joiner_ptr == NULL) && (paren_ptr == NULL)) return (struct LicenceTreeNode*)node;
+		if((joiner_ptr == NULL) && (paren_ptr == NULL)) {
+			size_t trimlen;
+			licence = trim_extra(licence, &trimlen, "()");
+			if(trimlen > 0) add_child(node, licence_classify(licence));
+			
+			return (struct LicenceTreeNode*)node;
+		}
 		
 		struct LicenceTreeNode *child = NULL;
 		if((joiner_ptr != NULL) && ((paren_ptr == NULL) || (joiner_ptr < paren_ptr))) {
@@ -227,9 +237,15 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 			}
 		}
 		
-		if(child != NULL) {
-			node->child[node->members++] = child;
-			node->is_free = (type == LTNT_AND) ? (node->is_free && child->is_free) : (node->is_free || child->is_free);
-		}
+		if(child != NULL) add_child(node, child);
 	}
+}
+
+void licence_freeTree(struct LicenceTreeNode *node) {
+	if(node == NULL) return;
+	
+	if(node->type != LTNT_LICENCE) {
+		for(int m = 0; m < node->members; ++m) licence_freeTree(node->child[m]);
+	}
+	free(node);
 }
