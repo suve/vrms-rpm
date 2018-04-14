@@ -18,8 +18,9 @@
 #ifndef VRMS_RPM_PACKAGES_H
 #define VRMS_RPM_PACKAGES_H
 
-#include <stdio.h>
+#include "pipes.h"
 
-FILE* packages_read(void);
+struct Pipe* packages_openPipe(void);
+int packages_read(struct Pipe *pipe);
 
 #endif

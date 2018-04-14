@@ -14,53 +14,77 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-#include <signal.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#include <string.h>
 
+#include "licences.h"
 #include "packages.h"
+#include "pipes.h"
+#include "stringutils.h"
 
-static FILE* child(int pipefd[]) {
-	// Close our copy of the stdout file descriptor (inherited from parent)
-	// and replace it with the write-descriptor for the pipe.
-	close(1);
-	dup2(pipefd[1], 1);
-	
-	char *args[] = {
+struct Pipe* packages_openPipe(void) {
+	#define ARGNUM 5
+	char *args[ARGNUM] = {
 		"/usr/bin/rpm",
 		"--all",
 		"--query",
 		"--queryformat",
 		"%{NAME}\\t%{LICENSE}\\n",
-		(char*)NULL
 	};
-	execv(args[0], args);
 	
-	exit(EXIT_FAILURE);
-	return NULL;
+	return pipe_create(ARGNUM, args);
 }
 
-static FILE* parent(const pid_t child_pid, int pipefd[]) {
-	// Close our copy of the write-descriptor for the pipe.
-	// If we leave it open, we won't be able to ever reach EOF
-	// on the pipe's read-descriptor.
-	close(pipefd[1]);
+static void printnode(struct LicenceTreeNode *node) {
+	if(node->type == LTNT_LICENCE) {
+		printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
+		return;
+	}
 	
-	return fdopen(pipefd[0], "r");
+	const char *const joiner = (node->type == LTNT_AND) ? " and " : " or ";
+	for(int m = 0; m < node->members;) {
+		if(node->child[m]->type != LTNT_LICENCE) {
+			putc('(', stdout);
+			printnode(node->child[m]);
+			putc(')', stdout);
+		} else {
+			printnode(node->child[m]);
+		}
+		
+		++m;
+		if(m < node->members) printf("%s", joiner);
+	}
 }
 
-FILE* packages_read(void) {
-	int pipefd[2];
-	if(pipe(pipefd) != 0) return NULL;
+static void printpkg(char *name, char *licence) {
+	printf("%s: %s\n", name, licence);
 	
-	pid_t pid = fork();
-	if(pid == -1) return NULL;
+	struct LicenceTreeNode *tree = licence_classify(licence);
+	printnode(tree);
 	
-	if(pid == 0)
-		return child(pipefd);
-	else
-		return parent(pid, pipefd);
+	licence_freeTree(tree);
+	putc('\n', stdout);
+}
+
+int packages_read(struct Pipe *pipe) {
+	FILE *f = pipe_fopen(pipe);
+	if(f == NULL) return -1;
+	
+	char buffer[256];
+	char *name, *licence;
+	
+	int count = 0;
+	while(fgets(buffer, sizeof(buffer), f) != NULL) {
+		char *tab = strchr(buffer, '\t');
+		if(!tab) continue;
+		
+		*tab = '\0';
+		name = buffer;
+		licence = trim(tab+1, NULL);
+		printpkg(name, licence);
+		
+		++count;
+	}
+	
+	return count;
 }
