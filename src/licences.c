@@ -207,10 +207,14 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		
 		if((joiner_ptr == NULL) && (paren_ptr == NULL)) return (struct LicenceTreeNode*)node;
 		
-		struct LicenceTreeNode *child;
+		struct LicenceTreeNode *child = NULL;
 		if((joiner_ptr != NULL) && ((paren_ptr == NULL) || (joiner_ptr < paren_ptr))) {
 			*joiner_ptr = '\0';
-			child = licence_classify(licence);
+			
+			size_t partlen;
+			char *part = trim(licence, &partlen);
+			if(partlen > 0) child = licence_classify(part);
+			
 			licence = joiner_ptr + joiner_len;
 		} else {
 			char *closingparen = find_closing_paren(paren_ptr);
