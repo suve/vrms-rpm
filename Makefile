@@ -43,10 +43,14 @@ build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(shell dirname "$@")"
 	msgfmt --check -o "$@" "$<"
 
-# force rebuild every time, to make sure PREFIX is correct
-build/vrms-rpm: src/vrms-rpm.sh
-	cp -p "$<" "$@"
-	sed -e 's|prog_usr="/usr"|prog_usr="$(PREFIX)"|' -i "$@"
+build/good-licences.txt: src/good-licences.txt
+	cat "$<" | sort --dictionary-order | uniq > "$@"
+
+build/%.o: src/%.c
+	$(CC) $(CFLAGS) -c -o "$@" "$<"
+
+build/vrms-rpm: src/vrms-rpm.c build/licences.o build/packages.o build/pipes.o build/stringutils.o
+	$(CC) $(CFLAGS) -o "$@" $^
 
 clean:
 	rm -rf build
@@ -54,8 +58,8 @@ clean:
 install/bin/vrms-rpm: build/vrms-rpm
 	install -vD -p -m 755 "$<" "$@"
 
-install/share/suve/vrms-rpm/good-licences.txt:
-	install -vD -m 644 src/good-licences.txt "$@"
+install/share/suve/vrms-rpm/good-licences.txt: build/good-licences.txt
+	install -vD -m 644 build/good-licences.txt "$@"
 
 install/share/man/man1/vrms-rpm.1: man/en.man
 	install -vD -p -m 644 "$<" "$@"
