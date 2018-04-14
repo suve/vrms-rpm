@@ -38,7 +38,7 @@ static void child(struct Pipe *const pipe, const int argc, char **argv) {
 	// Close our copy of the stdout file descriptor (inherited from parent)
 	// and replace it with the write-descriptor for the pipe.
 	close(FD_STDOUT);
-	dup2(pipe->readfd, FD_STDOUT);
+	dup2(pipe->writefd, FD_STDOUT);
 	
 	char *args[argc+1];
 	for(int a = 0; a < argc; ++a) args[a] = argv[a];
@@ -95,12 +95,20 @@ FILE* pipe_fopen(struct Pipe *pipe) {
 	};
 	
 	int events = poll(&pfd, 1, -1);
-	if(events < 0) return NULL;
-	if(pfd.revents == POLLERR) return NULL;
+	if(events < 0) {
+		fprintf(stderr, "vrms-rpm: pipe-fopen(): no events\n"); return NULL;
+	}
+	if(pfd.revents == POLLERR) {
+		fprintf(stderr, "vrms-rpm: pipe-fopen(): POLERR\n");
+		return NULL;
+	}
 	
 	// Interpret "other end of pipe closed" as error
 	// only when this event is not accompanied by "data ready to be read".
-	if((pfd.revents & POLLHUP) && !(pfd.revents & POLLIN)) return NULL;
+	if((pfd.revents & POLLHUP) && !(pfd.revents & POLLIN)) {
+		fprintf(stderr, "vrms-rpm: pipe-fopen(): POLLHUP received, but no POLLIN\n");
+		return NULL;
+	}
 	
 	return fdopen(fd, "r");
 }
