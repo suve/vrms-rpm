@@ -73,6 +73,10 @@ struct Pipe* pipe_create(const int argc, char **argv) {
 		return NULL;
 	}
 	
+	res->readfd = pipefd[0];
+	res->writefd = pipefd[1];
+	res->child_pid = pid;
+	
 	if(pid == 0)
 		child(res, argc, argv);
 	else
