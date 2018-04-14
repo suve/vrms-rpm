@@ -167,7 +167,7 @@ static int count_members(char *licence, char *joiner_str) {
 		if(joiner == NULL) return count;
 		
 		char *openparen = strchr(licence, '(');
-		if(openparen != NULL) {
+		if(openparen != NULL && openparen < joiner) {
 			char *closingparen = find_closing_paren(openparen);
 			if(closingparen != NULL) {
 				licence = closingparen + 1;
