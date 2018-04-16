@@ -50,7 +50,7 @@ build/good-licences.txt: src/good-licences.txt
 build/%.o: src/%.c
 	$(CC) $(CFLAGS) -c -o "$@" "$<"
 
-build/vrms-rpm: src/vrms-rpm.c build/licences.o build/packages.o build/pipes.o build/stringutils.o
+build/vrms-rpm: src/vrms-rpm.c build/buffers.o build/licences.o build/packages.o build/pipes.o build/stringutils.o
 	$(CC) $(CFLAGS) -o "$@" $^
 
 clean:

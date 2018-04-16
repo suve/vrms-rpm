@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "buffers.h"
 #include "licences.h"
 #include "stringutils.h"
 
@@ -43,40 +44,14 @@ static int expand_list(void) {
 	return 0;
 }
 
-static size_t buffer_size = 0;
-static char *licence_buffer;
-
-#define BUFFER_STEP 2048
-
-static int expand_buffer(void) {
-	const size_t bytes = buffer_size + BUFFER_STEP;
-	
-	if(licence_buffer == NULL) {
-		licence_buffer = malloc(bytes);
-		if(licence_buffer == NULL) return 1;
-	} else {
-		char* newptr = realloc(licence_buffer, bytes);
-		if(newptr == NULL) return 1;
-		licence_buffer = newptr;
-	}
-	
-	char *buf = licence_buffer;
-	for(int i = 0; i < list_count; ++i) {
-		licence_list[i] = buf;
-		buf += strlen(buf) + 1;
-	}
-	
-	buffer_size += BUFFER_STEP;
-	return 0;
-}
+static struct Buffer *buffer = NULL;
 
 int licences_read(void) {
-	licences_free();
+	buffer = buffer_init();
+	if(buffer == NULL) return -1;
 	
 	FILE *goodlicences = fopen("/usr/share/suve/vrms-rpm/good-licences.txt", "r");
 	if(goodlicences == NULL) return -1;
-	
-	size_t buffer_pos = 0;
 	
 	char linebuffer[256];
 	while(fgets(linebuffer, sizeof(linebuffer), goodlicences)) {
@@ -84,18 +59,15 @@ int licences_read(void) {
 		char *line;
 		line = trim(linebuffer, &line_len);
 		
-		if(buffer_pos + line_len + 1 >= buffer_size) {
-			if(expand_buffer() != 0) return -1;
-		}
+		char *insert_pos = buffer_insert(&buffer, line);
+		if(insert_pos == NULL) return -1;
+		
 		if(list_count == list_size) {
 			if(expand_list() != 0) return -1;
 		}
 		
-		licence_list[list_count] = licence_buffer + buffer_pos;
+		licence_list[list_count] = insert_pos;
 		++list_count;
-		
-		memcpy(licence_buffer + buffer_pos, line, line_len+1);
-		buffer_pos += line_len + 1;
 	}
 	
 	fclose(goodlicences);
@@ -109,11 +81,10 @@ void licences_free(void) {
 	}
 	list_count = list_size = 0;
 	
-	if(licence_buffer != NULL) {
-		free(licence_buffer);
-		licence_buffer = NULL;
+	if(buffer != NULL) {
+		buffer_free(buffer);
+		buffer = NULL;
 	}
-	buffer_size = 0;
 }
 
 static int binary_search(const char *const value, const int minpos, const int maxpos) {
