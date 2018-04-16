@@ -31,4 +31,12 @@
 char* trim(char *buffer, size_t *const length);
 char* trim_extra(char *buffer, size_t *const length, const char *const extrachars);
 
+void str_findmultiple(
+	const char *const haystack,
+	const int num_needles,
+	char * *const needle,
+	char * *const result_ptr,
+	char * *const result_needle
+);
+
 #endif

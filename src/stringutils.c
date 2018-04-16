@@ -45,3 +45,37 @@ char* trim_extra(char *buffer, size_t *const length, const char *const extrachar
 char* trim(char *buffer, size_t *const length) {
 	return trim_extra(buffer, length, "");
 }
+
+/*
+ * TODO: Maybe improve the implementation so instead of calling ststr()
+ *       multiple times and looking which needle appears earlier,
+ *       we go through the haystack char-after-char, counting matching
+ *       characters for each needle.
+ */
+void str_findmultiple(
+	const char *const haystack,
+	const int num_needles,
+	char * *const needle,
+	char * *const result_ptr,
+	char * *const result_needle
+) {
+	char *best_ptr = NULL;
+	char *best_needle = NULL;
+	
+	for(int n = 0; n < num_needles; ++n) {
+		char *current_ptr = strstr(haystack, needle[n]);
+		if(current_ptr == NULL) continue;
+		
+		if((best_ptr == NULL) || (current_ptr < best_ptr)) {
+			best_ptr = current_ptr;
+			best_needle = needle[n];
+			
+			// Bail out early if needle is right at start of haystack.
+			// Can't get any better than that.
+			if(best_ptr == haystack) break;
+		}
+	}
+	
+	if(result_ptr != NULL) *result_ptr = best_ptr;
+	if(result_needle != NULL) *result_needle = best_needle;
+}

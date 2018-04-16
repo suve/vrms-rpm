@@ -149,27 +149,38 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 		if(closingparen) return detect_type(closingparen + 1);
 	}
 	
-	char* and_ptr = strstr(licence, " and ");
-	char* or_ptr = strstr(licence, " or ");
+	char *and_str = " and ";
+	char *or_str = " or ";
+	char *needles[] = {
+		and_str,
+		or_str
+	};
 	
-	if(and_ptr != NULL) {
-		return ((or_ptr == NULL) || (and_ptr < or_ptr)) ? LTNT_AND : LTNT_OR;
-	} else {
-		return (or_ptr != NULL) ? LTNT_OR : LTNT_LICENCE;
-	}
+	char *needle_str;
+	str_findmultiple(licence, 2, needles, NULL, &needle_str);
+	
+	if(needle_str == and_str) return LTNT_AND;
+	if(needle_str == or_str) return LTNT_OR;
+	return LTNT_LICENCE;
 }
 
 static int count_members(char *licence, char *joiner_str) {
 	int count = 1;
 	const size_t joiner_len = strlen(joiner_str);
 	
+	char *paren_str = "(";
+	char *needles[] = {
+		paren_str,
+		joiner_str
+	};
+	
 	for(;;) {
-		char *joiner = strstr(licence, joiner_str);
-		if(joiner == NULL) return count;
+		char *needle_str, *needle_pos;
+		str_findmultiple(licence, 2, needles, &needle_pos, &needle_str);
+		if(needle_pos == NULL) return count;
 		
-		char *openparen = strchr(licence, '(');
-		if(openparen != NULL && openparen < joiner) {
-			char *closingparen = find_closing_paren(openparen);
+		if(needle_str == paren_str) {
+			char *closingparen = find_closing_paren(needle_pos);
 			if(closingparen != NULL) {
 				licence = closingparen + 1;
 				continue;
@@ -177,7 +188,7 @@ static int count_members(char *licence, char *joiner_str) {
 		}
 		
 		++count;
-		licence = joiner + joiner_len;
+		licence = needle_pos + joiner_len;
 	}
 }
 
@@ -206,11 +217,17 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 	node->members = 0;
 	node->is_free = type == LTNT_AND ? 1 : 0;
 	
+	char *paren_str = "(";
+	char *needles[] = {
+		paren_str,
+		joiner_str
+	};
+	
 	for(;;) {
-		char *joiner_ptr = strstr(licence, joiner_str);
-		char *paren_ptr = strchr(licence, '(');
+		char *needle_str, *needle_pos;
+		str_findmultiple(licence, 2, needles, &needle_pos, &needle_str);
 		
-		if((joiner_ptr == NULL) && (paren_ptr == NULL)) {
+		if(needle_str == NULL) {
 			size_t trimlen;
 			licence = trim_extra(licence, &trimlen, "()");
 			if(trimlen > 0) add_child(node, licence_classify(licence));
@@ -219,22 +236,22 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		}
 		
 		struct LicenceTreeNode *child = NULL;
-		if((joiner_ptr != NULL) && ((paren_ptr == NULL) || (joiner_ptr < paren_ptr))) {
-			*joiner_ptr = '\0';
+		if(needle_str == joiner_str) {
+			*needle_pos = '\0';
 			
 			size_t partlen;
 			char *part = trim(licence, &partlen);
 			if(partlen > 0) child = licence_classify(part);
 			
-			licence = joiner_ptr + joiner_len;
+			licence = needle_pos + joiner_len;
 		} else {
-			char *closingparen = find_closing_paren(paren_ptr);
+			char *closingparen = find_closing_paren(needle_pos);
 			if(closingparen != NULL) {
 				*closingparen = '\0';
-				child = licence_classify(licence);
+				child = licence_classify(needle_pos + 1);
 				licence = closingparen + 1;
 			} else {
-				licence = paren_ptr + 1;
+				licence = needle_pos + 1;
 			}
 		}
 		
