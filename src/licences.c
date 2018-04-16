@@ -1,6 +1,7 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
  * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -167,7 +168,7 @@ static int count_members(char *licence, char *joiner_str) {
 		if(joiner == NULL) return count;
 		
 		char *openparen = strchr(licence, '(');
-		if(openparen != NULL) {
+		if(openparen != NULL && openparen < joiner) {
 			char *closingparen = find_closing_paren(openparen);
 			if(closingparen != NULL) {
 				licence = closingparen + 1;
