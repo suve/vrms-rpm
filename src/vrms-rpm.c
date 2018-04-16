@@ -38,6 +38,7 @@ int main(void) {
 		exit(EXIT_FAILURE);
 	}
 	
+	packages_free();
 	licences_free();
 	return 0;
 }

@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "buffers.h"
 #include "licences.h"
 #include "packages.h"
 #include "pipes.h"
@@ -66,25 +67,40 @@ static void printpkg(char *name, char *licence) {
 	putc('\n', stdout);
 }
 
+
+static struct Buffer *buffer = NULL;
+
 int packages_read(struct Pipe *pipe) {
 	FILE *f = pipe_fopen(pipe);
 	if(f == NULL) return -1;
 	
-	char buffer[256];
+	buffer = buffer_init();
+	if(buffer == NULL) return -1;
+	
+	char line[256];
 	char *name, *licence;
 	
 	int count = 0;
-	while(fgets(buffer, sizeof(buffer), f) != NULL) {
-		char *tab = strchr(buffer, '\t');
+	while(fgets(line, sizeof(line), f) != NULL) {
+		char *tab = strchr(line, '\t');
 		if(!tab) continue;
 		
 		*tab = '\0';
-		name = buffer;
-		licence = trim(tab+1, NULL);
-		printpkg(name, licence);
+		name = buffer_insert(&buffer, line);
 		
+		licence = trim(tab+1, NULL);
+		licence = buffer_insert(&buffer, licence);
+		
+		printpkg(name, licence);
 		++count;
 	}
 	
 	return count;
+}
+
+void packages_free(void) {
+	if(buffer != NULL) {
+		buffer_free(buffer);
+		buffer = NULL;
+	}
 }

@@ -23,4 +23,6 @@
 struct Pipe* packages_openPipe(void);
 int packages_read(struct Pipe *pipe);
 
+void packages_free(void);
+
 #endif
