@@ -18,18 +18,33 @@
 #ifndef VRMS_RPM_BUFFERS_H
 #define VRMS_RPM_BUFFERS_H
 
-#define BUFFER_SIZEOF    4096
-#define BUFFER_CAPACITY  (BUFFER_SIZEOF - sizeof(int) - sizeof(void*))
+#define CHAINBUF_SIZEOF    4096
+#define CHAINBUF_CAPACITY  (CHAINBUF_SIZEOF - sizeof(int) - sizeof(void*))
 
-struct Buffer {
-	char data[BUFFER_CAPACITY];
+struct ChainBuffer {
+	char data[CHAINBUF_CAPACITY];
 	int used;
-	struct Buffer *previous;
+	struct ChainBuffer *previous;
 };
 
-struct Buffer* buffer_init(void);
-void buffer_free(struct Buffer *buf);
+#define REBUF_SIZEOF   4096
+#define REBUF_CAPACITY (REBUF_SIZEOF / sizeof(void*))
 
-char* buffer_insert(struct Buffer **buf, char *data);
+struct ReBuffer {
+	void **data;
+	int capacity;
+	int count;
+};
+
+
+struct ChainBuffer* chainbuf_init(void);
+void chainbuf_free(struct ChainBuffer *buf);
+
+char* chainbuf_append(struct ChainBuffer **buf, char *data);
+
+struct ReBuffer* rebuf_init(void);
+void rebuf_free(struct ReBuffer *buf);
+
+void* rebuf_append(struct ReBuffer *const buf, void *data);
 
 #endif

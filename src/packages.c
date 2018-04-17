@@ -68,13 +68,13 @@ static void printpkg(char *name, char *licence) {
 }
 
 
-static struct Buffer *buffer = NULL;
+static struct ChainBuffer *buffer = NULL;
 
 int packages_read(struct Pipe *pipe) {
 	FILE *f = pipe_fopen(pipe);
 	if(f == NULL) return -1;
 	
-	buffer = buffer_init();
+	buffer = chainbuf_init();
 	if(buffer == NULL) return -1;
 	
 	char line[256];
@@ -86,10 +86,10 @@ int packages_read(struct Pipe *pipe) {
 		if(!tab) continue;
 		
 		*tab = '\0';
-		name = buffer_insert(&buffer, line);
+		name = chainbuf_append(&buffer, line);
 		
 		licence = trim(tab+1, NULL);
-		licence = buffer_insert(&buffer, licence);
+		licence = chainbuf_append(&buffer, licence);
 		
 		printpkg(name, licence);
 		++count;
@@ -100,7 +100,7 @@ int packages_read(struct Pipe *pipe) {
 
 void packages_free(void) {
 	if(buffer != NULL) {
-		buffer_free(buffer);
+		chainbuf_free(buffer);
 		buffer = NULL;
 	}
 }

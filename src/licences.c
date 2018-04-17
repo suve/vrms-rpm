@@ -22,33 +22,25 @@
 #include "licences.h"
 #include "stringutils.h"
 
-static int list_count = 0;
-static int list_size = 0;
-static char **licence_list;
+static struct ReBuffer *list = NULL;
+static struct ChainBuffer *buffer = NULL;
 
-#define LIST_STEP 512
-
-static int expand_list(void) {
-	const size_t bytes = (list_size + LIST_STEP) * sizeof(char*);
-	
-	if(licence_list == NULL) {
-		licence_list = malloc(bytes);
-		if(licence_list == NULL) return 1;
-	} else {
-		char** newptr = realloc(licence_list, bytes);
-		if(newptr == NULL) return 1;
-		licence_list = newptr;
+static int init_buffers(void) {
+	if(list == NULL) {
+		list = rebuf_init();
+		if(list == NULL) return -1;
 	}
 	
-	list_size += LIST_STEP;
+	if(buffer == NULL) {
+		buffer = chainbuf_init();
+		if(buffer == NULL) return -1;
+	}
+	
 	return 0;
 }
 
-static struct Buffer *buffer = NULL;
-
 int licences_read(void) {
-	buffer = buffer_init();
-	if(buffer == NULL) return -1;
+	if(init_buffers() != 0) return -1;
 	
 	FILE *goodlicences = fopen("/usr/share/suve/vrms-rpm/good-licences.txt", "r");
 	if(goodlicences == NULL) return -1;
@@ -59,30 +51,24 @@ int licences_read(void) {
 		char *line;
 		line = trim(linebuffer, &line_len);
 		
-		char *insert_pos = buffer_insert(&buffer, line);
+		char *insert_pos = chainbuf_append(&buffer, line);
 		if(insert_pos == NULL) return -1;
 		
-		if(list_count == list_size) {
-			if(expand_list() != 0) return -1;
-		}
-		
-		licence_list[list_count] = insert_pos;
-		++list_count;
+		if(rebuf_append(list, insert_pos) == NULL) return -1;
 	}
 	
 	fclose(goodlicences);
-	return list_count;
+	return list->count;
 }
 
 void licences_free(void) {
-	if(licence_list != NULL) {
-		free(licence_list);
-		licence_list = NULL;
+	if(list != NULL) {
+		rebuf_free(list);
+		list = NULL;
 	}
-	list_count = list_size = 0;
 	
 	if(buffer != NULL) {
-		buffer_free(buffer);
+		chainbuf_free(buffer);
 		buffer = NULL;
 	}
 }
@@ -91,7 +77,7 @@ static int binary_search(const char *const value, const int minpos, const int ma
 	if(minpos > maxpos) return -1;
 	
 	const int pos = (minpos + maxpos) / 2;
-	const int cmpres = strcasecmp(value, licence_list[pos]);
+	const int cmpres = strcasecmp(value, ((char**)list->data)[pos]);
 	
 	if(cmpres < 0) return binary_search(value, minpos, pos-1);
 	if(cmpres > 0) return binary_search(value, pos+1, maxpos);
@@ -99,7 +85,7 @@ static int binary_search(const char *const value, const int minpos, const int ma
 }
 
 static int is_free(const char *const licence) {
-	return binary_search(licence, 0, list_count-1) >= 0;
+	return binary_search(licence, 0, list->count-1) >= 0;
 }
 
 static char* find_closing_paren(char *start) {

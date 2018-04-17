@@ -19,13 +19,13 @@
 
 #include "buffers.h"
 
-_Static_assert(sizeof(struct Buffer) == BUFFER_SIZEOF, "Buffer sizeof() doesn't match BUFFER_SIZEOF macro");
+_Static_assert(sizeof(struct ChainBuffer) == CHAINBUF_SIZEOF, "ChainBuffer sizeof() doesn't match CHAINBUF_SIZEOF macro");
 
 
-struct Buffer* buffer_init(void) {
-	struct Buffer *buf = malloc(BUFFER_SIZEOF);
+struct ChainBuffer* chainbuf_init(void) {
+	struct ChainBuffer *buf = malloc(CHAINBUF_SIZEOF);
 	if(buf != NULL) {
-		memset(buf->data, 0, BUFFER_CAPACITY);
+		memset(buf->data, 0, CHAINBUF_CAPACITY);
 		buf->used = 0;
 		buf->previous = NULL;
 	}
@@ -33,18 +33,18 @@ struct Buffer* buffer_init(void) {
 	return buf;
 }
 
-void buffer_free(struct Buffer *buf) {
+void chainbuf_free(struct ChainBuffer *buf) {
 	while(buf != NULL) {
-		struct Buffer *current = buf;
+		struct ChainBuffer *current = buf;
 		buf = buf->previous;
 		free(current);
 	}
 }
 
-char* buffer_insert(struct Buffer **buf, char *data) {
+char* chainbuf_append(struct ChainBuffer **buf, char *data) {
 	const size_t datalen = strlen(data) + 1;
-	if((*buf)->used + datalen > BUFFER_CAPACITY) {
-		struct Buffer *newbuf = buffer_init();
+	if((*buf)->used + datalen > CHAINBUF_CAPACITY) {
+		struct ChainBuffer *newbuf = chainbuf_init();
 		if(newbuf == NULL) return NULL;
 		
 		newbuf->previous = *buf;
@@ -54,6 +54,47 @@ char* buffer_insert(struct Buffer **buf, char *data) {
 	char *insert_pos = (*buf)->data + (*buf)->used;
 	memcpy(insert_pos, data, datalen);
 	(*buf)->used += datalen;
+	
+	return insert_pos;
+}
+
+struct ReBuffer* rebuf_init(void) {
+	void* mem = malloc(REBUF_SIZEOF);
+	if(mem == NULL) return NULL;
+	
+	struct ReBuffer *buf = malloc(sizeof(struct ReBuffer));
+	if(buf == NULL) {
+		free(mem);
+		return NULL;
+	}
+	
+	buf->data = mem;
+	buf->capacity = REBUF_CAPACITY;
+	buf->count = 0;
+	
+	return buf;
+}
+
+void rebuf_free(struct ReBuffer *buf) {
+	if(buf == NULL) return;
+	
+	free(buf->data);
+	free(buf);
+}
+
+void* rebuf_append(struct ReBuffer *const buf, void *data) {
+	if(buf->count == buf->capacity) {
+		size_t memsize = (buf->capacity * sizeof(void*)) + REBUF_SIZEOF;
+		void* newmem = realloc(buf->data, memsize);
+		if(newmem == NULL) return NULL;
+		
+		buf->data = newmem;
+		buf->capacity += REBUF_CAPACITY;
+	}
+	
+	void **insert_pos = buf->data + buf->count;
+	*insert_pos = data;
+	++buf->count;
 	
 	return insert_pos;
 }
