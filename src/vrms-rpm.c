@@ -38,6 +38,7 @@ int main(void) {
 		exit(EXIT_FAILURE);
 	}
 	
+	packages_sort();
 	packages_list();
 	
 	packages_free();

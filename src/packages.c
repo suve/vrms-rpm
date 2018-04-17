@@ -15,6 +15,7 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "buffers.h"
@@ -104,6 +105,18 @@ void packages_free(void) {
 		chainbuf_free(buffer);
 		buffer = NULL;
 	}
+}
+
+static int pkgcompare(const void *A, const void *B) {
+	const struct Package *a = A;
+	const struct Package *b = B;
+	
+	return strcmp(a->name, b->name);
+}
+
+void packages_sort(void) {
+	const int count = LIST_COUNT;
+	qsort(list->data, LIST_COUNT, sizeof(struct Package), &pkgcompare);
 }
 
 static void printnode(struct LicenceTreeNode *node) {
