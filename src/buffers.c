@@ -59,7 +59,7 @@ char* chainbuf_append(struct ChainBuffer **buf, char *data) {
 }
 
 struct ReBuffer* rebuf_init(void) {
-	void* mem = malloc(REBUF_SIZEOF);
+	void* mem = malloc(REBUF_STEP);
 	if(mem == NULL) return NULL;
 	
 	struct ReBuffer *buf = malloc(sizeof(struct ReBuffer));
@@ -69,8 +69,8 @@ struct ReBuffer* rebuf_init(void) {
 	}
 	
 	buf->data = mem;
-	buf->capacity = REBUF_CAPACITY;
-	buf->count = 0;
+	buf->capacity = REBUF_STEP;
+	buf->used = 0;
 	
 	return buf;
 }
@@ -82,19 +82,19 @@ void rebuf_free(struct ReBuffer *buf) {
 	free(buf);
 }
 
-void* rebuf_append(struct ReBuffer *const buf, void *data) {
-	if(buf->count == buf->capacity) {
-		size_t memsize = (buf->capacity * sizeof(void*)) + REBUF_SIZEOF;
+void* rebuf_append(struct ReBuffer *const buf, void *data, const size_t datalen) {
+	if(buf->used + datalen > buf->capacity) {
+		const size_t memsize = buf->capacity + REBUF_STEP;
 		void* newmem = realloc(buf->data, memsize);
 		if(newmem == NULL) return NULL;
 		
 		buf->data = newmem;
-		buf->capacity += REBUF_CAPACITY;
+		buf->capacity = memsize;
 	}
 	
-	void **insert_pos = buf->data + buf->count;
-	*insert_pos = data;
-	++buf->count;
+	char *insert_pos = (char*)buf->data + buf->used;
+	memcpy(insert_pos, data, datalen);
+	buf->used += datalen;
 	
-	return insert_pos;
+	return (void*)insert_pos;
 }

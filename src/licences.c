@@ -22,6 +22,7 @@
 #include "licences.h"
 #include "stringutils.h"
 
+#define LIST_COUNT (list->used / sizeof(char*))
 static struct ReBuffer *list = NULL;
 static struct ChainBuffer *buffer = NULL;
 
@@ -54,11 +55,11 @@ int licences_read(void) {
 		char *insert_pos = chainbuf_append(&buffer, line);
 		if(insert_pos == NULL) return -1;
 		
-		if(rebuf_append(list, insert_pos) == NULL) return -1;
+		if(rebuf_append(list, &insert_pos, sizeof(char*)) == NULL) return -1;
 	}
 	
 	fclose(goodlicences);
-	return list->count;
+	return LIST_COUNT;
 }
 
 void licences_free(void) {
@@ -85,7 +86,7 @@ static int binary_search(const char *const value, const int minpos, const int ma
 }
 
 static int is_free(const char *const licence) {
-	return binary_search(licence, 0, list->count-1) >= 0;
+	return binary_search(licence, 0, LIST_COUNT-1) >= 0;
 }
 
 static char* find_closing_paren(char *start) {
