@@ -36,6 +36,76 @@ struct Pipe* packages_openPipe(void) {
 	return pipe_create(ARGNUM, args);
 }
 
+struct Package {
+	char *name;
+	struct LicenceTreeNode *licence;
+};
+
+#define LIST_COUNT      (list->used / sizeof(struct Package))
+#define LIST_ITEM(idx)  ( ((struct Package*)list->data)[(idx)] )
+static struct ReBuffer *list = NULL;
+static struct ChainBuffer *buffer = NULL;
+
+static int init_buffers(void) {
+	if(list == NULL) {
+		list = rebuf_init();
+		if(list == NULL) return -1;
+	}
+	
+	if(buffer == NULL) {
+		buffer = chainbuf_init();
+		if(buffer == NULL) return -1;
+	}
+	
+	return 0;
+}
+
+int packages_read(struct Pipe *pipe) {
+	if(init_buffers() != 0) return -1;
+	
+	FILE *f = pipe_fopen(pipe);
+	if(f == NULL) return -1;
+	
+	char line[256];
+	char *name, *licence;
+	
+	while(fgets(line, sizeof(line), f) != NULL) {
+		char *tab = strchr(line, '\t');
+		if(!tab) continue;
+		
+		*tab = '\0';
+		name = chainbuf_append(&buffer, line);
+		
+		licence = trim(tab+1, NULL);
+		licence = chainbuf_append(&buffer, licence);
+		
+		struct Package pkg = {
+			.name = name,
+			.licence = licence_classify(licence)
+		};
+		rebuf_append(list, &pkg, sizeof(struct Package));
+	}
+	
+	return LIST_COUNT;
+}
+
+void packages_free(void) {
+	if(list != NULL) {
+		const int count = LIST_COUNT;
+		for(int i = 0; i < count; ++i) {
+			struct Package *pkg = &LIST_ITEM(i);
+			licence_freeTree(pkg->licence);
+		}
+		
+		rebuf_free(list);
+	}
+	
+	if(buffer != NULL) {
+		chainbuf_free(buffer);
+		buffer = NULL;
+	}
+}
+
 static void printnode(struct LicenceTreeNode *node) {
 	if(node->type == LTNT_LICENCE) {
 		printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
@@ -57,50 +127,13 @@ static void printnode(struct LicenceTreeNode *node) {
 	}
 }
 
-static void printpkg(char *name, char *licence) {
-	printf("%s: %s\n", name, licence);
-	
-	struct LicenceTreeNode *tree = licence_classify(licence);
-	printnode(tree);
-	
-	licence_freeTree(tree);
-	putc('\n', stdout);
-}
-
-
-static struct ChainBuffer *buffer = NULL;
-
-int packages_read(struct Pipe *pipe) {
-	FILE *f = pipe_fopen(pipe);
-	if(f == NULL) return -1;
-	
-	buffer = chainbuf_init();
-	if(buffer == NULL) return -1;
-	
-	char line[256];
-	char *name, *licence;
-	
-	int count = 0;
-	while(fgets(line, sizeof(line), f) != NULL) {
-		char *tab = strchr(line, '\t');
-		if(!tab) continue;
+void packages_list(void) {
+	const int count = LIST_COUNT;
+	for(int i = 0; i < count; ++i) {
+		struct Package *pkg = &LIST_ITEM(i);
 		
-		*tab = '\0';
-		name = chainbuf_append(&buffer, line);
-		
-		licence = trim(tab+1, NULL);
-		licence = chainbuf_append(&buffer, licence);
-		
-		printpkg(name, licence);
-		++count;
-	}
-	
-	return count;
-}
-
-void packages_free(void) {
-	if(buffer != NULL) {
-		chainbuf_free(buffer);
-		buffer = NULL;
+		printf("%s: ", pkg->name);
+		printnode(pkg->licence);
+		putc('\n', stdout);
 	}
 }
