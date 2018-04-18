@@ -25,6 +25,9 @@ MANS := $(shell ls man/*.man)
 MAN_LANGS := $(MANS:man/%.man=%)
 NON_EN_MAN_LANGS := $(filter-out en, $(MAN_LANGS))
 
+SOURCES := $(shell ls src/*.c)
+OBJECTS := $(SOURCES:src/%.c=build/%.o)
+
 .PHONY: build clean install remove
 
 help:
@@ -38,7 +41,7 @@ help:
 	@echo "    PREFIX - installation prefix (default: /usr/local)"
 	@echo "             used during build to set up file paths"
 
-build: $(MO_FILES) build/vrms-rpm
+build: $(MO_FILES) build/good-licences.txt build/vrms-rpm
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(shell dirname "$@")"
@@ -50,7 +53,7 @@ build/good-licences.txt: src/good-licences.txt
 build/%.o: src/%.c
 	$(CC) $(CFLAGS) -c -o "$@" "$<"
 
-build/vrms-rpm: src/vrms-rpm.c build/buffers.o build/licences.o build/packages.o build/pipes.o build/stringutils.o
+build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) -o "$@" $^
 
 clean:
