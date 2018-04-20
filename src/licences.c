@@ -78,7 +78,7 @@ static int binary_search(const char *const value, const int minpos, const int ma
 	if(minpos > maxpos) return -1;
 	
 	const int pos = (minpos + maxpos) / 2;
-	const int cmpres = strcasecmp(value, ((char**)list->data)[pos]);
+	const int cmpres = strcmp(value, ((char**)list->data)[pos]);
 	
 	if(cmpres < 0) return binary_search(value, minpos, pos-1);
 	if(cmpres > 0) return binary_search(value, pos+1, maxpos);
