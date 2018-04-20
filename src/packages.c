@@ -122,7 +122,7 @@ static int pkgcompare(const void *A, const void *B) {
 	const struct Package *a = A;
 	const struct Package *b = B;
 	
-	return strcmp(a->name, b->name);
+	return strcasecmp(a->name, b->name);
 }
 
 static void packages_sort(void) {
