@@ -47,6 +47,10 @@ struct Package {
 static struct ReBuffer *list = NULL;
 static struct ChainBuffer *buffer = NULL;
 
+static int class_count[2] = {0, 0};
+static int sorted = 0;
+
+
 static int init_buffers(void) {
 	if(list == NULL) {
 		list = rebuf_init();
@@ -63,6 +67,7 @@ static int init_buffers(void) {
 
 int packages_read(struct Pipe *pipe) {
 	if(init_buffers() != 0) return -1;
+	sorted = 0;
 	
 	FILE *f = pipe_fopen(pipe);
 	if(f == NULL) return -1;
@@ -80,9 +85,12 @@ int packages_read(struct Pipe *pipe) {
 		licence = trim(tab+1, NULL);
 		licence = chainbuf_append(&buffer, licence);
 		
+		struct LicenceTreeNode *classification = licence_classify(licence);
+		class_count[classification->is_free] += 1;
+		
 		struct Package pkg = {
 			.name = name,
-			.licence = licence_classify(licence)
+			.licence = classification
 		};
 		rebuf_append(list, &pkg, sizeof(struct Package));
 	}
@@ -99,12 +107,15 @@ void packages_free(void) {
 		}
 		
 		rebuf_free(list);
+		list = NULL;
 	}
 	
 	if(buffer != NULL) {
 		chainbuf_free(buffer);
 		buffer = NULL;
 	}
+	
+	class_count[0] = class_count[1] = 0;
 }
 
 static int pkgcompare(const void *A, const void *B) {
@@ -114,9 +125,9 @@ static int pkgcompare(const void *A, const void *B) {
 	return strcmp(a->name, b->name);
 }
 
-void packages_sort(void) {
-	const int count = LIST_COUNT;
+static void packages_sort(void) {
 	qsort(list->data, LIST_COUNT, sizeof(struct Package), &pkgcompare);
+	sorted = 1;
 }
 
 static void printnode(struct LicenceTreeNode *node) {
@@ -141,12 +152,23 @@ static void printnode(struct LicenceTreeNode *node) {
 }
 
 void packages_list(void) {
+	if(!sorted) packages_sort();
+	
 	const int count = LIST_COUNT;
-	for(int i = 0; i < count; ++i) {
-		struct Package *pkg = &LIST_ITEM(i);
-		
-		printf("%s: ", pkg->name);
-		printnode(pkg->licence);
-		putc('\n', stdout);
+	for(int c = 1; c >= 0; --c) {
+		printf("%d %s packages\n", class_count[c], c ? "free" : "non-free");
+		for(int i = 0; i < count; ++i) {
+			struct Package *pkg = &LIST_ITEM(i);
+			if(pkg->licence->is_free != c) continue;
+			
+			printf(" - %s: ", pkg->name);
+			printnode(pkg->licence);
+			putc('\n', stdout);
+		}
 	}
+}
+
+void packages_getcount(int *free, int *nonfree) {
+	if(free != NULL) *free = class_count[1];
+	if(nonfree != NULL) *nonfree = class_count[0];
 }

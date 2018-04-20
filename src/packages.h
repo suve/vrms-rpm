@@ -23,7 +23,7 @@
 struct Pipe* packages_openPipe(void);
 int packages_read(struct Pipe *pipe);
 
-void packages_sort(void);
+void packages_getcount(int *free, int *nonfree);
 void packages_list(void);
 
 void packages_free(void);
