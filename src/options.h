@@ -14,36 +14,17 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdlib.h>
-#include <stdio.h>
 
-#include "licences.h"
-#include "options.h"
-#include "packages.h"
-#include "pipes.h"
+#ifndef VRMS_RPM_OPTIONS_H
+#define VRMS_RPM_OPTIONS_H
 
-int main(int argc, char *argv[]) {
-	options_parse(argc, argv);
-	
-	struct Pipe *rpmpipe = packages_openPipe();
-	if(rpmpipe == NULL) {
-		fprintf(stderr, "vrms-rpm: failed to open pipe to rpm\n");
-		exit(EXIT_FAILURE);
-	}
-	
-	if(licences_read() < 0) {
-		fprintf(stderr, "vrms-rpm: failed to read list of good licences");
-		exit(EXIT_FAILURE);
-	}
-	
-	if(packages_read(rpmpipe) < 0) {
-		fprintf(stderr, "vrms-rpm: failed to read from rpm-pipe\n");
-		exit(EXIT_FAILURE);
-	}
-	
-	packages_list();
-	
-	packages_free();
-	licences_free();
-	return 0;
-}
+#define OPT_LIST_FREE    (1<<0)
+#define OPT_LIST_NONFREE (1<<1)
+
+extern int opt_ascii;
+extern int opt_explain;
+extern int opt_list;
+
+void options_parse(int argc, char **argv);
+
+#endif
