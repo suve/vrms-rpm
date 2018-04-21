@@ -22,6 +22,9 @@
 
 #include "options.h"
 
+static void print_help(void);
+
+
 #define OPT_COLOUR_NO   0
 #define OPT_COLOUR_YES  1
 #define OPT_COLOUR_AUTO 2
@@ -65,7 +68,7 @@ void options_parse(int argc, char **argv) {
 
 		switch (res) {
 			case LONGOPT_HELP:
-				// print_help();
+				print_help();
 				exit(EXIT_SUCCESS);
 			
 			case LONGOPT_COLOUR:
@@ -105,4 +108,27 @@ void options_parse(int argc, char **argv) {
 	if(opt_colour == OPT_COLOUR_AUTO) {
 		opt_colour = isatty(fileno(stdout));
 	}
+}
+
+static void print_help(void) {
+	printf(
+		"Usage: vrms-rpm [options]\n"
+		"  --ascii\n"
+		"    Display rms ASCII-art when no non-free packages are found,\n"
+		"    or when non-free packages are 10%% or more of the total.\n"
+		"  --colour <no,yes,auto>\n"
+		"    Controls whether terminal escape sequences should be used.\n"
+		"    Default is 'auto', which uses colour output when writing to a terminal,\n"
+		"    but not when writing to a file or a pipe.\n"
+		"  --explain\n"
+		"    When listing packages, display licences as to justify\n"
+		"    the free / non-free classification.\n"
+		"  --help\n"
+		"    Display this help and exit.\n"
+		"  --list <none,free,nonfree,all>\n"
+		"    Apart from displaying a summary number of free & non-free packages,\n"
+		"    print them by name. The default value is 'nonfree'.\n"
+		"  --version\n"
+		"    Display version information and exit.\n"
+	);
 }
