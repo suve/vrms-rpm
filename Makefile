@@ -17,6 +17,9 @@
 #
 
 PREFIX ?= /usr/local
+LICENCE_LIST ?= spdx-fsf-or-osi
+
+LICENCE_FILES := $(basename $(notdir $(shell ls licences/*.txt)))
 
 PO_FILES := $(shell ls lang/*.po)
 MO_FILES := $(PO_FILES:lang/%.po=build/locale/%/LC_MESSAGES/vrms-rpm.mo)
@@ -38,8 +41,12 @@ help:
 	@echo "    remove - uninstall project"
 	@echo ""
 	@echo "VARIABLES:"
-	@echo "    PREFIX - installation prefix (default: /usr/local)"
-	@echo "             used during build to set up file paths"
+	@echo "    LICENCE_LIST"
+	@echo "        which list of good licences to use (default: spdx-fsf-or-osi)"
+	@echo "        possible values: $(LICENCE_FILES)"
+	@echo "    PREFIX"
+	@echo "        installation prefix (default: /usr/local)"
+	@echo "        used during build to set up file paths"
 
 build: $(MO_FILES) build/good-licences.txt build/vrms-rpm
 
@@ -47,8 +54,8 @@ build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(shell dirname "$@")"
 	msgfmt --check -o "$@" "$<"
 
-build/good-licences.txt: src/good-licences.txt
-	cat "$<" | sort --dictionary-order | uniq > "$@"
+build/good-licences.txt: licences/$(LICENCE_LIST).txt
+	cat "$<" | LC_COLLATE=C sort | uniq > "$@"
 
 build/%.o: src/%.c
 	$(CC) $(CFLAGS) -c -o "$@" "$<"
