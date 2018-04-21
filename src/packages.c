@@ -162,9 +162,13 @@ static void printlist(const int which_kind) {
 		struct Package *pkg = &LIST_ITEM(i);
 		if(pkg->licence->is_free != which_kind) continue;
 		
-		printf(" - %s: ", pkg->name);
-		printnode(pkg->licence);
-		putc('\n', stdout);
+		if(opt_explain) {
+			printf(" - %s: ", pkg->name);
+			printnode(pkg->licence);
+			putc('\n', stdout);
+		} else {
+			printf(" - %s\n", pkg->name);
+		}
 	}
 }
 
