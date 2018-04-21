@@ -18,10 +18,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "options.h"
 
+#define OPT_COLOUR_NO   0
+#define OPT_COLOUR_YES  1
+#define OPT_COLOUR_AUTO 2
+
 int opt_ascii = 0;
+int opt_colour = OPT_COLOUR_AUTO;
 int opt_explain = 0;
 int opt_list = OPT_LIST_NONFREE;
 
@@ -32,8 +38,7 @@ int opt_list = OPT_LIST_NONFREE;
 
 enum LongOpt {
 	LONGOPT_HELP = 1,
-	LONGOPT_ASCII,
-	LONGOPT_EXPLAIN,
+	LONGOPT_COLOUR,
 	LONGOPT_LIST,
 	LONGOPT_VERSION
 };
@@ -43,6 +48,8 @@ enum LongOpt {
 void options_parse(int argc, char **argv) {
 	struct option vrms_opts[] = {
 		{  "ascii", ARG_NON, &opt_ascii, 1 },
+		{  "color", ARG_REQ, NULL, LONGOPT_COLOUR },
+		{ "colour", ARG_REQ, NULL, LONGOPT_COLOUR },
 		{"explain", ARG_NON, &opt_explain, 1 },
 		{   "help", ARG_NON, NULL, LONGOPT_HELP },
 		{   "list", ARG_REQ, NULL, LONGOPT_LIST },
@@ -60,6 +67,19 @@ void options_parse(int argc, char **argv) {
 			case LONGOPT_HELP:
 				// print_help();
 				exit(EXIT_SUCCESS);
+			
+			case LONGOPT_COLOUR:
+				if(streq(optarg, "auto")) {
+					opt_colour = OPT_COLOUR_AUTO;
+				} else if(streq(optarg, "no")) {
+					opt_colour = OPT_COLOUR_NO;
+				} else if(streq(optarg, "yes")) {
+					opt_colour = OPT_COLOUR_YES;
+				} else {
+					// TODO: print error message here
+					exit(EXIT_FAILURE);
+				}
+			break;
 			
 			case LONGOPT_LIST:
 				if(streq(optarg, "all")) {
@@ -80,5 +100,9 @@ void options_parse(int argc, char **argv) {
 				printf("vrms-rpm v.2.0 by suve\n");
 				exit(EXIT_SUCCESS);
 		}
+	}
+	
+	if(opt_colour == OPT_COLOUR_AUTO) {
+		opt_colour = isatty(fileno(stdout));
 	}
 }

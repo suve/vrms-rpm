@@ -22,6 +22,7 @@
 #define OPT_LIST_NONFREE (1<<1)
 
 extern int opt_ascii;
+extern int opt_colour;
 extern int opt_explain;
 extern int opt_list;
 

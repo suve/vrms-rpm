@@ -133,7 +133,11 @@ static void packages_sort(void) {
 
 static void printnode(struct LicenceTreeNode *node) {
 	if(node->type == LTNT_LICENCE) {
-		printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
+		if(opt_colour)
+			printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
+		else
+			printf("%s", node->licence);
+			
 		return;
 	}
 	
