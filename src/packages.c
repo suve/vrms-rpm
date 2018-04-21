@@ -20,6 +20,7 @@
 
 #include "buffers.h"
 #include "licences.h"
+#include "options.h"
 #include "packages.h"
 #include "pipes.h"
 #include "stringutils.h"
@@ -151,21 +152,26 @@ static void printnode(struct LicenceTreeNode *node) {
 	}
 }
 
+static void printlist(const int which_kind) {
+	const int count = LIST_COUNT;
+	for(int i = 0; i < count; ++i) {
+		struct Package *pkg = &LIST_ITEM(i);
+		if(pkg->licence->is_free != which_kind) continue;
+		
+		printf(" - %s: ", pkg->name);
+		printnode(pkg->licence);
+		putc('\n', stdout);
+	}
+}
+
 void packages_list(void) {
 	if(!sorted) packages_sort();
 	
-	const int count = LIST_COUNT;
-	for(int c = 1; c >= 0; --c) {
-		printf("%d %s packages\n", class_count[c], c ? "free" : "non-free");
-		for(int i = 0; i < count; ++i) {
-			struct Package *pkg = &LIST_ITEM(i);
-			if(pkg->licence->is_free != c) continue;
-			
-			printf(" - %s: ", pkg->name);
-			printnode(pkg->licence);
-			putc('\n', stdout);
-		}
-	}
+	printf("%d free packages\n", class_count[1]);
+	if(opt_list & OPT_LIST_FREE) printlist(1);
+	
+	printf("%d non-free packages\n", class_count[0]);
+	if(opt_list & OPT_LIST_NONFREE) printlist(0);
 }
 
 void packages_getcount(int *free, int *nonfree) {
