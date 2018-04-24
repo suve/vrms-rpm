@@ -19,6 +19,9 @@
 PREFIX ?= /usr/local
 DEFAULT_LICENCE_LIST ?= spdx-fsf-or-osi
 
+CFLAGS += -std=c11 -iquote ./ -Wall -Wextra -D_POSIX_C_SOURCE
+CWARNS = -Werror=incompatible-pointer-types -Werror=discarded-qualifiers -Werror=int-conversion -Werror=div-by-zero -Werror=sequence-point -Werror=uninitialized -Wfloat-equal -Wparentheses -Werror=duplicated-cond
+
 LICENCE_FILENAMES := $(basename $(notdir $(shell ls licences/*.txt)))
 LICENCE_FILES := $(addprefix build/, $(shell ls licences/*.txt))
 
@@ -61,10 +64,10 @@ build/licences/%.txt: licences/%.txt
 	cat "$<" | LC_COLLATE=C sort | uniq > "$@"
 
 build/%.o: src/%.c
-	$(CC) $(CFLAGS) -DDEFAULT_LICENCE_LIST=\"$(DEFAULT_LICENCE_LIST)\" -c -o "$@" "$<"
+	$(CC) $(CFLAGS) $(CWARNS) -DDEFAULT_LICENCE_LIST=\"$(DEFAULT_LICENCE_LIST)\" -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
-	$(CC) $(CFLAGS) -o "$@" $^
+	$(CC) $(CFLAGS) $(CWARNS) -o "$@" $^
 
 clean:
 	rm -rf build
