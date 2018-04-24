@@ -20,6 +20,7 @@
 
 #include "buffers.h"
 #include "licences.h"
+#include "options.h"
 #include "stringutils.h"
 
 #define LIST_COUNT (list->used / sizeof(char*))
@@ -40,10 +41,24 @@ static int init_buffers(void) {
 	return 0;
 }
 
+static FILE* openfile(char *name) {
+	char buffer[512];
+	
+	if(strchr(name, '/') == NULL) {
+		snprintf(buffer, sizeof(buffer), "/usr/share/suve/vrms-rpm/licences/%s.txt", name);
+		name = buffer;
+	}
+	
+	FILE *f = fopen(name, "r");
+	if(f == NULL) fprintf(stderr, "vrms-rpm: failed to read list of licences from \"%s\"\n", name);
+	
+	return f;
+}
+
 int licences_read(void) {
 	if(init_buffers() != 0) return -1;
 	
-	FILE *goodlicences = fopen("/usr/share/suve/vrms-rpm/good-licences.txt", "r");
+	FILE *goodlicences = openfile(opt_licencelist);
 	if(goodlicences == NULL) return -1;
 	
 	char linebuffer[256];

@@ -17,9 +17,10 @@
 #
 
 PREFIX ?= /usr/local
-LICENCE_LIST ?= spdx-fsf-or-osi
+DEFAULT_LICENCE_LIST ?= spdx-fsf-or-osi
 
-LICENCE_FILES := $(basename $(notdir $(shell ls licences/*.txt)))
+LICENCE_FILENAMES := $(basename $(notdir $(shell ls licences/*.txt)))
+LICENCE_FILES := $(addprefix build/, $(shell ls licences/*.txt))
 
 PO_FILES := $(shell ls lang/*.po)
 MO_FILES := $(PO_FILES:lang/%.po=build/locale/%/LC_MESSAGES/vrms-rpm.mo)
@@ -41,24 +42,26 @@ help:
 	@echo "    remove - uninstall project"
 	@echo ""
 	@echo "VARIABLES:"
-	@echo "    LICENCE_LIST"
-	@echo "        which list of good licences to use (default: spdx-fsf-or-osi)"
-	@echo "        possible values: $(LICENCE_FILES)"
+	@echo "    DEFAULT_LICENCE_LIST"
+	@echo "        default list of good licences to use (default: spdx-fsf-or-osi)"
+	@echo "        changed at run-time using --licence-list"
+	@echo "        possible values: $(LICENCE_FILENAMES)"
 	@echo "    PREFIX"
 	@echo "        installation prefix (default: /usr/local)"
 	@echo "        used during build to set up file paths"
 
-build: $(MO_FILES) build/good-licences.txt build/vrms-rpm
+build: $(MO_FILES) $(LICENCE_FILES) build/vrms-rpm
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(shell dirname "$@")"
 	msgfmt --check -o "$@" "$<"
 
-build/good-licences.txt: licences/$(LICENCE_LIST).txt
+build/licences/%.txt: licences/%.txt
+	mkdir -p "$(shell dirname "$@")"
 	cat "$<" | LC_COLLATE=C sort | uniq > "$@"
 
 build/%.o: src/%.c
-	$(CC) $(CFLAGS) -c -o "$@" "$<"
+	$(CC) $(CFLAGS) -DDEFAULT_LICENCE_LIST=\"$(DEFAULT_LICENCE_LIST)\" -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) -o "$@" $^
@@ -69,8 +72,8 @@ clean:
 install/bin/vrms-rpm: build/vrms-rpm
 	install -vD -p -m 755 "$<" "$@"
 
-install/share/suve/vrms-rpm/good-licences.txt: build/good-licences.txt
-	install -vD -m 644 build/good-licences.txt "$@"
+install/share/suve/vrms-rpm/licences/%.txt: build/licences/%.txt
+	install -vD -m 644 "$<" "$@"
 
 install/share/man/man1/vrms-rpm.1: man/en.man
 	install -vD -p -m 644 "$<" "$@"
@@ -83,10 +86,10 @@ install/share/locale/%: build/locale/%
 
 install/prepare: build
 install/prepare: install/bin/vrms-rpm
-install/prepare: install/share/suve/vrms-rpm/good-licences.txt
 install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(NON_EN_MAN_LANGS:%=install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)
+install/prepare: $(LICENCE_FILES:build/%=install/share/suve/vrms-rpm/%)
 
 install: install/prepare
 	mkdir -p "$(PREFIX)"

@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	if(licences_read() < 0) {
-		fprintf(stderr, "vrms-rpm: failed to read list of good licences");
+		fprintf(stderr, "vrms-rpm: failed to read list of good licences\n");
 		exit(EXIT_FAILURE);
 	}
 	

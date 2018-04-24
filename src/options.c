@@ -33,6 +33,7 @@ int opt_ascii = 0;
 int opt_colour = OPT_COLOUR_AUTO;
 int opt_explain = 0;
 int opt_list = OPT_LIST_NONFREE;
+char* opt_licencelist = DEFAULT_LICENCE_LIST;
 
 
 #define ARG_NON no_argument
@@ -42,6 +43,7 @@ int opt_list = OPT_LIST_NONFREE;
 enum LongOpt {
 	LONGOPT_HELP = 1,
 	LONGOPT_COLOUR,
+	LONGOPT_LICENCELIST,
 	LONGOPT_LIST,
 	LONGOPT_VERSION
 };
@@ -50,14 +52,15 @@ enum LongOpt {
 
 void options_parse(int argc, char **argv) {
 	struct option vrms_opts[] = {
-		{  "ascii", ARG_NON, &opt_ascii, 1 },
-		{  "color", ARG_REQ, NULL, LONGOPT_COLOUR },
-		{ "colour", ARG_REQ, NULL, LONGOPT_COLOUR },
-		{"explain", ARG_NON, &opt_explain, 1 },
-		{   "help", ARG_NON, NULL, LONGOPT_HELP },
-		{   "list", ARG_REQ, NULL, LONGOPT_LIST },
-		{"version", ARG_NON, NULL, LONGOPT_VERSION },
-		{         0,       0, 0, 0 },
+		{       "ascii", ARG_NON, &opt_ascii, 1 },
+		{       "color", ARG_REQ, NULL, LONGOPT_COLOUR },
+		{      "colour", ARG_REQ, NULL, LONGOPT_COLOUR },
+		{     "explain", ARG_NON, &opt_explain, 1 },
+		{        "help", ARG_NON, NULL, LONGOPT_HELP },
+		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST},
+		{        "list", ARG_REQ, NULL, LONGOPT_LIST },
+		{     "version", ARG_NON, NULL, LONGOPT_VERSION },
+		{ 0, 0, 0, 0 },
 	};
 
 	while(1) {
@@ -82,6 +85,10 @@ void options_parse(int argc, char **argv) {
 					// TODO: print error message here
 					exit(EXIT_FAILURE);
 				}
+			break;
+			
+			case LONGOPT_LICENCELIST:
+				opt_licencelist = optarg;
 			break;
 			
 			case LONGOPT_LIST:
@@ -125,6 +132,8 @@ static void print_help(void) {
 		"    the free / non-free classification.\n"
 		"  --help\n"
 		"    Display this help and exit.\n"
+		"  --licence-list\n"
+		"    Specifies the list of good licences to use.\n"
 		"  --list <none,free,nonfree,all>\n"
 		"    Apart from displaying a summary number of free & non-free packages,\n"
 		"    print them by name. The default value is 'nonfree'.\n"

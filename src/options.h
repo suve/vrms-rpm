@@ -25,6 +25,7 @@ extern int opt_ascii;
 extern int opt_colour;
 extern int opt_explain;
 extern int opt_list;
+extern char* opt_licencelist;
 
 void options_parse(int argc, char **argv);
 
