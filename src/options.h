@@ -23,6 +23,7 @@
 
 extern int opt_ascii;
 extern int opt_colour;
+extern int opt_describe;
 extern int opt_explain;
 extern int opt_list;
 extern char* opt_licencelist;

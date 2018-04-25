@@ -27,13 +27,19 @@
 #include "stringutils.h"
 
 struct Pipe* packages_openPipe(void) {
+	char *queryformat;
+	if(!opt_describe)
+		queryformat = "%{NAME}\\t%{LICENSE}\\n";
+	else
+		queryformat = "%{NAME}\\t%{LICENSE}\\t%{SUMMARY}\\n";
+	
 	#define ARGNUM 5
 	char *args[ARGNUM] = {
 		"/usr/bin/rpm",
 		"--all",
 		"--query",
 		"--queryformat",
-		"%{NAME}\\t%{LICENSE}\\n",
+		queryformat
 	};
 	
 	return pipe_create(ARGNUM, args);
@@ -42,6 +48,7 @@ struct Pipe* packages_openPipe(void) {
 struct Package {
 	char *name;
 	struct LicenceTreeNode *licence;
+	char *summary;
 };
 
 #define LIST_COUNT      (list->used / sizeof(struct Package))
@@ -67,6 +74,29 @@ static int init_buffers(void) {
 	return 0;
 }
 
+static int split_line(char *line, char **name, char **licence, char **summary) {
+	char *tab;
+	
+	#define setptr(ptr, val) { if((ptr) != NULL) { (*ptr) = (val); }}
+	setptr(name, line);
+	setptr(licence, NULL);
+	setptr(summary, NULL);
+	
+	tab = strchr(line, '\t');
+	if(!tab) return 1;
+	
+	*tab = '\0';
+	setptr(licence, tab+1);
+	
+	tab = strchr(tab+1, '\t');
+	if(!tab) return 2;
+	
+	*tab = '\0';
+	setptr(summary, tab+1);
+	
+	return 3;
+}
+
 int packages_read(struct Pipe *pipe) {
 	if(init_buffers() != 0) return -1;
 	sorted = 0;
@@ -75,24 +105,23 @@ int packages_read(struct Pipe *pipe) {
 	if(f == NULL) return -1;
 	
 	char line[256];
-	char *name, *licence;
+	char *name, *licence, *summary;
 	
 	while(fgets(line, sizeof(line), f) != NULL) {
-		char *tab = strchr(line, '\t');
-		if(!tab) continue;
+		const int segments_expected = opt_describe ? 3 : 2;
+		if(split_line(line, &name, &licence, &summary) != segments_expected) continue;
 		
-		*tab = '\0';
-		name = chainbuf_append(&buffer, line);
-		
-		licence = trim(tab+1, NULL);
-		licence = chainbuf_append(&buffer, licence);
+		name = chainbuf_append(&buffer, name);
+		licence = chainbuf_append(&buffer, trim(licence, NULL));
+		if(opt_describe) summary = chainbuf_append(&buffer, trim(summary, NULL));
 		
 		struct LicenceTreeNode *classification = licence_classify(licence);
 		class_count[classification->is_free] += 1;
 		
 		struct Package pkg = {
 			.name = name,
-			.licence = classification
+			.licence = classification,
+			.summary = summary
 		};
 		rebuf_append(list, &pkg, sizeof(struct Package));
 	}
@@ -163,12 +192,15 @@ static void printlist(const int which_kind) {
 		struct Package *pkg = &LIST_ITEM(i);
 		if(pkg->licence->is_free != which_kind) continue;
 		
+		if(opt_describe) {
+			printf(" - %s: %s\n   ", pkg->name, pkg->summary);
+		} else {
+			printf(" - %s\n   ", pkg->name);
+		}
+		
 		if(opt_explain) {
-			printf(" - %s: ", pkg->name);
 			printnode(pkg->licence);
 			putc('\n', stdout);
-		} else {
-			printf(" - %s\n", pkg->name);
 		}
 	}
 }

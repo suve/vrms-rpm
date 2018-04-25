@@ -31,6 +31,7 @@ static void print_help(void);
 
 int opt_ascii = 0;
 int opt_colour = OPT_COLOUR_AUTO;
+int opt_describe = 0;
 int opt_explain = 0;
 int opt_list = OPT_LIST_NONFREE;
 char* opt_licencelist = DEFAULT_LICENCE_LIST;
@@ -55,6 +56,7 @@ void options_parse(int argc, char **argv) {
 		{       "ascii", ARG_NON, &opt_ascii, 1 },
 		{       "color", ARG_REQ, NULL, LONGOPT_COLOUR },
 		{      "colour", ARG_REQ, NULL, LONGOPT_COLOUR },
+		{    "describe", ARG_NON, &opt_describe, 1 },
 		{     "explain", ARG_NON, &opt_explain, 1 },
 		{        "help", ARG_NON, NULL, LONGOPT_HELP },
 		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST},
@@ -127,6 +129,8 @@ static void print_help(void) {
 		"    Controls whether terminal escape sequences should be used.\n"
 		"    Default is 'auto', which uses colour output when writing to a terminal,\n"
 		"    but not when writing to a file or a pipe.\n"
+		"  --describe\n"
+		"    When listing packages, include the package summaries (short descriptions).\n"
 		"  --explain\n"
 		"    When listing packages, display licences as to justify\n"
 		"    the free / non-free classification.\n"
