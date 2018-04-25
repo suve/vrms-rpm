@@ -45,7 +45,7 @@ static FILE* openfile(char *name) {
 	char buffer[512];
 	
 	if(strchr(name, '/') == NULL) {
-		snprintf(buffer, sizeof(buffer), "/usr/share/suve/vrms-rpm/licences/%s.txt", name);
+		snprintf(buffer, sizeof(buffer), INSTALL_DIR "/licences/%s.txt", name);
 		name = buffer;
 	}
 	
