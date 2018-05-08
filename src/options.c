@@ -49,10 +49,14 @@ enum LongOpt {
 	LONGOPT_VERSION
 };
 
-#define streq(a, b)  (strcmp((a), (b)) == 0)
+
+#define arg_eq(str)  (strcmp((str), optarg) == 0)
+
+void parseopt_colour(void);
+void parseopt_list(void);
 
 void options_parse(int argc, char **argv) {
-	struct option vrms_opts[] = {
+	const struct option vrms_opts[] = {
 		{       "ascii", ARG_NON, &opt_ascii, 1 },
 		{       "color", ARG_REQ, NULL, LONGOPT_COLOUR },
 		{      "colour", ARG_REQ, NULL, LONGOPT_COLOUR },
@@ -77,16 +81,7 @@ void options_parse(int argc, char **argv) {
 				exit(EXIT_SUCCESS);
 			
 			case LONGOPT_COLOUR:
-				if(streq(optarg, "auto")) {
-					opt_colour = OPT_COLOUR_AUTO;
-				} else if(streq(optarg, "no")) {
-					opt_colour = OPT_COLOUR_NO;
-				} else if(streq(optarg, "yes")) {
-					opt_colour = OPT_COLOUR_YES;
-				} else {
-					// TODO: print error message here
-					exit(EXIT_FAILURE);
-				}
+				parseopt_colour();
 			break;
 			
 			case LONGOPT_LICENCELIST:
@@ -94,18 +89,7 @@ void options_parse(int argc, char **argv) {
 			break;
 			
 			case LONGOPT_LIST:
-				if(streq(optarg, "all")) {
-					opt_list = OPT_LIST_FREE | OPT_LIST_NONFREE;
-				} else if(streq(optarg, "free")) {
-					opt_list = OPT_LIST_FREE;
-				} else if(streq(optarg, "nonfree") || streq(optarg, "non-free")) {
-					opt_list = OPT_LIST_NONFREE;
-				} else if(streq(optarg, "none")) {
-					opt_list = 0;
-				} else {
-					// TODO: print error message here
-					exit(EXIT_FAILURE);
-				}
+				parseopt_list();
 			break;
 			
 			case LONGOPT_VERSION:
@@ -116,6 +100,42 @@ void options_parse(int argc, char **argv) {
 	
 	if(opt_colour == OPT_COLOUR_AUTO) {
 		opt_colour = isatty(fileno(stdout));
+	}
+}
+
+void parseopt_colour(void) {
+	if(arg_eq("auto")) {
+		opt_colour = OPT_COLOUR_AUTO;
+	} else if(arg_eq("no")) {
+		opt_colour = OPT_COLOUR_NO;
+	} else if(arg_eq("yes")) {
+		opt_colour = OPT_COLOUR_YES;
+	} else {
+		fputs(
+			"vrms-rpm: argument to --colour option must be one of: "
+			"\"no\", \"yes\", or \"auto\"\n",
+			stderr
+		);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void parseopt_list(void) {
+	if(arg_eq("all")) {
+		opt_list = OPT_LIST_FREE | OPT_LIST_NONFREE;
+	} else if(arg_eq("free")) {
+		opt_list = OPT_LIST_FREE;
+	} else if(arg_eq("nonfree") || arg_eq("non-free")) {
+		opt_list = OPT_LIST_NONFREE;
+	} else if(arg_eq("none")) {
+		opt_list = 0;
+	} else {
+		fputs(
+			"vrms-rpm: argument to --list option must be one of: "
+			"\"none\", \"non-free\", \"free\", \"all\"\n",
+			stderr
+		);
+		exit(EXIT_FAILURE);
 	}
 }
 
