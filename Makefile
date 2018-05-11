@@ -57,11 +57,8 @@ help:
 
 config: src/config.h
 
-src/config.h: src/config.h.template
-	cp "$<" "$@"
-	sed -i -e 's|__INSTALL_DIR__|"$(PREFIX)/share/suve/vrms-rpm/"|'    "$@"
-	sed -i -e 's|__ALL_LICENCE_LISTS__|"$(LICENCE_FILENAMES)"|'        "$@"
-	sed -i -e 's|__DEFAULT_LICENCE_LIST__|"$(DEFAULT_LICENCE_LIST)"|'  "$@"
+src/config.h: src/generate-config.sh
+	src/generate-config.sh -i '$(PREFIX)/share/suve/vrms-rpm' -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' > "$@"
 
 build: config $(MO_FILES) $(LICENCE_FILES) build/vrms-rpm
 
@@ -80,6 +77,7 @@ build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) -o "$@" $^
 
 clean:
+	rm src/config.h
 	rm -rf build
 
 install/bin/vrms-rpm: build/vrms-rpm

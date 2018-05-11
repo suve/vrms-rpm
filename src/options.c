@@ -140,52 +140,6 @@ void parseopt_list(void) {
 	}
 }
 
-
-/*
- * TODO: Figure out a way to generate this at compile-time.
- * 
- * Since we don't try to adapt to the terminal width,
- * and use a hard-coded line length instead, this effectively makes
- * the licence list text static, which in turn means that we could
- * generate the nicely-formatted-and-wrapped text at compile time.
- */
-#define HELP_INDENT 4
-#define HELP_LINE_LENGTH 80
-
-static void print_licence_list(void) {
-	size_t x = 0;
-	while(x++ < HELP_INDENT) putc(' ', stdout);
-	
-	char buffer[] = ALL_LICENCE_LISTS;
-	char *licence = buffer;
-	
-	while(1) {
-		char *space = strchr(licence, ' ');
-		if(space != NULL) *space = '\0';
-		
-		size_t length = strlen(licence) + 2; // Licence name is printed in quotes
-		if(space != NULL) length += 2;       // Additional two chars for ", "
-		
-		x += length;
-		if(x > HELP_LINE_LENGTH) {
-			printf("\n    ");
-			x = HELP_INDENT + length;
-		}
-		
-		printf("'%s'", licence);
-		if(space != NULL) { 
-			putc(',', stdout);
-			putc(' ', stdout);
-			
-			licence = space + 1;
-		} else {
-			if(x != HELP_LINE_LENGTH) putc('.', stdout);
-			putc('\n', stdout);
-			return;
-		}
-	}
-}
-
 static void print_help(void) {
 	printf(
 		"Usage: vrms-rpm [options]\n"
@@ -206,16 +160,14 @@ static void print_help(void) {
 		"  --licence-list <FILE>\n"
 		"    Specifies the list of good licences to use. FILE can be a path\n"
 		"    to a file on disk, or one of the bundled licence lists:\n"
-	);
-	
-	print_licence_list();
-	printf("    The default value is '%s'.\n", DEFAULT_LICENCE_LIST);
-	
-	printf(
+		"    %s\n"
+		"    The default value is '%s'.\n"
 		"  --list <none,free,nonfree,all>\n"
 		"    Apart from displaying a summary number of free & non-free packages,\n"
 		"    print them by name. The default value is 'nonfree'.\n"
 		"  --version\n"
-		"    Display version information and exit.\n"
+		"    Display version information and exit.\n",
+		ALL_LICENCE_LISTS,
+		DEFAULT_LICENCE_LIST
 	);
 }
