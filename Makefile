@@ -36,10 +36,11 @@ NON_EN_MAN_LANGS := $(filter-out en, $(MAN_LANGS))
 SOURCES := $(shell ls src/*.c)
 OBJECTS := $(SOURCES:src/%.c=build/%.o)
 
-.PHONY: build clean install remove
+.PHONY: config build clean install remove
 
 help:
 	@echo "TARGETS:"
+	@echo "    config - generate project config"
 	@echo "    build - compile project"
 	@echo "    clean - remove compiled artifacts"
 	@echo "    install - compile & install project"
@@ -54,7 +55,15 @@ help:
 	@echo "        installation prefix (default: /usr/local)"
 	@echo "        used during build to set up file paths"
 
-build: $(MO_FILES) $(LICENCE_FILES) build/vrms-rpm
+config: src/config.h
+
+src/config.h: src/config.h.template
+	cp "$<" "$@"
+	sed -i -e 's|__INSTALL_DIR__|"$(PREFIX)/share/suve/vrms-rpm/"|'    "$@"
+	sed -i -e 's|__ALL_LICENCE_LISTS__|"$(LICENCE_FILENAMES)"|'        "$@"
+	sed -i -e 's|__DEFAULT_LICENCE_LIST__|"$(DEFAULT_LICENCE_LIST)"|'  "$@"
+
+build: config $(MO_FILES) $(LICENCE_FILES) build/vrms-rpm
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(shell dirname "$@")"
@@ -65,7 +74,7 @@ build/licences/%.txt: licences/%.txt
 	cat "$<" | LC_COLLATE=C sort | uniq > "$@"
 
 build/%.o: src/%.c
-	$(CC) $(CFLAGS) $(CWARNS) -DINSTALL_DIR=\"$(PREFIX)/share/suve/vrms-rpm/\" -DDEFAULT_LICENCE_LIST=\"$(DEFAULT_LICENCE_LIST)\" -c -o "$@" "$<"
+	$(CC) $(CFLAGS) $(CWARNS) -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) -o "$@" $^

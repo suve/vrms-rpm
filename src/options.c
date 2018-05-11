@@ -20,6 +20,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "config.h"
 #include "options.h"
 
 static void print_help(void);

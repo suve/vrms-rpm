@@ -19,6 +19,7 @@
 #include <stdlib.h>
 
 #include "buffers.h"
+#include "config.h"
 #include "licences.h"
 #include "options.h"
 #include "stringutils.h"

@@ -1,5 +1,6 @@
 build/*
 install/*
+src/config.h
 
 # macOS files
 *.DS_STORE
