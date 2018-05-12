@@ -16,8 +16,9 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
-PREFIX ?= /usr/local
 DEFAULT_LICENCE_LIST ?= spdx-fsf-or-osi
+DESTDIR ?=
+PREFIX ?= /usr/local
 
 CFLAGS += -std=c11 -iquote ./ -Wall -Wextra -D_POSIX_C_SOURCE
 CWARNS = -Wfloat-equal -Wparentheses
@@ -51,9 +52,12 @@ help:
 	@echo "        default list of good licences to use (default: spdx-fsf-or-osi)"
 	@echo "        changed at run-time using --licence-list"
 	@echo "        possible values: $(LICENCE_FILENAMES)"
+	@echo "    DESTDIR"
+	@echo "        installation destination (default: empty)"
+	@echo "        helpful when packaging the application"
 	@echo "    PREFIX"
 	@echo "        installation prefix (default: /usr/local)"
-	@echo "        used during build to set up file paths"
+	@echo "        used during config to set up file paths"
 
 config: src/config.h
 
@@ -103,11 +107,11 @@ install/prepare: $(MO_FILES:build/%=install/share/%)
 install/prepare: $(LICENCE_FILES:build/%=install/share/suve/vrms-rpm/%)
 
 install: install/prepare
-	mkdir -p "$(PREFIX)"
-	cp -a install/* "$(PREFIX)"
+	mkdir -p "$(DESTDIR)$(PREFIX)"
+	cp -a install/* "$(DESTDIR)$(PREFIX)"
 	rm -rf install
 
 remove: install/prepare
-	find install -type f | sed -e 's|^install|$(PREFIX)|' | xargs rm -vf
-	find install -depth -type d | sed -e 's|^install|$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
+	find install -type f | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rm -vf
+	find install -depth -type d | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
 	rm -rf install
