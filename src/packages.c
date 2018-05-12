@@ -108,6 +108,8 @@ int packages_read(struct Pipe *pipe) {
 	char *name, *licence, *summary;
 	
 	while(fgets(line, sizeof(line), f) != NULL) {
+		replace_unicode_spaces(line);
+		
 		const int segments_expected = opt_describe ? 3 : 2;
 		if(split_line(line, &name, &licence, &summary) != segments_expected) continue;
 		

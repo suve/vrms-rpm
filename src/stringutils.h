@@ -39,4 +39,6 @@ void str_findmultiple(
 	char * *const result_needle
 );
 
+size_t replace_unicode_spaces(char *str);
+
 #endif

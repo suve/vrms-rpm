@@ -79,3 +79,43 @@ void str_findmultiple(
 	if(result_ptr != NULL) *result_ptr = best_ptr;
 	if(result_needle != NULL) *result_needle = best_needle;
 }
+
+size_t replace_unicode_spaces(char *text) {
+	size_t textlen = strlen(text);
+	
+	char* spaces[] = {
+		"\u00A0", // no-break space
+		"\u2000", // en quad
+		"\u2001", // em quad
+		"\u2002", // en space
+		"\u2003", // em space
+		"\u2004", // thrree-per-em space
+		"\u2005", // four-per-em space
+		"\u2006", // six-per-em space
+		"\u2007", // figure space
+		"\u2008", // punctuation space
+		"\u2009", // thin space
+		"\u200A", // hair space
+		"\u202F", // narrow no-break space
+		(char*)NULL
+	};
+	
+	int n = 0;
+	char *needle;
+	while((needle = spaces[n++]) != NULL) {
+		char *pos = strstr(text, needle);
+		if(pos == NULL) continue;
+		
+		const size_t ndllen = strlen(needle);
+		do {
+			*pos = ' ';
+			
+			// Plus one because the needle is replaced by ' ', not removed totally
+			textlen = textlen - ndllen + 1;
+			
+			memmove(pos+1, pos+ndllen, textlen + 1); // Plus one because NUL byte
+		} while((pos = strstr(text, needle)) != NULL);
+	}
+	
+	return textlen;
+}
