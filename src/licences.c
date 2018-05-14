@@ -117,10 +117,16 @@ static char* find_closing_paren(char *start) {
 	return start;
 }
 
+#define LTNT_PARENTHESISED 0xFF
+
 static enum LicenceTreeNodeType detect_type(char *licence) {
 	if(*licence == '(') {
 		char *closingparen = find_closing_paren(licence);
-		if(closingparen) return detect_type(closingparen + 1);
+		if(closingparen) {
+			if(*(closingparen + 1) != '\0') return LTNT_PARENTHESISED;
+			
+			return detect_type(closingparen + 1);
+		}
 	}
 	
 	char *and_str = " and ";
@@ -172,7 +178,13 @@ static void add_child(struct LicenceTreeNode *node, struct LicenceTreeNode *chil
 }
 
 struct LicenceTreeNode* licence_classify(char* licence) {
-	enum LicenceTreeNodeType type = detect_type(licence);
+	enum LicenceTreeNodeType type;
+	while((type = detect_type(licence)) == LTNT_PARENTHESISED) {
+		size_t liclen = strlen(licence);
+		if(licence[liclen-1] == ')') licence[liclen-1] = '\0';
+		++licence;
+	}
+	
 	if(type == LTNT_LICENCE) {
 		struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode));
 		node->type = LTNT_LICENCE;
