@@ -30,38 +30,61 @@ You can also grab the package from the *copr* repository
 
 **Building it on your own: dependencies**
 ----------
-- bash, since 'tis a shell script
+- `bash`, as there are some shell scripts used during the build process
 
-- grep, for all that nifty pattern matching
+- `gcc`, although clang should work too
 
-- gettext, for handling multiple languages
+- `gettext` (`libintl`), for handling multiple languages
 
-- make, for simplifying the build & install process
+- `make`, for simplifying the build & install process
+
+- `sed`, as its used for some text substitutions
+
+
+**Picking the licence list**
+----------
+*vrms-rpm* works by analysing the list of installed packages (as reported by *rpm*)
+and comparing their licences to a list of known good licences. Since distributions
+can have differing opinions on what constitutes as free software,
+and what the licences should be written as (e.g. "GPLv2" vs "GPL-2.0"),
+*vrms-rpm* comes packaged with several different licence lists.
+
+These are:
+
+- `fedora.txt` - a list created in accordance to the [Fedora Wiki](https://fedoraproject.org/wiki/Licensing:Main#Good_Licenses).
+
+- `spdx-fsf-and-osi.txt` - a list created in accordance to the [SPDX licence list](https://spdx.org/licenses/). Includes only licences marked as both "FSF free/libre" and "OSI approved".
+
+- `spdx-fsf-or-osi.txt` - a list created in accordance to the [SPDX licence list](https://spdx.org/licenses/). Includes licences marked as either "FSF free/libre" or "OSI approved".
+
+- `spdx-only-fsf.txt` - a list created in accordance to the [SPDX licence list](https://spdx.org/licenses/). Includes only licences marked as "FSF free/libre".
+
+- `spdx-only-osi.txt` - a list created in accordance to the [SPDX licence list](https://spdx.org/licenses/). Includes only licences marked as "OSI approved".
+
+- `suse.txt` - a list created in accordance to [openSUSE packaging guidelines](https://en.opensuse.org/openSUSE:Packaging_guidelines#Licensing).
+
+When building the program, one of those lists has to be selected as the default.
+This can be done by providing the `DEFAULT_LICENCE_LIST` variable to *make*.
+Note that the `.txt` extension should be left out (e.g. use `DEFAULT_LICENCE_LIST=suse`, not `DEFAULT_LICENCE_LIST=suse.txt`).
 
 
 **Building**
 ----------
-Right now you're probably wondering why the hell do you need to build a 
-bash script. Well, basically we need to process the gettext translation
-files and set up data paths.
-
-At this point you should've already decided where do you want to install
-the program. As stated before, some paths are set in the code during build,
-so if these don't match during build and install, the whole thing will
-probably fail spectacularly in runtime.
-
 To build, use `make` with the `build` target. The `PREFIX` variable can be
-used for controlling the install-dir. The default is `/usr/local`.
+used for controlling program data paths (e.g. where to look for the good licence list).
+The default is `/usr/local`.
 ```
-$ make build [PREFIX=/usr/local]
+$ make build [PREFIX=/usr/local] [DEFAULT_LICENCE_LIST=spdx-fsf-or-osi]
 ```
 
 
 **Installing**
 ----------
 To install, perform your usual `make install`.
+You can use the `DESTDIR` variable if you need to install the files
+somewhere else than `PREFIX` dictates (e.g. for packaging).
 ```
-$ [sudo] make install [PREFIX=/usr/local]
+$ [sudo] make install [PREFIX=/usr/local] [DESTDIR=]
 ```
 Remember that to install stuff inside `/usr` you will need root capabilities.
 
@@ -70,7 +93,7 @@ Remember that to install stuff inside `/usr` you will need root capabilities.
 ----------
 Should you decide to remove the program, the Makefile has got you covered.
 ```
-$ [sudo] make remove [PREFIX=/usr/local]
+$ [sudo] make remove [PREFIX=/usr/local] [DESTDIR=]
 ```
 Once again, remember that messing inside `/usr` requires extra privileges.
 
@@ -87,7 +110,7 @@ Free Software Foundation.
  1. Make a new branch for your changes.
  
  2. When modifying program options, remember to update the --help section
-    and the manpage.
+    and the man page(s).
  
  3. Use British spelling, when appropriate.
  
