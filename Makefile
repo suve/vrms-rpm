@@ -77,10 +77,10 @@ build/licences/%.txt: licences/%.txt
 	cat "$<" | LC_COLLATE=C sort | uniq > "$@"
 
 build/%.o: src/%.c
-	$(CC) $(CFLAGS) $(CWARNS) -c -o "$@" "$<"
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
-	$(CC) $(CFLAGS) $(CWARNS) -o "$@" $^
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -o "$@" $^
 
 clean:
 	rm src/config.h
