@@ -104,6 +104,9 @@ This program is made available under the terms of the GNU
 General Public License, version 3, as published by the
 Free Software Foundation.
 
+This program uses photos courtesy of other people;
+see `IMAGE-CREDITS.txt` for details.
+
 
 **Contributing**
 ----------

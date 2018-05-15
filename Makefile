@@ -34,6 +34,8 @@ MANS := $(shell ls man/*.man)
 MAN_LANGS := $(MANS:man/%.man=%)
 NON_EN_MAN_LANGS := $(filter-out en, $(MAN_LANGS))
 
+IMAGES := $(shell ls images/*)
+
 SOURCES := $(shell ls src/*.c)
 OBJECTS := $(SOURCES:src/%.c=build/%.o)
 
@@ -87,6 +89,9 @@ clean:
 install/bin/vrms-rpm: build/vrms-rpm
 	install -vD -p -m 755 "$<" "$@"
 
+install/share/suve/vrms-rpm/images/%: images/%
+	install -vD -m 644 "$<" "$@"
+
 install/share/suve/vrms-rpm/licences/%.txt: build/licences/%.txt
 	install -vD -m 644 "$<" "$@"
 
@@ -105,6 +110,7 @@ install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(NON_EN_MAN_LANGS:%=install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)
 install/prepare: $(LICENCE_FILES:build/%=install/share/suve/vrms-rpm/%)
+install/prepare: $(IMAGES:%=install/share/suve/vrms-rpm/%)
 
 install: install/prepare
 	mkdir -p "$(DESTDIR)$(PREFIX)"

@@ -17,10 +17,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "fileutils.h"
 #include "licences.h"
 #include "options.h"
 #include "packages.h"
 #include "pipes.h"
+
+static void easteregg(void) {
+	int free, nonfree;
+	packages_getcount(&free, &nonfree);
+	
+	if(nonfree == 0) {
+		putc('\n', stdout);
+		rms_happy();
+		puts("Only free packages - rms would be proud!");
+	} else {
+		const int total_packages = free + nonfree;
+		if(nonfree > (total_packages / 10)) {
+			putc('\n', stdout);
+			rms_disappointed();
+			puts("Over 10% non-free packages. Don't you appreciate freedom?");
+		}
+	}
+}
 
 int main(int argc, char *argv[]) {
 	options_parse(argc, argv);
@@ -42,6 +61,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	packages_list();
+	easteregg();
 	
 	packages_free();
 	licences_free();
