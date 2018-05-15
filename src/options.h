@@ -18,13 +18,17 @@
 #ifndef VRMS_RPM_OPTIONS_H
 #define VRMS_RPM_OPTIONS_H
 
+#define OPT_IMAGE_NONE  0
+#define OPT_IMAGE_ASCII 1
+#define OPT_IMAGE_ICAT  2
+
 #define OPT_LIST_FREE    (1<<0)
 #define OPT_LIST_NONFREE (1<<1)
 
-extern int opt_ascii;
 extern int opt_colour;
 extern int opt_describe;
 extern int opt_explain;
+extern int opt_image;
 extern int opt_list;
 extern char* opt_licencelist;
 

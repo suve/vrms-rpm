@@ -30,10 +30,10 @@ static void print_help(void);
 #define OPT_COLOUR_YES  1
 #define OPT_COLOUR_AUTO 2
 
-int opt_ascii = 0;
 int opt_colour = OPT_COLOUR_AUTO;
 int opt_describe = 0;
 int opt_explain = 0;
+int opt_image = OPT_IMAGE_NONE;
 int opt_list = OPT_LIST_NONFREE;
 char* opt_licencelist = DEFAULT_LICENCE_LIST;
 
@@ -58,12 +58,13 @@ void parseopt_list(void);
 
 void options_parse(int argc, char **argv) {
 	const struct option vrms_opts[] = {
-		{       "ascii", ARG_NON, &opt_ascii, 1 },
+		{       "ascii", ARG_NON, &opt_image, OPT_IMAGE_ASCII },
 		{       "color", ARG_REQ, NULL, LONGOPT_COLOUR },
 		{      "colour", ARG_REQ, NULL, LONGOPT_COLOUR },
 		{    "describe", ARG_NON, &opt_describe, 1 },
 		{     "explain", ARG_NON, &opt_explain, 1 },
 		{        "help", ARG_NON, NULL, LONGOPT_HELP },
+		{       "image", ARG_NON, &opt_image, OPT_IMAGE_ICAT },
 		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST},
 		{        "list", ARG_REQ, NULL, LONGOPT_LIST },
 		{     "version", ARG_NON, NULL, LONGOPT_VERSION },
@@ -157,6 +158,9 @@ static void print_help(void) {
 		"    the free / non-free classification.\n"
 		"  --help\n"
 		"    Display this help and exit.\n"
+		"  --image\n"
+		"    Like --ascii, but displays an image using Unicode block characters\n"
+		"    and 256-colour mode terminal escape codes.\n"
 		"  --licence-list <FILE>\n"
 		"    Specifies the list of good licences to use. FILE can be a path\n"
 		"    to a file on disk, or one of the bundled licence lists:\n"

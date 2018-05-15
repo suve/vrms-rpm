@@ -38,8 +38,8 @@ void echo_file_contents(const char *const filename) {
 	
 	// We're about to perform syscall IO, without going through libc.
 	// As such, we should flush the stdout libc FILE stream to make sure
-	// that whatever was left in libc buffers gets printed before
-	// we make any write() calls.
+	// that whatever was left in libc buffers gets printed
+	// before we make any write() calls.
 	fflush(stdout);
 	
 	ssize_t bytes;
@@ -51,9 +51,25 @@ void echo_file_contents(const char *const filename) {
 }
 
 void rms_disappointed() {
-	if(opt_ascii) echo_file_contents(INSTALL_DIR "/images/rms-disappointed-ascii");
+	switch(opt_image) {
+		case OPT_IMAGE_ASCII:
+			echo_file_contents(INSTALL_DIR "/images/rms-disappointed-ascii");
+		break;
+
+		case OPT_IMAGE_ICAT:
+			echo_file_contents(INSTALL_DIR "/images/rms-disappointed-icat");
+		break;
+	}
 }
 
 void rms_happy() {
-	if(opt_ascii) echo_file_contents(INSTALL_DIR "/images/rms-happy-ascii");
+	switch(opt_image) {
+		case OPT_IMAGE_ASCII:
+			echo_file_contents(INSTALL_DIR "/images/rms-happy-ascii");
+		break;
+
+		case OPT_IMAGE_ICAT:
+			echo_file_contents(INSTALL_DIR "/images/rms-happy-icat");
+		break;
+	}
 }
