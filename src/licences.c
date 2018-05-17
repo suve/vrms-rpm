@@ -17,6 +17,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
 
 #include "buffers.h"
 #include "config.h"
@@ -56,6 +57,17 @@ static FILE* openfile(char *name) {
 	return f;
 }
 
+static int comparelicences(const void *A, const void *B) {
+	const char *const *a = A;
+	const char *const *b = B;
+	
+	return strcasecmp(*a, *b);
+}
+
+static void licences_sort(void) {
+	qsort(list->data, LIST_COUNT, sizeof(char*), &comparelicences);
+}
+
 int licences_read(void) {
 	if(init_buffers() != 0) return -1;
 	
@@ -73,8 +85,9 @@ int licences_read(void) {
 		
 		if(rebuf_append(list, &insert_pos, sizeof(char*)) == NULL) return -1;
 	}
-	
 	fclose(goodlicences);
+	
+	licences_sort();
 	return LIST_COUNT;
 }
 
@@ -94,7 +107,7 @@ static int binary_search(const char *const value, const int minpos, const int ma
 	if(minpos > maxpos) return -1;
 	
 	const int pos = (minpos + maxpos) / 2;
-	const int cmpres = strcmp(value, ((char**)list->data)[pos]);
+	const int cmpres = strcasecmp(value, ((char**)list->data)[pos]);
 	
 	if(cmpres < 0) return binary_search(value, minpos, pos-1);
 	if(cmpres > 0) return binary_search(value, pos+1, maxpos);

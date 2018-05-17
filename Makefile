@@ -21,8 +21,8 @@ DESTDIR ?=
 PREFIX ?= /usr/local
 
 CFLAGS += -std=c11 -iquote ./ -Wall -Wextra -D_POSIX_C_SOURCE
-CWARNS = -Wfloat-equal -Wparentheses
-CERRORS = -Werror=incompatible-pointer-types -Werror=discarded-qualifiers -Werror=int-conversion -Werror=div-by-zero -Werror=sequence-point -Werror=uninitialized -Werror=duplicated-cond
+CWARNS := -Wfloat-equal -Wparentheses
+CERRORS := -Werror=incompatible-pointer-types -Werror=discarded-qualifiers -Werror=int-conversion -Werror=div-by-zero -Werror=sequence-point -Werror=uninitialized -Werror=duplicated-cond
 
 LICENCE_FILENAMES := $(basename $(notdir $(shell ls licences/*.txt)))
 LICENCE_FILES := $(addprefix build/, $(shell ls licences/*.txt))
@@ -74,7 +74,7 @@ build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 
 build/licences/%.txt: licences/%.txt
 	mkdir -p "$(shell dirname "$@")"
-	cat "$<" | LC_COLLATE=C sort | uniq > "$@"
+	cat "$<" | LC_COLLATE=C sort --ignore-case | uniq > "$@"
 
 build/%.o: src/%.c
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
