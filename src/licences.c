@@ -136,7 +136,7 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 	if(*licence == '(') {
 		char *closingparen = find_closing_paren(licence);
 		if(closingparen) {
-			if(*(closingparen + 1) != '\0') return LTNT_PARENTHESISED;
+			if(*(closingparen + 1) == '\0') return LTNT_PARENTHESISED;
 			
 			return detect_type(closingparen + 1);
 		}
