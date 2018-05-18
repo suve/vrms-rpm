@@ -36,18 +36,44 @@ Ten program jest próbą dostarczenia takiego mechanizmu.
 \fB\-\-ascii\fR
 Wyświetl ASCII-art rmsa gdy nie zostaną znalezione żadne nie-wolne paczki,
 lub gdy nie-wolne paczki stanowią co najmniej 10% całości.
+
+.TP
+\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+Pozwala określić, czy program powinien używać sekwencji modyfikujących terminala
+dla kolorowania tekstu wyjściowego. Domyślną wartością tej opcji jest '\fIauto\fR',
+która powoduje użycie kolorowania wyjścia podczas w wypadku zapisu do terminala,
+lecz nie w przypadku zapisu do pliku lub potoku.
+
+.TP
+\fB\-\-describe\fR
+Podczas listowania paczek, wyświetlaj ich podsumowania (krótkie opisy).
+
 .TP
 \fB\-\-explain\fR
 Podczas listowania paczek, wyświetlaj informacje o licencjach,
 aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych.
+
 .TP
 \fB\-\-help\fR
 Wyświetl krótką instrukcję obsługi programu i zakończ.
+
+.TP
+\fB\-\-image\fR
+Podobnie, jak \fB-\-ascii\fR, ale wyświetla obrazek przy użyciu 
+sekwencji modyfikujących kolory terminala oraz pół-bloków Unikodowych.
+
+.TP
+\fB\-\-licence\-list\fR <\fIPLIK\fR>
+Określa listę dobrych licencji, na podstawie której będą klasyfikowane paczki.
+\fIPLIK\fR może być ścieżką do pliku na dysku, lub jedną z wbudowanych list licencji: __BUNDLED_LICENCE_LISTS__
+Domyślną wartością tej opcji jest \fI__DEFAULT_LICENCE_LIST__\fR.
+
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
 Oprócz wypisania łącznej liczby wolnych oraz nie-wolnych paczek,
 wylistuj paczki nazwami.
 Domyślną wartością tej opcji jest "\fInonfree\fR".
+
 .TP
 \fB\-\-version\fR
 Wyświetl informację o wersji programu i zakończ.
