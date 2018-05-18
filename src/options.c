@@ -65,7 +65,8 @@ void options_parse(int argc, char **argv) {
 		{     "explain", ARG_NON, &opt_explain, 1 },
 		{        "help", ARG_NON, NULL, LONGOPT_HELP },
 		{       "image", ARG_NON, &opt_image, OPT_IMAGE_ICAT },
-		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST},
+		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
+		{"license-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
 		{        "list", ARG_REQ, NULL, LONGOPT_LIST },
 		{     "version", ARG_NON, NULL, LONGOPT_VERSION },
 		{ 0, 0, 0, 0 },
@@ -148,9 +149,9 @@ static void print_help(void) {
 		"    Display rms ASCII-art when no non-free packages are found,\n"
 		"    or when non-free packages are 10%% or more of the total.\n"
 		"  --colour <no,yes,auto>\n"
-		"    Controls whether terminal escape sequences should be used.\n"
-		"    Default is 'auto', which uses colour output when writing to a terminal,\n"
-		"    but not when writing to a file or a pipe.\n"
+		"    Controls whether terminal escape sequences should be used\n"
+		"    for colourizing the output. Default is 'auto', which uses colour output\n"
+		"    when writing to a terminal, but not when writing to a file or a pipe.\n"
 		"  --describe\n"
 		"    When listing packages, include the package summaries (short descriptions).\n"
 		"  --explain\n"
