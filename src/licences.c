@@ -21,6 +21,7 @@
 
 #include "buffers.h"
 #include "config.h"
+#include "lang.h"
 #include "licences.h"
 #include "options.h"
 #include "stringutils.h"
@@ -52,7 +53,7 @@ static FILE* openfile(char *name) {
 	}
 	
 	FILE *f = fopen(name, "r");
-	if(f == NULL) fprintf(stderr, "vrms-rpm: failed to read list of licences from \"%s\"\n", name);
+	if(f == NULL) lang_print(stderr, MSG_ERR_LICENCES_BADFILE, name);
 	
 	return f;
 }

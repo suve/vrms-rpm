@@ -45,25 +45,25 @@ char* lang_getmsgn(const enum MessageID msgid, const int number) {
 	return ngettext(msgname[msgid], msgname[msgid], number);
 }
 
-int lang_printmsg(const enum MessageID msgid, ...) {
+int lang_print(FILE *const file, const enum MessageID msgid, ...) {
 	char *msgstr = lang_getmsg(msgid);
 	if(msgstr == NULL) return -1;
 	
 	va_list args;
 	va_start(args, msgstr);
-	int bytes = vprintf(msgstr, args);
+	int bytes = vfprintf(file, msgstr, args);
 	va_end(args);
 	
 	return bytes;
 }
 
-int lang_printmsgn(const enum MessageID msgid, const int number, ...) {
+int lang_print_n(FILE *const file, const enum MessageID msgid, const int number, ...) {
 	char *msgstr = lang_getmsgn(msgid, number);
 	if(msgstr == NULL) return -1;
 	
 	va_list args;
 	va_start(args, msgstr);
-	int bytes = vprintf(msgstr, args);
+	int bytes = vfprintf(file, msgstr, args);
 	va_end(args);
 	
 	return bytes;

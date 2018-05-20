@@ -115,11 +115,7 @@ void parseopt_colour(void) {
 	} else if(arg_eq("yes")) {
 		opt_colour = OPT_COLOUR_YES;
 	} else {
-		fputs(
-			"vrms-rpm: argument to --colour option must be one of: "
-			"\"no\", \"yes\", or \"auto\"\n",
-			stderr
-		);
+		lang_print(stderr, MSG_ERR_BADOPT_COLOUR);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -134,42 +130,38 @@ void parseopt_list(void) {
 	} else if(arg_eq("none")) {
 		opt_list = 0;
 	} else {
-		fputs(
-			"vrms-rpm: argument to --list option must be one of: "
-			"\"none\", \"non-free\", \"free\", \"all\"\n",
-			stderr
-		);
+		lang_print(stderr, MSG_ERR_BADOPT_LIST);
 		exit(EXIT_FAILURE);
 	}
 }
 
 static void print_help(void) {
-	lang_printmsg(MSG_HELP_USAGE);
+	lang_print(stdout, MSG_HELP_USAGE);
 	
 	puts("  --ascii");
-	lang_printmsg(MSG_HELP_OPTION_ASCII);
+	lang_print(stdout, MSG_HELP_OPTION_ASCII);
 	
 	puts("  --colour <auto, no, yes>");
-	lang_printmsg(MSG_HELP_OPTION_COLOUR);
+	lang_print(stdout, MSG_HELP_OPTION_COLOUR);
 	
 	puts("  --describe");
-	lang_printmsg(MSG_HELP_OPTION_DESCRIBE);
+	lang_print(stdout, MSG_HELP_OPTION_DESCRIBE);
 	
 	puts("  --explain");
-	lang_printmsg(MSG_HELP_OPTION_EXPLAIN);
+	lang_print(stdout, MSG_HELP_OPTION_EXPLAIN);
 	
 	puts("  --help");
-	lang_printmsg(MSG_HELP_OPTION_HELP);
+	lang_print(stdout, MSG_HELP_OPTION_HELP);
 	
 	puts("  --image");
-	lang_printmsg(MSG_HELP_OPTION_IMAGE);
+	lang_print(stdout, MSG_HELP_OPTION_IMAGE);
 	
 	puts("  --licence-list <FILE>");
-	lang_printmsg(MSG_HELP_OPTION_LICENCELIST, ALL_LICENCE_LISTS, DEFAULT_LICENCE_LIST);
+	lang_print(stdout, MSG_HELP_OPTION_LICENCELIST, ALL_LICENCE_LISTS, DEFAULT_LICENCE_LIST);
 	
 	puts("  --list <none, free, nonfree, all>");
-	lang_printmsg(MSG_HELP_OPTION_LIST);
+	lang_print(stdout, MSG_HELP_OPTION_LIST);
 	
 	puts("  --version");
-	lang_printmsg(MSG_HELP_OPTION_VERSION);
+	lang_print(stdout, MSG_HELP_OPTION_VERSION);
 }

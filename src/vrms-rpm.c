@@ -31,13 +31,13 @@ static void easteregg(void) {
 	if(nonfree == 0) {
 		putc('\n', stdout);
 		rms_happy();
-		lang_printmsg(MSG_RMS_HAPPY);
+		lang_print(stdout, MSG_RMS_HAPPY);
 	} else {
 		const int total_packages = free + nonfree;
 		if(nonfree > (total_packages / 10)) {
 			putc('\n', stdout);
 			rms_disappointed();
-			lang_printmsg(MSG_RMS_DISAPPOINTED);
+			lang_print(stdout, MSG_RMS_DISAPPOINTED);
 		}
 	}
 }
@@ -48,17 +48,17 @@ int main(int argc, char *argv[]) {
 	
 	struct Pipe *rpmpipe = packages_openPipe();
 	if(rpmpipe == NULL) {
-		fprintf(stderr, "vrms-rpm: failed to open pipe to rpm\n");
+		lang_print(stderr, MSG_ERR_PIPE_OPEN_FAILED);
 		exit(EXIT_FAILURE);
 	}
 	
 	if(licences_read() < 0) {
-		fprintf(stderr, "vrms-rpm: failed to read list of good licences\n");
+		lang_print(stderr, MSG_ERR_LICENCES_FAILED);
 		exit(EXIT_FAILURE);
 	}
 	
 	if(packages_read(rpmpipe) < 0) {
-		fprintf(stderr, "vrms-rpm: failed to read from rpm-pipe\n");
+		lang_print(stderr, MSG_ERR_PIPE_READ_FAILED);
 		exit(EXIT_FAILURE);
 	}
 	

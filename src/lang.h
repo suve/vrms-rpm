@@ -17,6 +17,8 @@
 #ifndef VRMS_RPM_LANG_H
 #define VRMS_RPM_LANG_H
 
+#include <stdarg.h>
+#include <stdio.h>
 #include <string.h>
 
 #define FOREACH_MESSAGE(MESSAGE)     \
@@ -35,6 +37,15 @@
 	MESSAGE(HELP_OPTION_LICENCELIST) \
 	MESSAGE(HELP_OPTION_LIST)        \
 	MESSAGE(HELP_OPTION_VERSION)     \
+	MESSAGE(ERR_PIPE_OPEN_FAILED)    \
+	MESSAGE(ERR_PIPE_NOEVENTS)       \
+	MESSAGE(ERR_PIPE_POLL_ERROR)     \
+	MESSAGE(ERR_PIPE_POLL_HANGUP)    \
+	MESSAGE(ERR_PIPE_READ_FAILED)    \
+	MESSAGE(ERR_LICENCES_FAILED)     \
+	MESSAGE(ERR_LICENCES_BADFILE)    \
+	MESSAGE(ERR_BADOPT_COLOUR)       \
+	MESSAGE(ERR_BADOPT_LIST)         \
 
 
 #define GENERATE_ENUM(what) MSG_ ## what,
@@ -49,7 +60,7 @@ void lang_init(void);
 char* lang_getmsg(const enum MessageID msgid);
 char* lang_getmsgn(const enum MessageID msgid, const int number);
 
-int lang_printmsg(const enum MessageID msgid, ...);
-int lang_printmsgn(const enum MessageID msgid, const int number, ...);
+int lang_print(FILE *const file, const enum MessageID msgid, ...);
+int lang_print_n(FILE *const file, const enum MessageID msgid, const int number, ...);
 
 #endif

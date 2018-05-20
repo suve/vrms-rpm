@@ -22,6 +22,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "lang.h"
 #include "pipes.h"
 
 #define FD_STDIN  0
@@ -96,17 +97,18 @@ FILE* pipe_fopen(struct Pipe *pipe) {
 	
 	int events = poll(&pfd, 1, -1);
 	if(events < 0) {
-		fprintf(stderr, "vrms-rpm: pipe-fopen(): no events\n"); return NULL;
+		lang_print(stderr, MSG_ERR_PIPE_NOEVENTS);
+		return NULL;
 	}
 	if(pfd.revents == POLLERR) {
-		fprintf(stderr, "vrms-rpm: pipe-fopen(): POLERR\n");
+		lang_print(stderr, MSG_ERR_PIPE_POLL_ERROR);
 		return NULL;
 	}
 	
 	// Interpret "other end of pipe closed" as error
 	// only when this event is not accompanied by "data ready to be read".
 	if((pfd.revents & POLLHUP) && !(pfd.revents & POLLIN)) {
-		fprintf(stderr, "vrms-rpm: pipe-fopen(): POLLHUP received, but no POLLIN\n");
+		lang_print(stderr, MSG_ERR_PIPE_POLL_HANGUP);
 		return NULL;
 	}
 	
