@@ -41,7 +41,7 @@ lub gdy nie-wolne paczki stanowią co najmniej 10% całości.
 \fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
 Pozwala określić, czy program powinien używać sekwencji modyfikujących terminala
 dla kolorowania tekstu wyjściowego. Domyślną wartością tej opcji jest '\fIauto\fR',
-która powoduje użycie kolorowania wyjścia podczas w wypadku zapisu do terminala,
+która powoduje użycie kolorowania wyjścia podczas zapisu do terminala,
 lecz nie w przypadku zapisu do pliku lub potoku.
 
 .TP
