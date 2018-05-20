@@ -21,6 +21,7 @@
 #include <unistd.h>
 
 #include "config.h"
+#include "lang.h"
 #include "options.h"
 
 static void print_help(void);
@@ -143,36 +144,32 @@ void parseopt_list(void) {
 }
 
 static void print_help(void) {
-	printf(
-		"Usage: vrms-rpm [options]\n"
-		"  --ascii\n"
-		"    Display rms ASCII-art when no non-free packages are found,\n"
-		"    or when non-free packages are 10%% or more of the total.\n"
-		"  --colour <no,yes,auto>\n"
-		"    Controls whether terminal escape sequences should be used\n"
-		"    for colourizing the output. Default is 'auto', which uses colour output\n"
-		"    when writing to a terminal, but not when writing to a file or a pipe.\n"
-		"  --describe\n"
-		"    When listing packages, include the package summaries (short descriptions).\n"
-		"  --explain\n"
-		"    When listing packages, display licences as to justify\n"
-		"    the free / non-free classification.\n"
-		"  --help\n"
-		"    Display this help and exit.\n"
-		"  --image\n"
-		"    Like --ascii, but displays an image using Unicode block characters\n"
-		"    and 256-colour mode terminal escape codes.\n"
-		"  --licence-list <FILE>\n"
-		"    Specifies the list of good licences to use. FILE can be a path\n"
-		"    to a file on disk, or one of the bundled licence lists:\n"
-		"    %s\n"
-		"    The default value is '%s'.\n"
-		"  --list <none,free,nonfree,all>\n"
-		"    Apart from displaying a summary number of free & non-free packages,\n"
-		"    print them by name. The default value is 'nonfree'.\n"
-		"  --version\n"
-		"    Display version information and exit.\n",
-		ALL_LICENCE_LISTS,
-		DEFAULT_LICENCE_LIST
-	);
+	lang_printmsg(MSG_HELP_USAGE);
+	
+	puts("  --ascii");
+	lang_printmsg(MSG_HELP_OPTION_ASCII);
+	
+	puts("  --colour <auto, no, yes>");
+	lang_printmsg(MSG_HELP_OPTION_COLOUR);
+	
+	puts("  --describe");
+	lang_printmsg(MSG_HELP_OPTION_DESCRIBE);
+	
+	puts("  --explain");
+	lang_printmsg(MSG_HELP_OPTION_EXPLAIN);
+	
+	puts("  --help");
+	lang_printmsg(MSG_HELP_OPTION_HELP);
+	
+	puts("  --image");
+	lang_printmsg(MSG_HELP_OPTION_IMAGE);
+	
+	puts("  --licence-list <FILE>");
+	lang_printmsg(MSG_HELP_OPTION_LICENCELIST, ALL_LICENCE_LISTS, DEFAULT_LICENCE_LIST);
+	
+	puts("  --list <none, free, nonfree, all>");
+	lang_printmsg(MSG_HELP_OPTION_LIST);
+	
+	puts("  --version");
+	lang_printmsg(MSG_HELP_OPTION_VERSION);
 }
