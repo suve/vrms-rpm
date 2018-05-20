@@ -79,12 +79,14 @@ Domyślną wartością tej opcji jest "\fInonfree\fR".
 Wyświetl informację o wersji programu i zakończ.
 
 .SH ZOBACZ TAKŻE
+
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 Strona wiki Fedora Project opisująca akceptowane licencje oprogramowania.
+
 .TP
-\fBhttps://vrms.alioth.debian.org/\fR
-Strona domowa oryginalnego programu \fBvrms\fR.
+\fBhttps://spdx.org/licenses/\fR
+Lista licencji SPDX - próba ustandaryzowania identyfikatorów licencji.
 
 .SH LICENCJA
 Ten program jest dostępny na zasadach GNU General Public License, 

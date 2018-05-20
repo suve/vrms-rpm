@@ -80,8 +80,8 @@ Display version information and exit.
 The Fedora Project wiki page on accepted software licences.
 
 .TP
-\fBhttps://vrms.alioth.debian.org/\fR
-Home of the original \fBvrms\fR program.
+\fBhttps://spdx.org/licenses/\fR
+The SPDX licence list, an attempt at standarizing licence identifiers.
 
 .SH LICENCE
 This program itself it available under the terms of the GNU General Public
