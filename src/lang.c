@@ -33,12 +33,16 @@ void lang_init(void) {
 	
 	// Take a look at the test string and change locale to English
 	// if there isn't a translation available
-	const char *teststr = lang_getmsg(MSG_TEST_STRING);
-	if(strcmp(teststr, msgname[MSG_TEST_STRING]) == 0) setlocale(LC_MESSAGES, "en");
+	const char *teststr = lang_getmsg(MSG_TRANSLATION_AUTHOR);
+	if(strcmp(teststr, msgname[MSG_TRANSLATION_AUTHOR]) == 0) setlocale(LC_MESSAGES, "en");
 }
 
 char* lang_getmsg(const enum MessageID msgid) {
 	return gettext(msgname[msgid]);
+}
+
+char* lang_getmsgn(const enum MessageID msgid, const int number) {
+	return ngettext(msgname[msgid], msgname[msgid], number);
 }
 
 int lang_printmsg(const enum MessageID msgid, ...) {
@@ -53,13 +57,13 @@ int lang_printmsg(const enum MessageID msgid, ...) {
 	return bytes;
 }
 
-int lang_snprintmsg(char *buffer, const size_t bufsize, const enum MessageID msgid, ...) {
-	char *msgstr = lang_getmsg(msgid);
+int lang_printmsgn(const enum MessageID msgid, const int number, ...) {
+	char *msgstr = lang_getmsgn(msgid, number);
 	if(msgstr == NULL) return -1;
 	
 	va_list args;
 	va_start(args, msgstr);
-	int bytes = vsnprintf(buffer, bufsize, msgstr, args);
+	int bytes = vprintf(msgstr, args);
 	va_end(args);
 	
 	return bytes;

@@ -18,6 +18,7 @@
 #include <stdio.h>
 
 #include "fileutils.h"
+#include "lang.h"
 #include "licences.h"
 #include "options.h"
 #include "packages.h"
@@ -30,18 +31,19 @@ static void easteregg(void) {
 	if(nonfree == 0) {
 		putc('\n', stdout);
 		rms_happy();
-		puts("Only free packages - rms would be proud!");
+		lang_printmsg(MSG_RMS_HAPPY);
 	} else {
 		const int total_packages = free + nonfree;
 		if(nonfree > (total_packages / 10)) {
 			putc('\n', stdout);
 			rms_disappointed();
-			puts("Over 10% non-free packages. Don't you appreciate freedom?");
+			lang_printmsg(MSG_RMS_DISAPPOINTED);
 		}
 	}
 }
 
 int main(int argc, char *argv[]) {
+	lang_init();
 	options_parse(argc, argv);
 	
 	struct Pipe *rpmpipe = packages_openPipe();

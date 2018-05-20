@@ -20,6 +20,7 @@
 #include <strings.h>
 
 #include "buffers.h"
+#include "lang.h"
 #include "licences.h"
 #include "options.h"
 #include "packages.h"
@@ -210,10 +211,10 @@ static void printlist(const int which_kind) {
 void packages_list(void) {
 	if(!sorted) packages_sort();
 	
-	printf("%d free packages\n", class_count[1]);
+	lang_printmsgn(MSG_FREE_PACKAGES_COUNT, class_count[1], class_count[1]);
 	if(opt_list & OPT_LIST_FREE) printlist(1);
 	
-	printf("%d non-free packages\n", class_count[0]);
+	lang_printmsgn(MSG_NONFREE_PACKAGES_COUNT, class_count[0], class_count[0]);
 	if(opt_list & OPT_LIST_NONFREE) printlist(0);
 }
 

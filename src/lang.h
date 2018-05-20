@@ -19,13 +19,17 @@
 
 #include <string.h>
 
-#define FOREACH_MESSAGE(MESSAGE)  \
-   MESSAGE(TEST_STRING) \
-   
+#define FOREACH_MESSAGE(MESSAGE)   \
+	MESSAGE(TRANSLATION_AUTHOR)     \
+	MESSAGE(FREE_PACKAGES_COUNT)    \
+	MESSAGE(NONFREE_PACKAGES_COUNT) \
+	MESSAGE(RMS_HAPPY)              \
+	MESSAGE(RMS_DISAPPOINTED)       \
 
-#define GENERATE_ENUM(what) MSG_ ## what, 
+
+#define GENERATE_ENUM(what) MSG_ ## what,
 enum MessageID {
-   FOREACH_MESSAGE(GENERATE_ENUM)
+	FOREACH_MESSAGE(GENERATE_ENUM)
 };
 #undef GENERATE_ENUM
 
@@ -33,8 +37,9 @@ enum MessageID {
 void lang_init(void);
 
 char* lang_getmsg(const enum MessageID msgid);
+char* lang_getmsgn(const enum MessageID msgid, const int number);
 
 int lang_printmsg(const enum MessageID msgid, ...);
-int lang_snprintmsg(char *buffer, const size_t bufsize, const enum MessageID msgid, ...);
+int lang_printmsgn(const enum MessageID msgid, const int number, ...);
 
 #endif
