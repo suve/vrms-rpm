@@ -22,7 +22,7 @@
 
 #include "lang.h"
 
-#define GENERATE_STRING(what) #what,
+#define GENERATE_STRING(what) #what "\n",
 static const char *const msgname[] = {
 	FOREACH_MESSAGE(GENERATE_STRING)
 };

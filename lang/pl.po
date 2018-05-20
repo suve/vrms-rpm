@@ -3,37 +3,98 @@ msgstr ""
 "Language: pl\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-msgid "msg_help_usage"
-msgstr "Składnia: %s [opcje]"
-msgid "msg_help_option_ascii"    
-msgstr "    Wyświetl ASCII-art rmsa gdy nie zostaną znalezione żadne nie-wolne paczki,\n"
-       "    lub gdy nie-wolne paczki stanowią co najmniej 10%% całości."
-msgid "msg_help_option_explain"
+# Miejsce, gdzie możesz umieścić podziękowanie dla siebie!
+# Wstaw tutaj coś w stylu "Łacińskie tłumaczenie autorstwa Juliusza Gajusza\n".
+msgid "TRANSLATION_AUTHOR\n"
+msgstr ""
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d wolna paczka\n"
+msgstr[1] "%d wolne paczki\n"
+msgstr[2] "%d wolnych paczek\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d nie-wolna paczka\n"
+msgstr[1] "%d nie-wolne paczki\n"
+msgstr[2] "%d nie-wolnych paczek\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Tylko wolne paczki - rms byłby dumny!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Ponad 10%% nie-wolnych paczek. Czy nie cenisz sobie wolności?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Składnia: vrms-rpm [opcje]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Wyświetl ASCII-art rmsa gdy nie zostaną znalezione żadne nie-wolne\n"
+       "    paczki, lub gdy nie-wolne paczki stanowią co najmniej 10%% całości.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Pozwala określić, czy program powinien używać sekwencji modyfikujących\n"
+       "    terminala dla kolorowania tekstu wyjściowego. Domyślną wartością\n"
+       "    tej opcji jest 'auto', która powoduje użycie kolorowania wyjścia podczas\n"
+       "    zapisu do terminala lecz nie w przypadku zapisu do pliku lub potoku.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Podczas listowania paczek, wyświetlaj ich podsumowania (krótkie opisy).\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Podczas listowania paczek, wyświetlaj informacje o licencjach,\n"
-       "    aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych."
-msgid "msg_help_option_help"
-msgstr "    Wyświetl tę instrukcję obsługi i zakończ."
-msgid "msg_help_option_list"
+       "    aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Wyświetl krótką instrukcję obsługi programu i zakończ.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Podobnie, jak --ascii, ale wyświetla obrazek przy użyciu\n"
+       "    sekwencji modyfikujących kolory terminala oraz pół-bloków Unikodowych.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Określa listę dobrych licencji, na podstawie której paczki będą\n"
+       "    klasyfikowane. PLIK może być ścieżką do pliku na dysku, lub\n"
+       "    jedną z wbudowanych list licencji:\n"
+       "    %s\n"
+       "    Domyślną wartością tej opcji jest '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
 msgstr "    Oprócz wypisania łącznej liczby wolnych oraz nie-wolnych paczek,\n"
-       "    wylistuj paczki nazwami.  Domyślną wartością tej opcji jest 'nonfree'." 
-msgid "msg_help_option_version"
-msgstr "    Wyświetl informacje o wersji programu i zakończ."
-msgid "msg_list_noargument"
-msgstr "%s: opcja --list wymaga argumentu"
-msgid "msg_list_badargument"
-msgstr "%s: argument dla opcji --list musi być jednym z 'none', 'free', 'nonfree' bądź 'all'"
-msgid "msg_unknown_option"
-msgstr "%s: nieznana opcja '%s'"
-msgid "msg_total_free"
-msgstr "%d wolnych paczek"
-msgid "msg_total_nonfree"
-msgstr "%d nie-wolnych paczek"
-msgid "msg_rms_happy_ascii"
-msgstr "Tylko wolne paczki - rms byłby dumny!                       rms jest szczęśliwy."
-msgid "msg_rms_happy"
-msgstr "Tylko wolne paczki - rms byłby dumny!"
-msgid "msg_rms_disappoint_ascii"
-msgstr "Ponad 10%% nie-wolnych paczek. Czy nienawidzisz wolności?   rms jest zawiedziony."
-msgid "msg_rms_disappoint"
-msgstr "Ponad 10%% nie-wolnych paczek. Czy nienawidzisz wolnosci?"
+       "    wylistuj paczki nazwami. Domyślną wartością tej opcji jest 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Wyświetl informację o wersji programu i zakończ.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: otwarcie potoku do /usr/bin/rpm nie powiodło się\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() nie zwróciło żadnych wydarzeń\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() zwróciło błąd\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): potok został zamknięty, lecz nie otrzymano żadnych danych\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: odczyt z potoku do /usr/bin/rpm nie powiódł się\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: nie udało się odczytać listy dobrych licencji\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: odczytanie listy licencji z \"%s\" nie powiodło się\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: dozwolone argumenty do opcji --colour to 'no', 'yes', oraz 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: dozwolone argumenty do opcji --list to 'none', 'non-free', 'free' oraz 'all'\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: nieznana opcja \"%s\"\n"
