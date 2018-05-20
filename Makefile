@@ -20,7 +20,7 @@ DEFAULT_LICENCE_LIST ?= spdx-fsf-or-osi
 DESTDIR ?=
 PREFIX ?= /usr/local
 
-CFLAGS += -std=c11 -iquote ./ -Wall -Wextra -D_POSIX_C_SOURCE
+CFLAGS += -std=c11 -iquote ./ -Wall -Wextra -D_POSIX_C_SOURCE=200112L
 CWARNS := -Wfloat-equal -Wparentheses
 CERRORS := -Werror=incompatible-pointer-types -Werror=discarded-qualifiers -Werror=int-conversion -Werror=div-by-zero -Werror=sequence-point -Werror=uninitialized -Werror=duplicated-cond
 

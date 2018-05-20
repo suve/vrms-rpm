@@ -18,6 +18,7 @@
 #include <locale.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "config.h"
@@ -38,7 +39,7 @@ void lang_init(void) {
 	// if there isn't a translation available
 	const char *teststr = lang_getmsg(MSG_TRANSLATION_AUTHOR);
 	if((strlen(teststr) == 0) || (strcmp(teststr, msgname[MSG_TRANSLATION_AUTHOR]) == 0)) {
-		setlocale(LC_MESSAGES, "en");
+		setenv("LANGUAGE", "en", 1);
 	}
 }
 
