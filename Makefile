@@ -64,7 +64,7 @@ help:
 config: src/config.h
 
 src/config.h: src/generate-config.sh
-	src/generate-config.sh -i '$(PREFIX)/share/suve/vrms-rpm' -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' > "$@"
+	src/generate-config.sh -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' > "$@"
 
 build: config $(MO_FILES) $(LICENCE_FILES) build/vrms-rpm
 

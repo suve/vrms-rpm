@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "config.h"
 #include "lang.h"
 
 #define GENERATE_STRING(what) #what "\n",
@@ -29,12 +30,16 @@ static const char *const msgname[] = {
 
 
 void lang_init(void) {
+	setlocale(LC_ALL, "");
+	bindtextdomain("vrms-rpm", INSTALL_PREFIX "/share/locale");
 	textdomain("vrms-rpm");
 	
 	// Take a look at the test string and change locale to English
 	// if there isn't a translation available
 	const char *teststr = lang_getmsg(MSG_TRANSLATION_AUTHOR);
-	if(strcmp(teststr, msgname[MSG_TRANSLATION_AUTHOR]) == 0) setlocale(LC_MESSAGES, "en");
+	if((strlen(teststr) == 0) || (strcmp(teststr, msgname[MSG_TRANSLATION_AUTHOR]) == 0)) {
+		setlocale(LC_MESSAGES, "en");
+	}
 }
 
 char* lang_getmsg(const enum MessageID msgid) {

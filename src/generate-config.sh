@@ -17,12 +17,12 @@
 #
 
 print_usage() {
-	echo "generate-config.sh: This script is not meant to be executed manually."
-	echo "generate-config.sh: It is a helper script ran during \"make config\"."
+	echo "generate-config.sh: This script is not meant to be executed manually." >&2
+	echo "generate-config.sh: It is a helper script ran during \"make config\"." >&2
 }
 
 default_licence_list=""
-install_dir=""
+install_prefix=""
 licence_lists=""
 
 if [ "$#" -eq 0 ]; then
@@ -30,18 +30,18 @@ if [ "$#" -eq 0 ]; then
 	exit 1
 fi
 
-while getopts 'd:i:l:' OPTNAME; do
+while getopts 'd:l:p:' OPTNAME; do
 	case "$OPTNAME" in
 		d)
 			default_licence_list=$OPTARG
 		;;
 		
-		i)
-			install_dir=$OPTARG
-		;;
-		
 		l)
 			licence_lists=$OPTARG
+		;;
+		
+		p)
+			install_prefix=$OPTARG
 		;;
 		
 		*)
@@ -51,7 +51,7 @@ while getopts 'd:i:l:' OPTNAME; do
 	esac
 done
 
-if [ "$default_licence_list" == "" ] || [ "$install_dir" == "" ] || [ "$licence_lists" == "" ]; then
+if [ "$default_licence_list" == "" ] || [ "$install_prefix" == "" ] || [ "$licence_lists" == "" ]; then
 	print_usage
 	exit 1
 fi
@@ -79,7 +79,8 @@ cat <<EOF
 #ifndef VRMS_RPM_CONFIG_H
 #define VRMS_RPM_CONFIG_H
 
-#define INSTALL_DIR  "$install_dir"
+#define INSTALL_DIR  "${install_prefix}/share/suve/vrms-rpm"
+#define INSTALL_PREFIX  "$install_prefix"
 
 #define ALL_LICENCE_LISTS  "$licence_lists"
 #define DEFAULT_LICENCE_LIST  "$default_licence_list"
