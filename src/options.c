@@ -97,7 +97,11 @@ void options_parse(int argc, char **argv) {
 			break;
 			
 			case LONGOPT_VERSION:
-				printf("vrms-rpm v.2.0 by suve\n");
+				puts("vrms-rpm v.2.0 by suve");
+				
+				const char *translator = lang_getmsg(MSG_TRANSLATION_AUTHOR);
+				if((strlen(translator) > 0) && (strcmp(translator, "TRANSLATION_AUTHOR") != 0)) printf(translator);
+				
 				exit(EXIT_SUCCESS);
 		}
 	}
