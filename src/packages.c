@@ -196,15 +196,16 @@ static void printlist(const int which_kind) {
 		if(pkg->licence->is_free != which_kind) continue;
 		
 		if(opt_describe) {
-			printf(" - %s: %s\n   ", pkg->name, pkg->summary);
+			printf(" - %s: %s", pkg->name, pkg->summary);
 		} else {
-			printf(" - %s\n   ", pkg->name);
+			printf(" - %s", pkg->name);
 		}
 		
 		if(opt_explain) {
+			printf("\n   ");
 			printnode(pkg->licence);
-			putc('\n', stdout);
 		}
+		putc('\n', stdout);
 	}
 }
 
