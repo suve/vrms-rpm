@@ -21,6 +21,7 @@ print_usage() {
 	echo "convert-man.sh: It is a helper script ran during \"make build\"." >&2
 }
 
+# TODO: Figure out a less brain-dead way to do this.
 replace_string() {
 	cp "$1" "$1.bak"
 	cat "$1.bak" | awk "/$2/{print \"$3\";next}1" > "$1"
