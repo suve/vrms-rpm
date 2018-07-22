@@ -61,8 +61,10 @@ and Unicode half-height blocks.
 .TP
 \fB\-\-licence\-list\fR <\fIFILE\fR>
 Specifies the list of good licences to use for classifying packages.
-\fIFILE\fR can be a path to a file on disk, or one of the bundled licence lists: __BUNDLED_LICENCE_LISTS__
-The default value is \fI__DEFAULT_LICENCE_LIST__\fR.
+\fIFILE\fR can be a path to a file on disk, or one of the bundled licence lists:
+__BUNDLED_LICENCE_LISTS__
+The default value is
+__DEFAULT_LICENCE_LIST__
 
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>

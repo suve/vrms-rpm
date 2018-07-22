@@ -33,6 +33,7 @@ MO_FILES := $(PO_FILES:lang/%.po=build/locale/%/LC_MESSAGES/vrms-rpm.mo)
 MANS := $(shell ls man/*.man)
 MAN_LANGS := $(MANS:man/%.man=%)
 NON_EN_MAN_LANGS := $(filter-out en, $(MAN_LANGS))
+MAN_FILES := $(MANS:man/%.man=build/man/%.man)
 
 IMAGES := $(shell ls images/*)
 
@@ -43,7 +44,6 @@ OBJECTS := $(SOURCES:src/%.c=build/%.o)
 
 help:
 	@echo "TARGETS:"
-	@echo "    config - generate project config"
 	@echo "    build - compile project"
 	@echo "    clean - remove compiled artifacts"
 	@echo "    install - compile & install project"
@@ -61,12 +61,15 @@ help:
 	@echo "        installation prefix (default: /usr/local)"
 	@echo "        used during config to set up file paths"
 
-config: src/config.h
-
 src/config.h: src/generate-config.sh
 	src/generate-config.sh -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' > "$@"
 
-build: config $(MO_FILES) $(LICENCE_FILES) build/vrms-rpm
+build: src/config.h $(MAN_FILES) $(MO_FILES) $(LICENCE_FILES) build/vrms-rpm
+
+build/man/%.man: man/%.man
+	mkdir -p "$(shell dirname "$@")"
+	cp "$<" "$@"
+	src/convert-man.sh -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' -f "$@"
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(shell dirname "$@")"
@@ -95,10 +98,10 @@ install/share/suve/vrms-rpm/images/%: images/%
 install/share/suve/vrms-rpm/licences/%.txt: build/licences/%.txt
 	install -vD -m 644 "$<" "$@"
 
-install/share/man/man1/vrms-rpm.1: man/en.man
+install/share/man/man1/vrms-rpm.1: build/man/en.man
 	install -vD -p -m 644 "$<" "$@"
 
-install/share/man/%/man1/vrms-rpm.1: man/%.man
+install/share/man/%/man1/vrms-rpm.1: build/man/%.man
 	install -vD -p -m 644 "$<" "$@"
 
 install/share/locale/%: build/locale/%

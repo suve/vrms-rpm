@@ -65,8 +65,10 @@ sekwencji modyfikujących kolory terminala oraz pół-bloków Unikodowych.
 .TP
 \fB\-\-licence\-list\fR <\fIPLIK\fR>
 Określa listę dobrych licencji, na podstawie której będą klasyfikowane paczki.
-\fIPLIK\fR może być ścieżką do pliku na dysku, lub jedną z wbudowanych list licencji: __BUNDLED_LICENCE_LISTS__
-Domyślną wartością tej opcji jest \fI__DEFAULT_LICENCE_LIST__\fR.
+\fIPLIK\fR może być ścieżką do pliku na dysku, lub jedną z wbudowanych list licencji:
+__BUNDLED_LICENCE_LISTS__
+Domyślną wartością tej opcji jest 
+__DEFAULT_LICENCE_LIST__
 
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
