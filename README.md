@@ -31,13 +31,13 @@ $ dnf install vrms-rpm
 ----------
 - `bash`, as there are some shell scripts used during the build process
 
-- `gcc`, although clang should work too
-
-- `gettext` (`libintl`), for handling multiple languages
+- `awk`, `sed` - used in the aforementioned shell scripts
 
 - `make`, for simplifying the build & install process
 
-- `sed`, as its used for some text substitutions
+- `gcc`, although clang should work too
+
+- `gettext` (`libintl`), for handling multiple languages
 
 
 **Picking the licence list**
