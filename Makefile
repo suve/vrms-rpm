@@ -16,7 +16,7 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
-DEFAULT_LICENCE_LIST ?= spdx-fsf-or-osi
+DEFAULT_LICENCE_LIST ?= tweaked
 DESTDIR ?=
 PREFIX ?= /usr/local
 

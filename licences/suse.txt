@@ -85,10 +85,8 @@ SUSE-EULA
 SUSE-Egenix-1.1.0
 SUSE-FHS
 SUSE-FLTK
-SUSE-Firmware
 SUSE-Free-Art-1.3
 SUSE-Freetype
-SUSE-Freeware
 SUSE-GL2PS-2.0
 SUSE-GPL-2.0+-with-openssl-exception
 SUSE-GPL-2.0+-with-sane-exception

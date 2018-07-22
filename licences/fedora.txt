@@ -88,6 +88,7 @@ FSFULLR
 FTL
 Fair
 Free Art
+Freely redistributable without restriction
 GFDL
 GL2PS
 GPL+

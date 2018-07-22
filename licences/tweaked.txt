@@ -1,0 +1,616 @@
+AAL
+ADSL
+AFL
+AFL-1.1
+AFL-1.2
+AFL-2.0
+AFL-2.1
+AFL-3.0
+AGPL
+AGPL-3.0-only
+AGPL-3.0-or-later
+AGPLv1
+AGPLv3
+AGPLv3 with exceptions
+AGPLv3+
+AGPLv3+ with exceptions
+AMDPLPA
+AML
+AMPAS BSD
+AMS
+ANTLR-PD
+APAFML
+APL-1.0
+APSL 2.0
+APSL-1.0
+APSL-1.1
+APSL-1.2
+APSL-2.0
+ARL
+ASL 1.0
+ASL 1.1
+ASL 2.0
+ASL1.0
+ASL1.1
+ASL2.0
+Abstyles
+Adobe
+Afmparse
+Apache-1.0
+Apache-1.1
+Apache-2.0
+Apache-2.0+
+App-s2p
+Arphic
+Artistic 1.0
+Artistic 2.0
+Artistic clarified
+Artistic-1.0
+Artistic-1.0+
+Artistic-1.0-Perl
+Artistic-1.0-cl8
+Artistic-2.0
+Artistic Licence 1.0
+Artistic Licence 2.0
+BSD
+BSD 2-Clause
+BSD 3-Clause
+BSD 4-Clause
+BSD Protection
+BSD with advertising
+BSD with attribution
+BSD-2-Clause
+BSD-2-Clause-FreeBSD
+BSD-2-Clause-Patent
+BSD-3-Clause
+BSD-3-Clause-Clear
+BSD-4-Clause
+BSL-1.0
+Baekmuk
+Bahyph
+Barr
+BeOpen
+Beerware
+Bibtex
+BitTorrent
+BitTorrent-1.1
+Bitstream Vera
+Bitstream Vera Fonts Copyright
+Boost
+Borceux
+CATOSL
+CATOSL-1.1
+CC-BY
+CC-BY-1.0
+CC-BY-2.0
+CC-BY-3.0
+CC-BY-4.0
+CC-BY-ND
+CC-BY-ND-1.0
+CC-BY-ND-2.0
+CC-BY-ND-3.0
+CC-BY-ND-4.0
+CC-BY-SA
+CC-BY-SA-1.0
+CC-BY-SA-2.0
+CC-BY-SA-2.5
+CC-BY-SA-3.0
+CC-BY-SA-4.0
+CC-BY-SAv1
+CC-BY-SAv2
+CC-BY-SAv3
+CC-BY-SAv4
+CC-BY-SAv1+
+CC-BY-SAv2+
+CC-BY-SAv3+
+CC-BY-SAv4+
+CC0
+CC0-1.0
+CC0-2.0
+CC0-3.0
+CC0-4.0
+CDDL
+CDDL 1.0
+CDDL 1.1
+CDDL-1.0
+CDDL-1.1
+CDL
+CECILL-2.0
+CECILL-2.1
+CECILL-B
+CECILL-C
+CNRI
+CNRI-Python
+CPAL
+CPAL-1.0
+CPL
+CPL-1.0
+CPM
+CRC32
+CUA-OPL-1.0
+CeCILL
+CeCILL-B
+CeCILL-C
+Charter
+ClArtistic
+Condor
+Condor-1.1
+Copyright only
+Crossword
+Crystal Stacker
+Cube
+DMIT
+DMTF
+DOC
+DSDP
+DSL
+DWPL
+Dotseqn
+DoubleStroke
+ECL 1.0
+ECL 2.0
+ECL-1.0
+ECL-2.0
+EFL 2.0
+EFL-1.0
+EFL-2.0
+EFML
+EPICS
+EPL
+EPL 1.0
+EPL 1.1
+EPL 2.0
+EPL-1.0
+EPL-1.1
+EPL-2.0
+ERPL
+EU Datagrid
+EUDatagrid
+EUPL 1.1
+EUPL-1.1
+EUPL-1.2
+Elvish
+Entessa
+ErlPL-1.1
+Eurosym
+FBSDDL
+FDK-AAC
+FSFAP
+FSFUL
+FSFULLR
+FTL
+Fair
+Frameworx-1.0
+Free Art
+Freely redistributable without restriction
+GFDL
+GFDL+
+GFDL-1.1
+GFDL-1.1+
+GFDL-1.1-only
+GFDL-1.1-or-later
+GFDL-1.2-only
+GFDL-1.2-or-later
+GFDL-1.3
+GFDL-1.3+
+GFDL-1.3-only
+GFDL-1.3-or-later
+GFDLv1.1
+GFDLv1.1+
+GFDLv1.3
+GFDLv1.3+
+GL2PS
+GPL
+GPL 1
+GPL 2
+GPL 3
+GPL 1 with exceptions
+GPL 2 with exceptions
+GPL 3 with exceptions
+GPL 1+
+GPL 2+
+GPL 3+
+GPL 1+ with exceptions
+GPL 2+ with exceptions
+GPL 3+ with exceptions
+GPL v1
+GPL v2
+GPL v3
+GPL v1 with exceptions
+GPL v2 with exceptions
+GPL v3 with exceptions
+GPL v1+
+GPL v2+
+GPL v3+
+GPL v1+ with exceptions
+GPL v2+ with exceptions
+GPL v3+ with exceptions
+GPL+
+GPL+ with exceptions
+GPL-1.0
+GPL-1.0+
+GPL-1.0-only
+GPL-1.0-or-later
+GPL-2.0
+GPL-2.0+
+GPL-2.0-only
+GPL-2.0-or-later
+GPL-3.0
+GPL-3.0+
+GPL-3.0-only
+GPL-3.0-or-later
+GPL-3.0-or-later WITH Autoconf-exception-3.0
+GPL-3.0-with-Qt-Company-Qt-exception-1.1
+GPL1
+GPL1.0
+GPL2
+GPL2.0
+GPL3
+GPL3.0
+GPLv1
+GPLv1+
+GPLv2
+GPLv2 with additional permissions
+GPLv2 with exceptions
+GPLv2 with linking exception
+GPLv2+
+GPLv2+ with exception
+GPLv2+ with exceptions
+GPLv3
+GPLv3 with exceptions
+GPLv3+
+GPLv3+ with exceptions
+GeoGratis
+Giftware
+Glide
+Glulxe
+Green OpenMusic
+HOFL
+HPND
+HSRL
+HaskellReport
+Hershey
+IBM
+IEEE
+IJG
+IPA
+IPL-1.0
+ISC
+ImageMagick
+Imlib2
+Intel
+Intel ACPI
+Interbase
+JPython
+JSON
+Jabber
+JasPer
+Julius
+Knuth
+LAL-1.2
+LBNL BSD
+LDPL
+LGPL
+LGPL+
+LGPL-1.0
+LGPL-1.0+
+LGPL-2.0
+LGPL-2.0+
+LGPL-2.0-only
+LGPL-2.0-or-later
+LGPL-2.1
+LGPL-2.1+
+LGPL-2.1-only
+LGPL-2.1-or-later
+LGPL-2.1-or-later WITH GCC-exception-2.0
+LGPL-2.1-with-Qt-Company-Qt-exception-1.1
+LGPL-3.0
+LGPL-3.0+
+LGPL-3.0-only
+LGPL-3.0-only WITH openvpn-openssl-exception
+LGPL-3.0-or-later
+LGPL-3.0-with-Qt-Company-Qt-exception-1.1
+LGPLv2
+LGPLv2 with exception
+LGPLv2 with exceptions
+LGPLv2+
+LGPLv2+ with exceptions
+LGPLv2.1
+LGPLv2.1 with exceptions
+LGPLv2.1+
+LGPLv2.1+ with exceptions
+LGPLv3
+LGPLv3 with exceptions
+LGPLv3+
+LGPLv3+ with exceptions
+LLGPL
+LOSLA
+LPL
+LPL-1.0
+LPL-1.02
+LPPL
+LPPL 1.2
+LPPL 1.3
+LPPL-1.2
+LPPL-1.3a
+LPPL-1.3c
+Latex2e
+Leptonica
+Lhcyr
+LiLiQ-P-1.1
+LiLiQ-R-1.1
+LiLiQ-Rplus-1.1
+Liberation
+Logica
+Lucida
+MIT
+MIT License
+MIT with advertising
+MIT with exceptions
+MIT-0
+MITNFA
+MPL 1.0
+MPL 1.1
+MPL 2.0
+MPL-1.0
+MPL-1.1
+MPL-1.1+
+MPL-2.0
+MPL-2.0-no-copyleft-exception
+MPL1.0
+MPL1.1
+MPL2.0
+MPLv1.0
+MPLv1.0+
+MPLv1.1
+MPLv1.1+
+MPLv2.0
+MPLv2.0+
+MS-PL
+MS-RL
+MTLL
+MakeIndex
+MgOpen
+MirOS
+Motosoto
+Multics
+Mup
+NASA-1.3
+NCSA
+NGPL
+NLPL
+NOSL
+NPL-1.0
+NPL-1.1
+NPOSL-3.0
+NTP
+Naumen
+NetCDF
+Netscape
+Newmat
+Newsletr
+Nmap
+Nokia
+NonFree
+Noweb
+OAL
+OCLC-2.0
+ODbL-1.0
+OFL
+OFL-1.1
+OFSFDL
+OGL
+OGTSL
+OLDAP-2.3
+OLDAP-2.7
+OLDAP-2.8
+OML
+OPL-1.0
+OReilly
+OSET-PL-2.1
+OSL 1.0
+OSL 1.1
+OSL 2.0
+OSL 2.1
+OSL 3.0
+OSL-1.0
+OSL-1.1
+OSL-2.0
+OSL-2.1
+OSL-3.0
+Open Publication
+OpenLDAP
+OpenPBS
+OpenSSL
+PHP
+PHP-3.0
+PHP-3.01
+PTFL
+Par
+Phorum
+PlainTeX
+Plexus
+PostgreSQL
+Public Domain
+Public Use
+Punknova
+Python
+Python-2.0
+QPL
+QPL with exceptions
+QPL-1.0
+Qhull
+REX
+RPL-1.1
+RPL-1.5
+RPSL
+RPSL-1.0
+RSCPL
+Rdisc
+RiceBSD
+Romio
+Rsfs
+Ruby
+SCEA
+SCRIP
+SGI-B-2.0
+SISSL
+SLIB
+SMLNJ
+SNIA
+SPL
+SPL-1.0
+STIX
+STMPL
+SUSE-Arphic
+SUSE-BSD-3-Clause-with-non-nuclear-addition
+SUSE-BSD-Mark-Modifications
+SUSE-Bitstream-Vera
+SUSE-CC-Sampling-Plus-1.0
+SUSE-CPL-0.5
+SUSE-CacertRoot
+SUSE-Copyleft-Next-0.3.0
+SUSE-Curb
+SUSE-DMTF
+SUSE-Docbook-XSL
+SUSE-EULA
+SUSE-Egenix-1.1.0
+SUSE-FHS
+SUSE-FLTK
+SUSE-Free-Art-1.3
+SUSE-Freetype
+SUSE-GL2PS-2.0
+SUSE-GPL-2.0+-with-openssl-exception
+SUSE-GPL-2.0+-with-sane-exception
+SUSE-GPL-2.0-with-FLOSS-exception
+SUSE-GPL-2.0-with-OSI-exception
+SUSE-GPL-2.0-with-linking-exception
+SUSE-GPL-2.0-with-openssl-exception
+SUSE-GPL-2.0-with-plugin-exception
+SUSE-GPL-3.0+-with-font-exception
+SUSE-GPL-3.0+-with-openssl-exception
+SUSE-GPL-3.0-with-FLOSS-exception
+SUSE-GPL-3.0-with-font-exception
+SUSE-GPL-3.0-with-openssl-exception
+SUSE-GPL-3.0-with-template-exception
+SUSE-Gitslave
+SUSE-Gnuplot
+SUSE-Hack-Open-Font-2.0
+SUSE-IBPL-1.0
+SUSE-IDPL-1.0
+SUSE-IEEE
+SUSE-Innernet-2.0
+SUSE-Innernet-2.00
+SUSE-LDPL-2.0
+SUSE-LGPL-2.0-with-linking-exception
+SUSE-LGPL-2.1-with-digia-exception-1.1
+SUSE-LGPL-2.1-with-nokia-exception-1.1
+SUSE-Liberation
+SUSE-MIT-Khronos
+SUSE-Manpages
+SUSE-Matplotlib
+SUSE-MgOpen
+SUSE-Oasis-Specification-Notice
+SUSE-OldFSFDocLicense
+SUSE-OpenPublication-1.0
+SUSE-PHP-2.02
+SUSE-Permissive
+SUSE-Permissive-Modify-By-Patch
+SUSE-Public-Domain
+SUSE-Python-1.6
+SUSE-QWT-1.0
+SUSE-Redistributable-Content
+SUSE-Repoze
+SUSE-SGI-FreeB-2.0
+SUSE-SIP
+SUSE-SLIB
+SUSE-SNIA-1.0
+SUSE-SNIA-1.1
+SUSE-Scrot
+SUSE-Sun-Laboratories
+SUSE-TGPPL-1.0
+SUSE-TeX
+SUSE-Ubuntu-Font-License-1.0
+SUSE-XDebug
+SUSE-XFree86-with-font-exception
+SUSE-XSL-Lint
+SUSE-Xano
+SUSE-Xenonsoft-1.00
+SUSE-mirror
+SUSE-mplus
+SUSE-wxWidgets-3.1
+SWL
+Saxpath
+Sendmail
+Sequence
+SimPL-2.0
+Sleepycat
+TCGL
+TCL
+TGPPL
+TMate
+TORQUEv1.1
+TOSL
+TPDL
+TPL
+TTWL
+Teeworlds
+Threeparttable
+Tolua
+UCAR
+UCD
+UPL-1.0
+Unicode
+Unlicense
+Utopia
+VNLSL
+VOSTROM
+VSL
+VSL-1.0
+Verbatim
+Vim
+W3C
+WTFPL
+Wadalab
+Watcom-1.0
+Webmin
+Wsuipa
+X11
+XANO
+XFree86-1.1
+XSkat
+Xerox
+Xnet
+YPL-1.1
+YPLv1.1
+ZPL-2.0
+ZPL-2.1
+ZPLv1.0
+ZPLv2.0
+ZPLv2.1
+Zed
+Zend
+Zend-2.0
+Zimbra-1.3
+Zlib
+diffmark
+dvipdfm
+eCos
+eGenix
+ec
+gnuplot
+iMatix
+libtiff
+mecab-ipadic
+midnight
+mod_macro
+mplus
+psfrag
+psutils
+pubkey
+softSurfer
+wxWidgets
+xinetd
+xpp
+zlib
+zlib with acknowledgement
