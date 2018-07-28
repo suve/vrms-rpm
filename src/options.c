@@ -73,10 +73,11 @@ void options_parse(int argc, char **argv) {
 		{ 0, 0, 0, 0 },
 	};
 
+	opterr = 0;
 	while(1) {
 		int option_index = 0;
 		
-		int res = getopt_long(argc, argv, "", vrms_opts, &option_index);
+		int res = getopt_long(argc, argv, ":", vrms_opts, &option_index);
 		if(res == -1) break;
 
 		switch (res) {
@@ -100,9 +101,13 @@ void options_parse(int argc, char **argv) {
 				puts("vrms-rpm v.2.0 by suve");
 				
 				const char *translator = lang_getmsg(MSG_TRANSLATION_AUTHOR);
-				if((strlen(translator) > 0) && (strcmp(translator, "TRANSLATION_AUTHOR") != 0)) printf(translator);
+				if(strcmp(translator, "--\n") != 0) printf(translator);
 				
 				exit(EXIT_SUCCESS);
+			
+			case '?':
+				lang_print(stderr, MSG_ERR_BADOPT_UNKNOWN, argv[optind]);
+				exit(EXIT_FAILURE);
 		}
 	}
 	

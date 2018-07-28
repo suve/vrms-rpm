@@ -38,7 +38,7 @@ void lang_init(void) {
 	// Take a look at the test string and change locale to English
 	// if there isn't a translation available
 	const char *teststr = lang_getmsg(MSG_TRANSLATION_AUTHOR);
-	if((strlen(teststr) == 0) || (strcmp(teststr, msgname[MSG_TRANSLATION_AUTHOR]) == 0)) {
+	if(strcmp(teststr, msgname[MSG_TRANSLATION_AUTHOR]) == 0) {
 		setenv("LANGUAGE", "en", 1);
 	}
 }

@@ -8,7 +8,7 @@ msgstr ""
 # Miejsce, gdzie możesz umieścić podziękowanie dla siebie!
 # Wstaw tutaj coś w stylu "Łacińskie tłumaczenie autorstwa Juliusza Gajusza\n".
 msgid "TRANSLATION_AUTHOR\n"
-msgstr ""
+msgstr "--\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
