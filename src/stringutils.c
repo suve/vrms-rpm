@@ -80,6 +80,15 @@ void str_findmultiple(
 	if(result_needle != NULL) *result_needle = best_needle;
 }
 
+char* str_ends_with(const char *const haystack, const char *const needle) {
+	const size_t stacklen = strlen(haystack);
+	const size_t ndllen = strlen(needle);
+	if(stacklen < ndllen) return NULL;
+	
+	char *cmppos = (char*)(haystack + (stacklen - ndllen));
+	return (strcmp(cmppos, needle) == 0) ? cmppos : NULL;
+}
+
 size_t replace_unicode_spaces(char *text) {
 	size_t textlen = strlen(text);
 	

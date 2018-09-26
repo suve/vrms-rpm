@@ -39,6 +39,8 @@ void str_findmultiple(
 	char * *const result_needle
 );
 
+char* str_ends_with(const char *const haystack, const char *const needle);
+
 size_t replace_unicode_spaces(char *str);
 
 #endif

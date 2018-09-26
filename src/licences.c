@@ -115,8 +115,48 @@ static int binary_search(const char *const value, const int minpos, const int ma
 	return pos;
 }
 
-static int is_free(const char *const licence) {
-	return binary_search(licence, 0, LIST_COUNT-1) >= 0;
+static int is_free(char *licence) {
+	const char *suffixes[] = {
+		" with acknowledgement",
+		" with advertising",
+		" with additional permissions",
+		" with attribution",
+		" with exception",
+		" with exceptions",
+		" with font exception",
+		" with linking exception",
+		" with plugin exception",
+		"-with-acknowledgement",
+		"-with-advertising",
+		"-with-additional-permissions",
+		"-with-attribution",
+		"-with-exception",
+		"-with-exceptions",
+		"-with-font-exception",
+		"-with-linking-exception",
+		"-with-plugin-exception",
+		(const char*)NULL
+	};
+	
+	int bs = binary_search(licence, 0, LIST_COUNT-1);
+	if(bs >= 0) return 1;
+	
+	// See if the licence ends with an acceptable suffix.
+	// This allows us some flexibility when it comes to classifying licences.
+	for(const char **suf = suffixes; *suf != NULL; ++suf) {
+		char *sufpos = str_ends_with(licence, *suf);
+		if(sufpos == NULL) continue;
+		
+		const char oldchar = *sufpos;
+		*sufpos = '\0';
+		
+		bs = binary_search(licence, 0, LIST_COUNT-1);
+		*sufpos = oldchar;
+		
+		if(bs >= 0) return 1;
+	}
+	
+	return 0;
 }
 
 static char* find_closing_paren(char *start) {
