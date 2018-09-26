@@ -3,7 +3,6 @@ ADSL
 AFL
 AGPLv1
 AGPLv3
-AGPLv3 with exceptions
 AGPLv3+
 AMDPLPA
 AML
@@ -25,8 +24,6 @@ Artistic 2.0
 Artistic clarified
 BSD
 BSD Protection
-BSD with advertising
-BSD with attribution
 Baekmuk
 Bahyph
 Barr
@@ -92,16 +89,11 @@ Freely redistributable without restriction
 GFDL
 GL2PS
 GPL+
-GPL+ with exceptions
 GPLv1
 GPLv2
-GPLv2 with exceptions
 GPLv2+
-GPLv2+ with exceptions
 GPLv3
-GPLv3 with exceptions
 GPLv3+
-GPLv3+ with exceptions
 GeoGratis
 Giftware
 Glide
@@ -128,13 +120,9 @@ Knuth
 LBNL BSD
 LDPL
 LGPLv2
-LGPLv2 with exceptions
 LGPLv2+
-LGPLv2+ with exceptions
 LGPLv3
-LGPLv3 with exceptions
 LGPLv3+
-LGPLv3+ with exceptions
 LLGPL
 LOSLA
 LPL
@@ -146,7 +134,6 @@ Liberation
 Logica
 Lucida
 MIT
-MIT with advertising
 MITNFA
 MPLv1.0
 MPLv1.1
@@ -275,4 +262,3 @@ wxWidgets
 xinetd
 xpp
 zlib
-zlib with acknowledgement

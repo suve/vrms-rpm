@@ -92,13 +92,10 @@ SUSE-GPL-2.0+-with-openssl-exception
 SUSE-GPL-2.0+-with-sane-exception
 SUSE-GPL-2.0-with-FLOSS-exception
 SUSE-GPL-2.0-with-OSI-exception
-SUSE-GPL-2.0-with-linking-exception
 SUSE-GPL-2.0-with-openssl-exception
-SUSE-GPL-2.0-with-plugin-exception
-SUSE-GPL-3.0+-with-font-exception
+SUSE-GPL-3.0+
 SUSE-GPL-3.0+-with-openssl-exception
 SUSE-GPL-3.0-with-FLOSS-exception
-SUSE-GPL-3.0-with-font-exception
 SUSE-GPL-3.0-with-openssl-exception
 SUSE-GPL-3.0-with-template-exception
 SUSE-Gitslave
@@ -110,7 +107,6 @@ SUSE-IEEE
 SUSE-Innernet-2.0
 SUSE-Innernet-2.00
 SUSE-LDPL-2.0
-SUSE-LGPL-2.0-with-linking-exception
 SUSE-LGPL-2.1-with-digia-exception-1.1
 SUSE-LGPL-2.1-with-nokia-exception-1.1
 SUSE-Liberation
@@ -140,7 +136,6 @@ SUSE-TGPPL-1.0
 SUSE-TeX
 SUSE-Ubuntu-Font-License-1.0
 SUSE-XDebug
-SUSE-XFree86-with-font-exception
 SUSE-XSL-Lint
 SUSE-Xano
 SUSE-Xenonsoft-1.00
