@@ -1,6 +1,12 @@
 build/*
 install/*
 src/config.h
+var/*
+
+*.a
+*.o
+*.gch
+*.geany
 
 # macOS files
 *.DS_STORE
