@@ -27,7 +27,7 @@ msgid "RMS_DISAPPOINTED\n"
 msgstr "Über 10%% propietäre Pakete. Weißt du Freiheit nicht zu schätzen?\n"
 
 msgid "HELP_USAGE\n"
-msgstr "Usage: vrms-rpm [Optionen]\n"
+msgstr "Verwendung: vrms-rpm [Optionen]\n"
 
 msgid "HELP_OPTION_ASCII\n"
 msgstr "    Zeige rms ASCII-art wenn keine proprietären Pakete gefunden\n"
@@ -51,48 +51,48 @@ msgid "HELP_OPTION_HELP\n"
 msgstr "    Hilfe anzeigen und beenden.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
-msgstr "    Like --ascii, but displays an image using Unicode block characters\n"
-       "    and 256-colour mode terminal escape codes.\n"
+msgstr "    Wie --ascii, zeigt aber ein Bild mit Unicode Block Zeichen\n"
+       "    und 256-Farben Modus Terminal Escape Codes.\n"       
 
 msgid "HELP_OPTION_LICENCELIST\n"
-msgstr "    Specifies the list of good licences to use. FILE can be a path\n"
-       "    to a file on disk, or one of the bundled licence lists:\n"
+msgstr "    Spezifiziert eine Liste akzeptierter Lizenzen. FILE kann ein Pfad\n"
+       "    zu einer Datei auf der Festplatte, einer mitgelieferten Liste sein:\n"
        "    %s\n"
-       "    The default value is '%s'.\n"
+       "    Standardwert ist '%s'.\n"
 
 msgid "HELP_OPTION_LIST\n"
-msgstr "    Apart from displaying a summary number of free & non-free packages,\n"
-       "    print them by name. The default value is 'nonfree'.\n"
+msgstr "    Außer der Anzeige einer Zusammenfassung von freien & proprietären Paketen,\n"
+       "    werden die Namen aufgelistet. Standardwert ist 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
-msgstr "    Display version information and exit.\n"
+msgstr "    Versionsinformationen zeigen und beenden.\n"
 
 msgid "ERR_PIPE_OPEN_FAILED\n"
-msgstr "vrms-rpm: failed to open pipe to /usr/bin/rpm\n"
+msgstr "vrms-rpm: Fehler beim Öffnen einer Pipe zu /usr/bin/rpm\n"
 
 msgid "ERR_PIPE_NOEVENTS\n"
-msgstr "vrms-rpm: pipe_fopen(): poll() returned no events\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() hat keine Events zurückgegeben\n"
 
 msgid "ERR_PIPE_POLL_ERROR\n"
-msgstr "vrms-rpm: pipe_fopen(): poll() returned an error\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() hat einen Fehler zurückgegeben\n"
 
 msgid "ERR_PIPE_POLL_HANGUP\n"
-msgstr "vrms-rpm: pipe_fopen(): other end of pipe hung up without sending any data\n"
+msgstr "vrms-rpm: pipe_fopen(): Anderes Pipe-Ende wurde geschlossen ohne Daten zu senden\n"
 
 msgid "ERR_PIPE_READ_FAILED\n"
-msgstr "vrms-rpm: failed to read from pipe to /usr/bin/rpm\n"
+msgstr "vrms-rpm: Lesen von der Pipe nach /usr/bin/rpm fehlgeschlagen\n"
 
 msgid "ERR_LICENCES_FAILED\n"
-msgstr "vrms-rpm: failed to read the list of good licences\n"
+msgstr "vrms-rpm: Fehler beim Lesen der Liste akzeptierter Lizenzen\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: failed to read list of good licences from \"%s\"\n"
+msgstr "vrms-rpm: Fehler beim Lesen der Liste akzeptierter Lizenzen von \"%s\"\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: argument to --colour option must be one of 'no', 'yes', or 'auto'\n"
+msgstr "vrms-rpm: Option --colour benötigt eines der Argumente 'no', 'yes', oder 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
-msgstr "vrms-rpm: argument to --list option must be one of 'none', 'non-free', 'free' or 'all'\n"
+msgstr "vrms-rpm: Option --list benötigt eines der Argumente 'none', 'non-free', 'free' oder 'all'\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
-msgstr "vrms-rpm: unknown option \"%s\"\n"
+msgstr "vrms-rpm: Unbekannte Option \"%s\"\n"
