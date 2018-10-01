@@ -1,0 +1,60 @@
+.TH VRMS-RPM 1
+.SH NÁZEV
+vrms-rpm - hlášení o nesvobodném softwaru
+.SH POUŽITÍ
+\fBvrms-rpm\fR \fI[MOŽNOSTI]\fR ...
+.SH POPIS
+Tento program ke klonem originálního programu
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
+pro Debian GNU/Linux, vytvořený za účelem přenesení jeho skvělé myšlenky 
+na GNU/Linux distribuce založené na RPM.
+.PP
+Tento program analyzuje seznam aktuálně nainstalovaných RPM balíčků a vypíše
+nalezené nesvobodné balíčky do stdout. Rozhodnutí, jestli klasifikovat
+balíček jako svobodný nebo nesvobodný je provedeno na základě
+Fedora Project licensing guidelines.
+.PP
+Uživatelé dodatečných repozitářů Fedora / CentOS, jako například
+\fBRPM Fusion\fR si mohou všimnout, že ne všechny balíčky pocházející z
+neoficiálních repozitářů jsou označeny jako nesvobodné. Je to způsobeno tím,
+že rozhodnutí je provedeno na základě licence balíčku. Kromě licence existují
+různé další důvody proč nemusí být balíček akceptován v oficiálním
+Fedora / CentOS repozitáři - například patenty nebo exportní omezení.
+.PP
+Richard Stallman je již mnoho let nejvýraznější osobností
+hnutí Free Software a neustále nám připomíná otázky softwarové etiky.
+Podobně jako Richard věříme, že uživatelé mají mít jednoduchý způsob, jak
+zjistit jestli používají na svých počítačích nesvobodný software.
+Tento program je snahou tuto potřebu naplnit.
+.SH MOŽNOSTI
+.TP
+\fB\-\-ascii\fR
+Zobrazit rms ASCII-art pokud nejsou nalezeny nesvobodné balíčky 
+nebo pokud je nesvobodných balíčků více než 10%.
+.TP
+\fB\-\-explain\fR
+Zobrazit ve výpisu licence pro ověření rozdělení
+na svobodné a nesvobodné.
+.TP
+\fB\-\-help\fR
+Zobrazit stručnou nápovědu k programu.
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+Kromě zobrazení ceklového počtu svobodných a nesvobodných balíčků 
+také vypsat balíčky podle názvu.
+Výchozí hodnota je "\fInonfree\fR".
+.TP
+\fB\-\-version\fR
+Zobrazit informace o verzi.
+.SH DALŠÍ ZDROJE
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+Wiki stránka projektu The Fedora Project o přijímaných softwarových licencích.
+.TP
+\fBhttps://vrms.alioth.debian.org/\fR
+Domácí stánka programu \fBvrms\fR.
+.SH LICENCE
+Tento program jako takový je dostupný pod licencí GNU General Public
+License, verze 3, jak ji publikovala the Free Software Foundation.
+.SH AUTOR
+Napsal \fBsuve\fR začátkem roku 2017.
