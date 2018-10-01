@@ -23,12 +23,12 @@ der Lizenz des jeweiligen Pakets basiert. Es gibt verschiedene Gründe, abgesehe
 der Lizensierung, weshalb ein Paket vielleicht nicht in das offizielle Fedora / CentOS
 Repository aufgenommen wurde - u.a. Software-Patente oder Exporteinschränkungen.
 .PP
-Richard Stallman has been, for years, the most prominent and vocal figure 
-in the Free Software movement, relentlessly reminding us on issues of 
-software ethics. Like Richard, we believe that users should have an easy way to
-know whether they’re running non-free software on their systems. 
-This program is an attempt to fulfil that need.
-
+Richard Stallman ist seit vielen Jahren die prominenteste und engagierteste
+Figur in der "Free Software" Bewegung und erinnert uns unablässig an die Probleme
+der Software-Ethik. Wie Richard, glauben auch wir, dass Nutzer eine einfache
+Möglichkeit haben sollten, um festzustellen ob auf ihren Systemen proprietäre
+Software läuft.
+Dieses Programm ist ein Versuch, dieses Bedürfnis zu erfüllen.
 .SH OPTIONS
 .TP
 \fB\-\-ascii\fR
