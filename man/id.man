@@ -1,7 +1,7 @@
 .TH VRMS-RPM 1
 .SH NAMA
 vrms-rpm - laporan dari pemasangan perangkat lunak non-free
-.SH SINOPSI
+.SH SINOPSIS
 \fBvrms-rpm\fR \fI[OPSI]\fR ...
 .SH DESKRIPSI
 Program ini merupakan salinan dari
@@ -11,10 +11,10 @@ ide brilian ke distribusi GNU/Linux berbasis RPM.
 .PP
 Program ini menganalisa daftar paket RPM yang terpasang sekarang dan melaporkan
 paket non-free yang ditemukan ke stdout. Keputusan untuk mengklasisfikasi paket
-sebagai free atau non-free berdasarkan petunjuk lisensi proyek Fedora 
+sebagai free atau non-free berdasarkan petunjuk lisensi proyek Fedora. 
 .PP
 Pengguna Fedora / CentOS menggunakan lumbung tambahan, seperti \fBRPM Fusion\fR, 
-mungkin melihat tidak semua paket berasal dari lumbung ofisial ditandai sebagai 
+mungkin melihat tidak semua paket berasal dari lumbung tidak resmi ditandai sebagai 
 non-free. Ini karena perbedaan, seperti yang disebutkan sebelumnya, dibuat bergantung pada 
 lisensi paket. Ada berbagai alasan, terlepas dari lisensi, mengapa 
 sebuah paket mungkin tidak diterima di lumbung resmi 
@@ -48,7 +48,7 @@ Tampilkan informasi versi dan keluar.
 .SH LIHAT JUGA
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
-Halaman wiki Proyek Fedora pada menyetujui lisensi perangkat lunak.
+Halaman wiki Proyek Fedora perihal menyetujui lisensi perangkat lunak.
 .TP
 \fBhttps://vrms.alioth.debian.org/\fR
 Beranda asli dari program \fBvrms\fR.
