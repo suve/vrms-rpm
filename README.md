@@ -1,5 +1,5 @@
-**vrms-rpm**
-----------
+# vrms-rpm
+
 A clone of *vrms* ("*virtual Richard M. Stallman*") for
 RPM-based GNU/Linux distributions.
 
@@ -7,8 +7,8 @@ This program analyses the list of currently installed RPM packages and reports
 found non-free packages to stdout. 
 
 
-**Why a clone instead of a fork?**
-----------
+### Why a clone instead of a fork?
+
 Because my only experience with Perl (which the original *vrms* is written in)
 has been one semester of Operating Systems class, and that was a long time ago.
 
@@ -17,8 +17,8 @@ quite possible that making a fork instead of starting fresh would only
 complicate matters. After all, removing code is hard.
 
 
-**Installing from a repository**
-----------
+### Installing from a repository
+
 Fedora users can install *vrms-rpm* from the official distro repository.
 RHEL/CentOS users can get the package from the Fedora EPEL repositories.
 ```
@@ -28,19 +28,19 @@ You can also grab the package from the *copr* repository
 [suve/vrms-rpm](https://copr.fedorainfracloud.org/coprs/suve/vrms-rpm/).
 
 
-**Building it on your own: dependencies**
-----------
-- bash, since 'tis a shell script
+### Building it on your own: dependencies
 
-- grep, for all that nifty pattern matching
+- *bash*, since 'tis a shell script
 
-- gettext, for handling multiple languages
+- *grep*, for all that nifty pattern matching
 
-- make, for simplifying the build & install process
+- *gettext*, for handling multiple languages
+
+- *make*, for simplifying the build & install process
 
 
-**Building**
-----------
+### Building
+
 Right now you're probably wondering why the hell do you need to build a 
 bash script. Well, basically we need to process the gettext translation
 files and set up data paths.
@@ -57,8 +57,8 @@ $ make build [PREFIX=/usr/local]
 ```
 
 
-**Installing**
-----------
+### Installing
+
 To install, perform your usual `make install`.
 ```
 $ [sudo] make install [PREFIX=/usr/local]
@@ -66,8 +66,8 @@ $ [sudo] make install [PREFIX=/usr/local]
 Remember that to install stuff inside `/usr` you will need root capabilities.
 
 
-**Getting rid of it**
-----------
+### Getting rid of it
+
 Should you decide to remove the program, the Makefile has got you covered.
 ```
 $ [sudo] make remove [PREFIX=/usr/local]
@@ -75,15 +75,15 @@ $ [sudo] make remove [PREFIX=/usr/local]
 Once again, remember that messing inside `/usr` requires extra privileges.
 
 
-**Licensing**
-----------
+### License
+
 This program is made available under the terms of the GNU
-General Public License, version 3, as published by the
+General Public License version 3, as published by the
 Free Software Foundation.
 
 
-**Contributing**
-----------
+### Contributing
+
  1. Make a new branch for your changes.
  
  2. When modifying program options, remember to update the --help section
