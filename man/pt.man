@@ -1,0 +1,71 @@
+.TH VRMS-RPM 1
+.SH NOME
+vrms-rpm - relatório de software não livre instalado
+
+.SH SINOPSE
+\fBvrms-rpm\fR \fI[OPÇÃO]\fR ...
+
+.SH DESCRIÇÃO
+Este programa é um clone do programa original
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
+para Debian GNU/Linux, criado com o objetivo de trazer a sua
+ideia brilhante para as distribuições GNU/Linux baseadas em RPM.
+.PP
+Este programa analisa a lista de pacotes RPM não livres atualmente instalados
+e reporta o que encontrou para a saída. A decisão de classificar um pacote
+como livre ou não, é baseada nas diretrizes de licenciamento do Projeto Fedora.
+.PP
+Os utilizadores de Fedora/CentOS que utilizam repositórios adicionais, como
+\fBRPM Fusion\fR, podem notar que nem todos os pacotes provenientes de
+repositórios não oficiais são marcados como não livres. Isso ocorre porque a
+distinção, conforme indicado anteriormente, é feita dependendo da licença do
+pacote. Existem vários motivos, para além do licenciamento, porque um pacote
+pode não ter sido aceito no Repositório oficial Fedora/CentOS - como
+patentes de software ou restrições de exportação.
+.PP
+Richard Stallman tem sido, há anos, a figura mais proeminente e vocal
+no movimento do Software Livre, lembrando implacavelmente algumas questões de
+ética do software. Como Richard, acreditamos que os utilizadores devem ter
+uma maneira fácil de saber se eles estão usando software não livre nos seus
+sistemas.
+Este programa é uma tentativa de cumprir essa necessidade.
+
+.SH OPÇÕES
+.TP
+\fB\-\-ascii\fR
+Exibir Art ASCII do rms quando não são encontrados pacotes não gratuitos,
+ou quando pacotes não gratuitos são 10% ou mais do total.
+
+.TP
+\fB\-\-explain\fR
+Ao listar pacotes, exibir as licenças para justificar a classificação
+livre / não gratuita.
+
+.TP
+\fB\-\-help\fR
+Exibir uma ajuda resumida sobre o uso do programa e terminar.
+
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+Além de exibir o número total de pacotes gratuitos e não gratuitos,
+também lista os pacotes pelo seu nome.
+O valor por defeito para esta opção é "\fInonfree\fR".
+
+.TP
+\fB\-\-versão\fR
+Exibir informação da versão do programa e terminar.
+
+.SH VER TAMBÉM
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+A página wiki do Projeto Fedora para licenças de software aceites.
+
+.TP
+\fBhttps://vrms.alioth.debian.org/\fR
+Página web da versão original do programa \fBvrms\fR.
+
+.SH LICENÇA
+Este programa em si está disponível sob o termo Licença Pública Geral GNU,
+ versão 3, conforme publicado pela Free Software Foundation.
+.SH AUTOR
+Escrito no início de 2017 por \fBsuve\fR.
