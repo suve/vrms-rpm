@@ -30,13 +30,13 @@ You can also grab the package from the *copr* repository
 
 ### Building it on your own: dependencies
 
-- bash, since 'tis a shell script
+- *bash*, since 'tis a shell script
 
-- grep, for all that nifty pattern matching
+- *grep*, for all that nifty pattern matching
 
-- gettext, for handling multiple languages
+- *gettext*, for handling multiple languages
 
-- make, for simplifying the build & install process
+- *make*, for simplifying the build & install process
 
 
 ### Building
@@ -75,10 +75,10 @@ $ [sudo] make remove [PREFIX=/usr/local]
 Once again, remember that messing inside `/usr` requires extra privileges.
 
 
-### Licensing
+### License
 
 This program is made available under the terms of the GNU
-General Public License, version 3, as published by the
+General Public License version 3, as published by the
 Free Software Foundation.
 
 
