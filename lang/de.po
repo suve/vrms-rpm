@@ -61,8 +61,8 @@ msgstr "    Spezifiziert eine Liste akzeptierter Lizenzen. FILE kann ein Pfad\n"
        "    Standardwert ist '%s'.\n"
 
 msgid "HELP_OPTION_LIST\n"
-msgstr "    Außer der Anzeige einer Zusammenfassung von freien & proprietären Paketen,\n"
-       "    werden die Namen aufgelistet. Standardwert ist 'nonfree'.\n"
+msgstr "    Außer der summierten Anzahl von freien & proprietären Paketen,\n"
+       "    werden deren Namen aufgelistet. Standardwert ist 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Versionsinformationen zeigen und beenden.\n"
