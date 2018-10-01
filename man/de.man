@@ -32,63 +32,65 @@ Dieses Programm ist ein Versuch, dieses Bedürfnis zu erfüllen.
 .SH OPTIONS
 .TP
 \fB\-\-ascii\fR
-Display rms ASCII-art when no non-free packages are found, 
-or when non-free packages are 10% or more of the total.
+Zeige rms ASCII-art wenn keine proprietären Pakete gefunden
+wurden oder wenn propritäre Pakete 10% oder mehr der gesamten
+Pakete ausmachen.
 
 .TP
 \fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
-Controls whether terminal escape sequences should be used for colourizing the output.
-Default is '\fIauto\fR', which uses colour output when writing to a terminal,
-but not when writing to a file or a pipe.
+Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgabe
+verwendet werden sollen. Standard ist 'auto', was Farben beim Schreiben
+ins Terminal verwendet, aber nicht beim Schreiben in eine Datei oder Pipe.
 
 .TP
 \fB\-\-describe\fR
-When listing packages, include the package summaries (short descriptions).
+Beim Auflisten der Pakete, Paket-Zusammenfassung mitanzeigen (Kurzbeschreibung)
 
 .TP
 \fB\-\-explain\fR
-When listing packages, display licences as to justify
-the free / non-free classification.
+Beim Auflisten der Pakete, auch die Lizenzen anzeigen
+um die frei / proprietär Klassifikation zu rechtfertigen.
 
 .TP
 \fB\-\-help\fR
-Display a short help on program usage and exit.
+Hilfe anzeigen und beenden.
 
 .TP
 \fB\-\-image\fR
-Like \fB-\-ascii\fR, but displays an image using terminal escape seqences
-and Unicode half-height blocks.
+Wie \fB-\--ascii\fR, zeigt aber ein Bild mit Unicode Block Zeichen
+und 256-Farben Modus Terminal Escape Codes.
 
 .TP
 \fB\-\-licence\-list\fR <\fIFILE\fR>
-Specifies the list of good licences to use for classifying packages.
-\fIFILE\fR can be a path to a file on disk, or one of the bundled licence lists:
+Spezifiziert eine Liste akzeptierter Lizenzen für die Klassifizierung von Paketen. 
+\fIFILE\fR kann ein Pfad zu einer Datei auf der Festplatte oder einer mitgelieferten 
+Liste sein:
 __BUNDLED_LICENCE_LISTS__
-The default value is
+Der Standardwert ist
 __DEFAULT_LICENCE_LIST__
 
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
-Apart from displaying the total number of free and non-free packages, 
-also list packages by name.
-The default value for this option is "\fInonfree\fR".
+Außer der summierten Anzahl von freien & proprietären Paketen
+werden deren Namen aufgelistet. Standardwert ist "\fInonfree\fR".
 
 .TP
 \fB\-\-version\fR
-Display version information and exit.
+Versionsinformationen zeigen und beenden.
 
 .SH SEE ALSO
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
-The Fedora Project wiki page on accepted software licences.
+Die Fedora Projet Wiki Seite über akzeptierte Software Lizenzen.
 
 .TP
 \fBhttps://spdx.org/licenses/\fR
-The SPDX licence list, an attempt at standarizing licence identifiers.
+Die SPDX Lizenzliste, ein Versuch zur Standardisierung von Lizenz-Identifizierern.
 
 .SH LICENCE
-This program itself it available under the terms of the GNU General Public
-License, version 3, as published by the Free Software Foundation.
+Das vorliegende Programm ist unter den Bedingungen der GNU General Public
+License (Version 3), verfügbar, wie sie von der Free Software Foundation 
+veröffentlicht wird.  
 
 .SH AUTHOR
-Written in early 2017 by \fBsuve\fR.
+Erstellt Anfang 2017 von \fBsuve\fR.
