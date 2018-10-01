@@ -1,0 +1,95 @@
+.TH VRMS-RPM 1
+.SH NOM
+vrms-rpm - Sommaire des progiciels non-libres installés
+
+.SH SOMMAIRE
+\fBvrms-rpm\fR \fI[OPTION]\fR ...
+
+.SH DESCRIPTION
+Ce programme est un clone de l'original,
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
+, écrit pour Debian GNU/Linux, crée pour apporter son idée brillante aux
+distributions GNU/Linux fondées sur RPM. 
+.PP
+Ce programme analyse la liste des logiciels RPM installés, et rapporte une liste
+de logiciels non-libres couramment installés. La classification libre/non-libre
+est basée selon les directives de licenciement du Projet Fedora.
+.PP
+Les utilisateurs de Fedora / CentOS utilisant des repositoires aditionnels comme
+\fBRPM Fusion\fR remarqueront peut-être que certains logiciels provenant de repositoires
+non-officiels sont marqués en tant que libres. Cela est dû au fait que les distinctions
+sont effectuées à base du licenciement du logiciel en question. Des logiciels peuvent
+aussi être exclus du repositoire officiel de Fedora / CentOS dû à des brevets, ou à des
+restrictions d'exportation, par exemple.
+.PP
+Pendant des années, Richard Stallman était une des figures les plus prominentes du
+mouvement Free Software, nous rappelant sans arrêt des problèmes éthiques des
+logiciels. Comme Richard, nous croyons que chaque utilisateur devrait avoir le pouvoir
+de savoir s'ils utilisent des logiciels non-libres sur leurs systèmes.
+Ce programme essaye de satisfaire ce besoin.
+
+.SH OPTIONS
+
+.TP
+\fB\-\-ascii\fR
+Affiche de l'ASCII-art quand aucun logiciel non-libre n'est trouvé,
+ou quand les logiciels non-libres composent 10% ou plus du total.
+
+.TP
+\fB\-\-colour\fR
+Contrôle l'utilisation ou non de caractères d'échappement de terminal
+pour coloriser la sortie. Par défaut la valeur est '\fIauto\fR', et la
+sortie est automatiquement colorisée si elle est directement affichée
+par un terminal et désactivé si redirigée dans un fichier ou dans un tube.
+
+.TP
+\fB\-\-describe\fR
+Inclus une courte description du logiciel dans les listes de logiciel.
+
+.TP
+\fB\-\-explain\fR
+Affiche la license du logiciels dans les listes de logiciel pour justifier
+leur classification.
+
+.TP
+\fB\-\-help\fR
+Affiche une page d'aide courte sur l'usage du programme, et quitte.
+
+.TP
+\fB\-\-image\fR
+Équivalent à \fB\-\-ascii\fR, mais affiche une image en utilisant les caractères
+de blocs d'Unicode et les caractères d'échappement 256 couleurs.
+
+.TP
+\fB\-\-licence\-list\fR <\fIFILE\fR>
+Spécifie une liste de bonnes licenses à utiliser. \fIFILE\fR peut être un chemin
+vers un fichier ou une des listes préparées :
+__BUNDLED_LICENCE_LISTS__
+Par défault, la valeur est
+__DEFAULT_LICENCE_LIST__
+
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+En plus d'afficher un résumé des logiciels libres et non-libres, affiche
+leur nom. La valeur par défaut est "\fInonfree\fR".
+
+.TP
+\fB\-\-version\fR
+Affiche le numéro de version, et quitte.
+
+.SH VOIR AUSSI
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+La page wiki du Projet Fedora sur les licences acceptées.
+
+.TP
+\fBhttps://spdx.org/licenses/\fR
+La liste de license SPDX, une tentative de standardisation des identifieurs de license.
+
+.SH LICENCE
+Ce programme est disponible selon les termes de la licence GNU Publique Générale
+(GNU Public Gerneral License), version 3, tel que publié par la Fondation Free Software.
+
+.SH AUTEUR
+Écrit en 2017 par \fBsuve\fR.
+Traduit de l'anglais par Philip-Nicolas Varga et Aurélien Aptel.
