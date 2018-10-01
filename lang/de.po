@@ -7,7 +7,7 @@ msgstr ""
 
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
-msgid "German translation byMarkus Deibel\n"
+msgid "German translation by Markus Deibel\n"
 msgstr "--\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
@@ -40,14 +40,15 @@ msgstr "    Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgab
        "    ins Terminal verwendet, aber nicht beim Schreiben in eine Datei oder Pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
-msgstr "    When listing packages, include the package summaries (short descriptions).\n"
+msgstr "    Beim Auflisten der Pakete, Paket-Zusammenfassung mitanzeigen\n
+       "    (Kurzbeschreibung).\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
-msgstr "    When listing packages, display their licences\n"
-       "    to justify the free / non-free classification.\n"
+msgstr "    Beim Auflisten der Pakete, auch die Lizenzen anzeigen\n"
+       "    um die frei / proprietär Klassifikation zu rechtfertigen.\n"
 
 msgid "HELP_OPTION_HELP\n"
-msgstr "    Display this help and exit.\n"
+msgstr "    Hilfe anzeigen und beenden.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
 msgstr "    Like --ascii, but displays an image using Unicode block characters\n"
