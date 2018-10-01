@@ -1,42 +1,43 @@
 msgid ""
 msgstr ""
-"Language: en\n"
+"Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
 
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
-msgid "TRANSLATION_AUTHOR\n"
+msgid "German translation byMarkus Deibel\n"
 msgstr "--\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d free package\n"
-msgstr[1] "%d free packages\n"
+msgstr[0] "%d freies Paket\n"
+msgstr[1] "%d freie Pakete\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d non-free package\n"
-msgstr[1] "%d non-free packages\n"
+msgstr[0] "%d proprietäres Paket\n"
+msgstr[1] "%d proprietäre Pakete\n"
 
 msgid "RMS_HAPPY\n"
-msgstr "Only free packages - rms would be proud!\n"
+msgstr "Nur freie Pakete - rms wäre stolz!\n"
 
 msgid "RMS_DISAPPOINTED\n"
-msgstr "Over 10%% non-free packages. Do you not appreciate freedom?\n"
+msgstr "Über 10%% propietäre Pakete. Weißt du Freiheit nicht zu schätzen?\n"
 
 msgid "HELP_USAGE\n"
-msgstr "Usage: vrms-rpm [options]\n"
+msgstr "Usage: vrms-rpm [Optionen]\n"
 
 msgid "HELP_OPTION_ASCII\n"
-msgstr "    Display rms ASCII-art when no non-free packages are found,\n"
-       "    or when non-free packages are 10%% or more of the total.\n"
+msgstr "    Zeige rms ASCII-art wenn keine proprietären Pakete gefunden\n"
+       "    wurden oder wenn propritäre Pakete 10%% oder mehr der gesamten\n"
+       "    Pakete ausmachen."
 
 msgid "HELP_OPTION_COLOUR\n"
-msgstr "    Controls whether terminal escape sequences should be used\n"
-       "    for colourizing the output. Default is 'auto', which uses colour output\n"
-       "    when writing to a terminal, but not when writing to a file or a pipe.\n"
+msgstr "    Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgabe\n"
+       "    verwendet werden sollen. Standard ist 'auto', was Farben beim Schreiben\n"
+       "    ins Terminal verwendet, aber nicht beim Schreiben in eine Datei oder Pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    When listing packages, include the package summaries (short descriptions).\n"
