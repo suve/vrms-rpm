@@ -1,14 +1,14 @@
 .TH VRMS-RPM 1 "2018-05-18"
 .SH NAME
-vrms-rpm - zobrazit seznam nainstalovaného nesvobodného software
+vrms-rpm - zobrazit seznam nainstalovaného nesvobodného softwaru
 
 .SH SYNOPSIS
 \fBvrms-rpm\fR \fI[MOŽNOSTI]\fR ...
 
 .SH DESCRIPTION
 Tento program je klonem originálu
-\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
-programu pro Debian GNU/Linux, vytvořeného za účelem přenesení tohoto
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR"),
+programu pro Debian GNU/Linux, vytvořený za účelem přenesení tohoto
 brilantního nápadu na GNU/Linux distribuce založené na RPM.
 .PP
 Tento program analyzuje seznam aktuálně nainstalovaných RPM balíčků a vypíše
@@ -38,7 +38,7 @@ nebo pokud je nesvobodných balíčků více než 10%.
 .TP
 \fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
 Určuje, jestli použít terminálové escape sekvence pro obarvení výstupu.
-Výchozí nastavení je '\fIauto\fR', což znamená že barvy budou použíty při
+Výchozí nastavení je '\fIauto\fR', což znamená že barvy budou použity při
 výstupu na terminál, ale nikoli při výstupu do souboru nebo roury.
 
 .TP
