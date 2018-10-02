@@ -1,0 +1,95 @@
+msgid ""
+msgstr ""
+"Language: tr\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+
+# A place for you to credit yourself!
+# Put something like "Latin translation by Jvlivs Gaivs\n" here.
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Turkish translation by Berk Gureken\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d özgür paket\n"
+msgstr[1] "%d özgür paketler\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d özgür olmayan paket\n"
+msgstr[1] "%d özgür olmayan paketler\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Sadece özgür paketler - rms gurur duyardı!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "%%10 üzerinde özgür olmayan paket. Özgürlüğün kıymetini bilmiyor musun?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Kullanım: vrms-rpm [seçenekler]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Özgür olmayan paket bulunmazsa veya özgür olmayan paketler,\n"
+       "    %%10 altındaysa rms ASCII-art göster.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Çıktıyı renklendirmek için terminal kaçış dizilerinin kullanılıp\n"
+       "    kullanılmaması gerektiğini kontrol eder. Varsayılan değeri 'auto'dur ve\n"
+       "    bir dosyaya veya bir pipe'a yazarken renkli çıktı kullanmazken\n"
+       "    terminale yazarken renkli çıktı kullanır.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Paketleri listelerken paket özetlerini(kısa açıklamalar) dahil et.\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Paketleri listelerken, özgür / özgür olmayan\n"
+       "    sınıflandırmasını yapmak için lisanslarını görüntüle.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Bu yardımı görüntüle ve çık.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    --ascii seçeneği benzeri, Unicode block karakterlerini ve 256-colour\n"
+       "    modu terminal kaçış kodlarını kullanarak bir resim görüntüler.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Kullanılacak iyi lisansların listesini belirtir. FILE diskteki\n"
+       "    bir dosya yolu veya paketlenmiş lisans listelerinden biri olabilir:\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    Özgür ve özgür olmayan paketlerin sayısını özet olarak görüntülemenin dışında,\n"
+       "    bunları adlarına göre yazdırın. Varsayılan değer 'özgür olmayan(nonfree)'dır.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Versiyon bilgisini görüntüle ve çık.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: /usr/bin/rpm'e pipe açma başarısız oldu\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() hiç etkinlik döndürmedi\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() bir hata döndürdü\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen():pipe'ın diğer ucu hiç veri göndermeden kapandı\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: pipe'tan /usr/bin/rpm'e kadar okuma başarısız oldu\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: iyi lisanslar listesini okuma başarısız oldu\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: iyi lisanslar listesini şurdan okuma başarısız oldu \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: --colour seçeneğinin parametreleri 'no', 'yes', veya 'auto' seçeneklerinden biri olmalı.\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: --list seçeneğinin parametreleri 'none', 'non-free', 'free' veya 'all' seçeneklerinden biri olmalı\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: bilinmeyen seçenek \"%s\"\n"
