@@ -34,7 +34,7 @@ msgstr "    Mostra una ASCII-art di rms quando non esiste nessun pacchetto liber
 msgid "HELP_OPTION_COLOUR\n"
 msgstr "    Controlla se le sequenze di escape del terminale devono essere usate\n"
        "    per colorare l'output. Il valore di default è 'auto', che usa un output colorato\n"
-       "    quando si scrive a terminale, ma non quando si scrive su un file o su pipe.\n"
+       "    quando si scrive in un terminale, ma non quando si scrive su un file o su pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Quando si elencano i pacchetti, include una breve descrizione del pacchetto.\n"
