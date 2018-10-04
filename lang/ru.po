@@ -1,0 +1,95 @@
+msgid ""
+msgstr ""
+"Language: ru\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+
+# A place for you to credit yourself!
+# Put something like "Latin translation by Jvlivs Gaivs\n" here.
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "stacey-impossible\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d свободных пакетов\n"
+msgstr[1] "%d свободных пакетов\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d проприетарных пакетов\n"
+msgstr[1] "%d проприетарных пакетов\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Только свободные пакеты - Ричард Столлман гордился бы!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Больше 10%% проприетарных пакетов. Вы не цените свободу?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Команда: vrms-rpm [options]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Показывать ASCII-арт с Ричардом Столлманом, если не нашлось\n"
+       "    проприетарных пакетов или если их меньше 10%%\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Настроить цветной вывод терминала. Значение по умолчанию: 'auto',\n"
+       "    которое использует цветной вывод в терминал, но не в файл или pipe.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Отображать короткие описания пакетов при выводе их списка.\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Отображать лицензии пакетов при выводе их списка,\n"
+       "    чтобы убедиться в класиффикации свободных/проприетарных пакетов.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Показать \"Помощь\" и выйти.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Как --ascii, только показывает изображение из блочных символов Unicode\n"
+       "    и использует 256-цветный режим для кодов выхода терминала.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Определяет список допустимых к использованию лицензий. FILE может быть путём\n"
+       "    к файлу на диске, либо одним из готовых списков лицензий:\n"
+       "    %s\n"
+       "    Значение по умолчанию: '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    Помимо вывода суммарного количества свободных/проприетарных пакетов,\n"
+       "    вывести их по имени. Значение по умолчанию: 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Показать информацию о версии и выйти.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: не удалось открыть pipe для /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() не вернул событий\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() вернул ошибку\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): другой конец pipe отключился, не отправив данных\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: не удалось прочитать из pipe в /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий из \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: аргумент для флага --colour может быть одним из следующих значений: 'no', 'yes', или 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: аргумент для флага --list может быть одним из следующих значений: 'none', 'non-free', 'free' или 'all'\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: неизвестный флаг \"%s\"\n"
