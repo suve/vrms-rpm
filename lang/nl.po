@@ -59,38 +59,38 @@ msgstr "    Specificeert de lijst van goede licenties die gebruikt mogen worden.
        "    De standaard lijst is '%s'.\n"
 
 msgid "HELP_OPTION_LIST\n"
-msgstr "    Apart from displaying a summary number of free & non-free packages,\n"
-       "    print them by name. The default value is 'nonfree'.\n"
+msgstr "    Toon naast een overzicht van het aantal vrije en niet vrije pakketen,\n"
+       "    ook de namen van de pakketen. De standaard waarde is 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
-msgstr "    Display version information and exit.\n"
+msgstr "    Laat de versieinformatie zien en sluit daarna.\n"
 
 msgid "ERR_PIPE_OPEN_FAILED\n"
-msgstr "vrms-rpm: failed to open pipe to /usr/bin/rpm\n"
+msgstr "vrms-rpm: het is niet gelukt een pipe te openen naar /usr/bin/rpm\n"
 
 msgid "ERR_PIPE_NOEVENTS\n"
-msgstr "vrms-rpm: pipe_fopen(): poll() returned no events\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() gaf geen event terug\n"
 
 msgid "ERR_PIPE_POLL_ERROR\n"
-msgstr "vrms-rpm: pipe_fopen(): poll() returned an error\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() gaf een fout terug\n"
 
 msgid "ERR_PIPE_POLL_HANGUP\n"
-msgstr "vrms-rpm: pipe_fopen(): other end of pipe hung up without sending any data\n"
+msgstr "vrms-rpm: pipe_fopen(): het andere eind van de pipe stopte ermee zonder informatie te versturen\n"
 
 msgid "ERR_PIPE_READ_FAILED\n"
-msgstr "vrms-rpm: failed to read from pipe to /usr/bin/rpm\n"
+msgstr "vrms-rpm: kon niet lezen van de pipe naar /usr/bin/rpm\n"
 
 msgid "ERR_LICENCES_FAILED\n"
-msgstr "vrms-rpm: failed to read the list of good licences\n"
+msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: failed to read list of good licences from \"%s\"\n"
+msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties van \"%s\"\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: argument to --colour option must be one of 'no', 'yes', or 'auto'\n"
+msgstr "vrms-rpm: het argument voor de --colour optie moet 'no', 'yes', of 'auto' zijn\n"
 
 msgid "ERR_BADOPT_LIST\n"
-msgstr "vrms-rpm: argument to --list option must be one of 'none', 'non-free', 'free' or 'all'\n"
+msgstr "vrms-rpm: het argument vor de --list optie moet 'none', 'non-free', 'free' of 'all' zijn\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
-msgstr "vrms-rpm: unknown option \"%s\"\n"
+msgstr "vrms-rpm: onbekende optie \"%s\"\n"
