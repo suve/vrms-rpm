@@ -1,6 +1,6 @@
-.TH VRMS-RPM 1 "2018-05-18"
+.TH VRMS-RPM 1 "2018-10-10"
 .SH NAME
-vrms-rpm - yuklu ozgur olmayan yazilim raporu
+vrms-rpm - yuklu ozgur olmayan yazilim raporlayici
 
 .SH OZET
 \fBvrms-rpm\fR \fI[SECENEK]\fR ...
