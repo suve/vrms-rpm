@@ -29,7 +29,7 @@ msgstr "Usage: vrms-rpm [valgmuligheder]\n"
 
 msgid "HELP_OPTION_ASCII\n"
 msgstr "    Vis rms ASCII-kunst når ingen ikke-fri pakker er fundet,\n"
-       "    eller når ikke-fri pakker er 10%% eller mere af det totale."
+       "    eller når ikke-fri pakker er 10%% eller mere af det totale.\n"
 
 msgid "HELP_OPTION_COLOUR\n"
 msgstr "    Styrrer om terminal escape sekvens skal bruges til at farve\n"
@@ -42,7 +42,7 @@ msgstr "    Inkluder pakkereferat i pakkeoversigten (kort beskrivelse).\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Vis licenser i pakkeoversigten, for at fremhæve\n"
-       "    fri / ikke-fri klassificering."
+       "    fri / ikke-fri klassificering.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Vis denne hjælp og exit.\n"
@@ -59,10 +59,10 @@ msgstr "    Specificer listen af gode licenser. FILE kan være en sti\n"
 
 msgid "HELP_OPTION_LIST\n"
 msgstr "    Vis ikke kun antal fri / ikke-fri pakker, men vis\n"
-       "    også navn. Standardinstillingen er 'nonfree'."
+       "    også navn. Standardinstillingen er 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
-msgstr "    Vis information om version og exit."
+msgstr "    Vis information om version og exit.\n"
 
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: det lykkedes ikke at åbne pipe til /usr/bin/rpm\n"
