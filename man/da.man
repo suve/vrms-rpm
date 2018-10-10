@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1 "2018-05-18"
+.TH VRMS-RPM 1 "2018-10-10"
 .SH NAME
 vrms-rpm - oversigt af installeret ikke-fri software
 
@@ -15,9 +15,10 @@ dette program analyserer listen af installeret RPM software og rapporterer
 alt ikke-fri software til stdout. Klassifiseringen af fri / ikke-fri 
 software sker på baggrund af Fedora Project licens retningslinjer.
 .PP
-Fedora / CentOS brugere, som benytter yderligere repositories sådan som \fBRPM Fusion\fR,
-kan opleve at al software fra ikke-officielle repos vil blive markeret som
-ikke-fri software. Det sker, som nævnt tidligere, på baggrund af licensen.
+Fedora / CentOS brugere, som benytter yderligere repositories sådan som
+\fBRPM Fusion\fR, kan opleve at al software fra ikke-officielle repos vil blive
+markeret som ikke-fri software. Det sker, som nævnt tidligere, på baggrund af
+licensen.
 Der er mange andre grunde, ud over licensen, som gør at en pakke ikke er blevet
 accepteret som et officielt Fedora / CentOS repository - sådan som patenter og
 eksport restriktioner.
@@ -37,8 +38,8 @@ eller når ikke-fri software er 10%% eller mere af total.
 .TP
 \fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
 Styrrer om terminal escape sekvens skal bruges til at farve output.
-Standardinstillingen er '\fIauto\fR', som bruger farvet output når der bliver skrevet i terminalen,
-men ikke når der bliver skrevet til en fil eller pipe.
+Standardinstillingen er '\fIauto\fR', som bruger farvet output når der bliver
+skrevet i terminalen, men ikke når der bliver skrevet til en fil eller pipe.
 
 .TP
 \fB\-\-describe\fR
@@ -60,7 +61,8 @@ Lignende \fB-\-ascii\fR, men vis et billede af Unicode block karakterer
 .TP
 \fB\-\-licence\-list\fR <\fIFILE\fR>
 Specificer listen af gode licenser.
-\fIFILE\fR kan være en sti til en fil på disken, eller en af licenserne i listen:
+\fIFILE\fR kan være en sti til en fil på disken, eller en af licenserne
+i listen:
 __BUNDLED_LICENCE_LISTS__
 Standardinstillingen er
 __DEFAULT_LICENCE_LIST__

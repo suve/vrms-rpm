@@ -5,10 +5,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
 
-# Et sted til personlig anerkendelse!
-# Skriv noget lignende "Dansk oversættelse af Jvlivs Gaivs\n" her.
 msgid "TRANSLATION_AUTHOR\n"
-msgstr "--\n"
+msgstr "Dansk oversættelse af Klaus Nielsen\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
@@ -34,9 +32,10 @@ msgstr "    Vis rms ASCII-kunst når ingen ikke-fri pakker er fundet,\n"
        "    eller når ikke-fri pakker er 10%% eller mere af det totale."
 
 msgid "HELP_OPTION_COLOUR\n"
-msgstr "    Styrrer om terminal escape sekvens skal bruges\n"
-       "    til at farve output. Standardinstillingen er 'auto', som bruger farvet output\n"
-       "    når der bliver skrevet i terminalen, men ikke når der bliver skrevet til en fil eller pipe.\n"
+msgstr "    Styrrer om terminal escape sekvens skal bruges til at farve\n"
+       "    output. Standardinstillingen er 'auto', som bruger\n"
+       "    farvet output når der bliver skrevet i terminalen, men ikke når\n"
+       "    der bliver skrevet til en fil eller pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Inkluder pakkereferat i pakkeoversigten (kort beskrivelse).\n"
@@ -75,7 +74,8 @@ msgid "ERR_PIPE_POLL_ERROR\n"
 msgstr "vrms-rpm: pipe_fopen(): poll() returnerede en fejl\n"
 
 msgid "ERR_PIPE_POLL_HANGUP\n"
-msgstr "vrms-rpm: pipe_fopen(): den anden ende af pipe afsluttede uden at sende noget data\n"
+msgstr "vrms-rpm: pipe_fopen(): den anden ende af pipe afsluttede uden at\n"
+       "sende noget data\n"
 
 msgid "ERR_PIPE_READ_FAILED\n"
 msgstr "vrms-rpm: det lykkedes ikke at læse fra pipe til /usr/bin/rpm\n"
@@ -84,13 +84,16 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: det lykkedes ikke at læse listen af gode licenser\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: det lykkedes ikke at læse listen af gode licenser fra \"%s\"\n"
+msgstr "vrms-rpm: det lykkedes ikke at læse listen af gode licenser\n"
+       "fra \"%s\"\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: argumentet til --colour valgmuligheden skal være en af 'no', 'yes', eller 'auto'\n"
+msgstr "vrms-rpm: argumentet til --colour valgmuligheden skal være en af\n"
+       "'no', 'yes', eller 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
-msgstr "vrms-rpm: argumentet til --list valgmuligheden skal være en af 'none', 'non-free', 'free' eller 'all'\n"
+msgstr "vrms-rpm: argumentet til --list valgmuligheden skal være en af\n"
+       "'none', 'non-free', 'free' eller 'all'\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: ukendt valgmulighed \"%s\"\n"
