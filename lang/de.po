@@ -7,8 +7,8 @@ msgstr ""
 
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
-msgid "German translation by Markus Deibel\n"
-msgstr "--\n"
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Übersetzt von Markus Deibel\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
@@ -40,7 +40,7 @@ msgstr "    Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgab
        "    ins Terminal verwendet, aber nicht beim Schreiben in eine Datei oder Pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
-msgstr "    Beim Auflisten der Pakete, Paket-Zusammenfassung mitanzeigen\n
+msgstr "    Beim Auflisten der Pakete, Paket-Zusammenfassung mitanzeigen\n"
        "    (Kurzbeschreibung).\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
