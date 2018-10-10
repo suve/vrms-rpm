@@ -3,6 +3,7 @@ msgstr ""
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "TRANSLATION_AUTHOR\n"
 msgstr "Traduction française par Aurélien Aptel\n"
@@ -44,7 +45,7 @@ msgstr "    Affiche la license du logiciels dans les listes de logiciel pour jus
        "    leur classification.\n"
 
 msgid "HELP_OPTION_HELP\n"
-msgstr "    Affiche l'aide et quitte."
+msgstr "    Affiche l'aide et quitte.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
 msgstr "    Équivalent à --ascii, mais affiche une image en utilisant les caractères\n"
