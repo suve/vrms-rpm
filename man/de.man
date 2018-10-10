@@ -1,11 +1,11 @@
-.TH VRMS-RPM 1 "2018-05-18"
+.TH VRMS-RPM 1 "2018-10-10"
 .SH NAME
 vrms-rpm - Bericht über installierte proprietäre Software
 
-.SH SYNOPSIS
+.SH VERWENDUNG
 \fBvrms-rpm\fR \fI[OPTION]\fR ...
 
-.SH DESCRIPTION
+.SH BESCHREIBUNG
 Dieses Programm ist ein Klon des original Programms
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
 für Debian GNU/Linux. Es wurde mit dem Ziel erstellt, die brilliante 
@@ -29,7 +29,7 @@ der Software-Ethik. Wie Richard, glauben auch wir, dass Nutzer eine einfache
 Möglichkeit haben sollten, um festzustellen ob auf ihren Systemen proprietäre
 Software läuft.
 Dieses Programm ist ein Versuch, dieses Bedürfnis zu erfüllen.
-.SH OPTIONS
+.SH OPTIONEN
 .TP
 \fB\-\-ascii\fR
 Zeige rms ASCII-art wenn keine proprietären Pakete gefunden
@@ -78,7 +78,7 @@ werden deren Namen aufgelistet. Standardwert ist "\fInonfree\fR".
 \fB\-\-version\fR
 Versionsinformationen zeigen und beenden.
 
-.SH SEE ALSO
+.SH WEITERE INFORMATIONEN
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 Die Fedora Projet Wiki Seite über akzeptierte Software Lizenzen.
@@ -87,10 +87,10 @@ Die Fedora Projet Wiki Seite über akzeptierte Software Lizenzen.
 \fBhttps://spdx.org/licenses/\fR
 Die SPDX Lizenzliste, ein Versuch zur Standardisierung von Lizenz-Identifizierern.
 
-.SH LICENCE
+.SH LIZENZ
 Das vorliegende Programm ist unter den Bedingungen der GNU General Public
 License (Version 3), verfügbar, wie sie von der Free Software Foundation 
 veröffentlicht wird.  
 
-.SH AUTHOR
+.SH AUTOR
 Erstellt Anfang 2017 von \fBsuve\fR.
