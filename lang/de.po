@@ -30,9 +30,8 @@ msgid "HELP_USAGE\n"
 msgstr "Verwendung: vrms-rpm [Optionen]\n"
 
 msgid "HELP_OPTION_ASCII\n"
-msgstr "    Zeige rms ASCII-art wenn keine proprietären Pakete gefunden\n"
-       "    wurden oder wenn propritäre Pakete 10%% oder mehr der gesamten\n"
-       "    Pakete ausmachen."
+msgstr "    Zeige rms ASCII-art wenn keine proprietären Pakete gefunden wurden oder\n"
+       "    wenn propritäre Pakete 10%% oder mehr der gesamten Pakete ausmachen.\n"
 
 msgid "HELP_OPTION_COLOUR\n"
 msgstr "    Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgabe\n"
