@@ -105,8 +105,12 @@ void options_parse(int argc, char **argv) {
 				
 				exit(EXIT_SUCCESS);
 			
+			case ':':
+				lang_print(stderr, MSG_ERR_BADOPT_NOARG, argv[option_index]);
+				exit(EXIT_FAILURE);
+			
 			case '?':
-				lang_print(stderr, MSG_ERR_BADOPT_UNKNOWN, argv[optind]);
+				lang_print(stderr, MSG_ERR_BADOPT_UNKNOWN, argv[option_index]);
 				exit(EXIT_FAILURE);
 		}
 	}

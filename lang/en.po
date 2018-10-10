@@ -92,5 +92,8 @@ msgstr "vrms-rpm: argument to --colour option must be one of 'no', 'yes', or 'au
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: argument to --list option must be one of 'none', 'non-free', 'free' or 'all'\n"
 
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: option \"%s\" requires an argument\n"
+
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: unknown option \"%s\"\n"
