@@ -1,0 +1,98 @@
+.TH VRMS-RPM 1 "2018-10-10"
+.SH NAME
+vrms-rpm - yuklu ozgur olmayan yazilim raporlayici
+
+.SH OZET
+\fBvrms-rpm\fR \fI[SECENEK]\fR ...
+
+.SH ACIKLAMA
+Bu program orijinali
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR") 
+for Debian GNU/Linux programinin bir klonudur ve kendi muthis 
+fikrini RPM tabanli GNU/Linux dagitimlarina getirmek icin olusturulmustur.
+.PP
+Bu program yuklu olan RPM paketlerini analiz eder ve bulunan ozgur olmayan 
+paketleri standart ciktiya raporlar. Paketin ozgur olup olmadiginin karari 
+Fedora Project licensing guidelines ile belirlenen siniflandirmaya dayanir.
+.PP
+\fBRPM Fusion\fR gibi ek depolar kullanan Fedora / CentOS kullanicilari 
+resmi olmayan depoladan gelen paketlerin hepsinin ozgur olmayan olarak 
+isaretlenmedigini farkedebilirler. Bu durum, daha once belirtildigi gibi, 
+paket lisansina dayanir. Bir paketin resmi Fedora / CentOS deposuna kabul 
+edilmemesinin, lisanslama disinda, yazilim patentleri ve ihracat kisitlamalari 
+gibi cesitli sebepleri olabilir.
+.PP
+Ozgur Yazilim hareketinin yillardir ses sahibi ve en onemli figuru olan 
+Richard Stallman, bikip usanmadan yazilim etigindeki sorunlarin bizim icin 
+hatirlaticisi olmustur. Tipki Richard gibi, biz de kullanicilarin kendi 
+sistemlerinde ozgur olmayan yazilim kullanip kullanmadiklarini ogrenmenin 
+kolay bir yolu olmasi gerektigine inaniyoruz.
+Bu program, bu ihtiyacin giderilmesi icin bir tesebbustur.
+
+.SH SECENEKLER
+.TP
+\fB\-\-ascii\fR
+Ozgur olmayan paket bulunmazsa veya ozgur olmayan paketler, 
+%10 altındaysa rms ASCII-art göster.
+
+.TP
+\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+Ciktiyi renklendirmek icin terminal kacis dizilerinin kullanip
+kullanmamasi gerektigini kontrol eder.
+Varsayilan degeri '\fIauto\fR'dur, bir dosyaya veya bir pipe'a yazarken renkli 
+cikti kullanmazken terminale yazarken renkli cikti kullanilir.
+
+.TP
+\fB\-\-describe\fR
+Paketleri listelerken paket ozetlerini(kisa aciklamalar) dahil et.
+
+.TP
+\fB\-\-explain\fR
+When listing packages, display licences as to justify
+the free / non-free classification.
+Paketleri listelerken, ozgur / ozgur olmayan
+siniflandirmasini yapmak icin lisanslarini goruntule.
+
+
+.TP
+\fB\-\-help\fR
+Programin kullinimina dair kisa bir yardim goruntule ve cik.
+
+.TP
+\fB\-\-image\fR
+\fB-\-ascii\fR secenegi benzeri, Unicode half-height block karakterlerini ve 
+terminal kaçış kodlarını kullanarak bir resim görüntüler.
+
+.TP
+\fB\-\-licence\-list\fR <\fIFILE\fR>
+Paketleri siniflandirmak icin iyi lisanslarin listesini belirtir.
+\fIFILE\fR diskteki bir dosya yolu veya paketlenmis lisans listelerinden biri olabilir:
+__BUNDLED_LICENCE_LISTS__
+Varsayilan degeri
+__DEFAULT_LICENCE_LIST__
+
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+Ozgur ve ozgur olmayan paketlerin sayisini ozet olarak goruntulemenin disinda, 
+bunlari adlarina gore yazdirin.
+Bu secenek icin varsayilan deger "\fInonfree\fR".
+
+.TP
+\fB\-\-version\fR
+Versiyon bilgisini goruntule ve cik.
+
+.SH DETAYLAR ICIN
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+The Fedora Project wiki sayfasindaki kabul edilmis yazilim lisanslari.
+
+.TP
+\fBhttps://spdx.org/licenses/\fR
+The SPDX lisans listesi, standartlastirici lisans belirleyicilerinde bir tesebbus.
+
+.SH LISANS
+Bu program GNU General Public License 3. versiyon kosullarinda kullanilmak
+uzere Free Software Foundation tarafindan yayinlanmistir.
+
+.SH YAZAR
+2017 baslarinda \fBsuve\fR tarafindan yazilmistir.
