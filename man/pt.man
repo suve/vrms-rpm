@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1
+.TH VRMS-RPM 1 "2018-10-05"
 .SH NOME
 vrms-rpm - relatório de software não livre instalado
 

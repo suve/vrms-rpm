@@ -31,12 +31,12 @@ msgstr "Uso: vrms-rpm [opções]\n"
 
 msgid "HELP_OPTION_ASCII\n"
 msgstr "    Mostrar a arte ASCII do rms quando pacotes não livres encontrados,\n"
-       "   ou pacotes não livre forem 10%% ou mais do total.\n"
+       "    ou pacotes não livre forem 10%% ou mais do total.\n"
 
 msgid "HELP_OPTION_COLOUR\n"
 msgstr "    Define se as sequências de escape do terminal devem ser usadas\n"
        "    para colorir a saída. O padrão é 'auto', que usa a saída de cor\n"
-       "   para escrever no terminal, mas não em um arquivo ou pipe.\n"
+       "    para escrever no terminal, mas não em um arquivo ou pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "   Quando listar pacotes, incluir resumo(descrição curta).\n"
@@ -49,17 +49,17 @@ msgid "HELP_OPTION_HELP\n"
 msgstr "    Mostrar a ajuda e sair.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
-msgstr "    Similar a --ascii, mas mostrar uma imagem usando um bloco de caracteres Unicode\n"
-       "    e modo de cor 256 para códigos de escape do terminal.\n"
+msgstr "    Similar a --ascii, mas mostrar uma imagem usando um bloco de caracteres\n"
+       "    Unicode e modo de cor 256 para códigos de escape do terminal.\n"
 
 msgid "HELP_OPTION_LICENCELIST\n"
-msgstr "   Especifica a lista de boas licenças para usar. FILE pode ser um caminho\n"
-       "   para um arquivo no disco,ou uma da lista de licenças agrupadas.\n"
+msgstr "    Especifica a lista de boas licenças para usar. FILE pode ser um caminho\n"
+       "    para um arquivo no disco,ou uma da lista de licenças agrupadas.\n"
        "    %s\n"
-       "   O valor padrão é '%s'.\n"
+       "    O valor padrão é '%s'.\n"
 
 msgid "HELP_OPTION_LIST\n"
-msgstr "   Além de mostrar um resumo de pacotes livres e não livres,\n"
+msgstr "    Além de mostrar um resumo de pacotes livres e não livres,\n"
        "    mostrar o nome. O valor padrão é 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
