@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Language: it\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Traduzione italiana fatta da Enrico Paganin\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d pacchetto libero\n"
+msgstr[1] "%d pacchetti liberi\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d pacchetto non-libero\n"
+msgstr[1] "%d pacchetti non-liberi\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Solo pacchetti liberi - rms sarebbe orgoglioso!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Oltre 10%% di pacchetti non-liberi. Non ti piace la libertà\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Uso: vrms-rpm [opzioni]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Mostra una ASCII-art di rms quando non esiste nessun pacchetto libero\n"
+       "    o quando i pacchetti non liberi sono più del 10%% del totale.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Controlla se le sequenze di escaping del teminale debbano essere\n"
+       "    utilizzate per colorare l'output. Il valore predefinito è 'auto',\n"
+       "    che colora l'output se si stampa a terminale, ma non su file o pipe.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Oltre alla lista dei pacchetti, mostra il sommario per ognuno\n"
+       "    (breve descrizione).\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Oltre alla lista dei pacchetti, mostra le loro licenze\n"
+       "    per giustificare la loro classificazione in libera / non-libera.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Mostra questo messaggio di aiuto ed esce.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Come --ascii, ma mostra un'immagine composta da caratteri blocco Unicode\n"
+       "    e sequenze di escaping del terminale a 256 colori.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Spcifica la lista delle licenze da considerare accettabili. FILE\n"
+       "    può essere un percorso di un file su disco, o un insieme di liste di\n"
+       "    licenze:\n"
+       "    %s\n"
+       "    Il valore predefinito è '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    Oltre a mostrare un sommario del numero di pacchetti liberi & non,\n"
+       "    li stampa per nome. Il valore predefinito è 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Mostra informazioni sulla versione ed esce.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: impossibile aprire una pipe verso /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() non ha ritornato eventi\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() ha ritornato un errore\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): l'altro capo della pipe è stato chiuso senza aver inviato alcun dato\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: impossibile leggere dalla pipe verso /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: fallita lettura delle licenze accettabili\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: fallita lettura delle licenze accettabili da \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: l'argomento dell'opzione --color deve essere uno tra 'no', 'yes' o 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: l'argomento dell'opzione --list deve essere uno tra 'none', 'non-free' o 'all'\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: opzione sconosciuta \"%s\"\n"
