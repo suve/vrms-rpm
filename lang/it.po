@@ -29,39 +29,41 @@ msgstr "Uso: vrms-rpm [opzioni]\n"
 
 msgid "HELP_OPTION_ASCII\n"
 msgstr "    Mostra una ASCII-art di rms quando non esiste nessun pacchetto libero\n"
-       "    o quando i pacchetti non liberi sono più del 10%% del totale."
+       "    o quando i pacchetti non liberi sono più del 10%% del totale.\n"
 
 msgid "HELP_OPTION_COLOUR\n"
-msgstr "    Controlla se le sequenze di escaping del teminale debbano essere utilizzate\n"
-       "    per colorare l'output. Il valore predefinito è 'auto', che colora l'output\n"
-       "    se si stampa a terminale, ma non su file o pipe.\n"
+msgstr "    Controlla se le sequenze di escaping del teminale debbano essere\n"
+       "    utilizzate per colorare l'output. Il valore predefinito è 'auto',\n"
+       "    che colora l'output se si stampa a terminale, ma non su file o pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
-msgstr "    Oltre alla lista dei pacchetti, mostra il sommario per ognuno (breve descrizione)."
+msgstr "    Oltre alla lista dei pacchetti, mostra il sommario per ognuno\n"
+       "    (breve descrizione).\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Oltre alla lista dei pacchetti, mostra le loro licenze\n"
        "    per giustificare la loro classificazione in libera / non-libera.\n"
 
 msgid "HELP_OPTION_HELP\n"
-msgstr "    Mostra questo messaggio di aiuto ed esce."
+msgstr "    Mostra questo messaggio di aiuto ed esce.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
 msgstr "    Come --ascii, ma mostra un'immagine composta da caratteri blocco Unicode\n"
        "    e sequenze di escaping del terminale a 256 colori.\n"
 
 msgid "HELP_OPTION_LICENCELIST\n"
-msgstr "    Spcifica la lista delle licenze da considerare accettabili. FILE può essere un percorso\n"
-       "    di un file su disco, o un insieme di liste di licenze:\n"
+msgstr "    Spcifica la lista delle licenze da considerare accettabili. FILE\n"
+       "    può essere un percorso di un file su disco, o un insieme di liste di\n"
+       "    licenze:\n"
        "    %s\n"
        "    Il valore predefinito è '%s'.\n"
 
 msgid "HELP_OPTION_LIST\n"
 msgstr "    Oltre a mostrare un sommario del numero di pacchetti liberi & non,\n"
-       "    li stampa per nome. Il valore predefinito è 'nonfree'."
+       "    li stampa per nome. Il valore predefinito è 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
-msgstr "    Mostra informazioni sulla versione ed esce."
+msgstr "    Mostra informazioni sulla versione ed esce.\n"
 
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: impossibile aprire una pipe verso /usr/bin/rpm\n"
