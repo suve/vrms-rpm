@@ -1,11 +1,11 @@
-.TH VRMS-RPM 1 "2018-05-18"
-.SH NAME
+.TH VRMS-RPM 1 "2018-10-05"
+.SH НАЗВАНИЕ
 vrms-rpm - отчёт об установленном проприетарном ПО
 
-.SH SYNOPSIS
+.SH КРАТКИЙ ОБЗОР
 \fBvrms-rpm\fR \fI[OPTION]\fR ...
 
-.SH DESCRIPTION
+.SH ОПИСАНИЕ
 Эта программа является клоном оригинала:
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR"- "\fBвиртуальный Ричард М. Столлман\fR")
 программы для Debian GNU/Linux. Клон создан с целью распространить эту блестящую
@@ -26,7 +26,7 @@ vrms-rpm - отчёт об установленном проприетарном
 быть простой способ узнать об установленном в их системе проприетарном ПО.
 Эта программа является попыткой решить такую проблему.
 
-.SH OPTIONS
+.SH ФЛАГИ
 .TP
 \fB\-\-ascii\fR
 Показывать ASCII-арт с Ричардом Столлманом, если не нашлось
@@ -72,7 +72,7 @@ __DEFAULT_LICENCE_LIST__
 \fB\-\-version\fR
 Показать информацию о версии и выйти.
 
-.SH SEE ALSO
+.SH ТАКЖЕ СМОТРИ
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 Вики страница Fedora Project про допустимые лицензии ПО.
@@ -81,9 +81,9 @@ __DEFAULT_LICENCE_LIST__
 \fBhttps://spdx.org/licenses/\fR
 Список лицензий SPDX, попытка стандартизировать идентификаторы лицензий.
 
-.SH LICENCE
+.SH ЛИЦЕНЗИЯ
 Эта программа доступна под Стандартной общественной лицензией GNU,
 версии 3, опубликована сообществом Free Software Foundation.
 
-.SH AUTHOR
-Создано в начале 2017, автор \fBsuve\fR.
+.SH АВТОР
+Создано в начале 2017, автор \fBsuve\fR, перевела на русский \fBstacey-impossible\fR

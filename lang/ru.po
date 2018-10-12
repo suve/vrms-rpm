@@ -8,7 +8,7 @@ msgstr ""
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
 msgid "TRANSLATION_AUTHOR\n"
-msgstr "stacey-impossible\n"
+msgstr "На русский язык перевела stacey-impossible\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
@@ -30,36 +30,41 @@ msgid "HELP_USAGE\n"
 msgstr "Команда: vrms-rpm [флаг]\n"
 
 msgid "HELP_OPTION_ASCII\n"
-msgstr "    Показывать ASCII-арт с Ричардом Столлманом, если не нашлось\n"
-       "    проприетарных пакетов или если их меньше 10%%\n"
+msgstr "    Показывать ASCII-арт с Ричардом Столлманом, если не\n"
+       "    нашлось проприетарных пакетов или если их меньше 10%%\n"
 
 msgid "HELP_OPTION_COLOUR\n"
-msgstr "    Настроить цветной вывод терминала. Значение по умолчанию: 'auto',\n"
-       "    которое использует цветной вывод в терминал, но не в файл или pipe.\n"
+msgstr "    Настроить цветной вывод терминала. Значение\n"
+       "    по умолчанию: 'auto', которое использует цветной\n"
+       "    вывод в терминал, но не в файл или pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Отображать короткие описания пакетов при выводе их списка.\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Отображать лицензии пакетов при выводе их списка,\n"
-       "    чтобы убедиться в правильности класиффикации свободных/проприетарных пакетов.\n"
+       "    чтобы убедиться в правильности класиффикации\n"
+       "    свободных/проприетарных пакетов.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Показать \"Помощь\" и выйти.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
-msgstr "    Как --ascii, только показывает изображение из блочных символов Unicode\n"
-       "    и использует 256-цветный режим для кодов вывода терминала.\n"
+msgstr "    Как --ascii, только показывает изображение из блочных\n"
+       "    символов Unicode  и использует 256-цветный режим\n"
+       "    для кодов вывода терминала.\n"
 
 msgid "HELP_OPTION_LICENCELIST\n"
-msgstr "    Определяет список допустимых к использованию лицензий. FILE может быть путём\n"
-       "    к файлу на диске, либо одним из готовых списков лицензий:\n"
+msgstr "    Определяет список допустимых к использованию лицензий.\n"
+       "    FILE может быть путём к файлу на диске, либо одним из\n"
+       "    готовых списков лицензий:\n"
        "    %s\n"
        "    Значение по умолчанию: '%s'.\n"
 
 msgid "HELP_OPTION_LIST\n"
-msgstr "    Помимо вывода суммарного количества свободных/проприетарных пакетов,\n"
-       "    вывести их названия. Значение по умолчанию: 'nonfree'.\n"
+msgstr "    Помимо вывода суммарного количества свободных/проприетарных\n"
+       "    пакетов: вывести их названия.\n"
+       "    Значение по умолчанию: 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Показать информацию о версии и выйти.\n"
@@ -86,10 +91,12 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий из \"%s\"\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: аргумент для флага --colour может быть одним из следующих значений: 'no', 'yes', или 'auto'\n"
+msgstr "vrms-rpm: аргумент для флага --colour может быть\n"
+       "одним из следующих значений: 'no', 'yes', или 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
-msgstr "vrms-rpm: аргумент для флага --list может быть одним из следующих значений: 'none', 'non-free', 'free' или 'all'\n"
+msgstr "vrms-rpm: аргумент для флага --list может быть одним\n"
+       "из следующих значений: 'none', 'non-free', 'free' или 'all'\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: неизвестный флаг \"%s\"\n"
