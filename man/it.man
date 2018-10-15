@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1 "2018-05-18"
+.TH VRMS-RPM 1 "2018-10-15"
 .SH NOME
 vrms-rpm - Segnala i software non liberi installati
 
