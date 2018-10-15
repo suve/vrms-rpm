@@ -6,7 +6,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
 
 msgid "TRANSLATION_AUTHOR\n"
-msgstr "Italian translation by Loris (Pyrox) Gabriele\n"
+msgstr "Traduzione italiana a cura di Loris (Pyrox) Gabriele\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
