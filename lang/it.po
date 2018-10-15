@@ -52,8 +52,9 @@ msgstr "    Analogo ad --ascii, ma mostra un'immagine usando caratteri Unicode\n
        "    e codici di escape per terminale in modalità 256 colori.\n"
 
 msgid "HELP_OPTION_LICENCELIST\n"
-msgstr "    Specifica la lista di licenze da riconoscere come libere. FILE può essere un percorso\n"
-       "    verso un file su disco, o una delle liste di licenze fornite:\n"
+msgstr "    Specifica la lista di licenze da riconoscere come libere.\n"
+       "    FILE può essere un percorso verso un file su disco,\n"
+       "    o una delle liste di licenze fornite:\n"
        "    %s\n"
        "    Il valore di default è '%s'.\n"
 
