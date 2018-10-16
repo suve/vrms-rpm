@@ -64,7 +64,7 @@ msgstr "    Specificeert de lijst van goede licenties die gebruikt mogen worden.
        "    De standaard lijst is '%s'.\n"
 
 msgid "HELP_OPTION_LIST\n"
-msgstr "    Toon naast een overzicht van het aantal vrije en niet vrije pakketen,\n"
+msgstr "    Toon naast een overzicht van het aantal vrije en propriëtaire pakketen,\n"
        "    ook de namen van de pakketen. De standaard waarde is 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
