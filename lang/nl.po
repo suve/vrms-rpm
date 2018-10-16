@@ -36,9 +36,9 @@ msgstr "    Laat rms ASCII-kunst zien wanneer er geen\n"
 
 msgid "HELP_OPTION_COLOUR\n"
 msgstr "    Geeft aan of er escape karakters in de termimal gebruikt moeten worden.\n"
-       "    voor het inkleuren van de uitgaande tekst.\n
+       "    voor het inkleuren van de uitgaande tekst.\n"
        "    Standaard is 'auto', dat gekleurde tekst schrijft\n"
-       "    wanneer er geschreven word naar de terminal,\n
+       "    wanneer er geschreven word naar de terminal,\n"
        "    maar niet als er naar een pipe of een bestand word geschreven.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
@@ -80,7 +80,7 @@ msgid "ERR_PIPE_POLL_ERROR\n"
 msgstr "vrms-rpm: pipe_fopen(): poll() gaf een fout terug\n"
 
 msgid "ERR_PIPE_POLL_HANGUP\n"
-msgstr "vrms-rpm: pipe_fopen(): het andere eind van de pipe stopte ermee\n 
+msgstr "vrms-rpm: pipe_fopen(): het andere eind van de pipe stopte ermee\n"
        " zonder informatie te versturen\n"
 
 msgid "ERR_PIPE_READ_FAILED\n"
