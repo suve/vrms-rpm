@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Language: en\n"
+"Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
@@ -8,7 +8,7 @@ msgstr ""
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
 msgid "TRANSLATION_AUTHOR\n"
-msgstr "Tassos Natsakis\n"
+msgstr "Ελληνική μετάφραση από τον Τάσο Νατσάκη\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
@@ -40,7 +40,8 @@ msgstr "    Ελέγχει εάν πρέπει να χρησιμοποιηθού
        "    αρχείο ή σε διασωλήνωση (pipe).\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
-msgstr "    Όταν εκτυπώνονται τα αρχεία, συμπεριελάμβανε τις περιλήψεις τους (σύντομες περιγραφές).\n"
+msgstr "    Όταν εκτυπώνονται τα αρχεία, συμπεριελάμβανε τις περιλήψεις τους\n
+       "    (σύντομες περιγραφές).\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Όταν εκτυπώνονται τα αρχεία, εκτύπωσε τις αδειές τους\n"
@@ -50,12 +51,13 @@ msgid "HELP_OPTION_HELP\n"
 msgstr "    Εκτύπωσε αυτή τη βοήθεια και τερμάτησε.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
-msgstr "    Όπως το --ascii, αλλά εκτυπώνει μία εικόνα χρησιμοποιώντας χαρακτήρες Unicode\n"
-       "    και χαρακτήρες διαφυγής τερματικού 256-χρωμάτων.\n"
+msgstr "    Όπως το --ascii, αλλά εκτυπώνει μία εικόνα χρησιμοποιώντας χαρακτήρες\n"
+       "    Unicode και χαρακτήρες διαφυγής τερματικού 256-χρωμάτων.\n"
 
 msgid "HELP_OPTION_LICENCELIST\n"
-msgstr "    Προσδιορίζει την λίστα με τις καλές άδειες ή οποία θα χρησιμοποιηθεί. Το FILE μπορεί να είνα και διαδρομή\n"
-       "    σε ένα αρχείο στον δίσκο, ή μία από τις άδειες:\n"
+msgstr "    Προσδιορίζει την λίστα με τις καλές άδειες ή οποία θα χρησιμοποιηθεί.
+       "    Το FILE μπορεί να είνα και διαδρομή σε ένα αρχείο στον δίσκο,\n
+       "    ή μία από τις άδειες:\n"
        "    %s\n"
        "    Η προεπιλογή είναι '%s'.\n"
 
@@ -76,7 +78,8 @@ msgid "ERR_PIPE_POLL_ERROR\n"
 msgstr "vrms-rpm: pipe_fopen(): poll() επέστρεψε σφάλμα\n"
 
 msgid "ERR_PIPE_POLL_HANGUP\n"
-msgstr "vrms-rpm: pipe_fopen(): το άλλο άκρο της διασωλήνωσης έκλεισε χωρίς αποστολή δεδομένων\n"
+msgstr "vrms-rpm: pipe_fopen(): το άλλο άκρο της διασωλήνωσης έκλεισε χωρίς\n
+       "    αποστολή δεδομένων\n"
 
 msgid "ERR_PIPE_READ_FAILED\n"
 msgstr "vrms-rpm: αποτυχία διαβάσματος από τη διασωλήνωση με /usr/bin/rpm\n"
@@ -88,10 +91,12 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: αποτυχία διαβάσματος της λίστας των καλών αδειών από \"%s\"\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: το όρισμα της επιλογής --colour πρέπει να είναι ένα από τα 'no', 'yes', ή 'auto'\n"
+msgstr "vrms-rpm: το όρισμα της επιλογής --colour πρέπει να είναι ένα\n"
+       "    από τα 'no', 'yes', ή 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
-msgstr "vrms-rpm: το όρισμα της επιλογής --list πρέπει να είναι ένα από τα 'none', 'non-free', 'free' ή 'all'\n"
+msgstr "vrms-rpm: το όρισμα της επιλογής --list πρέπει να είναι ένα από\n"
+       "    τα 'none', 'non-free', 'free' ή 'all'\n"
 
 msgid "ERR_BADOPT_NOARG\n"
 msgstr "vrms-rpm: η επιλογή \"%s\" απαιτεί όρισμα\n"
