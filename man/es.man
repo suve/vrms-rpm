@@ -30,7 +30,7 @@ morales del software.  Como Richard, creemos que los usaurios deberían tener un
 manera fácil de saber si están ejecutando software privativo en sus sistemas.
 Este programa es un intento de satisfacer esa necesidad.
 
-.SH Opciones
+.SH OPCIONES
 .TP
 \fB\-\-ascii\fR
 Muestra arte ASCII de rms cuando no se encuentra ningún paquete privado,
