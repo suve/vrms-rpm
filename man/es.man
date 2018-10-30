@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1 "2018-05-18"
+.TH VRMS-RPM 1 "2018-10-30"
 .SH NOMBRE
 vrms-rpm - informa sobre el software privado instalado
 
