@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"Language: es\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+
+# A place for you to credit yourself!
+# Put something like "Latin translation by Jvlivs Gaivs\n" here.
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "traducción al Español por Mr. Outis\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d paquete libre\n"
+msgstr[1] "%d paquetes libres\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d paquete privado\n"
+msgstr[1] "%d paquetes privados\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Sólo paquetes libres - rms estaría orgulloso!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Más de 10%% de paquetes privados. No aprecias tu libertad?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Uso: vrms-rpm [opciones]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Muestra ASCII de rms cuando no se encuentra ningún paquete privado,\n"
+       "    o cuando los paquetes privados son un 10%% o más del total.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Controla si la terminal debería de usar sequencias de escape\n"
+       "    para imprimir colores. El predefinido es 'auto', que utiliza\n"
+       "    colores cuando se imprime en la terminal, sólo si no se\n"
+       "    redirecciona a un archivo o a un pipe.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Cuando enlistas paquetes, incluye descripción corta de los mismos.\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Cuando enlistas paquetes, muestra sus licencias\n"
+       "    para justificar la clasificación de libre o privado.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Muestra esta ayuda y termina el programa.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Similar a la opción --ascii, pero muestra una imagen usando\n"
+       "    bloques (caracteres) Unicode y códigos de escape para terminales\n"
+       "    que soportan 256 colores.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Especifica la lista de buenas licencias para usar. ARCHIVO puede\n"
+       "    ser una ruta a un archivo en disco o alguna de las licencias anexas:\n"
+       "    %s\n"
+       "    El valor predefinido es '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    Aparte de mostrar un número resumen de los paquetes libres y privados,\n"
+       "    mostrarlos por su nombre. El valor predefinido es 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Muestra la versión del programa y termina.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: Error al tratar de abrir pipe para /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() no regresó eventos\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() regresó un error\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): otra pipe terminó sin mandar información\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: Error al leer del pipe para /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: Error al tratar de leer la lista de buenas licencias\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: Error al tratar de leer la lista de buenas licencias de \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: El argumento para la opción --colour debe de ser uno de los siguientes: 'no', 'yes', o 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: El argumento para la opción --list debe ser uno de los siguientes: 'none', 'non-free', 'free' o 'all'\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: Opción no reconocida: \"%s\"\n"
