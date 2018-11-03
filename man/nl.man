@@ -1,11 +1,11 @@
-.TH VRMS-RPM 1 "2018-05-18"
+.TH VRMS-RPM 1 "2018-11-02"
 .SH NAME
 vrms-rpm - Vind geïnstalleerde propriëtaire software
 
-.SH SYNOPSIS
+.SH SAMENVATTING
   \fBvrms-rpm\fR \fI[OPTIES]\fR ...
 
-.SH DESCRIPTION
+.SH BESCHRIJVING
 Dit programma is een kloon van het orginele
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
 programma voor Debian GNU/Linux en is gemaakt met het doel zijn briljante idee
@@ -30,7 +30,7 @@ problemen in de ethiek rond software. Zoals Richard, geloven wij dat
 gebruikers gemakkelijk moeten kunnen zien of ze propriëtaire software draaien.
 Dit programma wil gebruikers in die mogelijkheid voorzien.
 
-.SH OPTIONS
+.SH OPTIES
 .TP
 \fB\-\-ascii\fR
 Display rms ASCII-art wanneer er geen propriëtaire pakketen gevonden zijn, 
@@ -84,7 +84,7 @@ De standaard waarde is "\fInonfree\fR".
 \fB\-\-version\fR
 Toon de versieinformatie.
 
-.SH SEE ALSO
+.SH BEKIJK OOK
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 De Fedora Project wiki pagina over geaccepteerde software licenties.
@@ -93,10 +93,10 @@ De Fedora Project wiki pagina over geaccepteerde software licenties.
 \fBhttps://spdx.org/licenses/\fR
 De SPDX licentielijst, tracht de licentiecodes te standaardiseren.
 
-.SH LICENCE
+.SH LICENTIE
 Dit programma is beschikbaar onder de voorwaarden van de
 GNU General Public Licentie, versie 3,
 Zoals gepubliceerd door de Free Software Foundation.
 
-.SH AUTHOR
+.SH AUTEUR
 Geschreven begin 2017 door \fBsuve\fR.
