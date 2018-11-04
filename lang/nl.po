@@ -1,0 +1,103 @@
+msgid ""
+msgstr ""
+"Language: nl\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+
+# A place for you to credit yourself!
+# Put something like "Latin translation by Jvlivs Gaivs\n" here.
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Nederlandse vertaling gemaakt door Martijn Groeneveldt\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d vrij pakket\n"
+msgstr[1] "%d vrije pakketten\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d propriëtaire pakket\n"
+msgstr[1] "%d propriëtaire pakketten\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Alleen gratis pakketten - rms zal trots zijn!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Meer dan 10%% propriëtaire pakketten. Heeft u geen interesse in vrijheid?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "gebruik: vrms-rpm [opties]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Laat rms ASCII-kunst zien wanneer er geen\n"
+       "    propriëtaire softwarepakketten gevonden zijn\n"
+       "    of als er minder dan 10%% propriëtaire softwarepakketten zijn gevonden.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Geeft aan of er escape karakters in de termimal gebruikt moeten worden.\n"
+       "    voor het inkleuren van de uitgaande tekst.\n"
+       "    Standaard is 'auto', dat gekleurde tekst schrijft\n"
+       "    wanneer er geschreven word naar de terminal,\n"
+       "    maar niet als er naar een pipe of een bestand word geschreven.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Bij het tonen van pakketen, voeg de korte bescrijving van de pakketten toe.\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Bij het tonen van pakketen, laat de licenties zien\n"
+       "    om te zien welke pakketten vrije of propriëtaire software bevatten.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Laat dit help scherm zien en sluit daarna.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Zoals --ascii, maar laat een afbeelding zien door Unicode blokkarakters\n"
+       "    en 256-kleuren terminal escape codes.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Specificeert de lijst van goede licenties die gebruikt mogen worden.\n"
+       "    FILE kan een pad zijn\n"
+       "    naar een bestand op een opslagmedium,\n"
+       "    of van een van de meegeleverde lijsten:\n"
+       "    %s\n"
+       "    De standaard lijst is '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    Toon naast een overzicht van het aantal vrije en propriëtaire pakketen,\n"
+       "    ook de namen van de pakketen. De standaard waarde is 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Laat de versieinformatie zien en sluit daarna.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: het is niet gelukt een pipe te openen naar /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() gaf geen event terug\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() gaf een fout terug\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): het andere eind van de pipe stopte ermee\n"
+       " zonder informatie te versturen\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: kon niet lezen van de pipe naar /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties van \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: het argument voor de --colour optie moet 'no', 'yes', of 'auto' zijn\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "      vrms-rpm:\n"
+       "      het argument vor de --list optie moet 'none', 'non-free', 'free' of 'all' zijn\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: onbekende optie \"%s\"\n"
