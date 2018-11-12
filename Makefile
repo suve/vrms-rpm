@@ -64,7 +64,11 @@ help:
 src/config.h: src/generate-config.sh
 	src/generate-config.sh -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' > "$@"
 
-build: src/config.h $(MAN_FILES) $(MO_FILES) $(LICENCE_FILES) build/vrms-rpm
+build: src/config.h $(MAN_FILES) $(MO_FILES) $(LICENCE_FILES) build/bash-completion.sh build/vrms-rpm
+
+build/bash-completion.sh: src/bash-completion.sh
+	mkdir -p "$(shell dirname "$@")"
+	sed -e 's|__LICENCE_LIST__|$(LICENCE_FILENAMES)|' < "$<" > "$@"
 
 build/man/%.man: man/%.man
 	mkdir -p "$(shell dirname "$@")"
@@ -118,9 +122,11 @@ install/prepare: $(IMAGES:%=install/share/suve/vrms-rpm/%)
 install: install/prepare
 	mkdir -p "$(DESTDIR)$(PREFIX)"
 	cp -a install/* "$(DESTDIR)$(PREFIX)"
+	install -vD -m 644 build/bash-completion.sh $(DESTDIR)/etc/bash_completion.d/vrms-rpm
 	rm -rf install
 
 remove: install/prepare
 	find install -type f | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rm -vf
 	find install -depth -type d | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
+	rm $(DESTDIR)/etc/bash_completion.d/vrms-rpm
 	rm -rf install
