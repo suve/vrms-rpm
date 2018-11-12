@@ -110,6 +110,7 @@ IPA
 ISC
 ImageMagick
 Imlib2
+Inner-Net
 Intel ACPI
 Interbase
 JPython
@@ -148,6 +149,7 @@ Motosoto
 Mup
 NCSA
 NGPL
+NISTSL
 NLPL
 NOSL
 Naumen
@@ -173,6 +175,7 @@ Open Publication
 OpenLDAP
 OpenPBS
 OpenSSL
+PDDL-1.0
 PHP
 PTFL
 Par
@@ -188,6 +191,7 @@ QPL
 Qhull
 REX
 RPSL
+RSA
 Rdisc
 RiceBSD
 Romio
@@ -218,6 +222,7 @@ TTWL
 Teeworlds
 Threeparttable
 Tolua
+Tumbolia
 UCAR
 UCD
 Unicode
@@ -257,8 +262,10 @@ mplus
 psfrag
 psutils
 pubkey
+radvd
 softSurfer
 wxWidgets
+wxWindows
 xinetd
 xpp
 zlib
