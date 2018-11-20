@@ -126,7 +126,7 @@ int packages_read(struct Pipe *pipe) {
 			.licence = classification,
 			.summary = summary
 		};
-		rebuf_append(list, &pkg, sizeof(struct Package));
+		if(rebuf_append(list, &pkg, sizeof(struct Package)) == NULL) return -1;
 	}
 	
 	return LIST_COUNT;

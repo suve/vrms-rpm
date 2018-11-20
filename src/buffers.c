@@ -43,6 +43,8 @@ void chainbuf_free(struct ChainBuffer *buf) {
 
 char* chainbuf_append(struct ChainBuffer **buf, char *data) {
 	const size_t datalen = strlen(data) + 1;
+	if(datalen > CHAINBUF_CAPACITY) return NULL;
+	
 	if((*buf)->used + datalen > CHAINBUF_CAPACITY) {
 		struct ChainBuffer *newbuf = chainbuf_init();
 		if(newbuf == NULL) return NULL;
@@ -84,7 +86,9 @@ void rebuf_free(struct ReBuffer *buf) {
 
 void* rebuf_append(struct ReBuffer *const buf, void *data, const size_t datalen) {
 	if(buf->used + datalen > buf->capacity) {
-		const size_t memsize = buf->capacity + REBUF_STEP;
+		const size_t steps = (datalen / REBUF_STEP) + !!(datalen % REBUF_STEP);
+		const size_t memsize = buf->capacity + (steps * REBUF_STEP);
+		
 		void* newmem = realloc(buf->data, memsize);
 		if(newmem == NULL) return NULL;
 		
