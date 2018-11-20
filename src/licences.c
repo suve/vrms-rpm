@@ -153,7 +153,9 @@ static int is_free(char *licence) {
 		bs = binary_search(licence, 0, LIST_COUNT-1);
 		*sufpos = oldchar;
 		
-		if(bs >= 0) return 1;
+		// It's not possible for a licence string to have two valid suffixes,
+		// so we can return now, without looking through the rest of the suffixes.
+		return bs;
 	}
 	
 	return 0;
