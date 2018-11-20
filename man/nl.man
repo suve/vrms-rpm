@@ -1,62 +1,102 @@
-.TH VRMS-RPM 1
+.TH VRMS-RPM 1 "2018-11-02"
 .SH NAME
-vrms-rpm - maakt een rapport van geïnstalleerde niet-vrije software
+vrms-rpm - Vind geïnstalleerde propriëtaire software
+
 .SH SAMENVATTING
-\fBvrms-rpm\fR \fI[OPTIE]\fR ...
+  \fBvrms-rpm\fR \fI[OPTIES]\fR ...
+
 .SH BESCHRIJVING
-Dit programma is een kloon van het oorspronkelijke
-\fBvrms\fR ("\fBvirtuele Richard M. Stallman\fR")
-programma voor Debian GNU/Linux, gemaakt om zijn briljante idee 
-over te brengen naar RPM-gebaseerde GNU/Linux distributies.
+Dit programma is een kloon van het orginele
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
+programma voor Debian GNU/Linux en is gemaakt met het doel zijn briljante idee
+over te brengen op RPM-gebaseerde GNU/Linux distributies.
 .PP
-Dit programma analyseert de lijst van momenteel geïnstalleerde RPM paketten en
-rapporteert gevonden niet-vrije paketten naar stdout. De beslissing of een pakket
-vrij of niet-vrij is, wordt gebaseerd op de licentierichtlijnen van het Fedora Project.
+Dit programma analyseert de lijst van applicaties die geïnstalleerd zijn en
+rapporteert de gevonden propriëtaire software naar stdout. De beslissing om 
+een pakket te classificeren als propriëtair of niet is gebaseerd op de
+Fedora Project licentie richtlijnen.
 .PP
-Fedora / CentOS gebruikers die extra softwarebronnen als  \fBRPM Fusion\fR gebruiken, 
-kunnen merken dat niet alle paketten die uit niet-officële bron komen gemarkeerd
-worden als niet-vrij. Dit is omdat het onderscheid gemaakt wordt, zoals eerder
-vermeld, op basis van de licentie. Buiten licentie zijn er nog vele redenen
-waarom een pakket niet in de officiële bronnen geaccepteerd kan worden
-voor Fedora / CentOS - zoals softwarepatenten of exportbeperkingen.
+Fedora / CentOS users die extra repositories gebruiken, zoals \fBRPM Fusion\fR, 
+zouden kunnen opmerken dat niet alle pakketen van niet die officiele
+repositories gemarkeerd zijn als propriëtair. Dit is omdat zoals eerder vermeld,
+de keuze tussen propriëtair of niet gemaakt word door de licentie van het pakket
+te bekijken. Er zijn meerdere redenen, naast licenties, waardoor een pakket
+niet geaccepteerd zou kunnen zijn in de officele Fedora / CentOS repository.
+Zoals software patenten or export restricties.
 .PP
-Richard Stallman is al sinds jaren, de meest prominente en mondige figuur
-in de Vrije Software-beweging, die ons rusteloos herinnert aan de problemen
-van software-ethiek. Zoals Richard, geloven wij ook dat gebruikers een
-eenvoudige manier moeten hebben om te weten of ze niet-vrije software
-op hun systeem hebben.
-Dit programma is een poging om die noden te vervullen.
+Richard Stallman is al jaren de meest prominente and vocale figuur
+in de Vrije Software beweging. waar hij onophoudelijk ons herinnerd aan de
+problemen in de ethiek rond software. Zoals Richard, geloven wij dat
+gebruikers gemakkelijk moeten kunnen zien of ze propriëtaire software draaien.
+Dit programma wil gebruikers in die mogelijkheid voorzien.
+
 .SH OPTIES
 .TP
 \fB\-\-ascii\fR
-Toont rms ASCII-kunst wanneer er geen niet-vrij pakketten zijn gevonden,
-of wanneer niet-vrije paketten 10% of meer van het totaal vormen.
+Display rms ASCII-art wanneer er geen propriëtaire pakketen gevonden zijn, 
+of wanneer er minder dan 10% van het totaal 
+aan propriëtaire pakketen gevonden zijn.
+
+.TP
+\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+Beslist of er terminal escape sequences gebruikt moeten worden voor het
+kleuren van de uitvoer.
+Standaard is '\fIauto\fR', die gekleurde uitvoer gebruikt wanneer er
+geschreven word naar de terminal, maar niet als er naar een file of
+pipe geschreven word.
+
+.TP
+\fB\-\-describe\fR
+Laat bij het opsommen van pakketten, een korte beschrijving van het 
+pakket zien.
+
 .TP
 \fB\-\-explain\fR
-Bij het oplijsten van paketten, toon de licenties om de vrij- niet-vrij
-classificatie te motiveren.
+Laat bij het opsommen van pakketten, licenties zien om
+de indeling tussen vrije of propriëtaire pakketen te verklaren.
+
 .TP
 \fB\-\-help\fR
-Toont een korte helptekst voor dit programma en stopt.
+Toont een help scherm over het programma.
+
+.TP
+\fB\-\-image\fR
+Like \fB-\-ascii\fR, but displays an image using terminal escape seqences
+and Unicode half-height blocks.
+
+.TP
+\fB\-\-licence\-list\fR <\fIFILE\fR>
+Specificeerd de lijst van van goede licenties die gebruikt word voor het
+indelen van de pakketen.
+\fIFILE\fR kan een pad zijn naar een bestand op de harde schijf,
+of een van de meegeleverde lijsten:
+__BUNDLED_LICENCE_LISTS__
+De standaard is:
+__DEFAULT_LICENCE_LIST__
+
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
-Toon niet alleen het aantal vrije en niet-vrij pakketten,
-noem ze ook bij naam.
-De standaardwaarde voor deze optie is "\fInonfree\fR".
+Toon naast het het aantal vrije en propriëtaire pakketen, 
+ook alle de naam van alle pakketten.
+De standaard waarde is "\fInonfree\fR".
+
 .TP
 \fB\-\-version\fR
-Toont versie-informatie en stopt.
-.SH ZIE OOK
+Toon de versieinformatie.
+
+.SH BEKIJK OOK
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
-De (Engelstalige) wiki van het Fedora Project over geaccepteerde
-software-licenties.
+De Fedora Project wiki pagina over geaccepteerde software licenties.
+
 .TP
-\fBhttps://vrms.alioth.debian.org/\fR
-Startpagina van het originele \fBvrms\fR programma.
+\fBhttps://spdx.org/licenses/\fR
+De SPDX licentielijst, tracht de licentiecodes te standaardiseren.
+
 .SH LICENTIE
-Dit programma zelf is beschikbaar onder de voorwaarden van de
-GNU General Public License, versie 3, zoals gepubliceerd door
-de Free Software Foundation.
+Dit programma is beschikbaar onder de voorwaarden van de
+GNU General Public Licentie, versie 3,
+Zoals gepubliceerd door de Free Software Foundation.
+
 .SH AUTEUR
-Geschreven in het begin van 2017 door \fBsuve\fR.
+Geschreven begin 2017 door \fBsuve\fR.

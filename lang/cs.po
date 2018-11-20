@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"Language: cs\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+# A place for you to credit yourself!
+# Put something like "Latin translation by Jvlivs Gaivs\n" here.
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Autor českého překladu: Martin Šustek\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d svobodný balíček\n"
+msgstr[1] "%d svobodné balíčky\n"
+msgstr[2] "%d svobodných balíčků\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d nesvobodný balíček\n"
+msgstr[1] "%d nesvobodné balíčky\n"
+msgstr[2] "%d nesvobodných balíčků\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Pouze svobodné balíčky - rms by byl pyšný!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Více než 10%% nesvobodných balíčků. Copak si nevážíte svobody?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Užití: vrms-rpm [možnosti]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Zobrazit rms ASCII-art pokud nejsou nalezeny nesvobodné balíčky\n"
+       "    nebo pokud je jich více než 10%%.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Určuje, jestli použít terminálové escape sekvence pro obarvení výstupu.\n"
+       "    Výchozí nastavení je 'auto', což znamená že barvy budou použíty při\n"
+       "    výstupu na terminál, ale nikoli při výstupu do souboru nebo roury.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Při výpisu balíčků přidat sumáře (krátké popisky).\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Při výpisu balíčků zobrazit jejich licence pro objasnění zařazení\n"
+       "    mezi svobodné a nesvobodné.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Zobrazit tuto nápovědu a skončit.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Podobné jako --ascii, ale zobrazuje obrázek prostřednictvím znaků\n"
+       "    Unicode a 256-barevných terminálových escape kódů.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Určuje který seznam povolených licencí se má použít. FILE může být\n"
+       "    cesta k souboru na disku nebo jeden z vestavěných seznamů:\n"
+       "    %s\n"
+       "    Výchozí hodnota je '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    Kromě počtu svobodných a nesvobodných balíkčů vypíše také názvy.\n"
+       "    Výchozí hodnota je 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Zobrazit informace o verzi a skončit.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: nelze otevřít rouru /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() nejsou žádné události\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() vrátilo chybu\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): druhý konec roury skončil aniž poslal nějaká dat\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: chyba čtení z roury /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: nelze přečíst seznam dobrých licencí\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: nelze přečíst seznam dobrých licencí z \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: hodnota parametru --colour musí být jedna z 'no', 'yes', or 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: hodnota parametru --list musí být jedna z 'none', 'non-free', 'free' or 'all'\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: neznámá volba \"%s\"\n"

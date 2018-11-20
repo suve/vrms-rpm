@@ -1,0 +1,11 @@
+- images/rms-disappointed-ascii
+- images/rms-disappointed-icat
+Generated from a photograph of Richard Stallman by Anders Brenna
+Subject to the "Creative Commons Attribution 3.0 Norway" licence
+Original photograph downloaded from: https://commons.wikimedia.org/wiki/File:Richard_Stallman_by_Anders_Brenna_01.jpg
+
+- images/rms-happy-ascii
+- images/rms-happy-icat
+Generated from a photograph of Richard Stallman by Thesupermat
+Subject to the "Creative Commons Attribution-Share Alike 3.0 Unported" licence
+Original photograph downloaded from: https://commons.wikimedia.org/wiki/File:Richard_Stallman_-_Fête_de_l'Humanité_2014_-_008.jpg

@@ -3,37 +3,95 @@ msgstr ""
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid "msg_help_usage"
-msgstr "Usage: vrms-rpm [options]"
-msgid "msg_help_option_ascii"    
-msgstr "    Afficher l'art ASCII rms quand aucun progiciels non-libres sont trouvés,\n"
-       "    ou quand des progiciels non-libres comprennent 100%% ou plus du total."
-msgid "msg_help_option_explain"
-msgstr "    Afficher les licenses pour justifier la classification de liberté pendant\n"
-       "    le listage des progiciels."
-msgid "msg_help_option_help"
-msgstr "    Afficher ce menu d'aide puis quitter"
-msgid "msg_help_option_list"
-msgstr "    En surcroît d'afficher un sommaire des progiciels libres et non-libres,\n"
-       "    afficher leurs noms. La valeur par défaut est 'nonfree'."
-msgid "msg_help_option_version"
-msgstr "    Afficher la version puis quitter."
-msgid "msg_list_noargument"
-msgstr "%s: --list option requiert un argument."
-msgid "msg_list_badargument"
-msgstr "%s: l'argument pour --list option doit être 'none', 'free', 'nonfree' ou 'all'"
-msgid "msg_unknown_option"
-msgstr "%s: option inconnue '%s'"
-msgid "msg_total_free"
-msgstr "%d progiciels libres"
-msgid "msg_total_nonfree"
-msgstr "%d progiciels non-libres"
-msgid "msg_rms_happy_ascii"
-msgstr "Seulement des progiciels libres - rms est fier de vous!         rms est content."
-msgid "msg_rms_happy"
-msgstr "Seulement des progiciels libres - rms est fier de vous!"
-msgid "msg_rms_disappoint_ascii"
-msgstr "Plus de 10%% de progiciels non-libres - Haïssez vous la liberté?    rms est déçu."
-msgid "msg_rms_disappoint"
-msgstr "Plus de 10%% de progiciels non-libres - Haïssez vous la liberté?"
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Traduction française par Aurélien Aptel\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d logiciel libre\n"
+msgstr[1] "%d logiciels libres\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d logiciel non-libre\n"
+msgstr[1] "%d logiciels non-libres\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Uniquement des logiciels libres - rms est fier de vous !\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Plus de 10%% de logiciels non-libres. Haïssez vous la liberté ?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Usage: vrms-rpm [options]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Affiche de l'ASCII-art quand aucun logiciel non-libre n'est trouvé,\n"
+       "    ou quand les logiciels non-libres composent 10%% ou plus du total.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Contrôle l'utilisation ou non de caractères d'échappement de terminal\n"
+       "    pour coloriser la sortie. Par défaut la valeur est 'auto', et la"
+       "    sortie est automatiquement colorisée si elle est directement affichée\n"
+       "    par un terminal et désactivé si redirigée dans un fichier ou dans un tube.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Inclus une courte description du logiciel dans les listes de logiciel.\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Affiche la license du logiciels dans les listes de logiciel pour justifier\n"
+       "    leur classification.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Affiche l'aide et quitte.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Équivalent à --ascii, mais affiche une image en utilisant les caractères\n"
+       "    de blocs d'Unicode et les caractères d'échappement 256 couleurs.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Spécifie une liste de bonnes licenses à utiliser. FILE peut être un chemin\n"
+       "    vers un fichier ou une des listes préparées :\n"
+       "    %s\n"
+       "    Par défault, la valeur est '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    En plus d'afficher un résumé des logiciels libres et non-libres, affiche\n"
+       "    leur nom. La valeur par défaut est 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Affiche le numéro de version et quitte.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: erreur lors de l'ouverture du tube vers /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() n'a pas retourné d'évenement.\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() a retourné une erreur\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): l'autre côté du tube a bloqué et ne retourne pas de\n"
+       "donnée\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: erreur lors de la lecture du tube vers /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: erreur lors de la lecture de liste de bonnes licenses\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: erreur lors de la lecture de liste de bonnes licenses \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: l'argument de l'option --colour doit être choisi parmi 'no', 'yes', ou 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: l'argument de l'option --list doit être choisi parmi 'none', \n"
+       "'non-free', 'free' or 'all'\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: option inconnue \"%s\"\n"

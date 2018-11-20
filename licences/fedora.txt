@@ -1,259 +1,271 @@
 AAL
-Abstyles
-Adobe
 ADSL
 AFL
-Afmparse
 AGPLv1
 AGPLv3
 AGPLv3+
 AMDPLPA
-ANTLR-PD
 AML
 AMPAS BSD
 AMS
+ANTLR-PD
 APAFML
-App-s2p
 APSL 2.0
 ARL
-Arphic
-Artistic 2.0
-Artistic clarified
 ASL 1.0
 ASL 1.1
 ASL 2.0
+Abstyles
+Adobe
+Afmparse
+App-s2p
+Arphic
+Artistic 2.0
+Artistic clarified
+BSD
+BSD Protection
 Baekmuk
 Bahyph
 Barr
-Beerware
 BeOpen
+Beerware
 Bibtex
-Bitstream Vera
 BitTorrent
+Bitstream Vera
 Boost
 Borceux
-BSD
 CATOSL
-CC0
 CC-BY
+CC-BY-ND
 CC-BY-SA
-CDDL
+CC0
 CDDL-1.0
 CDDL-1.1
 CDL
+CNRI
+CPAL
+CPL
+CPM
+CRC32
 CeCILL
 CeCILL-B
 CeCILL-C
 Charter
-CNRI
 Condor
 Copyright only
-CPAL
-CPL
-CRC32
 Crossword
 Crystal Stacker
 Cube
-diffmark
 DMIT
+DMTF
 DOC
-Dotseqn
-DoubleStroke
 DSDP
 DSL
-dvipdfm
 DWPL
-ec
+Dotseqn
+DoubleStroke
 ECL 1.0
 ECL 2.0
-eCos
 EFL 2.0
-eGenix
-Elvish
-Entessa
+EFML
 EPICS
-EPL
+EPL-1.0
+EPL-2.0
 ERPL
 EU Datagrid
 EUPL 1.1
+Elvish
+Entessa
 Eurosym
-Fair
 FBSDDL
-Free Art
+FDK-AAC
+FSFAP
 FSFUL
 FSFULLR
 FTL
-GeoGratis
+Fair
+Free Art
+Freely redistributable without restriction
 GFDL
-Giftware
 GL2PS
-Glide
-Glulxe
-gnuplot
-GPL
 GPL+
 GPLv1
 GPLv2
 GPLv2+
 GPLv3
 GPLv3+
+GeoGratis
+Giftware
+Glide
+Glulxe
 Green OpenMusic
+HOFL
+HSRL
 HaskellReport
 Hershey
-HSRL
 IBM
 IEEE
 IJG
-ImageMagick
-iMatix
-Imlib2
-Intel ACPI
-Interbase
 IPA
 ISC
+ImageMagick
+Imlib2
+Inner-Net
+Intel ACPI
+Interbase
+JPython
 Jabber
 JasPer
-JPython
 Julius
 Knuth
-Latex2e
 LBNL BSD
 LDPL
-Leptonica
-LGPL-2.0
 LGPLv2
 LGPLv2+
 LGPLv3
 LGPLv3+
-Lhcyr
-Liberation
-libtiff
 LLGPL
-Logica
 LOSLA
 LPL
 LPPL
+Latex2e
+Leptonica
+Lhcyr
+Liberation
+Logica
 Lucida
-MakeIndex
-mecab-ipadic
-MgOpen
-midnight
-MirOS
 MIT
 MITNFA
-mod_macro
-Motosoto
-mplus
 MPLv1.0
 MPLv1.1
 MPLv2.0
 MS-PL
 MS-RL
 MTLL
+MakeIndex
+MgOpen
+MirOS
+Motosoto
 Mup
-Naumen
 NCSA
+NGPL
+NISTSL
+NLPL
+NOSL
+Naumen
 NetCDF
 Netscape
 Newmat
 Newsletr
-NGPL
-NLPL
 Nmap
 Nokia
-NOSL
 Noweb
 OAL
 OFL
 OFSFDL
 OGL
 OML
-OpenLDAP
-OpenPBS
-Open Publication
-OpenSSL
 OReilly
 OSL 1.0
 OSL 1.1
 OSL 2.0
 OSL 2.1
 OSL 3.0
+Open Publication
+OpenLDAP
+OpenPBS
+OpenSSL
+PDDL-1.0
+PHP
+PTFL
 Par
 Phorum
-PHP
 PlainTeX
 Plexus
 PostgreSQL
-psfrag
-psutils
-PTFL
-pubkey
-Public domain
 Public Domain
-Public use
 Public Use
 Punknova
 Python
-Qhull
 QPL
-Rdisc
+Qhull
 REX
+RPSL
+RSA
+Rdisc
 RiceBSD
 Romio
-RPSL
 Rsfs
 Ruby
-Saxpath
 SCEA
 SCRIP
-Sendmail
-Sequence
 SISSL
-Sleepycat
 SLIB
 SNIA
-softSurfer
 SPL
 STIX
 STMPL
 SWL
+Saxpath
+Sendmail
+Sequence
+Sleepycat
 TCGL
 TCL
-Teeworlds
 TGPPL
-Threeparttable
 TMate
-Tolua
 TORQUEv1.1
 TOSL
 TPDL
 TPL
 TTWL
+Teeworlds
+Threeparttable
+Tolua
+Tumbolia
 UCAR
 UCD
 Unicode
 Unlicense
 Utopia
-Verbatim
-Vim
 VNLSL
 VOSTROM
 VSL
+Verbatim
+Vim
 W3C
+WTFPL
 Wadalab
 Webmin
 Wsuipa
-WTFPL
-wxWidgets
 XANO
-Xerox
-xinetd
-xpp
 XSkat
+Xerox
 YPLv1.1
-Zed
-Zend
-zlib
 ZPLv1.0
 ZPLv2.0
 ZPLv2.1
+Zed
+Zend
+diffmark
+dvipdfm
+eCos
+eGenix
+ec
+gnuplot
+iMatix
+libtiff
+mecab-ipadic
+midnight
+mod_macro
+mplus
+psfrag
+psutils
+pubkey
+radvd
+softSurfer
+wxWidgets
+wxWindows
+xinetd
+xpp
+zlib

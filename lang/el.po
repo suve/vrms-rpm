@@ -3,38 +3,103 @@ msgstr ""
 "Language: el\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
 
-msgid "msg_help_usage"
-msgstr "Χρήση: vrms-rpm [επιλογές]"
-msgid "msg_help_option_ascii"
-msgstr "Εμφανίζει rms ASCII-art όταν δεν βρεθούνε  nonfree πακέτα, \n"
-       "ή όταν τα nonfree πακέτα είναι 10%% ή περισσότερο του συνόλου."
-msgid "msg_help_option_explain"
-msgstr "Κατά την καταχώριση των πακέτων, εμφανίστε τις άδειες ώστε να δικαιολογηθεί \n"
-       "η free / nonfree ταξινόμηση."
-msgid "msg_help_option_help"
-msgstr "Εμφάνιση αυτής της βοήθειας και έξοδος."
-msgid "msg_help_option_list"
-msgstr "Εκτός από την εμφάνιση ενός συνοπτικού αριθμού free & nonfree - πακέτων, \n"
-       "εκτυπώστε τα βάση ονόματος. Η προεπιλεγμένη τιμή είναι' nonfree '."
-msgid "msg_help_option_version"
-msgstr "Εμφάνιση πληροφοριών έκδοσης και έξοδος."
-msgid "msg_list_noargument"
-msgstr "%s επιλογή : --list απαιτεί ένα όρισμα"
-msgid "msg_list_badargument"
-msgstr "%s: Το όρισμα για την επιλογή --list πρέπει να είναι ένα από τα 'none', 'free', 'nonfree' ή 'all'"
-msgid "msg_unknown_option"
-msgstr "%s: άγνωστη επιλογή '%s'"
-msgid "msg_total_free"
-msgstr "%d ελεύθερα πακέτα (free)"
-msgid "msg_total_nonfree"
-msgstr "%d μη ελεύθερα πακέτα (nonfree)"
-msgid "msg_rms_happy_ascii"
-msgstr "Μόνο ελεύθερα πακέτα - το rms θα είναι περήφανο!         το rms είναι χαρούμενο."
-msgid "msg_rms_happy"
-msgstr "Μόνο ελεύθερα πακέτα - το rms θα είναι περήφανο!"
-msgid "msg_rms_disappoint_ascii"
-msgstr "Πάνω από 10%% μη ελεύθερα πακέτα. Μισείτε την ελευθερία;\n"
-       "                                                     το rms είναι απογοητευμένο."
-msgid "msg_rms_disappoint"
-msgstr "Πάνω από 10%% μη-ελεύθερα πακέτα. Μισείτε την ελευθερία;"
+# A place for you to credit yourself!
+# Put something like "Latin translation by Jvlivs Gaivs\n" here.
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Ελληνική μετάφραση από τον Τάσο Νατσάκη\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d ελεύθερο πακετό\n"
+msgstr[1] "%d ελεύθερα πακέτα\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d μη ελεύθερο πακέτκο\n"
+msgstr[1] "%d μη ελεύθερα πακέτα\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Μόνο ελεύθερα πακέτα - ο rms θα ήταν περήφανος!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Πάνω από 10%% μη ελεύθερα πακέτα. Δεν εκτιμάτε την ελευθερία;\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Χρήση: vrms-rpm [επιλογές]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Εμφανίζεται rms ASCII-art οταν δεν βρίσκονται μη-ελεύθερα πακέτα,\n"
+       "    ή όταν τα μη ελεύθερα πακέτα είναι λιγότερα από 10%% από το σύνολο.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Ελέγχει εάν πρέπει να χρησιμοποιηθούν ακολουθίες διαφυγής τερματικού\n"
+       "    για τον χρωματισμό της εξόδου. Η προεπιλογή είναι 'auto', η οποία παράγει\n"
+       "    χρωματισμένη έξοδο όταν γράφεται σε τερματικό, αλλά όχι όταν γράφεται σε\n"
+       "    αρχείο ή σε διασωλήνωση (pipe).\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Όταν εκτυπώνονται τα αρχεία, συμπεριελάμβανε τις περιλήψεις τους\n"
+       "    (σύντομες περιγραφές).\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Όταν εκτυπώνονται τα αρχεία, εκτύπωσε τις αδειές τους\n"
+       "    για να αιτιολογηθεί η ταξινόμηση σε ελεύθερα / μη ελεύθερα.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Εκτύπωσε αυτή τη βοήθεια και τερμάτησε.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Όπως το --ascii, αλλά εκτυπώνει μία εικόνα χρησιμοποιώντας χαρακτήρες\n"
+       "    Unicode και χαρακτήρες διαφυγής τερματικού 256-χρωμάτων.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Προσδιορίζει την λίστα με τις καλές άδειες ή οποία θα χρησιμοποιηθεί.\n"
+       "    Το FILE μπορεί να είνα και διαδρομή σε ένα αρχείο στον δίσκο,\n"
+       "    ή μία από τις άδειες:\n"
+       "    %s\n"
+       "    Η προεπιλογή είναι '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    Πέρα από την εκτύπωση της σύνοψης των ελεύθερων & μη ελεύθερων πακέτων,\n"
+       "    εκτύπωσε τα κατά όνομα. Η προεπιλογή είναι 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Εκτύπωσε πληροφορίες έκδοσης και τερμάτησε.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: Αποτυχία ανοίγματος διασωλήνωσης με /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() δεν επέστρεψε γεγονότα\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() επέστρεψε σφάλμα\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): το άλλο άκρο της διασωλήνωσης έκλεισε χωρίς\n"
+       "    αποστολή δεδομένων\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: αποτυχία διαβάσματος από τη διασωλήνωση με /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: αποτυχία διαβάσματος της λίστας των καλών αδειών\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: αποτυχία διαβάσματος της λίστας των καλών αδειών από \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: το όρισμα της επιλογής --colour πρέπει να είναι ένα\n"
+       "    από τα 'no', 'yes', ή 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: το όρισμα της επιλογής --list πρέπει να είναι ένα από\n"
+       "    τα 'none', 'non-free', 'free' ή 'all'\n"
+
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: η επιλογή \"%s\" απαιτεί όρισμα\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: άγνωστη επιλογή \"%s\"\n"

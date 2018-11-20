@@ -1,61 +1,96 @@
-.TH VRMS-RPM 1
+.TH VRMS-RPM 1 "2018-10-10"
 .SH NAME
-vrms-rpm - Report der installierten kommerziellen Software
-.SH SYNOPSIS
+vrms-rpm - Bericht über installierte proprietäre Software
+
+.SH VERWENDUNG
 \fBvrms-rpm\fR \fI[OPTION]\fR ...
+
 .SH BESCHREIBUNG
-Dieses Programm ist ein Clone des Originals
+Dieses Programm ist ein Klon des original Programms
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
-Programm fuer Debian GNU/Linux, geschrieben mit der Absicht diese  
-brilliante Idee ueber die RPM-basierten GNU/Linux Distrubitionen zu bringen.
+für Debian GNU/Linux. Es wurde mit dem Ziel erstellt, die brilliante 
+Idee des Originals für RPM-basierte GNU/Linux Distributionen zur Verfügung 
+zu stellen.
 .PP
-Dieses Programm analysiert die  installierten RPM Pakete und gibt eine 
-Liste der gefundenen proprietaeren Pakete nach stdout aus. Die Entscheidung 
-ueber die Klassifizierung eines proprietaeren oder freien Paketes erfolgt
-nach den Fedora Projekt Lizensierungs-Richtlinien.
+Diese Programm analysiert die Liste der aktuell installierten RPM Pakete und listet
+die proprietäre Pakete auf stdout. Die Entscheidung, ob ein Pakete als frei oder
+proprietär eingestuft wird, basiert auf den Lizensierungsrichtlinien des Fedora Projekts
 .PP
-Fedora / CentOS User die zusaetzliche Repositories nutzen, wie z.B.
-\fBRPM Fusion\fR, werden bemerken, dass nicht alle Pakete die aus 
-nicht offiziellen Quellen kommen als proprietaer angezeigt werden.
-Die Anzeige basiert, wie bereits vorher erwaehnt, auf der Paket Lizenz.
-Es gibt vielfaeltige Gruende, neben der Lizenz, warum ein Paket nicht in
-den offiziellen Quellen akzeptiert wird. 
+Fedora / CentOS Benutzern, die zusätzliche Repositories, wie z.B. \fBRPM Fusion\fR,
+fällt evtl. auf, dass nicht alle Pakete aus nicht-offiziellen Repos als proprietär
+markiert sind. Das liegt daran, dass die Unterscheidung, wie zuvor angemerkt, auf
+der Lizenz des jeweiligen Pakets basiert. Es gibt verschiedene Gründe, abgesehen von
+der Lizensierung, weshalb ein Paket vielleicht nicht in das offizielle Fedora / CentOS
+Repository aufgenommen wurde - u.a. Software-Patente oder Exporteinschränkungen.
 .PP
-Richard Stallman war ueber Jahre hinweg die promineteste und einflussreichste
-Person in der freien Softwarebewegung, unermuedlich erinnert er uns an Fragen 
-der Software Ethik. Wie Richard, glauben wir das Anwender eine einfache
-Moeglichkeit haben sollten um festzustellen ob sie freie oder kommerzielle
-Software auf ihrem System betreiben. Dieses Programm ist ein Versuch diese
-Moeglichkeit zu schaffen. 
+Richard Stallman ist seit vielen Jahren die prominenteste und engagierteste
+Figur in der "Free Software" Bewegung und erinnert uns unablässig an die Probleme
+der Software-Ethik. Wie Richard, glauben auch wir, dass Nutzer eine einfache
+Möglichkeit haben sollten, um festzustellen ob auf ihren Systemen proprietäre
+Software läuft.
+Dieses Programm ist ein Versuch, dieses Bedürfnis zu erfüllen.
 .SH OPTIONEN
 .TP
 \fB\-\-ascii\fR
-Display rms ASCII-art wenn keine proprietaere Pakete gefunden wurden
-oder wenn proprietaere Pakete 10%% oder mehr der gesamten Pakete ausmachen.
+Zeige rms ASCII-art wenn keine proprietären Pakete gefunden
+wurden oder wenn propritäre Pakete 10% oder mehr der gesamten
+Pakete ausmachen.
+
+.TP
+\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgabe
+verwendet werden sollen. Standard ist 'auto', was Farben beim Schreiben
+ins Terminal verwendet, aber nicht beim Schreiben in eine Datei oder Pipe.
+
+.TP
+\fB\-\-describe\fR
+Beim Auflisten der Pakete, Paket-Zusammenfassung mitanzeigen (Kurzbeschreibung)
+
 .TP
 \fB\-\-explain\fR
-Bei den gelisteten Paketen sind die gezeigten Lizenzen da, um proprietaere
-und freie Pakete zu klasifizieren.
+Beim Auflisten der Pakete, auch die Lizenzen anzeigen
+um die frei / proprietär Klassifikation zu rechtfertigen.
+
 .TP
 \fB\-\-help\fR
-Zeigt eine kurze Hilfe an und beendet das Programm.
+Hilfe anzeigen und beenden.
+
+.TP
+\fB\-\-image\fR
+Wie \fB-\--ascii\fR, zeigt aber ein Bild mit Unicode Block Zeichen
+und 256-Farben Modus Terminal Escape Codes.
+
+.TP
+\fB\-\-licence\-list\fR <\fIFILE\fR>
+Spezifiziert eine Liste akzeptierter Lizenzen für die Klassifizierung von Paketen. 
+\fIFILE\fR kann ein Pfad zu einer Datei auf der Festplatte oder einer mitgelieferten 
+Liste sein:
+__BUNDLED_LICENCE_LISTS__
+Der Standardwert ist
+__DEFAULT_LICENCE_LIST__
+
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
-Abgesehen von der Anzeige einer zusammenfassenden Anzahl von freien
-und proprietaeren Paketen, werden sie alphabetisch angezeigt. 
-Der default Wert ist proprietaer(non-free).
+Außer der summierten Anzahl von freien & proprietären Paketen
+werden deren Namen aufgelistet. Standardwert ist "\fInonfree\fR".
+
 .TP
 \fB\-\-version\fR
-Zeige Version und beende das Programm.
-.SH SIEHE AUCH
+Versionsinformationen zeigen und beenden.
+
+.SH WEITERE INFORMATIONEN
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
-Die Fedora Project Wiki Seite ueber akzeptierte Software Lizenzen.
+Die Fedora Projet Wiki Seite über akzeptierte Software Lizenzen.
+
 .TP
-\fBhttps://vrms.alioth.debian.org/\fR
-Ort des originalen \fBvrms\fR Programms.
+\fBhttps://spdx.org/licenses/\fR
+Die SPDX Lizenzliste, ein Versuch zur Standardisierung von Lizenz-Identifizierern.
+
 .SH LIZENZ
-Dieses Programm steht unter den Bedingungen der GNU General Public
-Lizenz, Version 3, veröffentlicht von der Free Software Foundation.
+Das vorliegende Programm ist unter den Bedingungen der GNU General Public
+License (Version 3), verfügbar, wie sie von der Free Software Foundation 
+veröffentlicht wird.  
+
 .SH AUTOR
-Geschrieben Anfang 2017 von \fBsuve\fR.
+Erstellt Anfang 2017 von \fBsuve\fR.

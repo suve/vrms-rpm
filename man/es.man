@@ -1,18 +1,20 @@
-.TH VRMS-RPM 1
+.TH VRMS-RPM 1 "2018-10-30"
 .SH NOMBRE
-vrms-rpm - informa del software privativo instalado
-.SH SINTAXIS
+vrms-rpm - informa sobre el software privado instalado
+
+.SH RESUMEN
 \fBvrms-rpm\fR \fI[OPCIÓN]\fR ...
+
 .SH DESCRIPCIÓN
-Este programa es un clon del programa
+Este programa es un clon del programa original
 \fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
-original para Debian GNU/Linux, creado con el propósito de traer su
-brillante idea a las distribuciones de GNU/Linux basadas en RPM.
+para Debian GNU/Linux, escrito con el propósito de traer su brillante idea
+a las distribuciones de GNU/Linux basadas en RPM.
 .PP
 Este programa analiza la lista de paquetes RPM instalados actualmente e informa
-de los paquetes privativos encontrados por la salida estándar.  La decisión de
-clasificar un paquete como libre o privativo se basa en las directrices sobre
-licencias del proyecto Fedora.
+de los paquetes privados encontrados, imprimiéndo el resultado en la salida
+estandar. La decisión de clasificar un paquete como libre o privado se basa
+en las directrices sobre licencias del proyecto Fedora
 .PP
 Los usuarios de Fedora/CentOS que usen repositorios adicionales, como
 \fBRPM Fusion\fR, notarán que no todos los paquetes procedentes de repositorios
@@ -27,35 +29,68 @@ movimiento del Software Libre, recordándonos incansablemente de los principios
 morales del software.  Como Richard, creemos que los usaurios deberían tener una
 manera fácil de saber si están ejecutando software privativo en sus sistemas.
 Este programa es un intento de satisfacer esa necesidad.
+
 .SH OPCIONES
 .TP
 \fB\-\-ascii\fR
-Muestra arte ASCII de rms cuando no se encuentra ningún paquete privativo,
-o cuando los paquetes privativos son un 10% o más del total.
+Muestra arte ASCII de rms cuando no se encuentra ningún paquete privado,
+o cuando los paquetes privados son un 10% o más del total.
+
+.TP
+\fB\-\-explain\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+Controla si la terminal debería de usar sequencias de escape
+para imprimir colores. El predefinido es 'auto', que utiliza colores
+cuando se imprime en la terminal, sólo si no se redirecciona a un archivo o a
+un pipe.
+
+.TP
+\fB\-\-describe\fR
+Cuando enlistas paquetes, incluye el resumen de los paquetes (descripción corta).
+
 .TP
 \fB\-\-explain\fR
-Al listar los paquetes, muestra las licencias para justificar la clasificación
-libre/privativo.
+Cuando enlistas paquetes, muestra sus licencias para justificar la
+clasificación de libre o privado.
+
 .TP
 \fB\-\-help\fR
-Muestra una breve ayuda del programa y sale.
+Muestra una breve ayuda y termina el programa.
+
+.TP
+\fB\-\-image\fR
+Similar a la opción \fB-\-ascii\fR, pero muestra una imagen usando códigos de
+escape y bloques Unicode.
+
+.TP
+\fB\-\-licence\-list\fR <\fIFILE\fR>
+Especifica lista de buenas licencias para usar en el clasificador de paquetes.
+\fIARCHVIO\fR puede ser una ruta a un archivo en disco o alguno de las licencias anextas:
+__BUNDLED_LICENCE_LISTS__
+El valor predefinido es
+__DEFAULT_LICENCE_LIST__
+
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
-Aparte de mostrar el número total de paquetes libres y privativos,
-los lista también por su nombre.
-El valor predefinido para esta opción es "\fInonfree\fR".
+Aparte de mostrar un número resumen de los paquetes libres y privados,
+mostrarlos por su nombre. El valor predefinido es "\fInonfree\fR".
+
 .TP
 \fB\-\-version\fR
-Muestra información de la versión y sale.
-.SH VEA TAMBIÉN
+Muestra la versión del programa y termina.
+
+.SH VER TAMBIÉN
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 La página wiki del Proyecto Fedora sobre las licencias de software aceptadas.
+
 .TP
-\fBhttps://vrms.alioth.debian.org/\fR
-Página del programa \fBvrms\fR original.
+\fBhttps://spdx.org/licenses/\fR
+La lista de licencias SPDX, un intento de estandarizar los identificadores de
+licencias.
+
 .SH LICENCIA
 Este programa está disponible bajo los términos de la Licencia Pública General
 de GNU, versión 3, publicada por la Free Software Foundation.
+
 .SH AUTOR
 Escrito a principios de 2017 por \fBsuve\fR.

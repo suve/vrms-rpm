@@ -1,14 +1,16 @@
-.TH VRMS-RPM 1
+.TH VRMS-RPM 1 "2018-10-10"
 .SH NOME
-vrms-rpm - Segnala i software non liberi installati 
+vrms-rpm - segnala i software non liberi installati
+
 .SH SOMMARIO
 \fBvrms-rpm\fR \fI[OPZIONE]\fR ...
+
 .SH DESCRIZIONE
 Questo programma è un clone del programma per Debian GNU/Linux \fBvrms\fR
 ("\fBvirtual Richard M. Stallman\fR"), creato con l'obiettivo di portare la
 sua brillante idea su distribuzioni GNU/Linux basate su RPM.
 .PP
-Questo programma analizza la lista dei pacchetti RPM correntemente installati
+Il programma analizza la lista dei pacchetti RPM correntemente installati
 e stampa i pacchetti non liberi sullo stdout. La decisione di classificare un
 pacchetto come libero o non libero è basata sulle linee guida per le licenze 
 del proggetto Fedora.
@@ -21,41 +23,78 @@ pacchetto. Ci sono altre ragioni, oltre alla licenza, per cui un pacchetto non
 è stato accettato nel repository ufficiale di Fedora / CentOS - quali patenti
 software o restrizioni all'esportazione.
 .PP
-Richard Stallman è stato, per anni, la figura più importante e più vocale
+Per anni Richard Stallman è stato la figura più importante e fortemente esposta
 nel movimento per il Free Software, ricordandoci incessantemente i principi 
 morali riguardanti il software. Come Richard, noi crediamo che gli utenti 
 debbano avere a disposizione un modo semplice per capire se stanno usando 
 software non libero nei loro sistemi. Questo programma è un tentativo di 
 soddisfare questa esigenza.
+
 .SH OPZIONI
 .TP
 \fB\-\-ascii\fR
 Mostra una ASCII-art di rms quando non esiste nessun pacchetto libero
 o quando i pacchetti non liberi sono più del 10% del totale.
+
+.TP
+\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+Determina se utilizzare sequenze di escaping del terminale per
+colorare l'output.
+Il valore predefinito è '\fIauto\fR', che colora l'output quando
+scritto a video, ma non su file e pipe.
+
+.TP
+\fB\-\-describe\fR
+In combinazione con l'elenco dei pacchetti, viene incluso un sommario
+per ognuno (breve descrizione).
+
 .TP
 \fB\-\-explain\fR
 Quando si elencano i pacchetti, mostra le licenze per giustificare
-la classificazione in  libero / non-libero.
+la classificazione in libero / non-libero.
+
 .TP
 \fB\-\-help\fR
 Mostra un breve messaggio di aiuto ed esce.
+
+.TP
+\fB\-\-image\fR
+Come \fB-\-ascii\fR, ma mostra un'immagine composta sequenze di escaping
+del terminale e blocchi Unicode.
+
+.TP
+\fB\-\-licence\-list\fR <\fIFILE\fR>
+Specifica una lista delle licenze accettate da uilizzare per la
+classificazione dei pacchetti.
+\fIFILE\fR può essere il percorso di un file su disco, o un insieme
+di liste di licenze:
+__BUNDLED_LICENCE_LISTS__
+Il valore predefinito è
+__DEFAULT_LICENCE_LIST__
+
 .TP
 \fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
 Oltre a mostrare un sommario del numero di pacchetti liberi e non,
 li stampa per nome.  
-Il valore di default è "\fInonfree\fR".
+Il valore predefinito è "\fInonfree\fR".
+
 .TP
 \fB\-\-version\fR
 Mostra informazioni sulla versione ed esce.
-.SH VEDI ANCHE
+
+.SH VEDA ANCHE
 .TP
 \fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
 pagina wiki del progetto Fedora sulle licenze software accettate.
+
 .TP
-\fBhttps://vrms.alioth.debian.org/\fR
-homepage del programma \fBvrms\fR originale.
+\fBhttps://spdx.org/licenses/\fR
+La lista delle licenze SPDX, tentativo di standardizzazione degli
+identificatori delle licenze.
+
 .SH LICENZA
-Questo programma è reso disponibile secondo i termine della GNU General 
+Questo programma è reso disponibile secondo i termini della GNU General 
 Public License, versione 3, come pubblicato dalla Free Software Foundation.
+
 .SH AUTORE
 Scritto all'inizio del 2017 da \fBsuve\fR.
