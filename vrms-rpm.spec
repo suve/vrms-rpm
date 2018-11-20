@@ -1,11 +1,11 @@
 Name:          vrms-rpm
-Version:       1.3
+Version:       2.0
 Release:       1%{?dist}
 Summary:       Report non-free software
-BuildArch:     noarch
-BuildRequires: gettext
-Requires:      bash, grep, gettext
 License:       GPLv3
+
+BuildRequires: gcc
+BuildRequires: gettext-devel 
 
 %global githubowner suve
 %global gittag0 release-%{version}
@@ -21,19 +21,23 @@ installed on the system.
 %autosetup -n %{name}-%{gittag0} 
 
 %build
-make build PREFIX=%{_prefix} %{?_smp_mflags}
+make build PREFIX=%{_prefix} DEFAULT_LICENCE_LIST=tweaked %{?_smp_mflags}
 
 %install
-make install PREFIX=%{buildroot}%{_prefix} %{?_smp_mflags}
+%make_install
 %find_lang %{name} --with-man
 
 %files -f %{name}.lang
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}*
 %{_datadir}/suve/
-%license LICENCE.txt
+%license LICENCE.txt IMAGE-CREDITS.txt
 
 %changelog
+* Tue Nov 20 2018 suve <veg@svgames.pl> 2.0-1
+- Update to new upstream version
+- No longer a noarch package
+
 * Tue Nov 07 2017 suve <veg@svgames.pl> 1.3-1
 - New upstream version
 

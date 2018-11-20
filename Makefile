@@ -51,7 +51,7 @@ help:
 	@echo ""
 	@echo "VARIABLES:"
 	@echo "    DEFAULT_LICENCE_LIST"
-	@echo "        default list of good licences to use (default: spdx-fsf-or-osi)"
+	@echo "        default list of good licences to use (default: tweaked)"
 	@echo "        changed at run-time using --licence-list"
 	@echo "        possible values: $(LICENCE_FILENAMES)"
 	@echo "    DESTDIR"
