@@ -97,18 +97,18 @@ FILE* pipe_fopen(struct Pipe *pipe) {
 	
 	int events = poll(&pfd, 1, -1);
 	if(events < 0) {
-		lang_print(stderr, MSG_ERR_PIPE_NOEVENTS);
+		lang_fprint(stderr, MSG_ERR_PIPE_NOEVENTS);
 		return NULL;
 	}
 	if(pfd.revents == POLLERR) {
-		lang_print(stderr, MSG_ERR_PIPE_POLL_ERROR);
+		lang_fprint(stderr, MSG_ERR_PIPE_POLL_ERROR);
 		return NULL;
 	}
 	
 	// Interpret "other end of pipe closed" as error
 	// only when this event is not accompanied by "data ready to be read".
 	if((pfd.revents & POLLHUP) && !(pfd.revents & POLLIN)) {
-		lang_print(stderr, MSG_ERR_PIPE_POLL_HANGUP);
+		lang_fprint(stderr, MSG_ERR_PIPE_POLL_HANGUP);
 		return NULL;
 	}
 	

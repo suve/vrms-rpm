@@ -53,7 +53,7 @@ static FILE* openfile(char *name) {
 	}
 	
 	FILE *f = fopen(name, "r");
-	if(f == NULL) lang_print(stderr, MSG_ERR_LICENCES_BADFILE, name);
+	if(f == NULL) lang_fprint(stderr, MSG_ERR_LICENCES_BADFILE, name);
 	
 	return f;
 }
