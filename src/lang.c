@@ -56,7 +56,7 @@ int lang_print(FILE *const file, const enum MessageID msgid, ...) {
 	if(msgstr == NULL) return -1;
 	
 	va_list args;
-	va_start(args, msgstr);
+	va_start(args, msgid);
 	int bytes = vfprintf(file, msgstr, args);
 	va_end(args);
 	
@@ -68,7 +68,7 @@ int lang_print_n(FILE *const file, const enum MessageID msgid, const int number,
 	if(msgstr == NULL) return -1;
 	
 	va_list args;
-	va_start(args, msgstr);
+	va_start(args, number);
 	int bytes = vfprintf(file, msgstr, args);
 	va_end(args);
 	
