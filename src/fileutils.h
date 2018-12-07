@@ -19,7 +19,7 @@
 
 void echo_file_contents(const char *const filename);
 
-void rms_disappointed();
-void rms_happy();
+void rms_disappointed(void);
+void rms_happy(void);
 
 #endif
