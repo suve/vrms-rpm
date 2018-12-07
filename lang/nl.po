@@ -12,13 +12,13 @@ msgstr "Nederlandse vertaling gemaakt door Martijn Groeneveldt\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d vrij pakket\n"
-msgstr[1] "%d vrije pakketten\n"
+msgstr[0] "%d vrij pakket (%s)\n"
+msgstr[1] "%d vrije pakketten (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d propriëtaire pakket\n"
-msgstr[1] "%d propriëtaire pakketten\n"
+msgstr[0] "%d propriëtaire pakket (%s)\n"
+msgstr[1] "%d propriëtaire pakketten (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Alleen gratis pakketten - rms zal trots zijn!\n"

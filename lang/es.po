@@ -12,13 +12,13 @@ msgstr "Traducción al Español por Mr. Outis\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d paquete libre\n"
-msgstr[1] "%d paquetes libres\n"
+msgstr[0] "%d paquete libre (%s)\n"
+msgstr[1] "%d paquetes libres (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d paquete privado\n"
-msgstr[1] "%d paquetes privados\n"
+msgstr[0] "%d paquete privado (%s)\n"
+msgstr[1] "%d paquetes privados (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Sólo paquetes libres - rms estaría orgulloso!\n"

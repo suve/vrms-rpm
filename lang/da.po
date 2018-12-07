@@ -10,13 +10,13 @@ msgstr "Dansk oversættelse af Klaus Nielsen\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d fri pakke\n"
-msgstr[1] "%d frie pakker\n"
+msgstr[0] "%d fri pakke (%s)\n"
+msgstr[1] "%d frie pakker (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d ikke-fri pakke\n"
-msgstr[1] "%d ikke-frie pakker\n"
+msgstr[0] "%d ikke-fri pakke (%s)\n"
+msgstr[1] "%d ikke-frie pakker (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Kun frie pakker - rms er stolt!\n"

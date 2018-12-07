@@ -10,13 +10,13 @@ msgstr "Traduzione italiana fatta da Enrico Paganin\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d pacchetto libero\n"
-msgstr[1] "%d pacchetti liberi\n"
+msgstr[0] "%d pacchetto libero (%s)\n"
+msgstr[1] "%d pacchetti liberi (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d pacchetto non-libero\n"
-msgstr[1] "%d pacchetti non-liberi\n"
+msgstr[0] "%d pacchetto non-libero (%s)\n"
+msgstr[1] "%d pacchetti non-liberi (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Solo pacchetti liberi - rms sarebbe orgoglioso!\n"

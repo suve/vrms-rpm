@@ -12,13 +12,13 @@ msgstr "На русский язык перевела stacey-impossible\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d свободных пакетов\n"
-msgstr[1] "%d свободных пакетов\n"
+msgstr[0] "%d свободных пакетов (%s)\n"
+msgstr[1] "%d свободных пакетов (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d проприетарных пакетов\n"
-msgstr[1] "%d проприетарных пакетов\n"
+msgstr[0] "%d проприетарных пакетов (%s)\n"
+msgstr[1] "%d проприетарных пакетов (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Только свободные пакеты - Ричард Столлман гордился бы!\n"

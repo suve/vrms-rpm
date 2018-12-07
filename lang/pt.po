@@ -12,13 +12,13 @@ msgstr " Pt-br translation by Edson Celio\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d pacotes livres\n"
-msgstr[1] "%d pacotes livres\n"
+msgstr[0] "%d pacotes livres (%s)\n"
+msgstr[1] "%d pacotes livres (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d pacotes não livres\n"
-msgstr[1] "%d pacotes não livres\n"
+msgstr[0] "%d pacotes não livres (%s)\n"
+msgstr[1] "%d pacotes não livres (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Somente pacotes livres - rms ficaria orgulhoso!\n"
