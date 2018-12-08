@@ -101,7 +101,7 @@ void options_parse(int argc, char **argv) {
 				puts("vrms-rpm v.2.0 by suve");
 				
 				const char *translator = lang_getmsg(MSG_TRANSLATION_AUTHOR);
-				if(strcmp(translator, "--\n") != 0) printf(translator);
+				if(strcmp(translator, "--\n") != 0) printf("%s", translator);
 				
 				exit(EXIT_SUCCESS);
 			
