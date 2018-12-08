@@ -23,7 +23,7 @@
 struct Pipe;
 
 
-struct Pipe* pipe_create(const int argc, char **argv);
+struct Pipe* pipe_create(char **argv);
 FILE* pipe_fopen(struct Pipe *pipe);
 
 void pipe_destroy(struct Pipe *pipe);

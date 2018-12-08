@@ -35,17 +35,13 @@ struct Pipe {
 	pid_t child_pid;
 };
 
-static void child(struct Pipe *const pipe, const int argc, char **argv) {
+static void child(struct Pipe *const pipe, char **argv) {
 	// Close our copy of the stdout file descriptor (inherited from parent)
 	// and replace it with the write-descriptor for the pipe.
 	close(FD_STDOUT);
 	dup2(pipe->writefd, FD_STDOUT);
 	
-	char *args[argc+1];
-	for(int a = 0; a < argc; ++a) args[a] = argv[a];
-	args[argc] = (char*)NULL;
-	
-	execv(args[0], args);
+	execv(argv[0], argv);
 	exit(EXIT_FAILURE);
 }
 
@@ -56,7 +52,7 @@ static void parent(struct Pipe *const pipe) {
 	close(pipe->writefd);
 }
 
-struct Pipe* pipe_create(const int argc, char **argv) {
+struct Pipe* pipe_create(char **argv) {
 	struct Pipe *res = malloc(sizeof(struct Pipe));
 	if(res == NULL) return NULL;
 	
@@ -79,7 +75,7 @@ struct Pipe* pipe_create(const int argc, char **argv) {
 	res->child_pid = pid;
 	
 	if(pid == 0)
-		child(res, argc, argv);
+		child(res, argv);
 	else
 		parent(res);
 	

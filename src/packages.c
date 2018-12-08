@@ -34,16 +34,16 @@ struct Pipe* packages_openPipe(void) {
 	else
 		queryformat = "%{NAME}\\t%{LICENSE}\\t%{SUMMARY}\\n";
 	
-	#define ARGNUM 5
-	char *args[ARGNUM] = {
+	char *args[] = {
 		"/usr/bin/rpm",
 		"--all",
 		"--query",
 		"--queryformat",
-		queryformat
+		queryformat,
+		(char*)NULL
 	};
 	
-	return pipe_create(ARGNUM, args);
+	return pipe_create(args);
 }
 
 struct Package {
