@@ -10,13 +10,13 @@ msgstr "Traduction française par Aurélien Aptel\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d logiciel libre\n"
-msgstr[1] "%d logiciels libres\n"
+msgstr[0] "%d logiciel libre (%s)\n"
+msgstr[1] "%d logiciels libres (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d logiciel non-libre\n"
-msgstr[1] "%d logiciels non-libres\n"
+msgstr[0] "%d logiciel non-libre (%s)\n"
+msgstr[1] "%d logiciels non-libres (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Uniquement des logiciels libres - rms est fier de vous !\n"

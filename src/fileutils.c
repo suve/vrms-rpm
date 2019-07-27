@@ -50,7 +50,7 @@ void echo_file_contents(const char *const filename) {
 	close(fd);
 }
 
-void rms_disappointed() {
+void rms_disappointed(void) {
 	switch(opt_image) {
 		case OPT_IMAGE_ASCII:
 			echo_file_contents(INSTALL_DIR "/images/rms-disappointed-ascii");
@@ -62,7 +62,7 @@ void rms_disappointed() {
 	}
 }
 
-void rms_happy() {
+void rms_happy(void) {
 	switch(opt_image) {
 		case OPT_IMAGE_ASCII:
 			echo_file_contents(INSTALL_DIR "/images/rms-happy-ascii");

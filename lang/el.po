@@ -12,13 +12,13 @@ msgstr "Ελληνική μετάφραση από τον Τάσο Νατσάκ�
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d ελεύθερο πακετό\n"
-msgstr[1] "%d ελεύθερα πακέτα\n"
+msgstr[0] "%d ελεύθερο πακετό (%s)\n"
+msgstr[1] "%d ελεύθερα πακέτα (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d μη ελεύθερο πακέτκο\n"
-msgstr[1] "%d μη ελεύθερα πακέτα\n"
+msgstr[0] "%d μη ελεύθερο πακέτκο (%s)\n"
+msgstr[1] "%d μη ελεύθερα πακέτα (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Μόνο ελεύθερα πακέτα - ο rms θα ήταν περήφανος!\n"

@@ -20,10 +20,12 @@ Adobe
 Afmparse
 App-s2p
 Arphic
+Array
 Artistic 2.0
 Artistic clarified
 BSD
 BSD Protection
+BSD-2-Clause-Patent
 Baekmuk
 Bahyph
 Barr
@@ -175,6 +177,7 @@ Open Publication
 OpenLDAP
 OpenPBS
 OpenSSL
+Ouverte
 PDDL-1.0
 PHP
 PTFL
@@ -225,6 +228,7 @@ Tolua
 Tumbolia
 UCAR
 UCD
+UPL
 Unicode
 Unlicense
 Utopia

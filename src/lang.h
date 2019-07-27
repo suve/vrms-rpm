@@ -19,6 +19,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define FOREACH_MESSAGE(MESSAGE)     \
@@ -62,7 +63,10 @@ void lang_init(void);
 char* lang_getmsg(const enum MessageID msgid);
 char* lang_getmsgn(const enum MessageID msgid, const int number);
 
-int lang_print(FILE *const file, const enum MessageID msgid, ...);
-int lang_print_n(FILE *const file, const enum MessageID msgid, const int number, ...);
+int lang_fprint(FILE *const file, const enum MessageID msgid, ...);
+int lang_fprint_n(FILE *const file, const enum MessageID msgid, const int number, ...);
+
+#define lang_print(msgid, ...)    lang_fprint(stdout, (msgid), ##__VA_ARGS__)
+#define lang_print_n(msgid, ...)  lang_fprint_n(stdout, (msgid), ##__VA_ARGS__)
 
 #endif

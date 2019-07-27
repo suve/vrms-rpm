@@ -19,7 +19,7 @@ complicate matters. After all, removing code is hard.
 
 **Installing from a repository**
 ----------
-[![Packaging status](https://repology.org/badge/vertical-allrepos/vrms-rpm.svg)](https://repology.org/metapackage/vrms-rpm)    
+[![Packaging status](https://repology.org/badge/vertical-allrepos/vrms-rpm.svg?minversion=2.1)](https://repology.org/metapackage/vrms-rpm)    
 Fedora users can install *vrms-rpm* from the official distro repository.
 RHEL/CentOS users can get the package from the Fedora EPEL repositories.
 ```

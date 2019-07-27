@@ -34,16 +34,16 @@ struct Pipe* packages_openPipe(void) {
 	else
 		queryformat = "%{NAME}\\t%{LICENSE}\\t%{SUMMARY}\\n";
 	
-	#define ARGNUM 5
-	char *args[ARGNUM] = {
+	char *args[] = {
 		"/usr/bin/rpm",
 		"--all",
 		"--query",
 		"--queryformat",
-		queryformat
+		queryformat,
+		(char*)NULL
 	};
 	
-	return pipe_create(ARGNUM, args);
+	return pipe_create(args);
 }
 
 struct Package {
@@ -212,10 +212,17 @@ static void printlist(const int which_kind) {
 void packages_list(void) {
 	if(!sorted) packages_sort();
 	
-	lang_print_n(stdout, MSG_FREE_PACKAGES_COUNT, class_count[1], class_count[1]);
+	int promil_nonfree = (1000L * class_count[0]) / (class_count[0] + class_count[1]);
+	int promil_free = 1000 - promil_nonfree;
+	
+	char percent_nonfree[16], percent_free[16];
+	snprintf(percent_nonfree, sizeof(percent_nonfree), "%d.%d%%", promil_nonfree / 10, promil_nonfree % 10);
+	snprintf(percent_free, sizeof(percent_nonfree), "%d.%d%%", promil_free / 10, promil_free % 10);
+	
+	lang_print_n(MSG_FREE_PACKAGES_COUNT, class_count[1], class_count[1], percent_free);
 	if(opt_list & OPT_LIST_FREE) printlist(1);
 	
-	lang_print_n(stdout, MSG_NONFREE_PACKAGES_COUNT, class_count[0], class_count[0]);
+	lang_print_n(MSG_NONFREE_PACKAGES_COUNT, class_count[0], class_count[0], percent_nonfree);
 	if(opt_list & OPT_LIST_NONFREE) printlist(0);
 }
 

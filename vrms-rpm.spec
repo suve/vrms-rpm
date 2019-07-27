@@ -1,5 +1,5 @@
 Name:          vrms-rpm
-Version:       2.0
+Version:       2.1
 Release:       1%{?dist}
 Summary:       Report non-free software
 License:       GPLv3
@@ -24,16 +24,20 @@ installed on the system.
 make build PREFIX=%{_prefix} DEFAULT_LICENCE_LIST=tweaked %{?_smp_mflags}
 
 %install
-%make_install
+%make_install PREFIX=%{_prefix}
 %find_lang %{name} --with-man
 
 %files -f %{name}.lang
 %{_bindir}/%{name}
+%{_sysconfdir}/bash_completion.d/%{name}
 %{_mandir}/man1/%{name}*
 %{_datadir}/suve/
 %license LICENCE.txt IMAGE-CREDITS.txt
 
 %changelog
+* Sat Jul 27 2019 suve <veg@svgames.pl> 2.1-1
+- Update to latest upstream release
+
 * Tue Nov 20 2018 suve <veg@svgames.pl> 2.0-1
 - Update to new upstream version
 - No longer a noarch package

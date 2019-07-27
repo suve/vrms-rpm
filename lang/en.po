@@ -12,13 +12,13 @@ msgstr "--\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d free package\n"
-msgstr[1] "%d free packages\n"
+msgstr[0] "%d free package (%s of total)\n"
+msgstr[1] "%d free packages (%s of total)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d non-free package\n"
-msgstr[1] "%d non-free packages\n"
+msgstr[0] "%d non-free package (%s of total)\n"
+msgstr[1] "%d non-free packages (%s of total)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Only free packages - rms would be proud!\n"

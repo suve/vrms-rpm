@@ -12,13 +12,13 @@ msgstr "Übersetzt von Markus Deibel\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d freies Paket\n"
-msgstr[1] "%d freie Pakete\n"
+msgstr[0] "%d freies Paket (%s)\n"
+msgstr[1] "%d freie Pakete (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d proprietäres Paket\n"
-msgstr[1] "%d proprietäre Pakete\n"
+msgstr[0] "%d proprietäres Paket (%s)\n"
+msgstr[1] "%d proprietäre Pakete (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Nur freie Pakete - rms wäre stolz!\n"
