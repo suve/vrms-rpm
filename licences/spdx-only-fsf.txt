@@ -33,6 +33,7 @@ EPL-1.0
 EPL-2.0
 EUDatagrid
 EUPL-1.1
+EUPL-1.2
 FSFAP
 FTL
 GFDL-1.1-only

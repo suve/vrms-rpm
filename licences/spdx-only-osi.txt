@@ -1,3 +1,4 @@
+0BSD
 AAL
 AFL-1.1
 AFL-1.2
@@ -20,6 +21,7 @@ Artistic-2.0
 BSD-2-Clause
 BSD-2-Clause-Patent
 BSD-3-Clause
+BSD-3-Clause-LBNL
 BSL-1.0
 CATOSL-1.1
 CDDL-1.0
