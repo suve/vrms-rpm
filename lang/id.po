@@ -34,9 +34,9 @@ msgstr "    Tampilkan rms ASCII-art ketika tidak ditemukan paket non-free,\n"
        "    atau ketika terdapat paket non-free lebih dari 10%% dari total.\n"
 
 msgid "HELP_OPTION_COLOUR\n"
-msgstr "    Mengontrol apakah terminal escape sequences dipergunakan\n"
-       "    untuk mewarnai output. Nilai defaultnya 'auto', yang mana menggunakan output berwarna\n"
-       "    ketika menulis di terminal, tetapi tidak berlaku apabila menulis di file atau pipe.\n"
+msgstr "    Mengontrol apakah terminal escape sequences dipergunakan untuk mewarnai output.\n"
+       "    Nilai defaultnya 'auto', yang mana menggunakan output berwarna ketika menulis\n"
+       "    di terminal, tetapi tidak berlaku apabila menulis di file atau pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Ketika mendaftar paket, sertakan ringkasan paket (deskripsi singkat).\n"
@@ -49,8 +49,8 @@ msgid "HELP_OPTION_HELP\n"
 msgstr "    Menampilkan bantuan dan keluar.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
-msgstr "    Seperti --ascii, tetapi menampilkan gambar menggukanak blok karakter Unicode\n"
-       "    dan kode terminal escape mode 256-warna.\n"
+msgstr "    Seperti --ascii, tetapi menampilkan gambar menggukanak blok karakter Unicode dan\n"
+       "    kode terminal escape mode 256-warna.\n"
 
 msgid "HELP_OPTION_LICENCELIST\n"
 msgstr "    Menentukan daftar lisensi yang baik untuk digunakan. FILE bisa berupa path\n"
