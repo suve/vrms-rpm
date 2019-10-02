@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1 "2018-05-18"
+.TH VRMS-RPM 1 "2019-10-03"
 .SH NAMA
 vrms-rpm - laporan pemasangan perangkat lunak non-free
 
