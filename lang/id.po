@@ -3,7 +3,7 @@ msgstr ""
 "Language: id\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
@@ -13,12 +13,10 @@ msgstr "Diterjemahkan ke Bahasa oleh Habib Fikri\n"
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
 msgstr[0] "%d paket free (dari total %s)\n"
-msgstr[1] "%d paket free (dari total %s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
 msgstr[0] "%d paket non-free (dari total %s)\n"
-msgstr[1] "%d paket non-free (dari total %s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Hanya paket free - rms akan bangga!\n"
@@ -34,9 +32,10 @@ msgstr "    Tampilkan rms ASCII-art ketika tidak ditemukan paket non-free,\n"
        "    atau ketika terdapat paket non-free lebih dari 10%% dari total.\n"
 
 msgid "HELP_OPTION_COLOUR\n"
-msgstr "    Mengontrol apakah terminal escape sequences dipergunakan untuk mewarnai output.\n"
-       "    Nilai defaultnya 'auto', yang mana menggunakan output berwarna ketika menulis\n"
-       "    di terminal, tetapi tidak berlaku apabila menulis di file atau pipe.\n"
+msgstr "    Mengontrol apakah terminal escape sequences dipergunakan untuk mewarnai\n"
+       "    output. Nilai defaultnya 'auto', yang mana menggunakan output berwarna\n"
+       "    ketika menulis di terminal, tetapi tidak berlaku apabila menulis di file\n"
+       "    atau pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Ketika mendaftar paket, sertakan ringkasan paket (deskripsi singkat).\n"
@@ -49,12 +48,12 @@ msgid "HELP_OPTION_HELP\n"
 msgstr "    Menampilkan bantuan dan keluar.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
-msgstr "    Seperti --ascii, tetapi menampilkan gambar menggukanak blok karakter Unicode dan\n"
-       "    kode terminal escape mode 256-warna.\n"
+msgstr "    Seperti --ascii, tetapi menampilkan gambar menggukanak blok karakter\n"
+       "    Unicode dan kode terminal escape mode 256-warna.\n"
 
 msgid "HELP_OPTION_LICENCELIST\n"
-msgstr "    Menentukan daftar lisensi yang baik untuk digunakan. FILE bisa berupa path\n"
-       "    ke file di disk, atau salah satu dari bundel daftar lisensi:\n"
+msgstr "    Menentukan daftar lisensi yang baik untuk digunakan. FILE bisa berupa\n"
+       "    path ke file di disk, atau salah satu dari bundel daftar lisensi:\n"
        "    %s\n"
        "    Nilai defaultnya '%s'.\n"
 
