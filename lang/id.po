@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"Language: id\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+# A place for you to credit yourself!
+# Put something like "Latin translation by Jvlivs Gaivs\n" here.
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Diterjemahkan ke Bahasa oleh Habib Fikri\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d paket free (dari total %s)\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d paket non-free (dari total %s)\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Hanya paket free - rms akan bangga!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Lebih dari 10%% paket non-free. Apakah Anda benci kebebasan?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Penggunaan: vrms-rpm [opsi]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr "    Tampilkan rms ASCII-art ketika tidak ditemukan paket non-free,\n"
+       "    atau ketika terdapat paket non-free lebih dari 10%% dari total.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr "    Mengontrol apakah terminal escape sequences dipergunakan untuk mewarnai\n"
+       "    output. Nilai defaultnya 'auto', yang mana menggunakan output berwarna\n"
+       "    ketika menulis di terminal, tetapi tidak berlaku apabila menulis di file\n"
+       "    atau pipe.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Ketika mendaftar paket, sertakan ringkasan paket (deskripsi singkat).\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr "    Ketika mendaftar paket, tampilkan lisensinya\n"
+       "    untuk memastikan apakah termasuk klasifikasi free / non-free.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Menampilkan bantuan dan keluar.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr "    Seperti --ascii, tetapi menampilkan gambar menggukanak blok karakter\n"
+       "    Unicode dan kode terminal escape mode 256-warna.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr "    Menentukan daftar lisensi yang baik untuk digunakan. FILE bisa berupa\n"
+       "    path ke file di disk, atau salah satu dari bundel daftar lisensi:\n"
+       "    %s\n"
+       "    Nilai defaultnya '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr "    Selain menampilkan ringkasan jumlah paket free & non-free,\n"
+       "    tampilkan berdasarkan nama. Nilai defaultnya 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Menampilkan informasi versi dan keluar.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: gagal membuka pipe ke /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() tidak mengembalikan apapun\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() mengembalikan error\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): ujung pipe yang lain ditutup tanpa mengirim data\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: gagal membaca dari pipe ke /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: gagal membaca daftar lisensi baik\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: gagal membaca daftar lisensi baik dari \"%s\"\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: argumen untuk opsi --colour harus salah satu dari 'no', 'yes', atau 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: argumen untuk opsi --list harus salah satu dari 'none', 'non-free', 'free' atau 'all'\n"
+
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: opsi \"%s\" membutuhkan argumen\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: opsi \"%s\" tidak diketahui\n"
