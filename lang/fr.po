@@ -93,5 +93,8 @@ msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: l'argument de l'option --list doit être choisi parmi 'none', \n"
        "'non-free', 'free' or 'all'\n"
 
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: l'option \"%s\" nécessite un argument\n"
+
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: option inconnue \"%s\"\n"
