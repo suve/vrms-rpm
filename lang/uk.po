@@ -3,20 +3,24 @@ msgstr ""
 "Language: uk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=3; \
+    plural=n%10==1 && n%100!=11 ? 0 : \
+           n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 msgid "TRANSLATION_AUTHOR\n"
 msgstr "На українську мову переклала yanicka\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d вільного пакету (%s)\n"
-msgstr[1] "%d вільних пакетiв (%s)\n"
+msgstr[0] "%d вільний пакет (%s)\n"
+msgstr[1] "%d вільних пакети (%s)\n"
+msgstr[2] "%d вільних пакетiв (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d пропрієтарного пакету (%s)\n"
-msgstr[1] "%d пропрієтарних пакетiв (%s)\n"
+msgstr[0] "%d пропрієтарний пакет (%s)\n"
+msgstr[1] "%d пропрієтарних пакети (%s)\n"
+msgstr[2] "%d пропрієтарних пакетiв (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Тільки вільні пакети - Річард Столлман пишався б тобою!\n"
@@ -89,11 +93,11 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: не вдалося прочитати перелiк припустимих ліцензій iз \"%s\"\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr  "vrms-rpm: аргумент для флага --colour може бути\n"
+msgstr  "vrms-rpm: аргумент для флага --colour може бути "
         "одним з наступних значень: 'no', 'yes', або 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
-msgstr  "vrms-rpm: аргумент для флага --list може бути одним\n"
+msgstr  "vrms-rpm: аргумент для флага --list може бути одним "
         "з наступних значень: 'none', 'non-free', 'free' або 'all'\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
