@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-
 #ifndef VRMS_RPM_BUFFERS_H
 #define VRMS_RPM_BUFFERS_H
+
+#include <string.h>
 
 #define CHAINBUF_SIZEOF    4096
 #define CHAINBUF_CAPACITY  (CHAINBUF_SIZEOF - sizeof(size_t) - sizeof(void*))
@@ -36,14 +37,14 @@ struct ReBuffer {
 };
 
 
-struct ChainBuffer* chainbuf_init(void);
-void chainbuf_free(struct ChainBuffer *buf);
+extern struct ChainBuffer* chainbuf_init(void);
+extern void chainbuf_free(struct ChainBuffer *buf);
 
-char* chainbuf_append(struct ChainBuffer **buf, char *data);
+extern char* chainbuf_append(struct ChainBuffer **buf, char *data);
 
-struct ReBuffer* rebuf_init(void);
-void rebuf_free(struct ReBuffer *buf);
+extern struct ReBuffer* rebuf_init(void);
+extern void rebuf_free(struct ReBuffer *buf);
 
-void* rebuf_append(struct ReBuffer *const buf, void *const data, const size_t datalen);
+extern void* rebuf_append(struct ReBuffer *const buf, void *const data, const size_t datalen);
 
 #endif

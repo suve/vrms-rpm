@@ -28,10 +28,10 @@
 #define ANSI_RESET   ANSI_COLOUR(0)
 
 
-char* trim(char *buffer, size_t *const length);
-char* trim_extra(char *buffer, size_t *const length, const char *const extrachars);
+extern char* trim(char *buffer, size_t *const length);
+extern char* trim_extra(char *buffer, size_t *const length, const char *const extrachars);
 
-void str_findmultiple(
+extern void str_findmultiple(
 	const char *const haystack,
 	const int num_needles,
 	char * *const needle,
@@ -39,8 +39,8 @@ void str_findmultiple(
 	char * *const result_needle
 );
 
-char* str_ends_with(const char *const haystack, const char *const needle);
+extern char* str_ends_with(const char *const haystack, const char *const needle);
 
-size_t replace_unicode_spaces(char *str);
+extern size_t replace_unicode_spaces(char *str);
 
 #endif
