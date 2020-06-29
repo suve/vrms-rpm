@@ -1,7 +1,7 @@
 #
 # Makefile for vrms-rpm
 # Copyright (C) 2017 Marcin "dextero" Radomski
-# Copyright (C) 2018-2019 Artur "suve" Iwicki
+# Copyright (C) 2018-2020 Artur "suve" Iwicki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -52,7 +52,7 @@ build: executable lang-files man-pages $(LICENCE_FILES) build/bash-completion.sh
 
 executable: build/vrms-rpm
 
-lang-files: $(MO_FILES) 
+lang-files: $(MO_FILES)
 
 man-pages: $(MAN_FILES)
 
@@ -62,13 +62,11 @@ clean:
 install: install/prepare
 	mkdir -p "$(DESTDIR)$(PREFIX)"
 	cp -a install/* "$(DESTDIR)$(PREFIX)"
-	install -vD -m 644 build/bash-completion.sh $(DESTDIR)/etc/bash_completion.d/vrms-rpm
 	rm -rf install
 
 remove: install/prepare
 	find install -type f | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rm -vf
 	find install -depth -type d | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
-	rm $(DESTDIR)/etc/bash_completion.d/vrms-rpm
 	rm -rf install
 
 help:
@@ -128,6 +126,9 @@ build/vrms-rpm: $(OBJECTS)
 install/bin/vrms-rpm: build/vrms-rpm
 	install -vD -p -m 755 "$<" "$@"
 
+install/share/bash-completion/completions/vrms-rpm: build/bash-completion.sh
+	install -vD -m 644 "$<" "$@"
+
 install/share/suve/vrms-rpm/images/%: images/%
 	install -vD -m 644 "$<" "$@"
 
@@ -145,6 +146,7 @@ install/share/locale/%: build/locale/%
 
 install/prepare: build
 install/prepare: install/bin/vrms-rpm
+install/prepare: install/share/bash-completion/completions/vrms-rpm
 install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(NON_EN_MAN_LANGS:%=install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)
