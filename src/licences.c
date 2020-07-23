@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020 Artur "suve" Iwicki
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,8 @@ static int init_buffers(void) {
 static FILE* openfile(char *name) {
 	char buffer[512];
 	
-	if(strchr(name, '/') == NULL) {
+	const int non_built_in = str_starts_with(name, "/") || str_starts_with(name, "./") || str_starts_with(name, "../");
+	if(!non_built_in) {
 		snprintf(buffer, sizeof(buffer), INSTALL_DIR "/licences/%s.txt", name);
 		name = buffer;
 	}
