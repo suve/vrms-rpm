@@ -3,6 +3,7 @@ AFL-1.2
 AFL-2.0
 AFL-2.1
 AFL-3.0
+AGPL-3.0
 AGPL-3.0-only
 AGPL-3.0-or-later
 APSL-2.0
@@ -42,8 +43,12 @@ GFDL-1.2-only
 GFDL-1.2-or-later
 GFDL-1.3-only
 GFDL-1.3-or-later
+GPL-2.0
+GPL-2.0+
 GPL-2.0-only
 GPL-2.0-or-later
+GPL-3.0
+GPL-3.0+
 GPL-3.0-only
 GPL-3.0-or-later
 HPND
@@ -53,8 +58,14 @@ IPL-1.0
 ISC
 Imlib2
 Intel
+LGPL-2.0
+LGPL-2.0+
+LGPL-2.1
+LGPL-2.1+
 LGPL-2.1-only
 LGPL-2.1-or-later
+LGPL-3.0
+LGPL-3.0+
 LGPL-3.0-only
 LGPL-3.0-or-later
 LPL-1.02
@@ -71,6 +82,7 @@ NPL-1.0
 NPL-1.1
 Nokia
 ODbL-1.0
+OFL-1.0
 OFL-1.1
 OLDAP-2.3
 OLDAP-2.7
