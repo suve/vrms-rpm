@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020 Artur "suve" Iwicki
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
@@ -47,13 +48,17 @@ static int init_buffers(void) {
 static FILE* openfile(char *name) {
 	char buffer[512];
 	
-	if(strchr(name, '/') == NULL) {
+	const int non_built_in = str_starts_with(name, "/") || str_starts_with(name, "./") || str_starts_with(name, "../");
+	if(!non_built_in) {
 		snprintf(buffer, sizeof(buffer), INSTALL_DIR "/licences/%s.txt", name);
 		name = buffer;
 	}
 	
 	FILE *f = fopen(name, "r");
-	if(f == NULL) lang_fprint(stderr, MSG_ERR_LICENCES_BADFILE, name);
+	if(f == NULL) {
+		char *errstr = strerror(errno);
+		lang_fprint(stderr, MSG_ERR_LICENCES_BADFILE, name, errstr);
+	}
 	
 	return f;
 }

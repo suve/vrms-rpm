@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018-2020 Artur "suve" Iwicki
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -98,7 +98,7 @@ void options_parse(int argc, char **argv) {
 			break;
 			
 			case LONGOPT_VERSION:
-				puts("vrms-rpm v.2.1 by suve");
+				puts("vrms-rpm v.2.2 by suve");
 				
 				const char *translator = lang_getmsg(MSG_TRANSLATION_AUTHOR);
 				if(strcmp(translator, "--\n") != 0) printf("%s", translator);

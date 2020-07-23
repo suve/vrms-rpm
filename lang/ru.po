@@ -3,7 +3,9 @@ msgstr ""
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=3; \
+    plural=n%10==1 && n%100!=11 ? 0 : \
+           n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
@@ -12,13 +14,15 @@ msgstr "На русский язык перевела stacey-impossible\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
-msgstr[0] "%d свободных пакетов (%s)\n"
-msgstr[1] "%d свободных пакетов (%s)\n"
+msgstr[0] "%d свободный пакет (%s)\n"
+msgstr[1] "%d свободных пакета (%s)\n"
+msgstr[2] "%d свободных пакетов (%s)\n"
 
 msgid "NONFREE_PACKAGES_COUNT\n"
 msgid_plural "NONFREE_PACKAGES_COUNT\n"
-msgstr[0] "%d проприетарных пакетов (%s)\n"
-msgstr[1] "%d проприетарных пакетов (%s)\n"
+msgstr[0] "%d проприетарный пакет (%s)\n"
+msgstr[1] "%d проприетарных пакета (%s)\n"
+msgstr[2] "%d проприетарных пакетов (%s)\n"
 
 msgid "RMS_HAPPY\n"
 msgstr "Только свободные пакеты - Ричард Столлман гордился бы!\n"
@@ -88,7 +92,7 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий из \"%s\"\n"
+msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий из \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: аргумент для флага --colour может быть\n"

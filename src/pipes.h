@@ -23,9 +23,9 @@
 struct Pipe;
 
 
-struct Pipe* pipe_create(char **argv);
-FILE* pipe_fopen(struct Pipe *pipe);
+extern struct Pipe* pipe_create(char **argv);
+extern FILE* pipe_fopen(struct Pipe *pipe);
 
-void pipe_destroy(struct Pipe *pipe);
+extern void pipe_destroy(struct Pipe *pipe);
 
 #endif

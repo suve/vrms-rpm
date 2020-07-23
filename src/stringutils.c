@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020 Artur "suve" Iwicki
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -80,13 +80,21 @@ void str_findmultiple(
 	if(result_needle != NULL) *result_needle = best_needle;
 }
 
+const char* str_starts_with(const char *const haystack, const char *const needle) {
+	const size_t stacklen = strlen(haystack);
+	const size_t ndllen = strlen(needle);
+	if(stacklen < ndllen) return NULL;
+
+	return (memcmp(haystack, needle, ndllen) == 0) ? haystack : NULL;
+}
+
 char* str_ends_with(const char *const haystack, const char *const needle) {
 	const size_t stacklen = strlen(haystack);
 	const size_t ndllen = strlen(needle);
 	if(stacklen < ndllen) return NULL;
-	
+
 	char *cmppos = (char*)(haystack + (stacklen - ndllen));
-	return (strcmp(cmppos, needle) == 0) ? cmppos : NULL;
+	return (memcmp(cmppos, needle, ndllen) == 0) ? cmppos : NULL;
 }
 
 size_t replace_unicode_spaces(char *text) {

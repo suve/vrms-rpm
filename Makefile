@@ -1,7 +1,7 @@
 #
 # Makefile for vrms-rpm
 # Copyright (C) 2017 Marcin "dextero" Radomski
-# Copyright (C) 2018 Artur "suve" Iwicki
+# Copyright (C) 2018-2020 Artur "suve" Iwicki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -40,13 +40,44 @@ IMAGES := $(shell ls images/*)
 SOURCES := $(shell ls src/*.c)
 OBJECTS := $(SOURCES:src/%.c=build/%.o)
 
-.PHONY: config build clean install remove
+
+# -- variables end
+
+
+.PHONY: all build executable lang-files man-pages install install/prepare remove
+
+all: build
+
+build: executable lang-files man-pages $(LICENCE_FILES) build/bash-completion.sh
+
+executable: build/vrms-rpm
+
+lang-files: $(MO_FILES)
+
+man-pages: $(MAN_FILES)
+
+clean:
+	rm -rf build/ src/config.h
+
+install: install/prepare
+	mkdir -p "$(DESTDIR)$(PREFIX)"
+	cp -a install/* "$(DESTDIR)$(PREFIX)"
+	rm -rf install
+
+remove: install/prepare
+	find install -type f | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rm -vf
+	find install -depth -type d | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
+	rm -rf install
 
 help:
 	@echo "TARGETS:"
-	@echo "    build - compile project"
+	@echo "    all - build whole project"
+	@echo "    executable - compile C code and build the executable"
+	@echo "    lang-files - compile translation files"
+	@echo "    man-pages - compile man pages"
+	@echo ""
 	@echo "    clean - remove compiled artifacts"
-	@echo "    install - compile & install project"
+	@echo "    install - install project"
 	@echo "    remove - uninstall project"
 	@echo ""
 	@echo "VARIABLES:"
@@ -59,42 +90,44 @@ help:
 	@echo "        helpful when packaging the application"
 	@echo "    PREFIX"
 	@echo "        installation prefix (default: /usr/local)"
-	@echo "        used during config to set up file paths"
+	@echo "        used to set up file paths"
+
+
+# -- PHONY targets end
+
 
 src/config.h: src/generate-config.sh
 	src/generate-config.sh -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' > "$@"
 
-build: src/config.h $(MAN_FILES) $(MO_FILES) $(LICENCE_FILES) build/bash-completion.sh build/vrms-rpm
-
 build/bash-completion.sh: src/bash-completion.sh
-	mkdir -p "$(shell dirname "$@")"
+	mkdir -p "$(dir $@)"
 	sed -e 's|__LICENCE_LIST__|$(LICENCE_FILENAMES)|' < "$<" > "$@"
 
 build/man/%.man: man/%.man
-	mkdir -p "$(shell dirname "$@")"
+	mkdir -p "$(dir $@)"
 	cp "$<" "$@"
 	src/convert-man.sh -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' -f "$@"
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
-	mkdir -p "$(shell dirname "$@")"
+	mkdir -p "$(dir $@)"
 	msgfmt --check -o "$@" "$<"
 
 build/licences/%.txt: licences/%.txt
-	mkdir -p "$(shell dirname "$@")"
+	mkdir -p "$(dir $@)"
 	cat "$<" | LC_COLLATE=C sort --ignore-case | uniq > "$@"
 
-build/%.o: src/%.c
+build/%.o: src/%.c src/config.h 
+	mkdir -p "$(dir $@)"
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
-	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -o "$@" $^
-
-clean:
-	rm src/config.h
-	rm -rf build
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^
 
 install/bin/vrms-rpm: build/vrms-rpm
 	install -vD -p -m 755 "$<" "$@"
+
+install/share/bash-completion/completions/vrms-rpm: build/bash-completion.sh
+	install -vD -m 644 "$<" "$@"
 
 install/share/suve/vrms-rpm/images/%: images/%
 	install -vD -m 644 "$<" "$@"
@@ -113,20 +146,9 @@ install/share/locale/%: build/locale/%
 
 install/prepare: build
 install/prepare: install/bin/vrms-rpm
+install/prepare: install/share/bash-completion/completions/vrms-rpm
 install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(NON_EN_MAN_LANGS:%=install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)
 install/prepare: $(LICENCE_FILES:build/%=install/share/suve/vrms-rpm/%)
 install/prepare: $(IMAGES:%=install/share/suve/vrms-rpm/%)
-
-install: install/prepare
-	mkdir -p "$(DESTDIR)$(PREFIX)"
-	cp -a install/* "$(DESTDIR)$(PREFIX)"
-	install -vD -m 644 build/bash-completion.sh $(DESTDIR)/etc/bash_completion.d/vrms-rpm
-	rm -rf install
-
-remove: install/prepare
-	find install -type f | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rm -vf
-	find install -depth -type d | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
-	rm $(DESTDIR)/etc/bash_completion.d/vrms-rpm
-	rm -rf install

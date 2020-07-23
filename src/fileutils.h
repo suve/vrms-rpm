@@ -17,9 +17,9 @@
 #ifndef VRMS_RPM_FILEUTILS_H
 #define VRMS_RPM_FILEUTILS_H
 
-void echo_file_contents(const char *const filename);
+extern void echo_file_contents(const char *const filename);
 
-void rms_disappointed(void);
-void rms_happy(void);
+extern void rms_disappointed(void);
+extern void rms_happy(void);
 
 #endif

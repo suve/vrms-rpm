@@ -58,13 +58,13 @@ enum MessageID {
 #undef GENERATE_ENUM
 
 
-void lang_init(void);
+extern void lang_init(void);
 
-char* lang_getmsg(const enum MessageID msgid);
-char* lang_getmsgn(const enum MessageID msgid, const int number);
+extern char* lang_getmsg(const enum MessageID msgid);
+extern char* lang_getmsgn(const enum MessageID msgid, const int number);
 
-int lang_fprint(FILE *const file, const enum MessageID msgid, ...);
-int lang_fprint_n(FILE *const file, const enum MessageID msgid, const int number, ...);
+extern int lang_fprint(FILE *const file, const enum MessageID msgid, ...);
+extern int lang_fprint_n(FILE *const file, const enum MessageID msgid, const int number, ...);
 
 #define lang_print(msgid, ...)    lang_fprint(stdout, (msgid), ##__VA_ARGS__)
 #define lang_print_n(msgid, ...)  lang_fprint_n(stdout, (msgid), ##__VA_ARGS__)

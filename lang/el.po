@@ -88,7 +88,7 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: αποτυχία διαβάσματος της λίστας των καλών αδειών\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: αποτυχία διαβάσματος της λίστας των καλών αδειών από \"%s\"\n"
+msgstr "vrms-rpm: αποτυχία διαβάσματος της λίστας των καλών αδειών από \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: το όρισμα της επιλογής --colour πρέπει να είναι ένα\n"

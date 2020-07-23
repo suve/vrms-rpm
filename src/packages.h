@@ -20,12 +20,12 @@
 
 #include "pipes.h"
 
-struct Pipe* packages_openPipe(void);
-int packages_read(struct Pipe *pipe);
+extern struct Pipe* packages_openPipe(void);
+extern int packages_read(struct Pipe *pipe);
 
-void packages_getcount(int *free, int *nonfree);
-void packages_list(void);
+extern void packages_getcount(int *free, int *nonfree);
+extern void packages_list(void);
 
-void packages_free(void);
+extern void packages_free(void);
 
 #endif

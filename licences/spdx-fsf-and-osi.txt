@@ -3,6 +3,7 @@ AFL-1.2
 AFL-2.0
 AFL-2.1
 AFL-3.0
+AGPL-3.0
 AGPL-3.0-only
 AGPL-3.0-or-later
 APSL-2.0
@@ -21,8 +22,12 @@ EPL-2.0
 EUDatagrid
 EUPL-1.1
 EUPL-1.2
+GPL-2.0
+GPL-2.0+
 GPL-2.0-only
 GPL-2.0-or-later
+GPL-3.0
+GPL-3.0+
 GPL-3.0-only
 GPL-3.0-or-later
 HPND
@@ -30,8 +35,12 @@ IPA
 IPL-1.0
 ISC
 Intel
+LGPL-2.1
+LGPL-2.1+
 LGPL-2.1-only
 LGPL-2.1-or-later
+LGPL-3.0
+LGPL-3.0+
 LGPL-3.0-only
 LGPL-3.0-or-later
 LPL-1.02

@@ -32,6 +32,6 @@ extern int opt_image;
 extern int opt_list;
 extern char* opt_licencelist;
 
-void options_parse(int argc, char **argv);
+extern void options_parse(int argc, char **argv);
 
 #endif

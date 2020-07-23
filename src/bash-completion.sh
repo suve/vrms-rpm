@@ -1,5 +1,5 @@
-# bash_completion file for vrms-rpm
-# Copyright (C) 2018 Artur "suve" Iwicki
+# bash-completion file for vrms-rpm
+# Copyright (C) 2018, 2020 Artur "suve" Iwicki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -20,25 +20,19 @@ _vrms_rpm() {
 	local prev="${COMP_WORDS[COMP_CWORD-1]}"
 	local opts="--ascii --colour --describe --explain --help --image --licence-list --list --version"
 
-	if [ "$prev" == "--color" ] || [ "$prev" == "--colour" ]; then
+	if [[ "$prev" == "--color" ]] || [[ "$prev" == "--colour" ]]; then
 		local colourmodes="yes no auto"
 		COMPREPLY=( $(compgen -W "$colourmodes" -- "$curr") )
-	elif [ "$prev" == "--licence-list" ] || [ "$prev" == "--license-list" ]; then
-		local licences="__LICENCE_LIST__"
-		COMPREPLY=( $(compgen -W "$licences" -- "$curr") )
-		
-		# If nothing from built-in licences matches, suggest local files
-		if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
-			OLD_IFS=$IFS
-			IFS=$'\n'
-			COMPREPLY=( $(compgen -o filenames -df -- "$curr") )
-			IFS=$OLD_IFS
-			
-			for ((i=0; i < ${#COMPREPLY[@]}; i++)); do
-				[ -d "${COMPREPLY[$i]}" ] && COMPREPLY[$i]=${COMPREPLY[$i]}/
-			done
+	elif [[ "$prev" == "--licence-list" ]] || [[ "$prev" == "--license-list" ]]; then
+		# If the current argument looks like a file path, suggest something from the file system
+		# Otherwise suggest something from the built-in licence lists
+		if [[ "${curr:0:1}" == "/" ]] || [[ "${curr:0:2}" == "./" ]] || [[ "${curr:0:2}" == "~/" ]]  || [[ "${curr:0:3}" == "../" ]]; then
+			COMPREPLY=( $(compgen -df -- "$curr") )
+		else
+			local licences="__LICENCE_LIST__"
+			COMPREPLY=( $(compgen -W "$licences \~ . .. /" -- "$curr") )
 		fi
-	elif [ "$prev" == "--list" ]; then
+	elif [[ "$prev" == "--list" ]]; then
 		local listmodes="none free non-free all"
 		COMPREPLY=( $(compgen -W "$listmodes" -- "$curr") )
 	else
@@ -47,4 +41,4 @@ _vrms_rpm() {
 
 	return 0
 }
-complete -F _vrms_rpm vrms-rpm
+complete -o filenames -F _vrms_rpm vrms-rpm

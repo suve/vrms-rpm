@@ -84,7 +84,7 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: erreur lors de la lecture de liste de bonnes licenses\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: erreur lors de la lecture de liste de bonnes licenses \"%s\"\n"
+msgstr "vrms-rpm: erreur lors de la lecture de liste de bonnes licenses \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: l'argument de l'option --colour doit être choisi parmi 'no', 'yes', ou 'auto'\n"
@@ -92,6 +92,9 @@ msgstr "vrms-rpm: l'argument de l'option --colour doit être choisi parmi 'no', 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: l'argument de l'option --list doit être choisi parmi 'none', \n"
        "'non-free', 'free' or 'all'\n"
+
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: l'option \"%s\" nécessite un argument\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: option inconnue \"%s\"\n"

@@ -1,0 +1,104 @@
+msgid ""
+msgstr ""
+"Language: uk\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; \
+    plural=n%10==1 && n%100!=11 ? 0 : \
+           n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "На українську мову переклала yanicka\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d вільний пакет (%s)\n"
+msgstr[1] "%d вільних пакети (%s)\n"
+msgstr[2] "%d вільних пакетiв (%s)\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d пропрієтарний пакет (%s)\n"
+msgstr[1] "%d пропрієтарних пакети (%s)\n"
+msgstr[2] "%d пропрієтарних пакетiв (%s)\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "Тільки вільні пакети - Річард Столлман пишався б тобою!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "Більше 10%% пропрієтарних пакетів. Ви не цінуєте свободу?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "Команда: vrms-rpm [флаг]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr  "    Показувати ASCII-арт з Річардом Столлманом, якщо не\n"
+        "    знайшлося пропрієтарних пакетів або якщо їх менше 10%%\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr  "    Налаштувати кольорове виведення терміналу. Типове\n"
+        "    значення: 'auto', яке використовує кольорове\n"
+        "    виведення в термінал, але не в файл або pipe.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    Відображати короткі описи пакетів при виведенні їх переліку.\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr  "    Відображати ліцензії пакетів при виведенні їх переліку,\n"
+        "    щоб переконатися в правильності класіффікаціі\n"
+        "    вільних / пропрієтарних пакетів.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    Показати „Допомога“ і вийти.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr  "    Як --ascii, тільки показує зображення з блокових\n"
+        "    символів Unicode і використовує 256-кольоровий режим\n"
+        "    для кодів виведення терміналу.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr  "    Визначає перелік допустимих для використання ліцензій.\n"
+        "    FILE може бути шляхом до файлу на диску, або одним з\n"
+        "    готових списків ліцензій:\n"
+        "    %s\n"
+        "    Типове значення: '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr  "    Крім виведення сумарної кількості вільних / пропрієтарних\n"
+        "    пакетів: вивести їх назви.\n"
+        "    Типовые значення: 'nonfree'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    Показати інформацію про версію і вийти.\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: не вдалося відкрити pipe для /usr/bin/rpm\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() не повернув подій\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() повернув помилку\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): інший кінець pipe відключився, не відправивши дані\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: не вдалося прочитати з pipe в /usr/bin/rpm\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: не вдалося прочитати перелiк припустимих ліцензій\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: не вдалося прочитати перелiк припустимих ліцензій iз \"%s\": %s\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr  "vrms-rpm: аргумент для флага --colour може бути "
+        "одним з наступних значень: 'no', 'yes', або 'auto'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr  "vrms-rpm: аргумент для флага --list може бути одним "
+        "з наступних значень: 'none', 'non-free', 'free' або 'all'\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: невідомий флаг \"%s\"\n"

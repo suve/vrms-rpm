@@ -1,0 +1,93 @@
+.TH VRMS-RPM 1 "2019-10-03"
+.SH NAMA
+vrms-rpm - laporan pemasangan perangkat lunak non-free
+
+.SH RINGKASAN
+\fBvrms-rpm\fR \fI[OPSI]\fR ...
+
+.SH DESKRIPSI
+Program ini adalah klon dari
+\fBvrms\fR ("\fBvirtual Richard M. Stallman\fR")
+program untuk Debian GNU/Linux, dibuat dengan maksud untuk membawa ide 
+briliannya ke distribusi GNU/Linux berbasis RPM.
+.PP
+Program ini menganalisa daftar paket RPM yang telah terinstal dan melaporkan
+paket non-free yang ditemukan ke stdout. Pengklasifikasian paket sebagai paket
+free atau non-free adalah berdasarkan dari pedoman lisensi Fedora Project.
+.PP
+Pengguna Fedora / CentOS yang menggunalan repositori tambahan, seperti \fBRPM Fusion\fR, 
+mungkin akan melihat tidak semua paket yang berasal dari repositori tidak resmi ditandai 
+sebagai non-free. Ini karena perbedaan, seperti yang disebutkan sebelumnya, dibuat berdasarkan
+lisensi paketnya. Ada berbagai alasan, terlepas dari masalah lisensi, tentang
+mengapa sebuah paket tidak diterima di repositori resmi
+Fedora / Centos - misalnya karena paten perangkat lunak atau restriksi ekspor.
+.PP
+Selama bertahun-tahun, Richard Stallman telah menjadi tokoh yang paling menonjol
+dan vokal dalam pergerakan Perangkat Lunak Bebas, mengingatkan kita tanpa henti pada masalah
+etika perangkat lunak. Seperti Richard, kami percaya bahwa pengguna harus mudah mengatahui
+perangkat lunak non-free yang berjalan di sistem mereka.
+Program ini mencoba untuk memenuhi kebutuhan tersebut.
+
+.SH OPSI
+.TP
+\fB\-\-ascii\fR
+Tampilkan rms ASCII-art ketika tidak ditemukan paket non-free, 
+atau ketika terdapat paket non-free lebih dari 10% dari total.
+
+.TP
+\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+Mengontrol apakah terminal escape sequences dipergunakan untuk mewarnai output.
+Nilai defaultnya 'auto', yang mana menggunakan output berwarna ketika menulis di terminal,
+tetapi tidak berlaku apabila menulis di file atau pipe.
+
+.TP
+\fB\-\-describe\fR
+Ketika mendaftar paket, sertakan ringkasan paket (deskripsi singkat).
+
+.TP
+\fB\-\-explain\fR
+Ketika mendaftar paket, tampilkan lisensinya untuk memastikan
+apakah termasuk klasifikasi free / non-free.
+
+.TP
+\fB\-\-help\fR
+Menampilkan bantuan singkat penggunaan program dan keluar.
+
+.TP
+\fB\-\-image\fR
+Seperti \fB-\-ascii\fR, tetapi menampilkan gambar menggukanak urutan terminal escape
+dan blok separuh-tinggi Unicode.
+
+.TP
+\fB\-\-licence\-list\fR <\fIFILE\fR>
+Menentukan daftar lisensi yang baik untuk digunakan, untuk klasifikasi paket.
+\fIFILE\fR bisa berupa path ke file di disk, atau salah satu dari bundel daftar lisensi:
+__BUNDLED_LICENCE_LISTS__
+Nilai defaultnya
+__DEFAULT_LICENCE_LIST__
+
+.TP
+\fB\-\-list\fR <\fInone\fR, \fIfree\fR, \fInonfree\fR, \fIall\fR>
+Selain menampilkan ringkasan jumlah paket free & non-free,
+tampilkan daftar paket berdasarkan nama.
+Nilai default untuk opsi ini adalah "\fInonfree\fR".
+
+.TP
+\fB\-\-version\fR
+Menampilkan informasi versi dan keluar.
+
+.SH LIHAT JUGA
+.TP
+\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+Halaman wiki Fedora Project di bagian menyetujui lisensi perangkat lunak.
+
+.TP
+\fBhttps://spdx.org/licenses/\fR
+Daftar lisensi SPDX, sebuah upaya untuk standarisasi pengidentifikasi lisensi.
+
+.SH LISENSI
+Program ini tersedia di bawah GNU General Public
+License, versi 3, seperti yang dipublikasikan oleh Free Software Foundation.
+
+.SH PENULIS
+Ditulis pada awal tahun 2017 oleh  \fBsuve\fR.

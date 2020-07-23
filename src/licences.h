@@ -37,10 +37,10 @@ struct LicenceTreeNode {
 	};
 };
 
-int licences_read(void);
-void licences_free(void);
+extern int licences_read(void);
+extern void licences_free(void);
 
-struct LicenceTreeNode* licence_classify(char *licence);
-void licence_freeTree(struct LicenceTreeNode *node);
+extern struct LicenceTreeNode* licence_classify(char *licence);
+extern void licence_freeTree(struct LicenceTreeNode *node);
 
 #endif

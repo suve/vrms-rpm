@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020 Artur "suve" Iwicki
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -28,10 +28,10 @@
 #define ANSI_RESET   ANSI_COLOUR(0)
 
 
-char* trim(char *buffer, size_t *const length);
-char* trim_extra(char *buffer, size_t *const length, const char *const extrachars);
+extern char* trim(char *buffer, size_t *const length);
+extern char* trim_extra(char *buffer, size_t *const length, const char *const extrachars);
 
-void str_findmultiple(
+extern void str_findmultiple(
 	const char *const haystack,
 	const int num_needles,
 	char * *const needle,
@@ -39,8 +39,9 @@ void str_findmultiple(
 	char * *const result_needle
 );
 
-char* str_ends_with(const char *const haystack, const char *const needle);
+extern const char* str_starts_with(const char *const haystack, const char *const needle);
+extern char* str_ends_with(const char *const haystack, const char *const needle);
 
-size_t replace_unicode_spaces(char *str);
+extern size_t replace_unicode_spaces(char *str);
 
 #endif
