@@ -84,7 +84,7 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: fallita lettura delle licenze accettabili\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: fallita lettura delle licenze accettabili da \"%s\"\n"
+msgstr "vrms-rpm: fallita lettura delle licenze accettabili da \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: l'argomento dell'opzione --color deve essere uno tra 'no', 'yes' o 'auto'\n"

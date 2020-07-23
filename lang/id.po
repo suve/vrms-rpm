@@ -83,7 +83,7 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: gagal membaca daftar lisensi baik\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: gagal membaca daftar lisensi baik dari \"%s\"\n"
+msgstr "vrms-rpm: gagal membaca daftar lisensi baik dari \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: argumen untuk opsi --colour harus salah satu dari 'no', 'yes', atau 'auto'\n"

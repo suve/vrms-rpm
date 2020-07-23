@@ -92,7 +92,7 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий из \"%s\"\n"
+msgstr "vrms-rpm: не удалось прочитать список допустимых лицензий из \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: аргумент для флага --colour может быть\n"

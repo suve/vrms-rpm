@@ -85,7 +85,7 @@ msgstr "vrms-rpm: det lykkedes ikke at læse listen af gode licenser\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: det lykkedes ikke at læse listen af gode licenser\n"
-       "fra \"%s\"\n"
+       "fra \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: argumentet til --colour valgmuligheden skal være en af\n"

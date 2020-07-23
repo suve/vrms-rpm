@@ -84,7 +84,7 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: falha ao ler a lista de licenças boas\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: falha ao ler a lista de licenças boas de \"%s\"\n"
+msgstr "vrms-rpm: falha ao ler a lista de licenças boas de \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: argumento para a opção --colour precisa ser 'no', 'yes', ou 'auto'\n"

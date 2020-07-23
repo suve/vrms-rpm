@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
@@ -54,7 +55,10 @@ static FILE* openfile(char *name) {
 	}
 	
 	FILE *f = fopen(name, "r");
-	if(f == NULL) lang_fprint(stderr, MSG_ERR_LICENCES_BADFILE, name);
+	if(f == NULL) {
+		char *errstr = strerror(errno);
+		lang_fprint(stderr, MSG_ERR_LICENCES_BADFILE, name, errstr);
+	}
 	
 	return f;
 }

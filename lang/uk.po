@@ -90,7 +90,7 @@ msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: не вдалося прочитати перелiк припустимих ліцензій\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
-msgstr "vrms-rpm: не вдалося прочитати перелiк припустимих ліцензій iз \"%s\"\n"
+msgstr "vrms-rpm: не вдалося прочитати перелiк припустимих ліцензій iз \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr  "vrms-rpm: аргумент для флага --colour може бути "
