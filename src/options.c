@@ -116,7 +116,11 @@ void options_parse(int argc, char **argv) {
 	}
 	
 	if(opt_colour == OPT_COLOUR_AUTO) {
-		opt_colour = isatty(fileno(stdout));
+		if (getenv("NO_COLOR") != NULL) {
+			opt_colour = OPT_COLOUR_NO;
+		} else {
+			opt_colour = isatty(fileno(stdout));
+		}
 	}
 }
 
