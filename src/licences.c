@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -160,7 +160,7 @@ static int is_free(char *licence) {
 		
 		// It's not possible for a licence string to have two valid suffixes,
 		// so we can return now, without looking through the rest of the suffixes.
-		return bs;
+		return bs >= 0;
 	}
 	
 	return 0;
