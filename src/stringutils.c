@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -127,10 +127,13 @@ size_t replace_unicode_spaces(char *text) {
 		do {
 			*pos = ' ';
 			
+			char *const move_to = pos + 1;
+			char *const move_from = pos + ndllen;
+			const size_t move_size = textlen - (move_from - text) + 1; // Plus one for trailing NUL byte
+			memmove(move_to, move_from, move_size);
+			
 			// Plus one because the needle is replaced by ' ', not removed totally
 			textlen = textlen - ndllen + 1;
-			
-			memmove(pos+1, pos+ndllen, textlen + 1); // Plus one because NUL byte
 		} while((pos = strstr(text, needle)) != NULL);
 	}
 	
