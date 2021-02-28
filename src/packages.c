@@ -96,6 +96,10 @@ static int split_line(char *line, char ***fields, int max_fields) {
 	return count;
 }
 
+static int is_defined(const char *value) {
+	return strcmp(value, "(none)") != 0;
+}
+
 extern int packages_read(struct Pipe *pipe) {
 	if(init_buffers() != 0) return -1;
 	sorted = 0;
@@ -122,15 +126,12 @@ extern int packages_read(struct Pipe *pipe) {
 
 		// Epoch is typically undefined. RPM reports this using the special string "(none)".
 		// Avoid storing unnecessary epoch info by comparing epoch with this special string.
-		if(strcmp(epoch, "(none)") != 0) {
-			epoch = chainbuf_append(&buffer, epoch);
-		} else {
-			epoch = NULL;
-		}
+		// In some very rare cases (hello, "gpg-pubkey" packages!), this can also happen to Arch.
+		epoch = is_defined(epoch) ? chainbuf_append(&buffer, epoch) : NULL;
+		arch = is_defined(arch) ? chainbuf_append(&buffer, arch) : NULL;
 
 		version = chainbuf_append(&buffer, version);
 		release = chainbuf_append(&buffer, release);
-		arch = chainbuf_append(&buffer, arch);
 
 		struct LicenceTreeNode *classification = licence_classify(licence);
 		class_count[classification->is_free] += 1;
@@ -177,6 +178,8 @@ static int pkgcompare(const void *A, const void *B) {
 	int compare_names = strcasecmp(a->name, b->name);
 	if(compare_names) return compare_names;
 
+	// Compare the Epoch, Version, and Release tags of the packages,
+	// using the fancy librpm algorithm (or our fallback).
 	const char* pairs[] = {
 		a->epoch, b->epoch,
 		a->version, b->version,
@@ -189,8 +192,19 @@ static int pkgcompare(const void *A, const void *B) {
 		int compare_pair = compare_versions(pair_a, pair_b);
 		if(compare_pair) return compare_pair;
 	}
-	
-	return strcmp(a->arch, b->arch);
+
+	// If EVRs are deemed to be equal, resort to comparing Arch.
+	if(a->arch != NULL) {
+		if(b->arch != NULL)
+			return strcmp(a->arch, b->arch);
+		else
+			return +1;
+	} else {
+		if(b->arch != NULL)
+			return -1;
+		else
+			return 0;
+	}
 }
 
 static void packages_sort(void) {
@@ -224,10 +238,15 @@ static void printnode(struct LicenceTreeNode *node) {
 }
 
 static void format_evr(char *evrbuf, const size_t bufsize, const struct Package *pkg) {
-	if(pkg->epoch != NULL)
-		snprintf(evrbuf, bufsize, "-%s:%s-%s.%s", pkg->epoch, pkg->version, pkg->release, pkg->arch);
-	else
-		snprintf(evrbuf, bufsize, "-%s-%s.%s", pkg->version, pkg->release, pkg->arch);
+	snprintf(
+		evrbuf, bufsize, "-%s%s%s-%s%s%s",
+		(pkg->epoch != NULL) ? pkg->epoch : "",
+		(pkg->epoch != NULL) ? ":" : "",
+		pkg->version,
+		pkg->release,
+		(pkg->arch != NULL) ? "." : "",
+		(pkg->arch != NULL) ? pkg->arch : ""
+	);
 }
 
 static void printlist(const int which_kind) {
