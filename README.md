@@ -39,6 +39,8 @@ $ dnf install vrms-rpm
 
 - `gettext` (`libintl`), for handling multiple languages
 
+- `librpm` (**optional**), for accessing RPM's functions for comparing package versions
+
 
 **Picking the licence list**
 ----------
@@ -74,8 +76,12 @@ This can be done by providing the `DEFAULT_LICENCE_LIST` variable to *make*.
 To build, use `make` with the `build` target. The `PREFIX` variable can be
 used for controlling program data paths (e.g. where to look for the good licence list).
 The default is `/usr/local`.
+
+By default, *vrms-rpm* links against `librpm` and `librpmio`, to make use of RPM's version comparison functions.
+To disable this feature, you can set the `WITH_LIBRPM` variable to `0`. In this case, *vrms-rpm* will use a fallback,
+simplified algorithm when comparing package versions.
 ```
-$ make build [PREFIX=/usr/local] [DEFAULT_LICENCE_LIST=tweaked]
+$ make build [PREFIX=/usr/local] [DEFAULT_LICENCE_LIST=tweaked] [WITH_LIBRPM=1]
 ```
 
 

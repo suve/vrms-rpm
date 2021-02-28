@@ -1,7 +1,7 @@
 #
 # Makefile for vrms-rpm
 # Copyright (C) 2017 Marcin "dextero" Radomski
-# Copyright (C) 2018-2020 Artur "suve" Iwicki
+# Copyright (C) 2018-2021 Artur "suve" Iwicki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -19,10 +19,19 @@
 DEFAULT_LICENCE_LIST ?= tweaked
 DESTDIR ?=
 PREFIX ?= /usr/local
+WITH_LIBRPM ?= 1
 
 CFLAGS += -std=c11 -iquote ./ -Wall -Wextra -D_POSIX_C_SOURCE=200112L
 CWARNS := -Wfloat-equal -Wparentheses
 CERRORS := -Werror=incompatible-pointer-types -Werror=discarded-qualifiers -Werror=int-conversion -Werror=div-by-zero -Werror=sequence-point -Werror=uninitialized -Werror=duplicated-cond
+
+ifeq "$(WITH_LIBRPM)" "1"
+	CFLAGS += -DWITH_LIBRPM
+	LDFLAGS += -lrpm -lrpmio
+else ifneq "$(WITH_LIBRPM)" "0"
+	# The following line must *NOT* be indented, otherwise it's a syntax error
+$(error "WITH_LIBRPM" must be "0" or "1", found "$(WITH_LIBRPM)")
+endif
 
 LICENCE_FILENAMES := $(basename $(notdir $(shell ls licences/*.txt)))
 LICENCE_FILES := $(addprefix build/, $(shell ls licences/*.txt))
@@ -91,6 +100,8 @@ help:
 	@echo "    PREFIX"
 	@echo "        installation prefix (default: /usr/local)"
 	@echo "        used to set up file paths"
+	@echo "    WITH_LIBRPM"
+	@echo "        when set to \"0\", disables linking against librpm"
 
 
 # -- PHONY targets end

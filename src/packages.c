@@ -26,6 +26,7 @@
 #include "packages.h"
 #include "pipes.h"
 #include "stringutils.h"
+#include "versions.h"
 
 struct Pipe* packages_openPipe(void) {
 	char *queryformat;
@@ -180,30 +181,16 @@ static int pkgcompare(const void *A, const void *B) {
 		a->epoch, b->epoch,
 		a->version, b->version,
 		a->release, b->release,
-		a->arch, b->arch,
 	};
 	for(unsigned int p = 0; p < sizeof(pairs) / sizeof(pairs[0]) / 2; ++p) {
 		const char *pair_a = pairs[p*2];
 		const char *pair_b = pairs[p*2 + 1];
-
-		// If the value is undefined for both packages, skip comparing it.
-		// If it's defined only for one package, assume that any_value > no_value.
-		if(pair_a == NULL) {
-			if(pair_b == NULL) {
-				continue;
-			}
-			return -1;
-		} else {
-			if(pair_b == NULL) {
-				return +1;
-			}
-		}
-
-		// Temporary logic before we switch to using librpm
-		int compare_pair = strcasecmp(pair_a, pair_b);
+		
+		int compare_pair = compare_versions(pair_a, pair_b);
 		if(compare_pair) return compare_pair;
 	}
-	return 0;
+	
+	return strcmp(a->arch, b->arch);
 }
 
 static void packages_sort(void) {
