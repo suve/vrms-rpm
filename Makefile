@@ -53,7 +53,7 @@ OBJECTS := $(SOURCES:src/%.c=build/%.o)
 # -- variables end
 
 
-.PHONY: all build executable lang-files man-pages install install/prepare remove
+.PHONY: all build executable lang-files man-pages install install/prepare remove test
 
 all: build
 
@@ -78,6 +78,9 @@ remove: install/prepare
 	find install -depth -type d | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
 	rm -rf install
 
+test: build/test
+	./build/test
+
 help:
 	@echo "TARGETS:"
 	@echo "    all - build whole project"
@@ -88,6 +91,8 @@ help:
 	@echo "    clean - remove compiled artifacts"
 	@echo "    install - install project"
 	@echo "    remove - uninstall project"
+	@echo ""
+	@echo "    test - compile and run the test suite (requires cmocka)"
 	@echo ""
 	@echo "VARIABLES:"
 	@echo "    DEFAULT_LICENCE_LIST"
@@ -127,12 +132,19 @@ build/licences/%.txt: licences/%.txt
 	mkdir -p "$(dir $@)"
 	cat "$<" | LC_COLLATE=C sort --ignore-case | uniq > "$@"
 
-build/%.o: src/%.c src/config.h 
+build/test.o: test/test.c
+	mkdir -p "$(dir $@)"
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
+
+build/%.o: src/%.c src/config.h
 	mkdir -p "$(dir $@)"
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^
+
+build/test: $(filter-out build/vrms-rpm.o, $(OBJECTS)) build/test.o
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -lcmocka -o "$@" $^
 
 install/bin/vrms-rpm: build/vrms-rpm
 	install -vD -p -m 755 "$<" "$@"
