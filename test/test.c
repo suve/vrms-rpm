@@ -90,11 +90,42 @@ static void test__str_ends_with(void **state) {
 	test__str_ends_with__case("", "an empty haystack", 0);
 }
 
+#define test__replace_unicode_spaces__case(input, expected) do { \
+	char buffer[] = input; \
+	size_t result_len = replace_unicode_spaces(buffer); \
+\
+	assert_string_equal(buffer, expected); \
+	assert_int_equal((int)result_len, (int)strlen(buffer)); \
+}while(0)
+
+#define NBSP "\u00A0"
+
+static void test__replace_unicode_spaces(void **state) {
+	UNUSED(state);
+
+	test__replace_unicode_spaces__case(NBSP "single at start", " single at start");
+	test__replace_unicode_spaces__case(NBSP NBSP NBSP "triple at start", "   triple at start");
+
+	test__replace_unicode_spaces__case("single at end" NBSP, "single at end ");
+	test__replace_unicode_spaces__case("triple at end" NBSP NBSP NBSP, "triple at end   ");
+
+	test__replace_unicode_spaces__case("single in the" NBSP "middle", "single in the middle");
+	test__replace_unicode_spaces__case("triple in the" NBSP NBSP NBSP "middle", "triple in the   middle");
+
+	test__replace_unicode_spaces__case("intertwined" NBSP " " NBSP " " NBSP "with spaces", "intertwined     with spaces");
+	test__replace_unicode_spaces__case(NBSP "literally" NBSP "everywhere" NBSP, " literally everywhere ");
+
+	test__replace_unicode_spaces__case(NBSP, " ");
+	test__replace_unicode_spaces__case(NBSP NBSP, "  ");
+	test__replace_unicode_spaces__case(NBSP NBSP NBSP NBSP, "    ");
+}
+
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test__trim),
 		cmocka_unit_test(test__str_starts_with),
 		cmocka_unit_test(test__str_ends_with),
+		cmocka_unit_test(test__replace_unicode_spaces),
 	};
 	return cmocka_run_group_tests(tests, NULL, NULL);
 }
