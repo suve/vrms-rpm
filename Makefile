@@ -49,6 +49,9 @@ IMAGES := $(shell ls images/*)
 SOURCES := $(shell ls src/*.c)
 OBJECTS := $(SOURCES:src/%.c=build/%.o)
 
+TEST_SOURCES := $(shell ls test/*.c)
+TEST_OBJECTS := $(TEST_SOURCES:test/%.c=build/test/%.o)
+
 
 # -- variables end
 
@@ -78,8 +81,8 @@ remove: install/prepare
 	find install -depth -type d | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
 	rm -rf install
 
-test: build/test
-	./build/test
+test: build/run-tests
+	./build/run-tests
 
 help:
 	@echo "TARGETS:"
@@ -132,18 +135,18 @@ build/licences/%.txt: licences/%.txt
 	mkdir -p "$(dir $@)"
 	cat "$<" | LC_COLLATE=C sort --ignore-case | uniq > "$@"
 
-build/test.o: test/test.c
+build/%.o: src/%.c src/config.h
 	mkdir -p "$(dir $@)"
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
 
-build/%.o: src/%.c src/config.h
+build/test/%.o: test/%.c
 	mkdir -p "$(dir $@)"
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^
 
-build/test: $(filter-out build/vrms-rpm.o, $(OBJECTS)) build/test.o
+build/run-tests: $(filter-out build/vrms-rpm.o, $(OBJECTS)) $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -lcmocka -o "$@" $^
 
 install/bin/vrms-rpm: build/vrms-rpm
