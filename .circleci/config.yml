@@ -13,16 +13,21 @@ jobs:
           name: Install dependencies
           command: >
             sudo dnf install --assumeyes --setopt=install_weak_deps=False
-            findutils gawk gcc gettext git make rpm-devel
+            findutils gawk gcc gettext git libcmocka-devel make rpm-devel
       - checkout
       - run:
           name: Build the executable (WITH_LIBRPM=0)
           command: >
             make -j executable WITH_LIBRPM=0
       - run:
-          name: Build the executable (librpm)
+          name: Run test suite
           command: >
-            make clean && make -j executable
+            make -j test WITH_LIBRPM=0
+      - run:
+          name: Build the executable (librpm)
+          command: |
+            make clean
+            make -j executable
       - run:
           name: Build rest of project files
           command: >
