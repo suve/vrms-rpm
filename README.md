@@ -41,6 +41,8 @@ $ dnf install vrms-rpm
 
 - `librpm` (**optional**), for accessing RPM's functions for comparing package versions
 
+- `cmocka` (**optional**), for running the test suite
+
 
 **Picking the licence list**
 ----------
@@ -83,6 +85,19 @@ simplified algorithm when comparing package versions.
 ```
 $ make build [PREFIX=/usr/local] [DEFAULT_LICENCE_LIST=tweaked] [WITH_LIBRPM=1]
 ```
+
+
+**Testing**
+----------
+To test the program, use `make` with the `test` target. This will build the test suite and immediately execute it.
+If you want to just build the test suite, use the `build/test-suite` target.
+```
+# Shorthand for: make build/test-suite && ./build/test-suite
+$ make test
+```
+The test suite uses [*cmocka*](https://cmocka.org/), so make sure you have it installed.
+If you build against `librpm`, you may notice that some tests are skipped;
+these check *vrms-rpms's* fallback behaviour, so it makes no sense to run them when that's disabled.
 
 
 **Installing**

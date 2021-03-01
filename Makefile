@@ -86,7 +86,7 @@ test: build/run-tests
 
 help:
 	@echo "TARGETS:"
-	@echo "    all - build whole project"
+	@echo "    all - build whole project (excluding tests)"
 	@echo "    executable - compile C code and build the executable"
 	@echo "    lang-files - compile translation files"
 	@echo "    man-pages - compile man pages"
