@@ -21,17 +21,19 @@
 #include <setjmp.h>
 #include <cmocka.h>
 
-extern void test__trim(void **state);
+extern void test__compare_versions(void **state);
+extern void test__replace_unicode_spaces(void **state);
 extern void test__str_starts_with(void **state);
 extern void test__str_ends_with(void **state);
-extern void test__replace_unicode_spaces(void **state);
+extern void test__trim(void **state);
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		cmocka_unit_test(test__trim),
+		cmocka_unit_test(test__compare_versions),
+		cmocka_unit_test(test__replace_unicode_spaces),
 		cmocka_unit_test(test__str_starts_with),
 		cmocka_unit_test(test__str_ends_with),
-		cmocka_unit_test(test__replace_unicode_spaces),
+		cmocka_unit_test(test__trim),
 	};
 	return cmocka_run_group_tests(tests, NULL, NULL);
 }
