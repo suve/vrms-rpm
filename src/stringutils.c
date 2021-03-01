@@ -24,18 +24,18 @@
 
 char* trim_extra(char *buffer, size_t *const length, const char *const extrachars) {
 	size_t len = strlen(buffer);
-	if(len > 0) {
-		char *end = buffer + len - 1;
-		while(IS_WHITESPACE(*end) || IS_EXTRA(*end)) {
-			*end = '\0';
-			--end;
-			--len;
-		}
-		while(IS_WHITESPACE(*buffer) || IS_EXTRA(*buffer)) {
-			*buffer = '\0';
-			++buffer;
-			--len;
-		}
+
+	char *end = buffer + len - 1;
+	while((len > 0) && (IS_WHITESPACE(*end) || IS_EXTRA(*end))) {
+		*end = '\0';
+		--end;
+		--len;
+	}
+
+	while((len > 0) && (IS_WHITESPACE(*buffer) || IS_EXTRA(*buffer))) {
+		*buffer = '\0';
+		++buffer;
+		--len;
 	}
 	
 	if(length != NULL) *length = len;

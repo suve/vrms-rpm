@@ -44,6 +44,7 @@ static void test_trim(void **state) {
 	test_trim_case("    indent", "indent", "");
 	test_trim_case("\tfield-one\tfield-two\t", "field-one\tfield-two", "");
 	test_trim_case("(some extra chars)", "some extra chars", "()");
+	test_trim_case("remove everything", "", "abcdefghijklmnopqrstuvwxyz");
 }
 
 int main(void) {
