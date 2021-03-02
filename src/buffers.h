@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -40,7 +40,7 @@ struct ReBuffer {
 extern struct ChainBuffer* chainbuf_init(void);
 extern void chainbuf_free(struct ChainBuffer *buf);
 
-extern char* chainbuf_append(struct ChainBuffer **buf, char *data);
+extern char* chainbuf_append(struct ChainBuffer **buf, const char *data);
 
 extern struct ReBuffer* rebuf_init(void);
 extern void rebuf_free(struct ReBuffer *buf);

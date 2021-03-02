@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2021 Artur "suve" Iwicki
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -41,7 +41,7 @@ void chainbuf_free(struct ChainBuffer *buf) {
 	}
 }
 
-char* chainbuf_append(struct ChainBuffer **buf, char *data) {
+char* chainbuf_append(struct ChainBuffer **buf, const char *data) {
 	const size_t datalen = strlen(data) + 1;
 	if(datalen > CHAINBUF_CAPACITY) return NULL;
 	
