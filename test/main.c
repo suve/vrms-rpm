@@ -25,6 +25,10 @@ extern void test__chainbuffer(void **state);
 extern int test_setup__chainbuffer(void **state);
 extern int test_teardown__chainbuffer(void **state);
 
+extern void test__rebuffer(void **state);
+extern int test_setup__rebuffer(void **state);
+extern int test_teardown__rebuffer(void **state);
+
 extern void test__compare_versions(void **state);
 extern void test__replace_unicode_spaces(void **state);
 extern void test__str_starts_with(void **state);
@@ -34,6 +38,7 @@ extern void test__trim(void **state);
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test_setup_teardown(test__chainbuffer, test_setup__chainbuffer, test_teardown__chainbuffer),
+		cmocka_unit_test_setup_teardown(test__rebuffer, test_setup__rebuffer, test_teardown__rebuffer),
 		cmocka_unit_test(test__compare_versions),
 		cmocka_unit_test(test__replace_unicode_spaces),
 		cmocka_unit_test(test__str_starts_with),

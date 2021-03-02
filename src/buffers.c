@@ -84,7 +84,7 @@ void rebuf_free(struct ReBuffer *buf) {
 	free(buf);
 }
 
-void* rebuf_append(struct ReBuffer *const buf, void *data, const size_t datalen) {
+void* rebuf_append(struct ReBuffer *const buf, const void *const data, const size_t datalen) {
 	if(buf->used + datalen > buf->capacity) {
 		const size_t steps = (datalen / REBUF_STEP) + !!(datalen % REBUF_STEP);
 		const size_t memsize = buf->capacity + (steps * REBUF_STEP);

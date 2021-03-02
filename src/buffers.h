@@ -45,6 +45,6 @@ extern char* chainbuf_append(struct ChainBuffer **buf, const char *data);
 extern struct ReBuffer* rebuf_init(void);
 extern void rebuf_free(struct ReBuffer *buf);
 
-extern void* rebuf_append(struct ReBuffer *const buf, void *const data, const size_t datalen);
+extern void* rebuf_append(struct ReBuffer *const buf, const void *const data, const size_t datalen);
 
 #endif
