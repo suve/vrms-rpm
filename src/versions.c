@@ -15,6 +15,7 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "stringutils.h"
 #include "versions.h"
 
 #ifdef WITH_LIBRPM
@@ -91,23 +92,9 @@ static int fallback_compare(const char *a, const char *b) {
 #endif
 
 int compare_versions(const char *a, const char *b) {
-	// Avoid passing NULLs to comparison functions.
-	// If one value is NULL, but the other is not,
-	// consider the non-NULL one to be greater.
-	if(a == NULL) {
-		if(b == NULL) {
-			return 0;
-		}
-		return -1;
-	} else {
-		if(b == NULL) {
-			return +1;
-		}
-	}
-
 	#ifdef WITH_LIBRPM
-		return rpmvercmp(a, b);
+		return str_compare_with_null_check(a, b, &rpmvercmp);
 	#else
-		return fallback_compare(a, b);
+		return str_compare_with_null_check(a, b, &fallback_compare);
 	#endif
 }

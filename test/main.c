@@ -35,6 +35,7 @@ extern int test_teardown__licences(void **state);
 
 extern void test__compare_versions(void **state);
 extern void test__replace_unicode_spaces(void **state);
+extern void test__str_compare_with_null_check(void **state);
 extern void test__str_starts_with(void **state);
 extern void test__str_ends_with(void **state);
 extern void test__trim(void **state);
@@ -48,6 +49,7 @@ int main(int argc, char **argv) {
 		{ .name = "test__licences", .initial_state = argv[0], .test_func = test__licences, .setup_func = test_setup__licences, .teardown_func = test_teardown__licences },
 		cmocka_unit_test(test__compare_versions),
 		cmocka_unit_test(test__replace_unicode_spaces),
+		cmocka_unit_test(test__str_compare_with_null_check),
 		cmocka_unit_test(test__str_starts_with),
 		cmocka_unit_test(test__str_ends_with),
 		cmocka_unit_test(test__trim),

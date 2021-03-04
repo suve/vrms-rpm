@@ -97,6 +97,26 @@ char* str_ends_with(const char *const haystack, const char *const needle) {
 	return (memcmp(cmppos, needle, ndllen) == 0) ? cmppos : NULL;
 }
 
+int str_compare_with_null_check(const char *first, const char *second, int(*compare_func)(const char*, const char*)) {
+	if(first != NULL) {
+		if(second != NULL) {
+			const int result = compare_func(first, second);
+			// Normalize the result from the function to one of [-1, 0, +1].
+			if(result > 0) return +1;
+			if(result < 0) return -1;
+			return 0;
+		} else {
+			return +1;
+		}
+	} else {
+		if(second != NULL) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+}
+
 size_t replace_unicode_spaces(char *text) {
 	size_t textlen = strlen(text);
 	

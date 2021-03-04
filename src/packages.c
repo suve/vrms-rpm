@@ -194,17 +194,7 @@ static int pkgcompare(const void *A, const void *B) {
 	}
 
 	// If EVRs are deemed to be equal, resort to comparing Arch.
-	if(a->arch != NULL) {
-		if(b->arch != NULL)
-			return strcmp(a->arch, b->arch);
-		else
-			return +1;
-	} else {
-		if(b->arch != NULL)
-			return -1;
-		else
-			return 0;
-	}
+	return str_compare_with_null_check(a->arch, b->arch, &strcmp);
 }
 
 static void packages_sort(void) {
