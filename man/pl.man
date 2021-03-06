@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1
+.TH VRMS-RPM 1 "2021-03-06"
 
 .SH NAZWA
 vrms-rpm - raportuj zainstalowane nie-wolne oprogramowanie
@@ -47,6 +47,12 @@ lecz nie w przypadku zapisu do pliku lub potoku.
 .TP
 \fB\-\-describe\fR
 Podczas listowania paczek, wyświetlaj ich podsumowania (krótkie opisy).
+
+.TP
+\fB\-\-evra\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
+Oprócz nazw paczek, wyświetlaj także ich epokę:wersję-wydanie.architekturę.
+Domyślna wartość to '\fIauto\fR', która powoduje wyświetlanie tych informacji
+tylko w sytuacjach występowania kilku paczek o tej samej nazwie.
 
 .TP
 \fB\-\-explain\fR

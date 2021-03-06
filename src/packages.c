@@ -227,9 +227,9 @@ static void printnode(struct LicenceTreeNode *node) {
 	}
 }
 
-static void format_evr(char *evrbuf, const size_t bufsize, const struct Package *pkg) {
+static void format_evra(char *bufptr, const size_t bufsize, const struct Package *pkg) {
 	snprintf(
-		evrbuf, bufsize, "-%s%s%s-%s%s%s",
+		bufptr, bufsize, "-%s%s%s-%s%s%s",
 		(pkg->epoch != NULL) ? pkg->epoch : "",
 		(pkg->epoch != NULL) ? ":" : "",
 		pkg->version,
@@ -248,30 +248,41 @@ static void printlist(const int which_kind) {
 		if(pkg->licence->is_free != which_kind) continue;
 
 		/*
-		 * Compare with next package to determine whether this is a duplicate.
-		 * Since we sorted the packages by name earlier, duplicates are guaranteed
-		 * to be located next to each other in the list.
+		 * A buffer for formatting the epoch:version-release.arch information,
+		 * to eliminate ambiguity as to which package we're describing.
 		 *
-		 * If this is not a duplicate of the next package, check whether the previous
-		 * package set the "next package is a duplicate" flag.
+		 * Subject to the --evra option:
+		 * - when set to 'auto', print E:V-R.A only for duplicate packages
+		 * - when set to 'always', print for all packages
+		 * - when set to 'never', well, don't print it
 		 */
-		int duplicate_this;
-		if((i != (count-1)) && (strcasecmp(pkg->name, LIST_ITEM(i+1).name) == 0)) {
-			duplicate_next = duplicate_this = 1;
-		} else {
-			duplicate_this = duplicate_next;
-			duplicate_next = 0;
+		char evra[128] = {'\0'};
+		if(opt_evra == OPT_EVRA_AUTO) {
+			/*
+			 * Compare with next package to determine whether this is a duplicate.
+			 * Since we sorted the packages by name earlier, duplicates are guaranteed
+			 * to be located next to each other in the list.
+			 *
+			 * If this is not a duplicate of the next package, check whether
+			 * the previous package set the "next package is a duplicate" flag.
+			 */
+			int duplicate_this;
+			if((i != (count-1)) && (strcasecmp(pkg->name, LIST_ITEM(i+1).name) == 0)) {
+				duplicate_next = duplicate_this = 1;
+			} else {
+				duplicate_this = duplicate_next;
+				duplicate_next = 0;
+			}
+
+			if(duplicate_this) format_evra(evra, sizeof(evra), pkg);
+		} else if(opt_evra == OPT_EVRA_ALWAYS) {
+			format_evra(evra, sizeof(evra), pkg);
 		}
 
-		// If this is a duplicate, print also the epoch-version-release numbers
-		// to reduce ambiguity as to which package we're describing.
-		char evr[128] = {'\0'};
-		if(duplicate_this) format_evr(evr, sizeof(evr), pkg);
-
 		if(opt_describe) {
-			printf(" - %s%s: %s", pkg->name, evr, pkg->summary);
+			printf(" - %s%s: %s", pkg->name, evra, pkg->summary);
 		} else {
-			printf(" - %s%s", pkg->name, evr);
+			printf(" - %s%s", pkg->name, evra);
 		}
 		
 		if(opt_explain) {

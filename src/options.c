@@ -1,6 +1,7 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018-2020 Artur "suve" Iwicki
+ * Copyright (C) 2018-2021 Artur "suve" Iwicki
+ * Copyright (C) 2020 Jan Drögehoff
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -33,6 +34,7 @@ static void print_help(void);
 
 int opt_colour = OPT_COLOUR_AUTO;
 int opt_describe = 0;
+int opt_evra = OPT_EVRA_AUTO;
 int opt_explain = 0;
 int opt_image = OPT_IMAGE_NONE;
 int opt_list = OPT_LIST_NONFREE;
@@ -46,16 +48,15 @@ char* opt_licencelist = DEFAULT_LICENCE_LIST;
 enum LongOpt {
 	LONGOPT_HELP = 1,
 	LONGOPT_COLOUR,
+	LONGOPT_EVRA,
 	LONGOPT_LICENCELIST,
 	LONGOPT_LIST,
 	LONGOPT_VERSION
 };
 
-
-#define arg_eq(str)  (strcmp((str), optarg) == 0)
-
-void parseopt_colour(void);
-void parseopt_list(void);
+static void parseopt_colour(void);
+static void parseopt_evra(void);
+static void parseopt_list(void);
 
 void options_parse(int argc, char **argv) {
 	const struct option vrms_opts[] = {
@@ -63,6 +64,7 @@ void options_parse(int argc, char **argv) {
 		{       "color", ARG_REQ, NULL, LONGOPT_COLOUR },
 		{      "colour", ARG_REQ, NULL, LONGOPT_COLOUR },
 		{    "describe", ARG_NON, &opt_describe, 1 },
+		{        "evra", ARG_REQ, NULL, LONGOPT_EVRA },
 		{     "explain", ARG_NON, &opt_explain, 1 },
 		{        "help", ARG_NON, NULL, LONGOPT_HELP },
 		{       "image", ARG_NON, &opt_image, OPT_IMAGE_ICAT },
@@ -87,6 +89,10 @@ void options_parse(int argc, char **argv) {
 			
 			case LONGOPT_COLOUR:
 				parseopt_colour();
+			break;
+
+			case LONGOPT_EVRA:
+				parseopt_evra();
 			break;
 			
 			case LONGOPT_LICENCELIST:
@@ -124,7 +130,9 @@ void options_parse(int argc, char **argv) {
 	}
 }
 
-void parseopt_colour(void) {
+#define arg_eq(str)  (strcmp((str), optarg) == 0)
+
+static void parseopt_colour(void) {
 	if(arg_eq("auto")) {
 		opt_colour = OPT_COLOUR_AUTO;
 	} else if(arg_eq("no")) {
@@ -137,7 +145,20 @@ void parseopt_colour(void) {
 	}
 }
 
-void parseopt_list(void) {
+static void parseopt_evra(void) {
+	if(arg_eq("auto")) {
+		opt_evra = OPT_EVRA_AUTO;
+	} else if(arg_eq("never")) {
+		opt_evra = OPT_EVRA_NEVER;
+	} else if(arg_eq("always")) {
+		opt_evra = OPT_EVRA_ALWAYS;
+	} else {
+		lang_fprint(stderr, MSG_ERR_BADOPT_EVRA);
+		exit(EXIT_FAILURE);
+	}
+}
+
+static void parseopt_list(void) {
 	if(arg_eq("all")) {
 		opt_list = OPT_LIST_FREE | OPT_LIST_NONFREE;
 	} else if(arg_eq("free")) {
@@ -164,6 +185,9 @@ static void print_help(void) {
 	puts("  --describe");
 	lang_print(MSG_HELP_OPTION_DESCRIBE);
 	
+	puts("  --evra <auto, never, always>");
+	lang_print(MSG_HELP_OPTION_EVRA);
+
 	puts("  --explain");
 	lang_print(MSG_HELP_OPTION_EXPLAIN);
 	
