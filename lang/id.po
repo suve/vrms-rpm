@@ -40,6 +40,11 @@ msgstr "    Mengontrol apakah terminal escape sequences dipergunakan untuk mewar
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Ketika mendaftar paket, sertakan ringkasan paket (deskripsi singkat).\n"
 
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Selain nama paket, tampilkan juga epoch:version-release.arch.\n"
+       "    Nilai defaultnya 'auto', yang hanya akan melakukan ini untuk paket yang\n"
+       "    bernama sama.\n""
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Ketika mendaftar paket, tampilkan lisensinya\n"
        "    untuk memastikan apakah termasuk klasifikasi free / non-free.\n"
@@ -87,6 +92,9 @@ msgstr "vrms-rpm: gagal membaca daftar lisensi baik dari \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: argumen untuk opsi --colour harus salah satu dari 'no', 'yes', atau 'auto'\n"
+
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: argumen untuk opsi --evra harus salah satu dari 'never', 'always', atau 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: argumen untuk opsi --list harus salah satu dari 'none', 'non-free', 'free' atau 'all'\n"

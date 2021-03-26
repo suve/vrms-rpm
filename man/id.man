@@ -45,6 +45,11 @@ tetapi tidak berlaku apabila menulis di file atau pipe.
 Ketika mendaftar paket, sertakan ringkasan paket (deskripsi singkat).
 
 .TP
+\fB\-\-evra\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
+Selain nama paket, tampilkan juga epoch:version-release.arch.
+Nilai defaultnya '\fIauto\fR', yang hanya akan melakukan ini untuk paket yang bernama sama.
+
+.TP
 \fB\-\-explain\fR
 Ketika mendaftar paket, tampilkan lisensinya untuk memastikan
 apakah termasuk klasifikasi free / non-free.
