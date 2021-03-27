@@ -40,6 +40,11 @@ msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Oltre alla lista dei pacchetti, mostra il sommario per ognuno\n"
        "    (breve descrizione).\n"
 
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Oltre al nome dei pacchetti, mostra anche epoca:versione-rilascio.architettura.\n"
+       "    Il valore predefinito è 'auto', che stampa le informazioni aggiuntive\n"
+       "    solo per i pacchetti che condividono lo stesso nome.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Oltre alla lista dei pacchetti, mostra le loro licenze\n"
        "    per giustificare la loro classificazione in libera / non-libera.\n"
@@ -88,6 +93,9 @@ msgstr "vrms-rpm: fallita lettura delle licenze accettabili da \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: l'argomento dell'opzione --color deve essere uno tra 'no', 'yes' o 'auto'\n"
+
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: l'argomento dell'opzione --evra deve essere uno tra 'never', 'always' o 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: l'argomento dell'opzione --list deve essere uno tra 'none', 'non-free' o 'all'\n"
