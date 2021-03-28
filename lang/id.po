@@ -43,7 +43,7 @@ msgstr "    Ketika mendaftar paket, sertakan ringkasan paket (deskripsi singkat)
 msgid "HELP_OPTION_EVRA\n"
 msgstr "    Selain nama paket, tampilkan juga epoch:version-release.arch.\n"
        "    Nilai defaultnya 'auto', yang hanya akan melakukan ini untuk paket yang\n"
-       "    bernama sama.\n""
+       "    bernama sama.\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Ketika mendaftar paket, tampilkan lisensinya\n"
