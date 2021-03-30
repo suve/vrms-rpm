@@ -44,7 +44,7 @@ msgstr "    Beim Auflisten der Pakete, Paket-Zusammenfassung mitanzeigen\n"
 
 msgid "HELP_OPTION_EVRA\n"
 msgstr "    Zusätzlich zu den Paketnamen auch epoch:version-release.arch anzeigen.\n"
-       "    Standard ist 'auto', womit dies nur für Pakete mit demselben Namen passiert.\n"
+       "    Standardwert ist 'auto', womit dies nur für Pakete mit demselben Namen passiert.\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Beim Auflisten der Pakete, auch die Lizenzen anzeigen\n"
