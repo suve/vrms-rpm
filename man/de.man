@@ -47,6 +47,12 @@ ins Terminal verwendet, aber nicht beim Schreiben in eine Datei oder Pipe.
 Beim Auflisten der Pakete, Paket-Zusammenfassung mitanzeigen (Kurzbeschreibung)
 
 .TP
+\fB\-\-evra\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
+Zusätzlich zu den Paketnamen auch epoch:version-release.arch anzeigen.
+Standardwert ist '\fIauto\fR', womit dies nur passiert, wenn mehrere Pakete 
+mit demselben Namen gefunden werden.
+
+.TP
 \fB\-\-explain\fR
 Beim Auflisten der Pakete, auch die Lizenzen anzeigen
 um die frei / proprietär Klassifikation zu rechtfertigen.
