@@ -31,7 +31,7 @@ msgstr "Verwendung: vrms-rpm [Optionen]\n"
 
 msgid "HELP_OPTION_ASCII\n"
 msgstr "    Zeige rms ASCII-art wenn keine proprietären Pakete gefunden wurden oder\n"
-       "    wenn propritäre Pakete 10%% oder mehr der gesamten Pakete ausmachen.\n"
+       "    wenn proprietäre Pakete 10%% oder mehr der gesamten Pakete ausmachen.\n"
 
 msgid "HELP_OPTION_COLOUR\n"
 msgstr "    Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgabe\n"
@@ -41,6 +41,10 @@ msgstr "    Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgab
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Beim Auflisten der Pakete, Paket-Zusammenfassung mitanzeigen\n"
        "    (Kurzbeschreibung).\n"
+
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Zusätzlich zu den Paketnamen auch epoch:version-release.arch anzeigen.\n"
+       "    Standardwert ist 'auto', womit dies nur für Pakete mit demselben Namen passiert.\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Beim Auflisten der Pakete, auch die Lizenzen anzeigen\n"
@@ -90,8 +94,14 @@ msgstr "vrms-rpm: Fehler beim Lesen der Liste akzeptierter Lizenzen von \"%s\": 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: Option --colour benötigt eines der Argumente 'no', 'yes', oder 'auto'\n"
 
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: Option --evra benötigt eines der Argumente 'never', 'always' oder 'auto'\n"
+
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: Option --list benötigt eines der Argumente 'none', 'non-free', 'free' oder 'all'\n"
+
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: Option \"%s\" benötigt ein Argument.\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: Unbekannte Option \"%s\"\n"
