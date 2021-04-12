@@ -49,6 +49,13 @@ In combinazione con l'elenco dei pacchetti, viene incluso un sommario
 per ognuno (breve descrizione).
 
 .TP
+\fB\-\-evra\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
+Oltre ai nomi dei pacchetti, mostra anche epoca:versione-rilascio:architettura
+per ognuno.
+Il valore predefinito è '\fIauto\fR' che stampa le informazioni aggiuntive
+solo quando sono presenti più pacchetti con lo stesso nome.
+
+.TP
 \fB\-\-explain\fR
 Quando si elencano i pacchetti, mostra le licenze per giustificare
 la classificazione in libero / non-libero.
