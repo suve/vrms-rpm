@@ -51,6 +51,12 @@ Laat bij het opsommen van pakketten, een korte beschrijving van het
 pakket zien.
 
 .TP
+\fB\-\-evra\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
+Toon naast de namen van de pakketten, ook tijdperk:versienummer.architectuur.
+standaard staat dit op '\fIauto\fR',
+wat betekend dat dit alleen gebeurd voor pakketten met dezelfde naam.
+
+.TP
 \fB\-\-explain\fR
 Laat bij het opsommen van pakketten, licenties zien om
 de indeling tussen vrije of propriëtaire pakketen te verklaren.
