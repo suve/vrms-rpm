@@ -41,11 +41,16 @@ msgstr "    Geeft aan of er escape karakters in de termimal gebruikt moeten word
        "    wanneer er geschreven word naar de terminal,\n"
        "    maar niet als er naar een pipe of een bestand word geschreven.\n"
 
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Toon naast de namen van de pakketten, ook tijdperk:versienummer.architectuur.\n"
+       "    Standaard staat dit op 'auto',\n"
+       "    wat betekend dat dit alleen gebeurd voor pakketten met dezelfde naam.\n"
+
 msgid "HELP_OPTION_DESCRIBE\n"
-msgstr "    Bij het tonen van pakketen, voeg de korte bescrijving van de pakketten toe.\n"
+msgstr "    Bij het tonen van pakketten, voeg de korte bescrijving van de pakketten toe.\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
-msgstr "    Bij het tonen van pakketen, laat de licenties zien\n"
+msgstr "    Bij het tonen van pakketten, laat de licenties zien\n"
        "    om te zien welke pakketten vrije of propriëtaire software bevatten.\n"
 
 msgid "HELP_OPTION_HELP\n"
@@ -64,8 +69,8 @@ msgstr "    Specificeert de lijst van goede licenties die gebruikt mogen worden.
        "    De standaard lijst is '%s'.\n"
 
 msgid "HELP_OPTION_LIST\n"
-msgstr "    Toon naast een overzicht van het aantal vrije en propriëtaire pakketen,\n"
-       "    ook de namen van de pakketen. De standaard waarde is 'nonfree'.\n"
+msgstr "    Toon naast een overzicht van het aantal vrije en propriëtaire pakketten,\n"
+       "    ook de namen van de pakketten. De standaard waarde is 'nonfree'.\n"
 
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Laat de versieinformatie zien en sluit daarna.\n"
@@ -88,6 +93,9 @@ msgstr "vrms-rpm: kon niet lezen van de pipe naar /usr/bin/rpm\n"
 
 msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties\n"
+
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: argument voor--evra optie moet 'never', 'always', of 'auto' zijn\n"
 
 msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties van \"%s\": %s\n"
