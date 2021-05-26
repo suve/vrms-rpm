@@ -46,6 +46,25 @@ char* trim(char *buffer, size_t *const length) {
 	return trim_extra(buffer, length, "");
 }
 
+int str_split(char *const str, const char separator, char* *const fields, const int max_fields) {
+	fields[0] = str;
+	for(int i = 1; i < max_fields; ++i) fields[i] = NULL;
+
+	char *search_pos = str;
+
+	int count = 1;
+	while(count < max_fields) {
+		char* sep = strchr(search_pos, separator);
+		if(sep == NULL) break;
+
+		*sep = '\0';
+		fields[count] = search_pos = (sep + 1);
+		count += 1;
+	}
+
+	return count;
+}
+
 /*
  * TODO: Maybe improve the implementation so instead of calling ststr()
  *       multiple times and looking which needle appears earlier,

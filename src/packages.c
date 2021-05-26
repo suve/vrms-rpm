@@ -77,25 +77,6 @@ static int init_buffers(void) {
 	return 0;
 }
 
-static int split_line(char *line, char ***fields, int max_fields) {
-	*(fields[0]) = line;
-	for(int i = 1; i < max_fields; ++i) *(fields[i]) = NULL;
-
-	char *search_pos = line;
-
-	int count = 1;
-	while(count < max_fields) {
-		char* tab = strchr(search_pos, '\t');
-		if(tab == NULL) break;
-
-		*tab = '\0';
-		*(fields[count]) = search_pos = (tab + 1);
-		count += 1;
-	}
-	
-	return count;
-}
-
 static int is_defined(const char *value) {
 	return strcmp(value, "(none)") != 0;
 }
@@ -107,18 +88,21 @@ extern int packages_read(struct Pipe *pipe) {
 	FILE *f = pipe_fopen(pipe);
 	if(f == NULL) return -1;
 
-	char *name, *licence, *summary;
-	char *epoch, *version, *release, *arch;
-
 	const int expected = opt_describe ? 7 : 6;
-	char **fields[] = {
-		&name, &epoch, &version, &release, &arch, &licence, &summary
-	};
+	char* fields[7];
 
 	char line[512];
 	while(fgets(line, sizeof(line), f) != NULL) {
 		replace_unicode_spaces(line);
-		if(split_line(line, fields, expected) != expected) continue;
+		if(str_split(line, '\t', fields, expected) != expected) continue;
+
+		char *name    = fields[0];
+		char *epoch   = fields[1];
+		char *version = fields[2];
+		char *release = fields[3];
+		char *arch    = fields[4];
+		char *licence = fields[5];
+		char *summary = fields[6];
 
 		name = chainbuf_append(&buffer, name);
 		licence = chainbuf_append(&buffer, trim(licence, NULL));

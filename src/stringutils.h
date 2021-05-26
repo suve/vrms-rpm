@@ -31,6 +31,8 @@
 extern char* trim(char *buffer, size_t *const length);
 extern char* trim_extra(char *buffer, size_t *const length, const char *const extrachars);
 
+extern int str_split(char *const str, const char separator, char* *const fields, const int max_fields);
+
 extern void str_findmultiple(
 	const char *const haystack,
 	const int num_needles,
