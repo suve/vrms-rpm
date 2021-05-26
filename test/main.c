@@ -38,6 +38,7 @@ extern void test__replace_unicode_spaces(void **state);
 extern void test__str_compare_with_null_check(void **state);
 extern void test__str_starts_with(void **state);
 extern void test__str_ends_with(void **state);
+extern void test__str_split(void **state);
 extern void test__trim(void **state);
 
 int main(int argc, char **argv) {
@@ -52,6 +53,7 @@ int main(int argc, char **argv) {
 		cmocka_unit_test(test__str_compare_with_null_check),
 		cmocka_unit_test(test__str_starts_with),
 		cmocka_unit_test(test__str_ends_with),
+		cmocka_unit_test(test__str_split),
 		cmocka_unit_test(test__trim),
 	};
 	return cmocka_run_group_tests(tests, NULL, NULL);
