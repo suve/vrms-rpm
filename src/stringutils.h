@@ -36,9 +36,9 @@ extern int str_split(char *const str, const char separator, char* *const fields,
 extern void str_findmultiple(
 	const char *const haystack,
 	const int num_needles,
-	char * *const needle,
+	const char *const *const needle,
 	char * *const result_ptr,
-	char * *const result_needle
+	const char * *const result_needle
 );
 
 extern const char* str_starts_with(const char *const haystack, const char *const needle);

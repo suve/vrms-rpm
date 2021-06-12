@@ -190,14 +190,14 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 		}
 	}
 	
-	char *and_str = " and ";
-	char *or_str = " or ";
-	char *needles[] = {
+	const char *const and_str = " and ";
+	const char *const or_str = " or ";
+	const char *const needles[] = {
 		and_str,
 		or_str
 	};
 	
-	char *needle_str;
+	const char *needle_str;
 	str_findmultiple(licence, 2, needles, NULL, &needle_str);
 	
 	if(needle_str == and_str) return LTNT_AND;
@@ -209,14 +209,15 @@ static int count_members(char *licence, char *joiner_str) {
 	int count = 1;
 	const size_t joiner_len = strlen(joiner_str);
 	
-	char *paren_str = "(";
-	char *needles[] = {
+	const char *const paren_str = "(";
+	const char *const needles[] = {
 		paren_str,
 		joiner_str
 	};
 	
 	for(;;) {
-		char *needle_str, *needle_pos;
+		const char *needle_str;
+		char *needle_pos;
 		str_findmultiple(licence, 2, needles, &needle_pos, &needle_str);
 		if(needle_pos == NULL) return count;
 		
@@ -264,14 +265,15 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 	node->members = 0;
 	node->is_free = type == LTNT_AND ? 1 : 0;
 	
-	char *paren_str = "(";
-	char *needles[] = {
+	const char *const paren_str = "(";
+	const char *const needles[] = {
 		paren_str,
 		joiner_str
 	};
 	
 	for(;;) {
-		char *needle_str, *needle_pos;
+		const char *needle_str;
+		char *needle_pos;
 		str_findmultiple(licence, 2, needles, &needle_pos, &needle_str);
 		
 		if(needle_str == NULL) {

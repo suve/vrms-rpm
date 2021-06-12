@@ -28,11 +28,11 @@
 #define UNUSED(x) ((void)(x))
 
 #define testcase(haystack, expected_index, ...) do{ \
-	char *needle_array[] = { __VA_ARGS__ }; \
+	const char *const needle_array[] = { __VA_ARGS__ }; \
 	size_t needle_count = sizeof(needle_array) / sizeof(needle_array[0]); \
 \
 	char *result_str; \
-	char *result_needle; \
+	const char *result_needle; \
 	str_findmultiple(haystack, needle_count, needle_array, &result_str, &result_needle); \
 \
 	if((expected_index) >= 0) { \
