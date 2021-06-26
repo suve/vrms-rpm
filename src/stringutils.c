@@ -99,6 +99,24 @@ void str_findmultiple(
 	if(result_needle != NULL) *result_needle = best_needle;
 }
 
+int str_match_first(
+	const char *haystack,
+	int(*const match_func[])(const char*),
+	char **result_ptr
+) {
+	for(; *haystack != '\0'; ++haystack) {
+		for(int f = 0; match_func[f] != NULL; ++f) {
+			if(match_func[f](haystack)) {
+				if(result_ptr != NULL) *result_ptr = (char*)haystack;
+				return f;
+			}
+		}
+	}
+
+	if(result_ptr != NULL) *result_ptr = NULL;
+	return -1;
+}
+
 const char* str_starts_with(const char *const haystack, const char *const needle) {
 	const size_t stacklen = strlen(haystack);
 	const size_t ndllen = strlen(needle);

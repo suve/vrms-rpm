@@ -40,6 +40,11 @@ extern void str_findmultiple(
 	char * *const result_ptr,
 	const char * *const result_needle
 );
+extern int str_match_first(
+	const char *haystack,
+	int(*const match_func[])(const char*),
+	char **result_ptr
+);
 
 extern const char* str_starts_with(const char *const haystack, const char *const needle);
 extern char* str_ends_with(const char *const haystack, const char *const needle);
