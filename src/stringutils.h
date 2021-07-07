@@ -33,14 +33,6 @@ extern char* trim_extra(char *buffer, size_t *const length, const char *const ex
 
 extern int str_split(char *const str, const char separator, char* *const fields, const int max_fields);
 
-extern void str_findmultiple(
-	const char *const haystack,
-	const int num_needles,
-	const char *const *const needle,
-	char * *const result_ptr,
-	const char * *const result_needle
-);
-
 typedef int(*match_func_t)(const char*);
 extern int str_match_first(
 	const char *haystack,

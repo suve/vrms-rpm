@@ -36,7 +36,6 @@ extern int test_teardown__licences(void **state);
 extern void test__compare_versions(void **state);
 extern void test__replace_unicode_spaces(void **state);
 extern void test__str_compare_with_null_check(void **state);
-extern void test__str_findmultiple(void **state);
 extern void test__str_match_first(void **state);
 extern void test__str_starts_with(void **state);
 extern void test__str_ends_with(void **state);
@@ -53,7 +52,6 @@ int main(int argc, char **argv) {
 		cmocka_unit_test(test__compare_versions),
 		cmocka_unit_test(test__replace_unicode_spaces),
 		cmocka_unit_test(test__str_compare_with_null_check),
-		cmocka_unit_test(test__str_findmultiple),
 		cmocka_unit_test(test__str_match_first),
 		cmocka_unit_test(test__str_starts_with),
 		cmocka_unit_test(test__str_ends_with),
