@@ -201,6 +201,24 @@ static int is_or_joiner(const char *str) {
 	return 1;
 }
 
+int get_joiner_len(enum LicenceTreeNodeType type) {
+	switch(type) {
+		case LTNT_LICENCE: return 1; // "("
+		case LTNT_AND: return 5; // " and "
+		case LTNT_OR: return 4; // " or "
+		default: return -1;
+	}
+}
+
+match_func_t get_joiner_func(enum LicenceTreeNodeType type) {
+	switch(type) {
+		case LTNT_LICENCE: return &is_opening_paren;
+		case LTNT_AND: return &is_and_joiner;
+		case LTNT_OR: return &is_or_joiner;
+		default: return NULL;
+	}
+}
+
 #define LTNT_PARENTHESISED 0xFF
 
 static enum LicenceTreeNodeType detect_type(char *licence) {
@@ -228,10 +246,10 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 static int count_members(char *licence, const enum LicenceTreeNodeType joinerType) {
 	int count = 1;
 
-	const int joiner_len = (joinerType == LTNT_AND) ? 5 : 4; // " and " vs " or "
+	const int joiner_len = get_joiner_len(joinerType);
 	const match_func_t patterns[] = {
 		&is_opening_paren,
-		(joinerType == LTNT_AND) ? is_and_joiner : is_or_joiner,
+		get_joiner_func(joinerType),
 		NULL
 	};
 	
@@ -275,7 +293,7 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 	}
 	
 	const int members = count_members(licence, type);
-	const int joiner_len = (type == LTNT_AND) ? 5 : 4; // " and " vs " or "
+	const int joiner_len = get_joiner_len(type);
 
 	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + members * sizeof(struct LicenceTreeNode*));
 	node->type = type;
@@ -284,7 +302,7 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 	
 	const match_func_t patterns[] = {
 		&is_opening_paren,
-		(type == LTNT_AND) ? is_and_joiner : is_or_joiner,
+		get_joiner_func(type),
 		NULL
 	};
 	
