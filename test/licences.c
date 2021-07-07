@@ -99,6 +99,14 @@ void test__licences(void **state) {
 	testcase("(Good)", LTNT_LICENCE, 1);
 	testcase("((Awesome))", LTNT_LICENCE, 1);
 
+	// Joiners ("and"/"or") should be case-insensitive
+	testcase("Good And Awesome", LTNT_AND, 1);
+	testcase("Good AND Awesome", LTNT_AND, 1);
+	testcase("Good anD Awful", LTNT_AND, 0);
+	testcase("Bad Or Awful", LTNT_OR, 0);
+	testcase("Bad oR Awful", LTNT_OR, 0);
+	testcase("Bad OR Good", LTNT_OR, 1);
+
 	// Acceptable suffixes
 	testcase("Good with acknowledgement", LTNT_LICENCE, 1);
 	testcase("Awesome with additional permissions", LTNT_LICENCE, 1);
