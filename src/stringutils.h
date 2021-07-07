@@ -40,9 +40,11 @@ extern void str_findmultiple(
 	char * *const result_ptr,
 	const char * *const result_needle
 );
+
+typedef int(*match_func_t)(const char*);
 extern int str_match_first(
 	const char *haystack,
-	int(*const match_func[])(const char*),
+	const match_func_t match_func[],
 	char **result_ptr
 );
 

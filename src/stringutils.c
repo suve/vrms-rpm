@@ -101,7 +101,7 @@ void str_findmultiple(
 
 int str_match_first(
 	const char *haystack,
-	int(*const match_func[])(const char*),
+	const match_func_t match_func[],
 	char **result_ptr
 ) {
 	for(; *haystack != '\0'; ++haystack) {
