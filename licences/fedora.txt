@@ -36,6 +36,7 @@ Bibtex
 BitTorrent
 Bitstream Vera
 Boost
+Boost-1.0
 Borceux
 CATOSL
 CC-BY
