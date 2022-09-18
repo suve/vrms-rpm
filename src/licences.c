@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2022 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -258,7 +258,7 @@ static int count_members(char *licence, const enum LicenceTreeNodeType joinerTyp
 		const int match = str_match_first(licence, patterns, &needle_pos);
 		if(match < 0) return count;
 		
-		if(match == 1) {
+		if(match == 0) {
 			char *closingparen = find_closing_paren(needle_pos);
 			if(closingparen != NULL) {
 				licence = closingparen + 1;

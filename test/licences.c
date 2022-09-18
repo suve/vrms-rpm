@@ -205,6 +205,27 @@ void test__licences(void **state) {
 		testcase("Bad and Awful", expected);
 	}
 
+	// Test chains with more than 2 sub-licences.
+	{
+		struct LicenceTreeNode *first, *second, *third, *expected;
+		make_ltn_simple(first, 0, "Awful");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn_simple(third, 0, "Unknown");
+		make_ltn(expected, 0, LTNT_OR, first, second, third);
+
+		testcase("Awful or Bad or Unknown", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *third, *fourth, *expected;
+		make_ltn_simple(first, 0, "Awful");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn_simple(third, 0, "Unknown");
+		make_ltn_simple(fourth, 1, "Good");
+		make_ltn(expected, 1, LTNT_OR, first, second, third, fourth);
+
+		testcase("Awful or Bad or Unknown or Good", expected);
+	}
+
 	// Test some complex licences with parentheses.
 	{
 		struct LicenceTreeNode *left;
@@ -396,6 +417,14 @@ void test__licences(void **state) {
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 0, "Awful");
 		testcase("((Awful))", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *third, *expected;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn_simple(third, 1, "Awesome");
+		make_ltn(expected, 0, LTNT_AND, first, second, third);
+		testcase("Good and (Bad) and Awesome", expected);
 	}
 
 	// Joiners ("and"/"or") should be case-insensitive
