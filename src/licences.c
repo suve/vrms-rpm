@@ -244,7 +244,7 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 }
 
 static int count_members(char *licence, const enum LicenceTreeNodeType joinerType) {
-	int count = 1;
+	int count = 0;
 
 	const int joiner_len = get_joiner_len(joinerType);
 	const match_func_t patterns[] = {
@@ -252,21 +252,26 @@ static int count_members(char *licence, const enum LicenceTreeNodeType joinerTyp
 		get_joiner_func(joinerType),
 		NULL
 	};
-	
+
 	for(;;) {
+		if(*licence == '\0') return count;
+
 		char *needle_pos;
 		const int match = str_match_first(licence, patterns, &needle_pos);
-		if(match < 0) return count;
-		
+		if(match < 0) return count + 1;
+
 		if(match == 0) {
 			char *closingparen = find_closing_paren(needle_pos);
 			if(closingparen != NULL) {
+				++count;
 				licence = closingparen + 1;
-				continue;
+			} else {
+				++licence;
 			}
+			continue;
 		}
-		
-		++count;
+
+		if(needle_pos != licence) ++count;
 		licence = needle_pos + joiner_len;
 	}
 }

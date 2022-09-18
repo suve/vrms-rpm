@@ -105,9 +105,11 @@ static void assert_ltn_equal(const struct LicenceTreeNode *actual, const struct 
 	char buffer[] = (text); \
 	struct LicenceTreeNode *ltn = licence_classify(buffer); \
 	assert_non_null(ltn); \
-	assert_ltn_equal(ltn, expected, __FILE__, __LINE__); \
+	if((expected) != NULL) { \
+		assert_ltn_equal(ltn, (expected), __FILE__, __LINE__); \
+		licence_freeTree(expected); \
+	} \
 	licence_freeTree(ltn); \
-	licence_freeTree(expected); \
 } while(0)
 
 // Test license strings that evaluate to a single licence.
@@ -535,4 +537,34 @@ void test__licences_acceptable_suffixes(void **state) {
 		make_ltn_simple(expected, 0, "Bad with linking exception");
 		testcase("Bad with linking exception", expected);
 	}
+}
+
+// Test some licence strings with mismatched parentheses.
+// We're mostly concerned about avoiding segfaults.
+// Trying to make sense out of the string is a secondary concern.
+void test__licences_mismatched_parentheses(void **state) {
+	UNUSED(state);
+
+	testcase("(Bad", NULL);
+	testcase("Bad)", NULL);
+	testcase("(", NULL);
+	testcase(")", NULL);
+	testcase("(()", NULL);
+	testcase("())", NULL);
+
+	testcase("Good and (Bad", NULL);
+	testcase("Good and Bad)", NULL);
+
+	testcase("Good and (Bad or Awesome", NULL);
+	testcase("Good and Bad) or Awesome", NULL);
+
+	testcase("(Good and (Bad or Awesome)", NULL);
+	testcase("Good and (Bad or Awesome)) and Long name with spaces", NULL);
+
+	testcase("Good and ", NULL);
+	testcase("Good or ", NULL);
+	testcase("and Awful", NULL);
+	testcase("or Awesome", NULL);
+	testcase(" and ", NULL);
+	testcase(" or ", NULL);
 }

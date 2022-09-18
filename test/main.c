@@ -37,6 +37,7 @@ extern void test__licences_tree(void **state);
 extern void test__licences_extra_parentheses(void **state);
 extern void test__licences_case_insensitive_joiners(void **state);
 extern void test__licences_acceptable_suffixes(void **state);
+extern void test__licences_mismatched_parentheses(void **state);
 extern int test_setup__licences(void **state);
 extern int test_teardown__licences(void **state);
 
@@ -75,6 +76,7 @@ int main(int argc, char **argv) {
 		cmocka_unit_test(test__licences_extra_parentheses),
 		cmocka_unit_test(test__licences_case_insensitive_joiners),
 		cmocka_unit_test(test__licences_acceptable_suffixes),
+		cmocka_unit_test(test__licences_mismatched_parentheses),
 	};
 	failures += cmocka_run_group_tests(licence_tests, test_setup__licences, test_teardown__licences);
 
