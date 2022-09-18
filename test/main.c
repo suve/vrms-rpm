@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021 Artur "suve" Iwicki
+ * Copyright (C) 2021-2022 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -21,6 +21,8 @@
 #include <setjmp.h>
 #include <cmocka.h>
 
+char *argv_zero;
+
 extern void test__chainbuffer(void **state);
 extern int test_setup__chainbuffer(void **state);
 extern int test_teardown__chainbuffer(void **state);
@@ -29,7 +31,12 @@ extern void test__rebuffer(void **state);
 extern int test_setup__rebuffer(void **state);
 extern int test_teardown__rebuffer(void **state);
 
-extern void test__licences(void **state);
+extern void test__licences_single(void **state);
+extern void test__licences_one_level(void **state);
+extern void test__licences_tree(void **state);
+extern void test__licences_extra_parentheses(void **state);
+extern void test__licences_case_insensitive_joiners(void **state);
+extern void test__licences_acceptable_suffixes(void **state);
 extern int test_setup__licences(void **state);
 extern int test_teardown__licences(void **state);
 
@@ -44,11 +51,12 @@ extern void test__trim(void **state);
 
 int main(int argc, char **argv) {
 	(void)(argc);
+	argv_zero = argv[0];
 
+	int failures = 0;
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test_setup_teardown(test__chainbuffer, test_setup__chainbuffer, test_teardown__chainbuffer),
 		cmocka_unit_test_setup_teardown(test__rebuffer, test_setup__rebuffer, test_teardown__rebuffer),
-		{ .name = "test__licences", .initial_state = argv[0], .test_func = test__licences, .setup_func = test_setup__licences, .teardown_func = test_teardown__licences },
 		cmocka_unit_test(test__compare_versions),
 		cmocka_unit_test(test__replace_unicode_spaces),
 		cmocka_unit_test(test__str_compare_with_null_check),
@@ -58,5 +66,17 @@ int main(int argc, char **argv) {
 		cmocka_unit_test(test__str_split),
 		cmocka_unit_test(test__trim),
 	};
-	return cmocka_run_group_tests(tests, NULL, NULL);
+	failures += cmocka_run_group_tests(tests, NULL, NULL);
+
+	const struct CMUnitTest licence_tests[] = {
+		cmocka_unit_test(test__licences_single),
+		cmocka_unit_test(test__licences_one_level),
+		cmocka_unit_test(test__licences_tree),
+		cmocka_unit_test(test__licences_extra_parentheses),
+		cmocka_unit_test(test__licences_case_insensitive_joiners),
+		cmocka_unit_test(test__licences_acceptable_suffixes),
+	};
+	failures += cmocka_run_group_tests(licence_tests, test_setup__licences, test_teardown__licences);
+
+	return !!failures;
 }

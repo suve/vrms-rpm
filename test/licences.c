@@ -30,11 +30,16 @@
 
 #define UNUSED(x) ((void)(x))
 
+// Dirty dirty dirty hack!
+extern char *argv_zero;
+
 int test_setup__licences(void **state) {
+	UNUSED(state);
+
 	// Create the path to the test licence list.
 	// Assumes that the test-suite executable is inside build/.
 	char buffer[1024];
-	strcpy(buffer, *state);
+	strcpy(buffer, argv_zero);
 	*strrchr(buffer, '/') = '\0'; // remove the executable name
 	*strrchr(buffer, '/') = '\0'; // remove the build/ directory
 	const size_t buflen = strlen(buffer);
@@ -105,7 +110,8 @@ static void assert_ltn_equal(const struct LicenceTreeNode *actual, const struct 
 	licence_freeTree(expected); \
 } while(0)
 
-void test__licences(void **state) {
+// Test license strings that evaluate to a single licence.
+void test__licences_single(void **state) {
 	UNUSED(state);
 
 	// Test some simple good licences.
@@ -136,6 +142,11 @@ void test__licences(void **state) {
 		make_ltn_simple(expected, 0, "Bad");
 		testcase("Bad", expected);
 	}
+}
+
+// Test licence strings that evaluate to a single-level and/or chain.
+void test__licences_one_level(void **state) {
+	UNUSED(state);
 
 	// Test some simple "A or B" licences.
 	{
@@ -225,6 +236,11 @@ void test__licences(void **state) {
 
 		testcase("Awful or Bad or Unknown or Good", expected);
 	}
+}
+
+// Test licence strings that evaluate to a tree.
+void test__licences_tree(void **state) {
+	UNUSED(state);
 
 	// Test some complex licences with parentheses.
 	{
@@ -401,8 +417,12 @@ void test__licences(void **state) {
 		make_ltn(expected, 0, LTNT_OR, left, right);
 		testcase("(Good and Bad) or (Good and Awful)", expected);
 	}
+}
 
-	// Test some licences with spurious parentheses
+// Test some licence strings with spurious parentheses
+void test__licences_extra_parentheses(void **state) {
+	UNUSED(state);
+
 	{
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 1, "Good");
@@ -426,8 +446,12 @@ void test__licences(void **state) {
 		make_ltn(expected, 0, LTNT_AND, first, second, third);
 		testcase("Good and (Bad) and Awesome", expected);
 	}
+}
 
-	// Joiners ("and"/"or") should be case-insensitive
+// Test whether joiners ("and"/"or") are case-insensitive
+void test__licences_case_insensitive_joiners(void **state) {
+	UNUSED(state);
+
 	{
 		struct LicenceTreeNode *first, *second, *expected;
 		make_ltn_simple(first, 1, "Good");
@@ -476,8 +500,11 @@ void test__licences(void **state) {
 
 		testcase("Bad OR Awful", expected);
 	}
+}
 
-	// Acceptable suffixes
+void test__licences_acceptable_suffixes(void **state) {
+	UNUSED(state);
+
 	{
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 1, "Good with acknowledgement");
