@@ -1,7 +1,7 @@
 #
 # Makefile for vrms-rpm
 # Copyright (C) 2017 Marcin "dextero" Radomski
-# Copyright (C) 2018-2021 Artur "suve" Iwicki
+# Copyright (C) 2018-2022 suve (a.k.a. Artur Frenszek-Iwicki)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -81,8 +81,8 @@ remove: install/prepare
 	find install -depth -type d | sed -e 's|^install|$(DESTDIR)$(PREFIX)|' | xargs rmdir -v --ignore-fail-on-non-empty
 	rm -rf install
 
-test: build/run-tests
-	./build/run-tests
+test: build/test-suite
+	./build/test-suite
 
 help:
 	@echo "TARGETS:"
@@ -146,7 +146,7 @@ build/test/%.o: test/%.c
 build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^
 
-build/run-tests: $(filter-out build/vrms-rpm.o, $(OBJECTS)) $(TEST_OBJECTS)
+build/test-suite: $(filter-out build/vrms-rpm.o, $(OBJECTS)) $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -lcmocka -o "$@" $^
 
 install/bin/vrms-rpm: build/vrms-rpm
