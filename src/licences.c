@@ -31,17 +31,24 @@
 static struct ReBuffer *list = NULL;
 static struct ChainBuffer *buffer = NULL;
 
+static struct ReBuffer *nodeBuf = NULL;
+
 static int init_buffers(void) {
 	if(list == NULL) {
 		list = rebuf_init();
 		if(list == NULL) return -1;
 	}
-	
+
 	if(buffer == NULL) {
 		buffer = chainbuf_init();
 		if(buffer == NULL) return -1;
 	}
-	
+
+	if(nodeBuf == NULL) {
+		nodeBuf = rebuf_init();
+		if(nodeBuf == NULL) return -1;
+	}
+
 	return 0;
 }
 
@@ -102,10 +109,15 @@ void licences_free(void) {
 		rebuf_free(list);
 		list = NULL;
 	}
-	
+
 	if(buffer != NULL) {
 		chainbuf_free(buffer);
 		buffer = NULL;
+	}
+
+	if(nodeBuf != NULL) {
+		rebuf_free(nodeBuf);
+		nodeBuf = NULL;
 	}
 }
 
@@ -243,42 +255,9 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 	return LTNT_LICENCE;
 }
 
-static int count_members(char *licence, const enum LicenceTreeNodeType joinerType) {
-	int count = 0;
-
-	const int joiner_len = get_joiner_len(joinerType);
-	const match_func_t patterns[] = {
-		&is_opening_paren,
-		get_joiner_func(joinerType),
-		NULL
-	};
-
-	for(;;) {
-		if(*licence == '\0') return count;
-
-		char *needle_pos;
-		const int match = str_match_first(licence, patterns, &needle_pos);
-		if(match < 0) return count + 1;
-
-		if(match == 0) {
-			char *closingparen = find_closing_paren(needle_pos);
-			if(closingparen != NULL) {
-				++count;
-				licence = closingparen + 1;
-			} else {
-				++licence;
-			}
-			continue;
-		}
-
-		if(needle_pos != licence) ++count;
-		licence = needle_pos + joiner_len;
-	}
-}
-
-static void add_child(struct LicenceTreeNode *node, struct LicenceTreeNode *child) {
-	node->child[node->members++] = child;
-	node->is_free = (node->type == LTNT_AND) ? (node->is_free && child->is_free) : (node->is_free || child->is_free);
+static void add_child(struct LicenceTreeNode *child, int *const isFree, const enum LicenceTreeNodeType type) {
+	rebuf_append(nodeBuf, &child, sizeof(struct LicenceTreeNode*));
+	*isFree = (type == LTNT_AND) ? (*isFree && child->is_free) : (*isFree || child->is_free);
 }
 
 struct LicenceTreeNode* licence_classify(char* licence) {
@@ -294,23 +273,19 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		node->type = LTNT_LICENCE;
 		node->licence = licence;
 		node->is_free = is_free(licence);
-		return (struct LicenceTreeNode*)node;
+		return node;
 	}
-	
-	const int members = count_members(licence, type);
-	const int joiner_len = get_joiner_len(type);
 
-	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + members * sizeof(struct LicenceTreeNode*));
-	node->type = type;
-	node->members = 0;
-	node->is_free = type == LTNT_AND ? 1 : 0;
-	
+	const int joiner_len = get_joiner_len(type);
 	const match_func_t patterns[] = {
 		&is_opening_paren,
 		get_joiner_func(type),
 		NULL
 	};
-	
+
+	const size_t bufPos = nodeBuf->used;
+	int isFree = (type == LTNT_AND) ? 1 : 0;
+
 	for(;;) {
 		char *needle_pos;
 		const int match = str_match_first(licence, patterns, &needle_pos);
@@ -318,9 +293,9 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		if(match < 0) {
 			size_t trimlen;
 			licence = trim_extra(licence, &trimlen, "()");
-			if(trimlen > 0) add_child(node, licence_classify(licence));
-			
-			return (struct LicenceTreeNode*)node;
+			if(trimlen > 0) add_child(licence_classify(licence), &isFree, type);
+
+			break;
 		}
 		
 		struct LicenceTreeNode *child = NULL;
@@ -342,9 +317,19 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 				licence = needle_pos + 1;
 			}
 		}
-		
-		if(child != NULL) add_child(node, child);
+
+		if(child != NULL) add_child(child, &isFree, type);
 	}
+
+	const size_t bufDataLen = nodeBuf->used - bufPos;
+	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + bufDataLen);
+	node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
+	memcpy(node->child, ((char*)nodeBuf->data) + bufPos, bufDataLen);
+	nodeBuf->used = bufPos;
+
+	node->type = type;
+	node->is_free = isFree;
+	return node;
 }
 
 void licence_freeTree(struct LicenceTreeNode *node) {
