@@ -41,6 +41,10 @@ msgstr "    Controls whether terminal escape sequences should be used\n"
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    When listing packages, include the package summaries (short descriptions).\n"
 
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Apart from the package names, print also their epoch:version-release.arch.\n"
+       "    Default is 'auto', which does this only for packages sharing a name.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    When listing packages, display their licences\n"
        "    to justify the free / non-free classification.\n"
@@ -88,6 +92,9 @@ msgstr "vrms-rpm: failed to read list of good licences from \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: argument to --colour option must be one of 'no', 'yes', or 'auto'\n"
+
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: argument to --evra option must be one of 'never', 'always', or 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: argument to --list option must be one of 'none', 'non-free', 'free' or 'all'\n"

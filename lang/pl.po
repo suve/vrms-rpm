@@ -44,6 +44,11 @@ msgstr "    Pozwala określić, czy program powinien używać sekwencji modyfiku
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Podczas listowania paczek, wyświetlaj ich podsumowania (krótkie opisy).\n"
 
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Oprócz nazw paczek, wyświetlaj także ich epokę:wersję-wydanie.architekturę.\n"
+       "    Domyślna wartość to 'auto', która powoduje wyświetlanie tych informacji\n"
+       "    tylko dla paczek o tych samych nazwach.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Podczas listowania paczek, wyświetlaj informacje o licencjach,\n"
        "    aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych.\n"
@@ -92,6 +97,9 @@ msgstr "vrms-rpm: odczytanie listy licencji z \"%s\" nie powiodło się: %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --colour to 'no', 'yes', oraz 'auto'\n"
+
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: dozwolone argumenty do opcji --evra to 'never', 'always', oraz 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --list to 'none', 'non-free', 'free' oraz 'all'\n"

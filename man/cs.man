@@ -46,6 +46,12 @@ výstupu na terminál, ale nikoli při výstupu do souboru nebo roury.
 Při výpisu balíčků přidat sumáře (krátké popisky).
 
 .TP
+\fB\-\-evra\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
+Zobrazit kromě jména balíčku i jeho epoch:version-release.arch.
+Výchozí je '\fIauto\fR', což znamená zobrazit pouze pokud je nalezeno
+více balíčků se stejným názvem.
+
+.TP
 \fB\-\-explain\fR
 Při výpisu balíčků zobrazit jejich licence pro objasnění zařazení
 mezi svobodné a nesvobodné.

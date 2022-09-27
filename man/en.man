@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1 "2018-05-18"
+.TH VRMS-RPM 1 "2021-03-06"
 .SH NAME
 vrms-rpm - report of installed non-free software
 
@@ -43,6 +43,12 @@ but not when writing to a file or a pipe.
 .TP
 \fB\-\-describe\fR
 When listing packages, include the package summaries (short descriptions).
+
+.TP
+\fB\-\-evra\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
+Apart from the package names, print also their epoch:version-release.arch.
+Default is '\fIauto\fR', which does this only when multiple packages
+with the same name are found.
 
 .TP
 \fB\-\-explain\fR
