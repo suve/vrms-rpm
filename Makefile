@@ -33,23 +33,23 @@ else ifneq "$(WITH_LIBRPM)" "0"
 $(error "WITH_LIBRPM" must be "0" or "1", found "$(WITH_LIBRPM)")
 endif
 
-LICENCE_FILENAMES := $(basename $(notdir $(shell ls licences/*.txt)))
-LICENCE_FILES := $(addprefix build/, $(shell ls licences/*.txt))
+LICENCE_FILENAMES := $(basename $(notdir $(wildcard licences/*.txt)))
+LICENCE_FILES := $(addprefix build/, $(wildcard licences/*.txt))
 
-PO_FILES := $(shell ls lang/*.po)
+PO_FILES := $(wildcard lang/*.po)
 MO_FILES := $(PO_FILES:lang/%.po=build/locale/%/LC_MESSAGES/vrms-rpm.mo)
 
-MANS := $(shell ls man/*.man)
+MANS := $(wildcard man/*.man)
 MAN_LANGS := $(MANS:man/%.man=%)
 NON_EN_MAN_LANGS := $(filter-out en, $(MAN_LANGS))
 MAN_FILES := $(MANS:man/%.man=build/man/%.man)
 
-IMAGES := $(shell ls images/*)
+IMAGES := $(wildcard images/*)
 
-SOURCES := $(shell ls src/*.c)
+SOURCES := $(wildcard src/*.c)
 OBJECTS := $(SOURCES:src/%.c=build/%.o)
 
-TEST_SOURCES := $(shell ls test/*.c)
+TEST_SOURCES := $(wildcard test/*.c)
 TEST_OBJECTS := $(TEST_SOURCES:test/%.c=build/test/%.o)
 
 
