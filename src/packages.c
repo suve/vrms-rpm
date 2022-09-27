@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2021 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2021-2022 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -197,7 +197,7 @@ static void printnode(struct LicenceTreeNode *node) {
 	}
 	
 	const char *const joiner = (node->type == LTNT_AND) ? " and " : " or ";
-	for(int m = 0; m < node->members;) {
+	for(unsigned int m = 0; m < node->members;) {
 		if(node->child[m]->type != LTNT_LICENCE) {
 			putc('(', stdout);
 			printnode(node->child[m]);

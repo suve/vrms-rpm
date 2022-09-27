@@ -344,9 +344,9 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 
 void licence_freeTree(struct LicenceTreeNode *node) {
 	if(node == NULL) return;
-	
+
 	if(node->type != LTNT_LICENCE) {
-		for(int m = 0; m < node->members; ++m) licence_freeTree(node->child[m]);
+		for(unsigned int m = 0; m < node->members; ++m) licence_freeTree(node->child[m]);
 	}
 	free(node);
 }
