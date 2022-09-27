@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2022 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -178,6 +178,47 @@ static char* find_closing_paren(char *start) {
 	return start;
 }
 
+static int is_opening_paren(const char *str) {
+	return *str == '(';
+}
+
+static int is_and_joiner(const char *str) {
+	if(str[0] != ' ') return 0;
+	if((str[1] != 'a') && (str[1] != 'A')) return 0;
+	if((str[2] != 'n') && (str[2] != 'N')) return 0;
+	if((str[3] != 'd') && (str[3] != 'D')) return 0;
+	if(str[4] != ' ') return 0;
+
+	return 1;
+}
+
+static int is_or_joiner(const char *str) {
+	if(str[0] != ' ') return 0;
+	if((str[1] != 'o') && (str[1] != 'O')) return 0;
+	if((str[2] != 'r') && (str[2] != 'R')) return 0;
+	if(str[3] != ' ') return 0;
+
+	return 1;
+}
+
+int get_joiner_len(enum LicenceTreeNodeType type) {
+	switch(type) {
+		case LTNT_LICENCE: return 1; // "("
+		case LTNT_AND: return 5; // " and "
+		case LTNT_OR: return 4; // " or "
+		default: return -1;
+	}
+}
+
+match_func_t get_joiner_func(enum LicenceTreeNodeType type) {
+	switch(type) {
+		case LTNT_LICENCE: return &is_opening_paren;
+		case LTNT_AND: return &is_and_joiner;
+		case LTNT_OR: return &is_or_joiner;
+		default: return NULL;
+	}
+}
+
 #define LTNT_PARENTHESISED 0xFF
 
 static enum LicenceTreeNodeType detect_type(char *licence) {
@@ -189,47 +230,48 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 			return detect_type(closingparen + 1);
 		}
 	}
-	
-	const char *const and_str = " and ";
-	const char *const or_str = " or ";
-	const char *const needles[] = {
-		and_str,
-		or_str
+
+	const match_func_t patterns[] = {
+		&is_and_joiner,
+		&is_or_joiner,
+		NULL
 	};
-	
-	const char *needle_str;
-	str_findmultiple(licence, 2, needles, NULL, &needle_str);
-	
-	if(needle_str == and_str) return LTNT_AND;
-	if(needle_str == or_str) return LTNT_OR;
+	const int joiner = str_match_first(licence, patterns, NULL);
+
+	if(joiner == 0) return LTNT_AND;
+	if(joiner == 1) return LTNT_OR;
 	return LTNT_LICENCE;
 }
 
-static int count_members(char *licence, char *joiner_str) {
-	int count = 1;
-	const size_t joiner_len = strlen(joiner_str);
-	
-	const char *const paren_str = "(";
-	const char *const needles[] = {
-		paren_str,
-		joiner_str
+static int count_members(char *licence, const enum LicenceTreeNodeType joinerType) {
+	int count = 0;
+
+	const int joiner_len = get_joiner_len(joinerType);
+	const match_func_t patterns[] = {
+		&is_opening_paren,
+		get_joiner_func(joinerType),
+		NULL
 	};
-	
+
 	for(;;) {
-		const char *needle_str;
+		if(*licence == '\0') return count;
+
 		char *needle_pos;
-		str_findmultiple(licence, 2, needles, &needle_pos, &needle_str);
-		if(needle_pos == NULL) return count;
-		
-		if(needle_str == paren_str) {
+		const int match = str_match_first(licence, patterns, &needle_pos);
+		if(match < 0) return count + 1;
+
+		if(match == 0) {
 			char *closingparen = find_closing_paren(needle_pos);
 			if(closingparen != NULL) {
+				++count;
 				licence = closingparen + 1;
-				continue;
+			} else {
+				++licence;
 			}
+			continue;
 		}
-		
-		++count;
+
+		if(needle_pos != licence) ++count;
 		licence = needle_pos + joiner_len;
 	}
 }
@@ -255,28 +297,25 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		return (struct LicenceTreeNode*)node;
 	}
 	
-	char *joiner_str = type == LTNT_AND ? " and " : " or ";
-	size_t joiner_len = strlen(joiner_str);
-	
-	int members = count_members(licence, joiner_str);
-	
+	const int members = count_members(licence, type);
+	const int joiner_len = get_joiner_len(type);
+
 	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + members * sizeof(struct LicenceTreeNode*));
 	node->type = type;
 	node->members = 0;
 	node->is_free = type == LTNT_AND ? 1 : 0;
 	
-	const char *const paren_str = "(";
-	const char *const needles[] = {
-		paren_str,
-		joiner_str
+	const match_func_t patterns[] = {
+		&is_opening_paren,
+		get_joiner_func(type),
+		NULL
 	};
 	
 	for(;;) {
-		const char *needle_str;
 		char *needle_pos;
-		str_findmultiple(licence, 2, needles, &needle_pos, &needle_str);
+		const int match = str_match_first(licence, patterns, &needle_pos);
 		
-		if(needle_str == NULL) {
+		if(match < 0) {
 			size_t trimlen;
 			licence = trim_extra(licence, &trimlen, "()");
 			if(trimlen > 0) add_child(node, licence_classify(licence));
@@ -285,7 +324,7 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		}
 		
 		struct LicenceTreeNode *child = NULL;
-		if(needle_str == joiner_str) {
+		if(match == 1) {
 			*needle_pos = '\0';
 			
 			size_t partlen;

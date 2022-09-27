@@ -65,38 +65,22 @@ int str_split(char *const str, const char separator, char* *const fields, const 
 	return count;
 }
 
-/*
- * TODO: Maybe improve the implementation so instead of calling ststr()
- *       multiple times and looking which needle appears earlier,
- *       we go through the haystack char-after-char, counting matching
- *       characters for each needle.
- */
-void str_findmultiple(
-	const char *const haystack,
-	const int num_needles,
-	const char *const *const needle,
-	char * *const result_ptr,
-	const char * *const result_needle
+int str_match_first(
+	const char *haystack,
+	const match_func_t match_func[],
+	char **result_ptr
 ) {
-	char *best_ptr = NULL;
-	const char *best_needle = NULL;
-	
-	for(int n = 0; n < num_needles; ++n) {
-		char *current_ptr = strstr(haystack, needle[n]);
-		if(current_ptr == NULL) continue;
-		
-		if((best_ptr == NULL) || (current_ptr < best_ptr)) {
-			best_ptr = current_ptr;
-			best_needle = needle[n];
-			
-			// Bail out early if needle is right at start of haystack.
-			// Can't get any better than that.
-			if(best_ptr == haystack) break;
+	for(; *haystack != '\0'; ++haystack) {
+		for(int f = 0; match_func[f] != NULL; ++f) {
+			if(match_func[f](haystack)) {
+				if(result_ptr != NULL) *result_ptr = (char*)haystack;
+				return f;
+			}
 		}
 	}
-	
-	if(result_ptr != NULL) *result_ptr = best_ptr;
-	if(result_needle != NULL) *result_needle = best_needle;
+
+	if(result_ptr != NULL) *result_ptr = NULL;
+	return -1;
 }
 
 const char* str_starts_with(const char *const haystack, const char *const needle) {
