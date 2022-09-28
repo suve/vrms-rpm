@@ -21,7 +21,7 @@ _vrms_rpm() {
 	local opts="--ascii --colour --describe --explain --help --image --licence-list --list --version"
 
 	if [[ "$prev" == "--color" ]] || [[ "$prev" == "--colour" ]]; then
-		local colourmodes="yes no auto"
+		local colourmodes="auto always never"
 		COMPREPLY=( $(compgen -W "$colourmodes" -- "$curr") )
 	elif [[ "$prev" == "--licence-list" ]] || [[ "$prev" == "--license-list" ]]; then
 		# If the current argument looks like a file path, suggest something from the file system

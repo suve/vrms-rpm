@@ -91,7 +91,7 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: gagal membaca daftar lisensi baik dari \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: argumen untuk opsi --colour harus salah satu dari 'no', 'yes', atau 'auto'\n"
+msgstr "vrms-rpm: argumen untuk opsi --colour harus salah satu dari 'never', 'always', atau 'auto'\n"
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: argumen untuk opsi --evra harus salah satu dari 'never', 'always', atau 'auto'\n"

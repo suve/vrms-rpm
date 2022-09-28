@@ -92,7 +92,7 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: Fehler beim Lesen der Liste akzeptierter Lizenzen von \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: Option --colour benötigt eines der Argumente 'no', 'yes', oder 'auto'\n"
+msgstr "vrms-rpm: Option --colour benötigt eines der Argumente 'never', 'always', oder 'auto'\n"
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: Option --evra benötigt eines der Argumente 'never', 'always' oder 'auto'\n"

@@ -36,7 +36,7 @@ Affiche de l'ASCII-art quand aucun logiciel non-libre n'est trouvé,
 ou quand les logiciels non-libres composent 10% ou plus du total.
 
 .TP
-\fB\-\-colour\fR
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Contrôle l'utilisation ou non de caractères d'échappement de terminal
 pour coloriser la sortie. Par défaut la valeur est '\fIauto\fR', et la
 sortie est automatiquement colorisée si elle est directement affichée

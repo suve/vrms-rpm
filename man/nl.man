@@ -38,7 +38,7 @@ of wanneer er minder dan 10% van het totaal
 aan propriëtaire pakketen gevonden zijn.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Beslist of er terminal escape sequences gebruikt moeten worden voor het
 kleuren van de uitvoer.
 Standaard is '\fIauto\fR', die gekleurde uitvoer gebruikt wanneer er

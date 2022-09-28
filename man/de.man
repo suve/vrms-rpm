@@ -37,7 +37,7 @@ wurden oder wenn propritäre Pakete 10% oder mehr der gesamten
 Pakete ausmachen.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Bestimmt ob Terminal Escape-Sequenzen für die Einfäbung der Ausgabe
 verwendet werden sollen. Standard ist 'auto', was Farben beim Schreiben
 ins Terminal verwendet, aber nicht beim Schreiben in eine Datei oder Pipe.

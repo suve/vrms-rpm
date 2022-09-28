@@ -35,7 +35,7 @@ Tampilkan rms ASCII-art ketika tidak ditemukan paket non-free,
 atau ketika terdapat paket non-free lebih dari 10% dari total.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Mengontrol apakah terminal escape sequences dipergunakan untuk mewarnai output.
 Nilai defaultnya 'auto', yang mana menggunakan output berwarna ketika menulis di terminal,
 tetapi tidak berlaku apabila menulis di file atau pipe.

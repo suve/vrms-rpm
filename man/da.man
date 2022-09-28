@@ -36,7 +36,7 @@ Vis rms ASCII-kunst når ingen ikke-fri software er fundet,
 eller når ikke-fri software er 10%% eller mere af total.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Styrrer om terminal escape sekvens skal bruges til at farve output.
 Standardinstillingen er '\fIauto\fR', som bruger farvet output når der bliver
 skrevet i terminalen, men ikke når der bliver skrevet til en fil eller pipe.

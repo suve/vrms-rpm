@@ -37,7 +37,7 @@ Muestra arte ASCII de rms cuando no se encuentra ningún paquete privado,
 o cuando los paquetes privados son un 10% o más del total.
 
 .TP
-\fB\-\-explain\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Controla si la terminal debería de usar sequencias de escape
 para imprimir colores. El predefinido es 'auto', que utiliza colores
 cuando se imprime en la terminal, sólo si no se redirecciona a un archivo o a

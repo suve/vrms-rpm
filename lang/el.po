@@ -92,7 +92,7 @@ msgstr "vrms-rpm: αποτυχία διαβάσματος της λίστας τ
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: το όρισμα της επιλογής --colour πρέπει να είναι ένα\n"
-       "    από τα 'no', 'yes', ή 'auto'\n"
+       "    από τα 'never', 'always', ή 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: το όρισμα της επιλογής --list πρέπει να είναι ένα από\n"

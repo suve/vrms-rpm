@@ -100,7 +100,7 @@ msgstr "vrms-rpm: не удалось прочитать список допус
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: аргумент для флага --colour может быть\n"
-       "одним из следующих значений: 'no', 'yes', или 'auto'\n"
+       "одним из следующих значений: 'never', 'always', или 'auto'\n"
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: аргумент для опции --evra может быть одним\n"

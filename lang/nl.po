@@ -101,7 +101,7 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties van \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: het argument voor de --colour optie moet 'no', 'yes', of 'auto' zijn\n"
+msgstr "vrms-rpm: het argument voor de --colour optie moet 'never', 'always', of 'auto' zijn\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "      vrms-rpm:\n"

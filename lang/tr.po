@@ -92,7 +92,7 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: iyi lisanslar listesini şurdan okuma başarısız oldu \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: --colour seçeneğinin parametreleri 'no', 'yes', veya\n"
+msgstr "vrms-rpm: --colour seçeneğinin parametreleri 'never', 'always', veya\n"
        "'auto' seçeneklerinden biri olmalı.\n"
 
 msgid "ERR_BADOPT_LIST\n"

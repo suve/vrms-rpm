@@ -89,7 +89,7 @@ msgstr "vrms-rpm: det lykkedes ikke at læse listen af gode licenser\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: argumentet til --colour valgmuligheden skal være en af\n"
-       "'no', 'yes', eller 'auto'\n"
+       "'never', 'always', eller 'auto'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: argumentet til --list valgmuligheden skal være en af\n"

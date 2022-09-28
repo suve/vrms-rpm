@@ -37,7 +37,7 @@ Mostra una ASCII-art di rms quando non esiste nessun pacchetto libero
 o quando i pacchetti non liberi sono più del 10% del totale.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Determina se utilizzare sequenze di escaping del terminale per
 colorare l'output.
 Il valore predefinito è '\fIauto\fR', che colora l'output quando

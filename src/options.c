@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018-2021 Artur "suve" Iwicki
+ * Copyright (C) 2018-2022 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2020 Jan Drögehoff
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,9 +28,9 @@
 static void print_help(void);
 
 
-#define OPT_COLOUR_NO   0
-#define OPT_COLOUR_YES  1
-#define OPT_COLOUR_AUTO 2
+#define OPT_COLOUR_NEVER  0
+#define OPT_COLOUR_ALWAYS 1
+#define OPT_COLOUR_AUTO   2
 
 int opt_colour = OPT_COLOUR_AUTO;
 int opt_describe = 0;
@@ -123,7 +123,7 @@ void options_parse(int argc, char **argv) {
 	
 	if(opt_colour == OPT_COLOUR_AUTO) {
 		if (getenv("NO_COLOR") != NULL) {
-			opt_colour = OPT_COLOUR_NO;
+			opt_colour = OPT_COLOUR_NEVER;
 		} else {
 			opt_colour = isatty(fileno(stdout));
 		}
@@ -132,13 +132,16 @@ void options_parse(int argc, char **argv) {
 
 #define arg_eq(str)  (strcmp((str), optarg) == 0)
 
+// In the help text, we state that the only allowed values are "auto", "always" and "never".
+// However, previous versions of the program used "yes" instead of "always", and "no" instead of "never".
+// Keep support for these in the name of backwards-compatibility.
 static void parseopt_colour(void) {
 	if(arg_eq("auto")) {
 		opt_colour = OPT_COLOUR_AUTO;
-	} else if(arg_eq("no")) {
-		opt_colour = OPT_COLOUR_NO;
-	} else if(arg_eq("yes")) {
-		opt_colour = OPT_COLOUR_YES;
+	} else if(arg_eq("never") || (arg_eq("no"))) {
+		opt_colour = OPT_COLOUR_NEVER;
+	} else if(arg_eq("always") || arg_eq("yes")) {
+		opt_colour = OPT_COLOUR_ALWAYS;
 	} else {
 		lang_fprint(stderr, MSG_ERR_BADOPT_COLOUR);
 		exit(EXIT_FAILURE);
@@ -179,7 +182,7 @@ static void print_help(void) {
 	puts("  --ascii");
 	lang_print(MSG_HELP_OPTION_ASCII);
 	
-	puts("  --colour <auto, no, yes>");
+	puts("  --colour <auto, never, always>");
 	lang_print(MSG_HELP_OPTION_COLOUR);
 	
 	puts("  --describe");

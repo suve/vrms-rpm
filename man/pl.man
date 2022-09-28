@@ -38,7 +38,7 @@ Wyświetl ASCII-art rmsa gdy nie zostaną znalezione żadne nie-wolne paczki,
 lub gdy nie-wolne paczki stanowią co najmniej 10% całości.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Pozwala określić, czy program powinien używać sekwencji modyfikujących terminala
 dla kolorowania tekstu wyjściowego. Domyślną wartością tej opcji jest '\fIauto\fR',
 która powoduje użycie kolorowania wyjścia podczas zapisu do terminala,

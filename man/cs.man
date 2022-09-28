@@ -36,7 +36,7 @@ Zobrazit rms ASCII-art pokud nejsou nalezeny nesvobodné balíčky
 nebo pokud je nesvobodných balíčků více než 10%.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Určuje, jestli použít terminálové escape sekvence pro obarvení výstupu.
 Výchozí nastavení je '\fIauto\fR', což znamená že barvy budou použity při
 výstupu na terminál, ale nikoli při výstupu do souboru nebo roury.

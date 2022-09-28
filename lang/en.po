@@ -91,7 +91,7 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: failed to read list of good licences from \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: argument to --colour option must be one of 'no', 'yes', or 'auto'\n"
+msgstr "vrms-rpm: argument to --colour option must be one of 'never', 'always', or 'auto'\n"
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: argument to --evra option must be one of 'never', 'always', or 'auto'\n"

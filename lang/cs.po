@@ -93,7 +93,7 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: nelze přečíst seznam dobrých licencí z \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: hodnota parametru --colour musí být jedna z 'no', 'yes', or 'auto'\n"
+msgstr "vrms-rpm: hodnota parametru --colour musí být jedna z 'never', 'always', or 'auto'\n"
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: hodnota parametru --evra musí být jedna z 'never', 'always', or 'auto'\n"

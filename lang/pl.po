@@ -96,7 +96,7 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: odczytanie listy licencji z \"%s\" nie powiodło się: %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: dozwolone argumenty do opcji --colour to 'no', 'yes', oraz 'auto'\n"
+msgstr "vrms-rpm: dozwolone argumenty do opcji --colour to 'never', 'always', oraz 'auto'\n"
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --evra to 'never', 'always', oraz 'auto'\n"

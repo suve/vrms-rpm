@@ -35,7 +35,7 @@ Display rms ASCII-art when no non-free packages are found,
 or when non-free packages are 10% or more of the total.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Controls whether terminal escape sequences should be used for colourizing the output.
 Default is '\fIauto\fR', which uses colour output when writing to a terminal,
 but not when writing to a file or a pipe.

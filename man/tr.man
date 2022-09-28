@@ -36,7 +36,7 @@ Ozgur olmayan paket bulunmazsa veya ozgur olmayan paketler,
 %10 altındaysa rms ASCII-art göster.
 
 .TP
-\fB\-\-colour\fR <\fIauto\fR, \fIno\fR, \fIyes\fR>
+\fB\-\-colour\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
 Ciktiyi renklendirmek icin terminal kacis dizilerinin kullanip
 kullanmamasi gerektigini kontrol eder.
 Varsayilan degeri '\fIauto\fR'dur, bir dosyaya veya bir pipe'a yazarken renkli 
