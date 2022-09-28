@@ -1,5 +1,5 @@
 # bash-completion file for vrms-rpm
-# Copyright (C) 2018, 2020 Artur "suve" Iwicki
+# Copyright (C) 2018, 2020, 2022 suve (a.k.a. Artur Frenszek-Iwicki)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -18,11 +18,11 @@ _vrms_rpm() {
 
 	local curr="${COMP_WORDS[COMP_CWORD]}"
 	local prev="${COMP_WORDS[COMP_CWORD-1]}"
-	local opts="--ascii --colour --describe --explain --help --image --licence-list --list --version"
+	local opts="--ascii --colour --describe --evra --explain --help --image --licence-list --list --version"
 
-	if [[ "$prev" == "--color" ]] || [[ "$prev" == "--colour" ]]; then
-		local colourmodes="auto always never"
-		COMPREPLY=( $(compgen -W "$colourmodes" -- "$curr") )
+	if [[ "$prev" == "--color" ]] || [[ "$prev" == "--colour" ]] || [[ "$prev" == "--evra" ]]; then
+		local when="auto always never"
+		COMPREPLY=( $(compgen -W "$when" -- "$curr") )
 	elif [[ "$prev" == "--licence-list" ]] || [[ "$prev" == "--license-list" ]]; then
 		# If the current argument looks like a file path, suggest something from the file system
 		# Otherwise suggest something from the built-in licence lists
