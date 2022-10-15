@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1 "2018-10-30"
+.TH VRMS-RPM 1 "2022-10-15"
 .SH NOMBRE
 vrms-rpm - informa sobre el software privado instalado
 
@@ -46,6 +46,11 @@ un pipe.
 .TP
 \fB\-\-describe\fR
 Cuando enlistas paquetes, incluye el resumen de los paquetes (descripción corta).
+
+.TP
+\fB\-\-evra\fR <\fIauto\fR, \fInever\fR, \fIalways\fR>
+Además de los nombres de los paquetes, imprima también su epoch:version-release.arch.
+El valor predeterminado es '\fIauto\fR', que hace esto solo cuando se encuentran varios paquetes con el mismo nombre.
 
 .TP
 \fB\-\-explain\fR
