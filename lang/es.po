@@ -9,7 +9,7 @@ msgstr ""
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
 msgid "TRANSLATION_AUTHOR\n"
 msgstr "Traducción al Español por Mr. Outis\n"
-mgstr "Traducción al Español por Natalie Stroud\n"
+msgstr "Traducción al Español por Natalie Stroud\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
@@ -41,10 +41,12 @@ msgstr "    Controla si la terminal debería de usar sequencias de escape\n"
        "    redirecciona a un archivo o a un pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
-msgstr "    Al listar paquetes, incluya los resúmenes de paquetes (descripciones breves).\n"
+msgstr "    Al listar paquetes, incluya los resúmenes de paquetes (descripciones\n
+ breves).\n"
 
 msgid "HELP_OPTION_EVRA\n"
-msgstr "    Además de los nombres de los paquetes, imprima también su epoch:version-release.arch.\n"
+msgstr "    Además de los nombres de los paquetes, imprima también su\n
+ epoch:version-release.arch.\n"
        "    El valor predeterminado es 'auto', lo que hace esto sólo para los paquetes que comparten un nombre.\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
