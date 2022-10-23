@@ -8,8 +8,7 @@ msgstr ""
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
 msgid "TRANSLATION_AUTHOR\n"
-msgstr "Traducción al Español por Mr. Outis\n"
-msgstr "Traducción al Español por Natalie Stroud\n"
+msgstr "Traducción al Español por Mr. Outis y Natalie Stroud\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
@@ -41,13 +40,13 @@ msgstr "    Controla si la terminal debería de usar sequencias de escape\n"
        "    redirecciona a un archivo o a un pipe.\n"
 
 msgid "HELP_OPTION_DESCRIBE\n"
-msgstr "    Al listar paquetes, incluya los resúmenes de paquetes (descripciones\n
- breves).\n"
+msgstr "    Al listar paquetes, incluya los resúmenes de paquetes (descripciones\n"
+       "    breves).\n"
 
 msgid "HELP_OPTION_EVRA\n"
-msgstr "    Además de los nombres de los paquetes, imprima también su\n
- epoch:version-release.arch.\n"
-       "    El valor predeterminado es 'auto', lo que hace esto sólo para los paquetes que comparten un nombre.\n"
+msgstr "    Además de los nombres de los paquetes, imprima también su\n"
+       "    epoch:version-release.arch. El valor predeterminado es 'auto', \n"
+       "    lo que hace esto sólo para los paquetes que comparten un nombre.\n"
 
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Cuando enlistas paquetes, muestra sus licencias\n"
