@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 #
 # vrms-rpm - list non-free packages on an rpm-based Linux distribution
-# Copyright (C) 2018 Artur "suve" Iwicki
+# Copyright (C) 2018, 2023 "suve" (a.k.a. Artur Frenszek-Iwicki)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -31,33 +31,33 @@ if [ "$#" -eq 0 ]; then
 fi
 
 while getopts 'd:l:p:' OPTNAME; do
-	case "$OPTNAME" in
+	case "${OPTNAME}" in
 		d)
-			default_licence_list=$OPTARG
+			default_licence_list="${OPTARG}"
 		;;
 		
 		l)
-			licence_lists=$OPTARG
+			licence_lists="${OPTARG}"
 		;;
 		
 		p)
-			install_prefix=$OPTARG
+			install_prefix="${OPTARG}"
 		;;
 		
 		*)
-			echo "Unknown option '$OPTNAME'"
+			echo "Unknown option '${OPTNAME}'"
 			exit 1
 		;;
 	esac
 done
 
-if [ "$default_licence_list" == "" ] || [ "$install_prefix" == "" ] || [ "$licence_lists" == "" ]; then
+if [ "${default_licence_list}" = "" ] || [ "${install_prefix}" = "" ] || [ "${licence_lists}" = "" ]; then
 	print_usage
 	exit 1
 fi
 
 # Converts the list from "a b c" to "'a', 'b', 'c'", nicely wrapped to 76 columns and then indented by four spaces (so it fits in 80 columns).
-licence_lists=$(echo "$licence_lists" | sed -e 's|\([^ ]*\)|'"'\1\'"'|g' -e 's| |, |g' | fold --spaces --width 76 | tr $'\n' '$' | head --bytes=-1 | sed -e 's|\$|\\n    |g')
+licence_lists=$(echo "${licence_lists}" | sed -e 's|\([^ ]*\)|'"'\1\'"'|g' -e 's| |, |g' | fold --spaces --width 76 | tr '\n' '$' | head --bytes=-1 | sed -e 's|\$|\\n    |g')
 
 cat <<EOF
 /**
@@ -80,10 +80,10 @@ cat <<EOF
 #define VRMS_RPM_CONFIG_H
 
 #define INSTALL_DIR  "${install_prefix}/share/suve/vrms-rpm"
-#define INSTALL_PREFIX  "$install_prefix"
+#define INSTALL_PREFIX  "${install_prefix}"
 
-#define ALL_LICENCE_LISTS  "$licence_lists"
-#define DEFAULT_LICENCE_LIST  "$default_licence_list"
+#define ALL_LICENCE_LISTS  "${licence_lists}"
+#define DEFAULT_LICENCE_LIST  "${default_licence_list}"
 
 #endif
 EOF

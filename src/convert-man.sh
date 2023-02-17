@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # vrms-rpm - list non-free packages on an rpm-based Linux distribution
 # Copyright (C) 2018, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
@@ -25,18 +25,17 @@ print_usage() {
 
 # TODO: Would be great to match and replace everything at once instead of calling this multiple times.
 replace_string() {
-	cp "$1" "$1.bak"
+	cp "${1}" "${1}.bak"
 	(
-		IFS=$'\n'
 		while read -r line; do
-			if [ "$line" == "$2" ]; then
-				echo "$3"
+			if [ "${line}" = "${2}" ]; then
+				echo "${3}"
 			else
-				echo "$line"
+				echo "${line}"
 			fi
 		done
-	) < "$1.bak" > "$1"
-	rm "$1.bak"
+	) < "${1}.bak" > "${1}"
+	rm "${1}.bak"
 }
 
 default_licence_list=""
@@ -50,37 +49,37 @@ if [ "$#" -eq 0 ]; then
 fi
 
 while getopts 'd:f:l:p:' OPTNAME; do
-	case "$OPTNAME" in
+	case "${OPTNAME}" in
 		d)
-			default_licence_list=$OPTARG
+			default_licence_list="${OPTARG}"
 		;;
 		
 		f)
-			file=$OPTARG
+			file="${OPTARG}"
 		;;
 		
 		l)
-			licence_lists=$OPTARG
+			licence_lists="${OPTARG}"
 		;;
 		
 		p)
-			install_prefix=$OPTARG
+			install_prefix="${OPTARG}"
 		;;
 		
 		*)
-			echo "Unknown option '$OPTNAME'"
+			echo "Unknown option '${OPTNAME}'"
 			exit 1
 		;;
 	esac
 done
 
-if [ "$default_licence_list" == "" ] || [ "$file" == "" ] || [ "$install_prefix" == "" ] || [ "$licence_lists" == "" ]; then
+if [ "${default_licence_list}" = "" ] || [ "${file}" = "" ] || [ "${install_prefix}" = "" ] || [ "${licence_lists}" = "" ]; then
 	print_usage
 	exit 1
 fi
 
 # Converts the list from "a b c" to "'\fIa\fR', '\fIb\fR', '\fIc\fR'", so it looks nice when the man page is viewed
-licence_lists=$(echo "$licence_lists .br" | sed -e 's|\([^ ]*\) |.br\n\\(bu \1\n|g')
+licence_lists=$(echo "${licence_lists} .br" | sed -e 's|\([^ ]*\) |.br\n\\(bu \1\n|g')
 
-replace_string "$file" "__BUNDLED_LICENCE_LISTS__" "$licence_lists"
-replace_string "$file" "__DEFAULT_LICENCE_LIST__" "\"\\fI$default_licence_list\\fR\"."
+replace_string "${file}" "__BUNDLED_LICENCE_LISTS__" "${licence_lists}"
+replace_string "${file}" "__DEFAULT_LICENCE_LIST__" "\"\\fI${default_licence_list}\\fR\"."
