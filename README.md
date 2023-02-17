@@ -31,7 +31,7 @@ $ dnf install vrms-rpm
 ----------
 - `bash`, as there are some shell scripts used during the build process
 
-- `awk`, `sed` - used in the aforementioned shell scripts
+- `sed` - used in the aforementioned shell scripts
 
 - `make`, for simplifying the build & install process
 
