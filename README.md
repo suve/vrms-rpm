@@ -19,7 +19,7 @@ complicate matters. After all, removing code is hard.
 
 **Installing from a repository**
 ----------
-[![Packaging status](https://repology.org/badge/vertical-allrepos/vrms-rpm.svg?minversion=2.1)](https://repology.org/metapackage/vrms-rpm)    
+[![Packaging status](https://repology.org/badge/vertical-allrepos/vrms-rpm.svg?exclude_unsupported=true&minversion=2.2)](https://repology.org/metapackage/vrms-rpm)    
 Fedora users can install *vrms-rpm* from the official distro repository.
 RHEL/CentOS users can get the package from the Fedora EPEL repositories.
 ```
@@ -54,7 +54,7 @@ and what the licence tags should be written as (e.g. "GPLv2" vs "GPL-2.0"),
 
 These are:
 
-- `fedora` - a list created in accordance to the [Fedora Wiki](https://fedoraproject.org/wiki/Licensing:Main#Good_Licenses).
+- `fedora` - a list created in accordance to the [Fedora Allowed License list](https://docs.fedoraproject.org/en-US/legal/allowed-licenses/).
 
 - `spdx-fsf-and-osi` - a list created in accordance to the [SPDX licence list](https://spdx.org/licenses/). Includes only licences marked as both "FSF free/libre" and "OSI approved".
 
