@@ -1,7 +1,7 @@
 #
 # Makefile for vrms-rpm
 # Copyright (C) 2017 Marcin "dextero" Radomski
-# Copyright (C) 2018-2022 suve (a.k.a. Artur Frenszek-Iwicki)
+# Copyright (C) 2018-2023 suve (a.k.a. Artur Frenszek-Iwicki)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -133,7 +133,7 @@ build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 
 build/licences/%.txt: licences/%.txt
 	mkdir -p "$(dir $@)"
-	cat "$<" | LC_COLLATE=C sort --ignore-case | uniq > "$@"
+	LC_COLLATE=C sort --ignore-case < "$<" | uniq > "$@"
 
 build/%.o: src/%.c src/config.h
 	mkdir -p "$(dir $@)"

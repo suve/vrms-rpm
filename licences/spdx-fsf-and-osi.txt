@@ -10,6 +10,7 @@ APSL-2.0
 Apache-1.1
 Apache-2.0
 Artistic-2.0
+BSD-2-Clause
 BSD-3-Clause
 BSL-1.0
 CDDL-1.0
@@ -56,6 +57,7 @@ OSL-1.0
 OSL-2.0
 OSL-2.1
 OSL-3.0
+PHP-3.01
 Python-2.0
 QPL-1.0
 RPSL-1.0
@@ -63,6 +65,8 @@ SISSL
 SPL-1.0
 Sleepycat
 UPL-1.0
+Unlicense
 W3C
 ZPL-2.0
+ZPL-2.1
 Zlib
