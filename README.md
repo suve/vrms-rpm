@@ -132,12 +132,23 @@ see `IMAGE-CREDITS.txt` for details.
 
 **Contributing**
 ----------
- 1. Make a new branch for your changes.
+Whether you'd like to report an issue with the program or submit a patch,
+you can do so on [GitHub](https://github.com/suve/vrms-rpm/) or via e-mail.
+
+When sending patches, please keep in mind the following:
+
+ 1. When modifying program options, remember to update the `--help`
+    section and the man page(s).
  
- 2. When modifying program options, remember to update the --help section
-    and the man page(s).
+ 2. Use British spelling, when appropriate.
  
- 3. Use British spelling, when appropriate.
- 
- 4. By contributing, you agree for your work to be included under
+ 3. By contributing, you agree for your work to be included under
     the terms of the program licence.
+
+
+**Donating**
+----------
+If you'd like to support the development of this program financially,
+you can use the following methods:
+- [GitHub Sponsors](https://github.com/sponsors/suve/)
+- [Liberapay](https://liberapay.com/suve)
