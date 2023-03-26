@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -120,29 +120,32 @@ int str_compare_with_null_check(const char *first, const char *second, int(*comp
 	}
 }
 
+// Based on: https://en.wikipedia.org/wiki/Whitespace_character#Unicode
+static const char *const UnicodeSpaces[] = {
+	"\u00A0", // no-break space
+	"\u2000", // en quad
+	"\u2001", // em quad
+	"\u2002", // en space
+	"\u2003", // em space
+	"\u2004", // three-per-em space
+	"\u2005", // four-per-em space
+	"\u2006", // six-per-em space
+	"\u2007", // figure space
+	"\u2008", // punctuation space
+	"\u2009", // thin space
+	"\u200A", // hair space
+	"\u202F", // narrow no-break space
+	"\u205F", // medium mathematical space
+	"\u3000", // ideographic space
+};
+
+#define ARRAY_LENGTH(a) (sizeof(a) / sizeof(a[0]))
+
 size_t replace_unicode_spaces(char *text) {
 	size_t textlen = strlen(text);
 	
-	char* spaces[] = {
-		"\u00A0", // no-break space
-		"\u2000", // en quad
-		"\u2001", // em quad
-		"\u2002", // en space
-		"\u2003", // em space
-		"\u2004", // thrree-per-em space
-		"\u2005", // four-per-em space
-		"\u2006", // six-per-em space
-		"\u2007", // figure space
-		"\u2008", // punctuation space
-		"\u2009", // thin space
-		"\u200A", // hair space
-		"\u202F", // narrow no-break space
-		(char*)NULL
-	};
-	
-	int n = 0;
-	char *needle;
-	while((needle = spaces[n++]) != NULL) {
+	for(size_t i = 0; i < ARRAY_LENGTH(UnicodeSpaces); ++i) {
+		const char *const needle = UnicodeSpaces[i];
 		char *pos = strstr(text, needle);
 		if(pos == NULL) continue;
 		
