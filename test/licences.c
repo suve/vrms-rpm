@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../src/classifier-loose.h"
 #include "../src/licences.h"
 #include "../src/options.h"
 
@@ -47,7 +48,7 @@ int test_setup__licences(void **state) {
 
 	struct LicenceData *licences = licences_read();
 	assert_non_null(licences);
-	struct LicenceClassifier *classifier = licences_newClassifier(licences);
+	struct LicenceClassifier *classifier = classifier_newLoose(licences);
 	assert_non_null(classifier);
 
 	*state = classifier;

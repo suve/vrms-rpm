@@ -54,8 +54,6 @@ struct LicenceClassifier {
 extern struct LicenceData* licences_read(void);
 extern void licences_free(struct LicenceData *data);
 
-extern struct LicenceClassifier* licences_newClassifier(const struct LicenceData *data);
-
 extern void licence_freeTree(struct LicenceTreeNode *node);
 
 #endif

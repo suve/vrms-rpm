@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "classifiers.h"
 #include "fileutils.h"
 #include "lang.h"
 #include "licences.h"
@@ -57,7 +58,7 @@ int main(int argc, char *argv[]) {
 		lang_fprint(stderr, MSG_ERR_LICENCES_FAILED);
 		exit(EXIT_FAILURE);
 	}
-	struct LicenceClassifier *classifier = licences_newClassifier(licenses);
+	struct LicenceClassifier *classifier = classifier_newLoose(licenses);
 	if(classifier == NULL) {
 		// TODO: This needs its own error message
 		lang_fprint(stderr, MSG_ERR_LICENCES_FAILED);
