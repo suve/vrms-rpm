@@ -81,7 +81,7 @@ static int is_defined(const char *value) {
 	return strcmp(value, "(none)") != 0;
 }
 
-extern int packages_read(struct Pipe *pipe, struct LicenceData *licenceData) {
+extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
 	if(init_buffers() != 0) return -1;
 	sorted = 0;
 
@@ -117,7 +117,7 @@ extern int packages_read(struct Pipe *pipe, struct LicenceData *licenceData) {
 		version = chainbuf_append(&buffer, version);
 		release = chainbuf_append(&buffer, release);
 
-		struct LicenceTreeNode *classification = licence_classify(licenceData, licence);
+		struct LicenceTreeNode *classification = classifier->classify(classifier, licence);
 		class_count[classification->is_free] += 1;
 		
 		struct Package pkg = {

@@ -43,10 +43,19 @@ struct LicenceTreeNode {
 	};
 };
 
+struct LicenceClassifier {
+	const struct LicenceData *data;
+	void *private;
+
+	struct LicenceTreeNode* (*classify)(struct LicenceClassifier *self, char *licence);
+	void (*free)(struct LicenceClassifier *self);
+};
+
 extern struct LicenceData* licences_read(void);
 extern void licences_free(struct LicenceData *data);
 
-extern struct LicenceTreeNode* licence_classify(struct LicenceData *data, char *licence);
+extern struct LicenceClassifier* licences_newClassifier(const struct LicenceData *data);
+
 extern void licence_freeTree(struct LicenceTreeNode *node);
 
 #endif

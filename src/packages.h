@@ -22,7 +22,7 @@
 #include "pipes.h"
 
 extern struct Pipe* packages_openPipe(void);
-extern int packages_read(struct Pipe *pipe, struct LicenceData *licences);
+extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier);
 
 extern void packages_getcount(int *free, int *nonfree);
 extern void packages_list(void);
