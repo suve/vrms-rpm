@@ -34,8 +34,6 @@
 extern char *argv_zero;
 
 int test_setup__licences(void **state) {
-	UNUSED(state);
-
 	// Create the path to the test licence list.
 	// Assumes that the test-suite executable is inside build/.
 	char buffer[1024];
@@ -46,15 +44,15 @@ int test_setup__licences(void **state) {
 	strcpy(buffer + buflen, "/test/licences.txt");
 
 	opt_licencelist = buffer;
-	assert_int_not_equal(licences_read(), -1);
+
+	*state = licences_read();
+	assert_non_null(*state);
 
 	return 0;
 }
 
 int test_teardown__licences(void **state) {
-	UNUSED(state);
-
-	licences_free();
+	licences_free(*state);
 	opt_licencelist = NULL;
 	return 0;
 }
@@ -103,7 +101,7 @@ static void assert_ltn_equal(const struct LicenceTreeNode *actual, const struct 
 // The licence text must be writable, hence we use the buffer[] trick.
 #define testcase(text, expected) do{ \
 	char buffer[] = (text); \
-	struct LicenceTreeNode *ltn = licence_classify(buffer); \
+	struct LicenceTreeNode *ltn = licence_classify(*state, buffer); \
 	assert_non_null(ltn); \
 	if((expected) != NULL) { \
 		assert_ltn_equal(ltn, (expected), __FILE__, __LINE__); \
@@ -114,8 +112,6 @@ static void assert_ltn_equal(const struct LicenceTreeNode *actual, const struct 
 
 // Test license strings that evaluate to a single licence.
 void test__licences_single(void **state) {
-	UNUSED(state);
-
 	// Test some simple good licences.
 	{
 		struct LicenceTreeNode *expected;
@@ -148,8 +144,6 @@ void test__licences_single(void **state) {
 
 // Test licence strings that evaluate to a single-level and/or chain.
 void test__licences_one_level(void **state) {
-	UNUSED(state);
-
 	// Test some simple "A or B" licences.
 	{
 		struct LicenceTreeNode *first, *second, *expected;
@@ -242,8 +236,6 @@ void test__licences_one_level(void **state) {
 
 // Test licence strings that evaluate to a tree.
 void test__licences_tree(void **state) {
-	UNUSED(state);
-
 	// Test some complex licences with parentheses.
 	{
 		struct LicenceTreeNode *left;
@@ -423,8 +415,6 @@ void test__licences_tree(void **state) {
 
 // Test some licence strings with spurious parentheses
 void test__licences_extra_parentheses(void **state) {
-	UNUSED(state);
-
 	{
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 1, "Good");
@@ -452,8 +442,6 @@ void test__licences_extra_parentheses(void **state) {
 
 // Test whether joiners ("and"/"or") are case-insensitive
 void test__licences_case_insensitive_joiners(void **state) {
-	UNUSED(state);
-
 	{
 		struct LicenceTreeNode *first, *second, *expected;
 		make_ltn_simple(first, 1, "Good");
@@ -505,8 +493,6 @@ void test__licences_case_insensitive_joiners(void **state) {
 }
 
 void test__licences_acceptable_suffixes(void **state) {
-	UNUSED(state);
-
 	{
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 1, "Good with acknowledgement");
@@ -543,8 +529,6 @@ void test__licences_acceptable_suffixes(void **state) {
 // We're mostly concerned about avoiding segfaults.
 // Trying to make sense out of the string is a secondary concern.
 void test__licences_mismatched_parentheses(void **state) {
-	UNUSED(state);
-
 	testcase("(Bad", NULL);
 	testcase("Bad)", NULL);
 	testcase("(", NULL);

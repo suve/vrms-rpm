@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -18,10 +18,11 @@
 #ifndef VRMS_RPM_PACKAGES_H
 #define VRMS_RPM_PACKAGES_H
 
+#include "licences.h"
 #include "pipes.h"
 
 extern struct Pipe* packages_openPipe(void);
-extern int packages_read(struct Pipe *pipe);
+extern int packages_read(struct Pipe *pipe, struct LicenceData *licences);
 
 extern void packages_getcount(int *free, int *nonfree);
 extern void packages_list(void);

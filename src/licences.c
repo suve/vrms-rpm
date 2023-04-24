@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2022 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2023 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,30 +27,7 @@
 #include "options.h"
 #include "stringutils.h"
 
-#define LIST_COUNT (list->used / sizeof(char*))
-static struct ReBuffer *list = NULL;
-static struct ChainBuffer *buffer = NULL;
-
-static struct ReBuffer *nodeBuf = NULL;
-
-static int init_buffers(void) {
-	if(list == NULL) {
-		list = rebuf_init();
-		if(list == NULL) return -1;
-	}
-
-	if(buffer == NULL) {
-		buffer = chainbuf_init();
-		if(buffer == NULL) return -1;
-	}
-
-	if(nodeBuf == NULL) {
-		nodeBuf = rebuf_init();
-		if(nodeBuf == NULL) return -1;
-	}
-
-	return 0;
-}
+#define LIST_COUNT(data) ((data)->list->used / sizeof(char*))
 
 static FILE* openfile(char *name) {
 	char buffer[512];
@@ -77,15 +54,32 @@ static int comparelicences(const void *A, const void *B) {
 	return strcasecmp(*a, *b);
 }
 
-static void licences_sort(void) {
-	qsort(list->data, LIST_COUNT, sizeof(char*), &comparelicences);
+static void licences_sort(struct LicenceData *data) {
+	qsort(data->list->data, LIST_COUNT(data), sizeof(char*), &comparelicences);
 }
 
-int licences_read(void) {
-	if(init_buffers() != 0) return -1;
+static struct LicenceData* licensedata_init(void) {
+	struct LicenceData *data = malloc(sizeof(struct LicenceData));
+	if(data == NULL) return NULL;
+
+	data->list = rebuf_init();
+	data->buffer = chainbuf_init();
+	data->nodeBuf = rebuf_init();
+
+	if((data->list == NULL) || (data->buffer == NULL) || (data->nodeBuf == NULL)) {
+		licences_free(data);
+		return NULL;
+	}
+
+	return data;
+}
+
+struct LicenceData* licences_read(void) {
+	struct LicenceData *result = licensedata_init();
+	if(result == NULL) return NULL;
 	
 	FILE *goodlicences = openfile(opt_licencelist);
-	if(goodlicences == NULL) return -1;
+	if(goodlicences == NULL) return NULL; // FIXME: Memory leak
 	
 	char linebuffer[256];
 	while(fgets(linebuffer, sizeof(linebuffer), goodlicences)) {
@@ -93,46 +87,38 @@ int licences_read(void) {
 		char *line;
 		line = trim(linebuffer, &line_len);
 		
-		char *insert_pos = chainbuf_append(&buffer, line);
-		if(insert_pos == NULL) return -1;
+		char *insert_pos = chainbuf_append(&result->buffer, line);
+		if(insert_pos == NULL) return NULL; // FIXME: Memory leak
 		
-		if(rebuf_append(list, &insert_pos, sizeof(char*)) == NULL) return -1;
+		if(rebuf_append(result->list, &insert_pos, sizeof(char*)) == NULL) return NULL; // FIXME: Memory leak
 	}
 	fclose(goodlicences);
-	
-	licences_sort();
-	return LIST_COUNT;
+
+	licences_sort(result);
+	return result;
 }
 
-void licences_free(void) {
-	if(list != NULL) {
-		rebuf_free(list);
-		list = NULL;
-	}
-
-	if(buffer != NULL) {
-		chainbuf_free(buffer);
-		buffer = NULL;
-	}
-
-	if(nodeBuf != NULL) {
-		rebuf_free(nodeBuf);
-		nodeBuf = NULL;
+void licences_free(struct LicenceData *data) {
+	if(data != NULL) {
+		rebuf_free(data->list);
+		chainbuf_free(data->buffer);
+		rebuf_free(data->nodeBuf);
+		free(data);
 	}
 }
 
-static int binary_search(const char *const value, const int minpos, const int maxpos) {
+static int binary_search(const struct LicenceData *data, const char *const value, const int minpos, const int maxpos) {
 	if(minpos > maxpos) return -1;
 	
 	const int pos = (minpos + maxpos) / 2;
-	const int cmpres = strcasecmp(value, ((char**)list->data)[pos]);
+	const int cmpres = strcasecmp(value, ((char**)data->list->data)[pos]);
 	
-	if(cmpres < 0) return binary_search(value, minpos, pos-1);
-	if(cmpres > 0) return binary_search(value, pos+1, maxpos);
+	if(cmpres < 0) return binary_search(data, value, minpos, pos-1);
+	if(cmpres > 0) return binary_search(data, value, pos+1, maxpos);
 	return pos;
 }
 
-static int is_free(char *licence) {
+static int is_free(const struct LicenceData *data, char *licence) {
 	const char *suffixes[] = {
 		" with acknowledgement",
 		" with advertising",
@@ -155,7 +141,7 @@ static int is_free(char *licence) {
 		(const char*)NULL
 	};
 	
-	int bs = binary_search(licence, 0, LIST_COUNT-1);
+	int bs = binary_search(data, licence, 0, LIST_COUNT(data)-1);
 	if(bs >= 0) return 1;
 	
 	// See if the licence ends with an acceptable suffix.
@@ -167,7 +153,7 @@ static int is_free(char *licence) {
 		const char oldchar = *sufpos;
 		*sufpos = '\0';
 		
-		bs = binary_search(licence, 0, LIST_COUNT-1);
+		bs = binary_search(data, licence, 0, LIST_COUNT(data)-1);
 		*sufpos = oldchar;
 		
 		// It's not possible for a licence string to have two valid suffixes,
@@ -256,9 +242,9 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 }
 
 // Helper macro: make a pointer to a LicenceTreeNode from the value located in the nodeBuf at given offset
-#define NODEBUFPTR(offset) ((struct LicenceTreeNode*)(((char*)nodeBuf->data) + (offset)))
+#define NODEBUFPTR(offset) ((struct LicenceTreeNode*)(((char*)data->nodeBuf->data) + (offset)))
 
-struct LicenceTreeNode* licence_classify(char* licence) {
+struct LicenceTreeNode* licence_classify(struct LicenceData *data, char* licence) {
 	enum LicenceTreeNodeType type;
 	while((type = detect_type(licence)) == LTNT_PARENTHESISED) {
 		size_t liclen = strlen(licence);
@@ -271,7 +257,7 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		if(node != NULL) {
 			node->type = LTNT_LICENCE;
 			node->licence = licence;
-			node->is_free = is_free(licence);
+			node->is_free = is_free(data, licence);
 		}
 		return node;
 	}
@@ -283,7 +269,7 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		NULL
 	};
 
-	const size_t bufStart = nodeBuf->used;
+	const size_t bufStart = data->nodeBuf->used;
 	int isFree = (type == LTNT_AND) ? 1 : 0;
 
 	int match;
@@ -295,20 +281,20 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		if(match < 0) {
 			size_t trimlen;
 			licence = trim_extra(licence, &trimlen, "()");
-			if(trimlen > 0) child = licence_classify(licence);
+			if(trimlen > 0) child = licence_classify(data, licence);
 		} else if(match == 1) {
 			*needle_pos = '\0';
 
 			size_t partlen;
 			char *part = trim(licence, &partlen);
-			if(partlen > 0) child = licence_classify(part);
+			if(partlen > 0) child = licence_classify(data, part);
 
 			licence = needle_pos + joiner_len;
 		} else {
 			char *closingparen = find_closing_paren(needle_pos);
 			if(closingparen != NULL) {
 				*closingparen = '\0';
-				child = licence_classify(needle_pos + 1);
+				child = licence_classify(data, needle_pos + 1);
 				licence = closingparen + 1;
 			} else {
 				licence = needle_pos + 1;
@@ -316,19 +302,19 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		}
 
 		if(child != NULL) {
-			if(rebuf_append(nodeBuf, &child, sizeof(struct LicenceTreeNode*)) == NULL) {
+			if(rebuf_append(data->nodeBuf, &child, sizeof(struct LicenceTreeNode*)) == NULL) {
 				// Appending failed. Free any child nodes allocated so far, and bail out.
-				for(size_t pos = bufStart; bufStart < nodeBuf->used; pos += sizeof(struct LicenceTreeNode*)) {
+				for(size_t pos = bufStart; bufStart < data->nodeBuf->used; pos += sizeof(struct LicenceTreeNode*)) {
 					licence_freeTree(NODEBUFPTR(pos));
 				}
-				nodeBuf->used = bufStart;
+				data->nodeBuf->used = bufStart;
 				return NULL;
 			}
 			isFree = (type == LTNT_AND) ? (isFree && child->is_free) : (isFree || child->is_free);
 		}
 	} while(match >= 0);
 
-	const size_t bufDataLen = nodeBuf->used - bufStart;
+	const size_t bufDataLen = data->nodeBuf->used - bufStart;
 	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + bufDataLen);
 	if(node != NULL) {
 		node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
@@ -338,7 +324,7 @@ struct LicenceTreeNode* licence_classify(char* licence) {
 		node->is_free = isFree;
 	}
 
-	nodeBuf->used = bufStart;
+	data->nodeBuf->used = bufStart;
 	return node;
 }
 

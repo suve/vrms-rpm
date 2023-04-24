@@ -51,13 +51,14 @@ int main(int argc, char *argv[]) {
 		lang_fprint(stderr, MSG_ERR_PIPE_OPEN_FAILED);
 		exit(EXIT_FAILURE);
 	}
-	
-	if(licences_read() < 0) {
+
+	struct LicenceData *licenses = licences_read();
+	if(licenses == NULL) {
 		lang_fprint(stderr, MSG_ERR_LICENCES_FAILED);
 		exit(EXIT_FAILURE);
 	}
 	
-	if(packages_read(rpmpipe) < 0) {
+	if(packages_read(rpmpipe, licenses) < 0) {
 		lang_fprint(stderr, MSG_ERR_PIPE_READ_FAILED);
 		exit(EXIT_FAILURE);
 	}
@@ -66,6 +67,6 @@ int main(int argc, char *argv[]) {
 	easteregg();
 	
 	packages_free();
-	licences_free();
+	licences_free(licenses);
 	return 0;
 }
