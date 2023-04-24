@@ -79,7 +79,7 @@ struct LicenceData* licences_read(void) {
 	if(result == NULL) return NULL;
 	
 	FILE *goodlicences = openfile(opt_licencelist);
-	if(goodlicences == NULL) return NULL; // FIXME: Memory leak
+	if(goodlicences == NULL) goto fail;
 	
 	char linebuffer[256];
 	while(fgets(linebuffer, sizeof(linebuffer), goodlicences)) {
@@ -88,14 +88,20 @@ struct LicenceData* licences_read(void) {
 		line = trim(linebuffer, &line_len);
 		
 		char *insert_pos = chainbuf_append(&result->buffer, line);
-		if(insert_pos == NULL) return NULL; // FIXME: Memory leak
+		if(insert_pos == NULL) goto fail;
 		
-		if(rebuf_append(result->list, &insert_pos, sizeof(char*)) == NULL) return NULL; // FIXME: Memory leak
+		if(rebuf_append(result->list, &insert_pos, sizeof(char*)) == NULL) goto fail;
 	}
 	fclose(goodlicences);
 
 	licences_sort(result);
 	return result;
+
+	fail: { // As seen in CVE-2014-1266!
+		if(goodlicences != NULL) fclose(goodlicences);
+		licences_free(result);
+		return NULL;
+	}
 }
 
 void licences_free(struct LicenceData *data) {
