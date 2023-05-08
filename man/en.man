@@ -56,6 +56,21 @@ When listing packages, display licences as to justify
 the free / non-free classification.
 
 .TP
+\fB\-\-grammar\fR <\fIloose\fR, \fIspdx\fR>
+Specifies the grammar rules used when parsing the license strings.
+.RS
+.TP
+.B loose
+Use an informal, loose grammar. This is the behaviour used by \fBvrms-rpm\fR
+v2.2 and earlier.
+.TP
+.B spdx
+Employ the SPDX License Expression rules.
+.TP
+The default value is '\fIloose\fR'.
+.RE
+
+.TP
 \fB\-\-help\fR
 Display a short help on program usage and exit.
 
@@ -84,12 +99,16 @@ Display version information and exit.
 
 .SH SEE ALSO
 .TP
-\fBhttps://fedoraproject.org/wiki/Licensing:Main#Good_Licenses\fR
+.B https://fedoraproject.org/wiki/Licensing:Main#Good_Licenses
 The Fedora Project wiki page on accepted software licences.
 
 .TP
-\fBhttps://spdx.org/licenses/\fR
+.B https://spdx.org/licenses/
 The SPDX licence list, an attempt at standarizing licence identifiers.
+
+.TP
+.B https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
+Document detailing the SPDX License Expression grammar.
 
 .SH LICENCE
 This program itself it available under the terms of the GNU General Public

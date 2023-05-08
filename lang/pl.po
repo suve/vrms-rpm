@@ -53,6 +53,13 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Podczas listowania paczek, wyświetlaj informacje o licencjach,\n"
        "    aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych.\n"
 
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Określa zestaw reguł gramatycznych używanych podczas analizowania licencji.\n"
+       "      * loose: Użyj luźnego zestawu nieformalnych reguł.\n"
+       "        Zachowanie kompatybilne z wersją programu v2.2 oraz starszymi.\n"
+       "      * spdx: Użyj gramatyki wyrażeń licencyjnych SPDX.\n"
+       "    Domyślna wartość to 'loose'.\n"
+
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Wyświetl krótką instrukcję obsługi programu i zakończ.\n"
 
@@ -100,6 +107,9 @@ msgstr "vrms-rpm: dozwolone argumenty do opcji --colour to 'never', 'always', or
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --evra to 'never', 'always', oraz 'auto'\n"
+
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: dozwolone argumenty do opcji --grammar to 'loose' oraz 'spdx'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --list to 'none', 'non-free', 'free' oraz 'all'\n"

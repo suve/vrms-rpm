@@ -43,6 +43,17 @@ static void easteregg(void) {
 	}
 }
 
+static struct LicenceClassifier* allocClassifier(const struct LicenceData *data) {
+	switch(opt_grammar) {
+		case OPT_GRAMMAR_LOOSE:
+			return classifier_newLoose(data);
+		case OPT_GRAMMAR_SPDX:
+			return classifier_newSPDX(data);
+		default:
+			return NULL; // Should Never Happen (TM)
+	}
+}
+
 int main(int argc, char *argv[]) {
 	lang_init();
 	options_parse(argc, argv);
@@ -58,7 +69,7 @@ int main(int argc, char *argv[]) {
 		lang_fprint(stderr, MSG_ERR_LICENCES_FAILED);
 		exit(EXIT_FAILURE);
 	}
-	struct LicenceClassifier *classifier = classifier_newLoose(licenses);
+	struct LicenceClassifier *classifier = allocClassifier(licenses);
 	if(classifier == NULL) {
 		// TODO: This needs its own error message
 		lang_fprint(stderr, MSG_ERR_LICENCES_FAILED);

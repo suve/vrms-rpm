@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018-2022 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018-2023 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2020 Jan Drögehoff
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ static void print_help(void);
 int opt_colour = OPT_COLOUR_AUTO;
 int opt_describe = 0;
 int opt_evra = OPT_EVRA_AUTO;
+int opt_grammar = OPT_GRAMMAR_LOOSE;
 int opt_explain = 0;
 int opt_image = OPT_IMAGE_NONE;
 int opt_list = OPT_LIST_NONFREE;
@@ -49,6 +50,7 @@ enum LongOpt {
 	LONGOPT_HELP = 1,
 	LONGOPT_COLOUR,
 	LONGOPT_EVRA,
+	LONGOPT_GRAMMAR,
 	LONGOPT_LICENCELIST,
 	LONGOPT_LIST,
 	LONGOPT_VERSION
@@ -56,6 +58,7 @@ enum LongOpt {
 
 static void parseopt_colour(void);
 static void parseopt_evra(void);
+static void parseopt_grammar(void);
 static void parseopt_list(void);
 
 void options_parse(int argc, char **argv) {
@@ -66,6 +69,7 @@ void options_parse(int argc, char **argv) {
 		{    "describe", ARG_NON, &opt_describe, 1 },
 		{        "evra", ARG_REQ, NULL, LONGOPT_EVRA },
 		{     "explain", ARG_NON, &opt_explain, 1 },
+		{     "grammar", ARG_REQ, NULL, LONGOPT_GRAMMAR },
 		{        "help", ARG_NON, NULL, LONGOPT_HELP },
 		{       "image", ARG_NON, &opt_image, OPT_IMAGE_ICAT },
 		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
@@ -94,7 +98,11 @@ void options_parse(int argc, char **argv) {
 			case LONGOPT_EVRA:
 				parseopt_evra();
 			break;
-			
+
+			case LONGOPT_GRAMMAR:
+				parseopt_grammar();
+			break;
+
 			case LONGOPT_LICENCELIST:
 				opt_licencelist = optarg;
 			break;
@@ -161,6 +169,17 @@ static void parseopt_evra(void) {
 	}
 }
 
+static void parseopt_grammar(void) {
+	if(arg_eq("loose")) {
+		opt_grammar = OPT_GRAMMAR_LOOSE;
+	} else if(arg_eq("spdx")) {
+		opt_grammar = OPT_GRAMMAR_SPDX;
+	} else {
+		lang_fprint(stderr, MSG_ERR_BADOPT_GRAMMAR);
+		exit(EXIT_FAILURE);
+	}
+}
+
 static void parseopt_list(void) {
 	if(arg_eq("all")) {
 		opt_list = OPT_LIST_FREE | OPT_LIST_NONFREE;
@@ -193,7 +212,10 @@ static void print_help(void) {
 
 	puts("  --explain");
 	lang_print(MSG_HELP_OPTION_EXPLAIN);
-	
+
+	puts("  --grammar <loose, spdx>");
+	lang_print(MSG_HELP_OPTION_GRAMMAR);
+
 	puts("  --help");
 	lang_print(MSG_HELP_OPTION_HELP);
 	
