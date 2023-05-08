@@ -17,6 +17,17 @@
 #ifndef VRMS_RPM_CLASSIFIERS_H
 #define VRMS_RPM_CLASSIFIERS_H
 
-#include "classifier-loose.h"
+#include "licences.h"
+
+struct LicenceClassifier {
+	const struct LicenceData *data;
+	void *private;
+
+	struct LicenceTreeNode* (*classify)(struct LicenceClassifier *self, char *licence);
+	void (*free)(struct LicenceClassifier *self);
+};
+
+extern struct LicenceClassifier* classifier_newLoose(const struct LicenceData *data);
+extern struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data);
 
 #endif

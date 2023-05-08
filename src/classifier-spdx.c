@@ -14,11 +14,28 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef VRMS_RPM_CLASSIFIER_LOOSE_H
-#define VRMS_RPM_CLASSIFIER_LOOSE_H
+#include <stdlib.h>
+#include <string.h>
 
+#include "classifiers.h"
 #include "licences.h"
 
-extern struct LicenceClassifier* classifier_newLoose(const struct LicenceData *data);
+static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *self, char *licence) {
+	return NULL; // TODO!
+}
 
-#endif
+static void spdx_free(struct LicenceClassifier *self) {
+	free(self);
+}
+
+struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data) {
+	struct LicenceClassifier *self = malloc(sizeof(struct LicenceClassifier));
+	if(self == NULL) return NULL;
+
+	self->data = data;
+	self->private = NULL;
+	self->classify = &spdx_classify;
+	self->free = &spdx_free;
+
+	return self;
+}

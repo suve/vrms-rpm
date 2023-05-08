@@ -25,8 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../src/classifier-loose.h"
-#include "../src/licences.h"
+#include "../src/classifiers.h"
 #include "../src/options.h"
 
 #define UNUSED(x) ((void)(x))

@@ -19,6 +19,7 @@
 #include <strings.h>
 
 #include "buffers.h"
+#include "classifiers.h"
 #include "licences.h"
 #include "stringutils.h"
 
