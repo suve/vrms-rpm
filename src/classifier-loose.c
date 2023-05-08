@@ -82,18 +82,6 @@ static int is_free(const struct LicenceData *data, char *licence) {
 	return 0;
 }
 
-static char* find_closing_paren(char *start) {
-	int depth = 1;
-	while(depth > 0) {
-		switch(*(++start)) {
-			case '(': ++depth; break;
-			case ')': --depth; break;
-			case '\0': return NULL;
-		}
-	}
-	return start;
-}
-
 static int is_opening_paren(const char *str) {
 	return *str == '(';
 }

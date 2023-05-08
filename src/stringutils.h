@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -44,6 +44,8 @@ extern const char* str_starts_with(const char *const haystack, const char *const
 extern char* str_ends_with(const char *const haystack, const char *const needle);
 
 extern int str_compare_with_null_check(const char *first, const char *second, int(*compare_func)(const char*, const char*));
+
+extern char* find_closing_paren(const char *str);
 
 extern size_t replace_unicode_spaces(char *str);
 

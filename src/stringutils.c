@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -118,6 +118,21 @@ int str_compare_with_null_check(const char *first, const char *second, int(*comp
 			return 0;
 		}
 	}
+}
+
+char* find_closing_paren(const char *str) {
+	if(*str != '(') return NULL;
+
+	unsigned int depth = 1;
+	while(depth > 0) {
+		switch(*(++str)) {
+			case '(': ++depth; break;
+			case ')': --depth; break;
+			case '\0': return NULL;
+		}
+	}
+
+	return (char*)str;
 }
 
 size_t replace_unicode_spaces(char *text) {
