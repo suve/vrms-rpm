@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2022 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -49,6 +49,7 @@ extern void test__str_match_first(void **state);
 extern void test__str_starts_with(void **state);
 extern void test__str_ends_with(void **state);
 extern void test__str_split(void **state);
+extern void test__str_squeeze_char(void **state);
 extern void test__trim(void **state);
 
 int main(int argc, char **argv) {
@@ -67,6 +68,7 @@ int main(int argc, char **argv) {
 		cmocka_unit_test(test__str_starts_with),
 		cmocka_unit_test(test__str_ends_with),
 		cmocka_unit_test(test__str_split),
+		cmocka_unit_test(test__str_squeeze_char),
 		cmocka_unit_test(test__trim),
 	};
 	failures += cmocka_run_group_tests(tests, NULL, NULL);

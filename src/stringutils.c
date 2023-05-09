@@ -46,6 +46,27 @@ char* trim(char *buffer, size_t *const length) {
 	return trim_extra(buffer, length, "");
 }
 
+size_t str_squeeze_char(char *str, const char needle) {
+	size_t len = strlen(str);
+	size_t pos = 0;
+	while(pos < len) {
+		if(str[pos] != needle) {
+			++pos;
+			continue;
+		}
+
+		size_t match_len = 1;
+		while(str[pos + match_len] == needle) ++match_len;
+
+		if(match_len > 1) {
+			memmove(str + pos + 1, str + pos + match_len, len - (pos + match_len) + 1);
+			len -= (match_len - 1);
+		}
+		++pos;
+	}
+	return len;
+}
+
 int str_split(char *const str, const char separator, char* *const fields, const int max_fields) {
 	fields[0] = str;
 	for(int i = 1; i < max_fields; ++i) fields[i] = NULL;

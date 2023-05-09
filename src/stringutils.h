@@ -31,6 +31,8 @@
 extern char* trim(char *buffer, size_t *const length);
 extern char* trim_extra(char *buffer, size_t *const length, const char *const extrachars);
 
+extern size_t str_squeeze_char(char *str, const char needle);
+
 extern int str_split(char *const str, const char separator, char* *const fields, const int max_fields);
 
 typedef int(*match_func_t)(const char*);
