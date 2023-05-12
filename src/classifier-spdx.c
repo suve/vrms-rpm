@@ -19,6 +19,96 @@
 
 #include "classifiers.h"
 #include "licences.h"
+#include "stringutils.h"
+
+enum DetectionState {
+	DT_SEARCHING,
+	DT_MATCH_START,
+	DT_FOUND_AND_A,
+	DT_FOUND_AND_N,
+	DT_FOUND_AND_D,
+	DT_FOUND_OR_O,
+	DT_FOUND_OR_R,
+};
+
+static enum LicenceTreeNodeType detect_type(const char *licence) {
+	int found_and = 0;
+	int found_or = 0;
+
+	enum DetectionState state = DT_SEARCHING;
+	while(1) {
+		const char c = *licence;
+		if(c == '\0') break;
+
+		if(c == '(') {
+			const char *closingParen = find_closing_paren(licence);
+			if(closingParen != NULL) {
+				licence = closingParen;
+				state = DT_MATCH_START;
+			} else {
+				state = DT_SEARCHING;
+			}
+			++licence;
+			continue;
+		}
+
+		switch(state) {
+			case DT_SEARCHING:
+				if(c == ' ') state = DT_MATCH_START;
+				++licence;
+			break;
+
+			case DT_MATCH_START:
+				if((c == 'a') || (c == 'A'))
+					state = DT_FOUND_AND_A;
+				else if((c == 'o') || (c == 'O'))
+					state = DT_FOUND_OR_O;
+				else if(c != ' ')
+					state = DT_SEARCHING;
+				++licence;
+			break;
+
+			case DT_FOUND_AND_A:
+				state = ((c == 'n') || (c == 'N')) ? DT_FOUND_AND_N : DT_SEARCHING;
+				++licence;
+			break;
+
+			case DT_FOUND_AND_N:
+				state = ((c == 'd') || (c == 'D')) ? DT_FOUND_AND_D : DT_SEARCHING;
+				++licence;
+			break;
+
+			case DT_FOUND_AND_D:
+				if((c == ' ') || (c == '(')) {
+					// Do not advance to next char so the parentheses-matching logic is not skipped.
+					found_and = 1;
+				} else {
+					++licence;
+				}
+				state = DT_SEARCHING;
+			break;
+
+			case DT_FOUND_OR_O:
+				state = ((c == 'r') || (c == 'R')) ? DT_FOUND_OR_R : DT_SEARCHING;
+				++licence;
+			break;
+
+			case DT_FOUND_OR_R:
+				if((c == ' ') || (c == '(')) {
+					// Do not advance to next char so the parentheses-matching logic is not skipped.
+					found_or = 1;
+				} else {
+					++licence;
+				}
+				state = DT_SEARCHING;
+			break;
+		}
+	}
+
+	if(found_or) return LTNT_OR;
+	if(found_and) return LTNT_AND;
+	return LTNT_LICENCE;
+}
 
 static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *self, char *licence) {
 	return NULL; // TODO!
