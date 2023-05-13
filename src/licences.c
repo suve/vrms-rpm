@@ -111,6 +111,23 @@ void licences_free(struct LicenceData *data) {
 	}
 }
 
+static int binary_search(const struct LicenceData *data, const char *const value, const int minpos, const int maxpos) {
+	if(minpos > maxpos) return -1;
+
+	const int pos = (minpos + maxpos) / 2;
+	const int cmpres = strcasecmp(value, ((char**)data->list->data)[pos]);
+
+	if(cmpres < 0) return binary_search(data, value, minpos, pos-1);
+	if(cmpres > 0) return binary_search(data, value, pos+1, maxpos);
+	return pos;
+}
+
+#define LIST_COUNT(data) ((data)->list->used / sizeof(char*))
+
+int licences_find(const struct LicenceData *data, const char *licence) {
+	return binary_search(data, licence, 0, LIST_COUNT(data)-1);
+}
+
 void licence_freeTree(struct LicenceTreeNode *node) {
 	if(node == NULL) return;
 

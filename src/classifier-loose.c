@@ -25,17 +25,6 @@
 
 #define LIST_COUNT(data) ((data)->list->used / sizeof(char*))
 
-static int binary_search(const struct LicenceData *data, const char *const value, const int minpos, const int maxpos) {
-	if(minpos > maxpos) return -1;
-	
-	const int pos = (minpos + maxpos) / 2;
-	const int cmpres = strcasecmp(value, ((char**)data->list->data)[pos]);
-	
-	if(cmpres < 0) return binary_search(data, value, minpos, pos-1);
-	if(cmpres > 0) return binary_search(data, value, pos+1, maxpos);
-	return pos;
-}
-
 static int is_free(const struct LicenceData *data, char *licence) {
 	const char *suffixes[] = {
 		" with acknowledgement",
@@ -59,8 +48,8 @@ static int is_free(const struct LicenceData *data, char *licence) {
 		(const char*)NULL
 	};
 	
-	int bs = binary_search(data, licence, 0, LIST_COUNT(data)-1);
-	if(bs >= 0) return 1;
+	int search = licences_find(data, licence);
+	if(search >= 0) return 1;
 	
 	// See if the licence ends with an acceptable suffix.
 	// This allows us some flexibility when it comes to classifying licences.
@@ -70,13 +59,13 @@ static int is_free(const struct LicenceData *data, char *licence) {
 		
 		const char oldchar = *sufpos;
 		*sufpos = '\0';
-		
-		bs = binary_search(data, licence, 0, LIST_COUNT(data)-1);
+
+		search = licences_find(data, licence);
 		*sufpos = oldchar;
 		
 		// It's not possible for a licence string to have two valid suffixes,
 		// so we can return now, without looking through the rest of the suffixes.
-		return bs >= 0;
+		return search >= 0;
 	}
 	
 	return 0;

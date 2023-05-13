@@ -21,7 +21,6 @@
 struct LicenceData {
 	struct ReBuffer *list;
 	struct ChainBuffer *buffer;
-	struct ReBuffer *nodeBuf;
 };
 
 enum LicenceTreeNodeType {
@@ -44,6 +43,7 @@ struct LicenceTreeNode {
 };
 
 extern struct LicenceData* licences_read(void);
+extern int licences_find(const struct LicenceData *data, const char *licence);
 extern void licences_free(struct LicenceData *data);
 
 extern void licence_freeTree(struct LicenceTreeNode *node);
