@@ -36,11 +36,14 @@ static enum LicenceTreeNodeType detect_type(const char *licence) {
 	int found_or = 0;
 
 	enum DetectionState state = DT_SEARCHING;
-	while(1) {
-		const char c = *licence;
-		if(c == '\0') break;
-
+	for(char c = *licence; c != '\0'; c = *(++licence)) {
 		if(c == '(') {
+			// Need to check this here, since this if() will get executed before the switch()
+			if(state == DT_FOUND_AND_D)
+				found_and = 1;
+			else if(state == DT_FOUND_OR_R)
+				found_or = 1;
+
 			const char *closingParen = find_closing_paren(licence);
 			if(closingParen != NULL) {
 				licence = closingParen;
@@ -48,14 +51,12 @@ static enum LicenceTreeNodeType detect_type(const char *licence) {
 			} else {
 				state = DT_SEARCHING;
 			}
-			++licence;
 			continue;
 		}
 
 		switch(state) {
 			case DT_SEARCHING:
 				if(c == ' ') state = DT_MATCH_START;
-				++licence;
 			break;
 
 			case DT_MATCH_START:
@@ -65,41 +66,27 @@ static enum LicenceTreeNodeType detect_type(const char *licence) {
 					state = DT_FOUND_OR_O;
 				else if(c != ' ')
 					state = DT_SEARCHING;
-				++licence;
 			break;
 
 			case DT_FOUND_AND_A:
 				state = ((c == 'n') || (c == 'N')) ? DT_FOUND_AND_N : DT_SEARCHING;
-				++licence;
 			break;
 
 			case DT_FOUND_AND_N:
 				state = ((c == 'd') || (c == 'D')) ? DT_FOUND_AND_D : DT_SEARCHING;
-				++licence;
 			break;
 
 			case DT_FOUND_AND_D:
-				if((c == ' ') || (c == '(')) {
-					// Do not advance to next char so the parentheses-matching logic is not skipped.
-					found_and = 1;
-				} else {
-					++licence;
-				}
+				if(c == ' ') found_and = 1;
 				state = DT_SEARCHING;
 			break;
 
 			case DT_FOUND_OR_O:
 				state = ((c == 'r') || (c == 'R')) ? DT_FOUND_OR_R : DT_SEARCHING;
-				++licence;
 			break;
 
 			case DT_FOUND_OR_R:
-				if((c == ' ') || (c == '(')) {
-					// Do not advance to next char so the parentheses-matching logic is not skipped.
-					found_or = 1;
-				} else {
-					++licence;
-				}
+				if(c == ' ') found_or = 1;
 				state = DT_SEARCHING;
 			break;
 		}
