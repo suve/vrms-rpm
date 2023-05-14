@@ -21,6 +21,12 @@
 #include "licences.h"
 #include "stringutils.h"
 
+// TODO: Handle "Licence+" (i.e. "or later version")
+// TODO: Handle "Licence WITH Exception"
+static int is_free(const struct LicenceData *data, char *licence) {
+	return licences_find(data, licence) >= 0;
+}
+
 enum DetectionState {
 	DT_SEARCHING,
 	DT_MATCH_START,
@@ -97,8 +103,32 @@ static enum LicenceTreeNodeType detect_type(const char *licence) {
 	return LTNT_LICENCE;
 }
 
-static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *self, char *licence) {
-	return NULL; // TODO!
+static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, char *licence) {
+	enum LicenceTreeNodeType type = detect_type(licence);
+	if(type == LTNT_LICENCE) {
+		// If the detected type is LICENCE, but we've got an opening parenthesis,
+		// then that means the whole string is parenthesised (e.g. "(text)" instead of "text").
+		if(*licence == '(') {
+			// Advance one char to skip the opening paren
+			++licence;
+			// Check the end of the string for the closing paren
+			size_t liclen = strlen(licence);
+			if(licence[liclen - 1] == ')') licence[liclen - 1] = '\0';
+			// Both parentheses have been stripped - try again.
+			return spdx_classify(class, licence);
+		}
+
+		struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode));
+		if(node != NULL) {
+			node->type = LTNT_LICENCE;
+			node->licence = licence;
+			node->is_free = is_free(class->data, licence);
+		}
+		return node;
+	}
+
+	// TODO: Handle AND/OR licences
+	return NULL;
 }
 
 static void spdx_free(struct LicenceClassifier *self) {
