@@ -141,6 +141,52 @@ int str_compare_with_null_check(const char *first, const char *second, int(*comp
 	}
 }
 
+int str_balance_parentheses(const char *input, char *buffer, const size_t bufSize, size_t *outputLen) {
+	size_t written = 0;
+	// Subtract one extra byte, so we have space for the NUL terminator
+	#define REMAINING (bufSize - written - 1)
+
+	// Holds the result, allows easily bailing out via goto
+	int ok = 0;
+
+	unsigned int depth = 0;
+	size_t inputLen;
+	{
+		const char *s;
+		for(s = input; *s != '\0'; ++s) {
+			if(*s == ')') {
+				if(depth == 0) {
+					// Mismatched parentheses: a ')' that doesn't have a preceding '('.
+					if(REMAINING == 0) goto terminateString;
+					buffer[written++] = '(';
+				} else {
+					--depth;
+				}
+			} else if(*s == '(') {
+				++depth;
+			}
+		}
+		inputLen = s - input;
+	}
+
+	if(inputLen > REMAINING) goto terminateString;
+	memcpy(buffer + written, input, inputLen);
+	written += inputLen;
+
+	// If depth is non-zero, that means we had '(' without matching ')'.
+	if(depth > 0) {
+		if(depth > REMAINING) goto terminateString;
+		while(depth-- > 0) buffer[written++] = ')';
+	}
+
+	ok = 1;
+	terminateString: {
+		buffer[written] = '\0';
+		*outputLen = written;
+		return ok;
+	}
+}
+
 char* find_closing_paren(const char *str) {
 	if(*str != '(') return NULL;
 

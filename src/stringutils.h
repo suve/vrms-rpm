@@ -47,6 +47,7 @@ extern char* str_ends_with(const char *const haystack, const char *const needle)
 
 extern int str_compare_with_null_check(const char *first, const char *second, int(*compare_func)(const char*, const char*));
 
+extern int str_balance_parentheses(const char *input, char *buffer, const size_t bufSize, size_t *written);
 extern char* find_closing_paren(const char *str);
 
 extern size_t replace_unicode_spaces(char *str);
