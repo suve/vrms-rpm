@@ -21,10 +21,42 @@
 #include "licences.h"
 #include "stringutils.h"
 
-// TODO: Handle "Licence+" (i.e. "or later version")
-// TODO: Handle "Licence WITH Exception"
 static int is_free(const struct LicenceData *data, char *licence) {
-	return licences_find(data, licence) >= 0;
+	if(licences_find(data, licence) >= 0) return 1;
+
+	// SPDX allows specifying additional rights ("licensing exceptions")
+	// through the use of the "WITH" operator.
+	// TODO: Allow this to be case-insensitive.
+	//       The spec mandates case-sensitivity, but we want to be lenient.
+	char* with = strstr(licence, " WITH ");
+	if(with != NULL) *with = '\0';
+
+	// SPDX allows specifying "or later version" by tacking a "+" to the licence name.
+	const size_t len = strlen(licence);
+	size_t plusPos = len;
+	char plusChar;
+	if((len > 0) && (licence[len - 1] == '+')) {
+		plusPos = len - 1;
+		plusChar = '+';
+		// The SPDX spec mandates no whitespace between LicenceName and '+',
+		// but we want to be lenient.
+		while((plusPos > 0) && (licence[plusPos - 1] == ' ')) {
+			plusPos -= 1;
+			plusChar = ' ';
+		}
+	}
+
+	// If we didn't find the "WITH" operator nor the "+" operator, bail out early.
+	if((plusPos >= len) && (with == NULL)) return 0;
+
+	// Try matching the licence name, stripped from the +/WITH parts, again.
+	int found = licences_find(data, licence);
+
+	// Restore the licence string to its original shape.
+	if(plusPos < len) licence[plusPos] = plusChar;
+	if(with != NULL) *with = ' ';
+
+	return found >= 0;
 }
 
 enum DetectionState {
