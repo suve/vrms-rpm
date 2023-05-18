@@ -29,13 +29,52 @@ struct SpdxClassifier {
 	int lenient;
 };
 
+enum WithSearchState {
+	WSS_SEARCHING,
+	WSS_MATCH_START,
+	WSS_MATCHED_W,
+	WSS_MATCHED_I,
+	WSS_MATCHED_T,
+	WSS_MATCHED_H,
+};
+
+static char* find_WITH_operator(struct SpdxClassifier *self, char *licence) {
+	// The SPDX spec mandates the "WITH" operator be matched case-sensitively.
+	if(!self->lenient) return strstr(licence, " WITH ");
+
+	enum WithSearchState state = WSS_SEARCHING;
+	for(char c = *licence; c != '\0'; c = *(++licence)) {
+		switch(state) {
+			case WSS_SEARCHING:
+				if(c == ' ') state = WSS_MATCH_START;
+				break;
+			case WSS_MATCH_START:
+				state = ((c == 'W') || (c == 'w')) ? WSS_MATCHED_W : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				break;
+			case WSS_MATCHED_W:
+				state = ((c == 'I') || (c == 'i')) ? WSS_MATCHED_I : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				break;
+			case WSS_MATCHED_I:
+				state = ((c == 'T') || (c == 't')) ? WSS_MATCHED_T : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				break;
+			case WSS_MATCHED_T:
+				state = ((c == 'H') || (c == 'h')) ? WSS_MATCHED_H : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				break;
+			case WSS_MATCHED_H:
+				if(c == ' ') return licence - 5;
+				state = WSS_SEARCHING;
+				break;
+		}
+	}
+	return NULL;
+}
+
 static int is_free(struct SpdxClassifier *self, char *licence) {
 	if(licences_find(self->data, licence) >= 0) return 1;
 
 	// SPDX allows specifying additional rights ("licensing exceptions")
 	// through the use of the "WITH" operator.
-	// TODO: Allow this to be case-insensitive when running in lenient mode.
-	char* with = strstr(licence, " WITH ");
+	char* with = find_WITH_operator(self, licence);
 	if(with != NULL) *with = '\0';
 
 	// SPDX allows specifying "or later version" by tacking a "+" to the licence name.
