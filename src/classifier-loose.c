@@ -25,6 +25,12 @@
 
 #define LIST_COUNT(data) ((data)->list->used / sizeof(char*))
 
+struct LooseClassifier {
+	struct LicenceClassifier interface;
+	const struct LicenceData *data;
+	struct ReBuffer *nodeBuf;
+};
+
 static int is_free(const struct LicenceData *data, char *licence) {
 	const char *suffixes[] = {
 		" with acknowledgement",
@@ -137,9 +143,11 @@ static enum LicenceTreeNodeType detect_type(char *licence) {
 }
 
 // Helper macro: make a pointer to a LicenceTreeNode from the value located in the nodeBuf at given offset
-#define NODEBUFPTR(offset) ((struct LicenceTreeNode*)(((char*)nodeBuf->data) + (offset)))
+#define NODEBUFPTR(offset) ((struct LicenceTreeNode*)(((char*)self->nodeBuf->data) + (offset)))
 
 static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, char* licence) {
+	struct LooseClassifier* self = (struct LooseClassifier*)class;
+
 	enum LicenceTreeNodeType type;
 	while((type = detect_type(licence)) == LTNT_PARENTHESISED) {
 		size_t liclen = strlen(licence);
@@ -152,7 +160,7 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 		if(node != NULL) {
 			node->type = LTNT_LICENCE;
 			node->licence = licence;
-			node->is_free = is_free(class->data, licence);
+			node->is_free = is_free(self->data, licence);
 		}
 		return node;
 	}
@@ -164,8 +172,7 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 		NULL
 	};
 
-	struct ReBuffer *nodeBuf = class->private;
-	const size_t bufStart = nodeBuf->used;
+	const size_t bufStart = self->nodeBuf->used;
 	int isFree = (type == LTNT_AND) ? 1 : 0;
 
 	int match;
@@ -198,19 +205,19 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 		}
 
 		if(child != NULL) {
-			if(rebuf_append(nodeBuf, &child, sizeof(struct LicenceTreeNode*)) == NULL) {
+			if(rebuf_append(self->nodeBuf, &child, sizeof(struct LicenceTreeNode*)) == NULL) {
 				// Appending failed. Free any child nodes allocated so far, and bail out.
-				for(size_t pos = bufStart; bufStart < nodeBuf->used; pos += sizeof(struct LicenceTreeNode*)) {
+				for(size_t pos = bufStart; bufStart < self->nodeBuf->used; pos += sizeof(struct LicenceTreeNode*)) {
 					licence_freeTree(NODEBUFPTR(pos));
 				}
-				nodeBuf->used = bufStart;
+				self->nodeBuf->used = bufStart;
 				return NULL;
 			}
 			isFree = (type == LTNT_AND) ? (isFree && child->is_free) : (isFree || child->is_free);
 		}
 	} while(match >= 0);
 
-	const size_t bufDataLen = nodeBuf->used - bufStart;
+	const size_t bufDataLen = self->nodeBuf->used - bufStart;
 	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + bufDataLen);
 	if(node != NULL) {
 		node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
@@ -220,31 +227,32 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 		node->is_free = isFree;
 	}
 
-	nodeBuf->used = bufStart;
+	self->nodeBuf->used = bufStart;
 	return node;
 }
 
-static void classifier_free(struct LicenceClassifier *self) {
-	if(self != NULL) {
-		rebuf_free(self->private);
+static void classifier_free(struct LicenceClassifier *class) {
+	if(class != NULL) {
+		struct LooseClassifier *self = (struct LooseClassifier*)class;
+		rebuf_free(self->nodeBuf);
 		free(self);
 	}
 }
 
 struct LicenceClassifier* classifier_newLoose(const struct LicenceData *data) {
-	struct LicenceClassifier *class = malloc(sizeof(struct LicenceClassifier));
-	if(class == NULL) return NULL;
+	struct LooseClassifier *self = malloc(sizeof(struct LooseClassifier));
+	if(self == NULL) return NULL;
 
 	struct ReBuffer *nodeBuf = rebuf_init();
 	if(nodeBuf == NULL) {
-		free(class);
+		free(self);
 		return NULL;
 	}
 
-	class->data = data;
-	class->private = nodeBuf;
+	self->data = data;
+	self->nodeBuf = nodeBuf;
 
-	class->classify = &loose_classify;
-	class->free = &classifier_free;
-	return class;
+	self->interface.classify = &loose_classify;
+	self->interface.free = &classifier_free;
+	return &self->interface;
 }

@@ -33,6 +33,11 @@
 // Dirty dirty dirty hack!
 extern char *argv_zero;
 
+struct TestState {
+	struct LicenceData *data;
+	struct LicenceClassifier *class;
+};
+
 int test_setup__licences(void **state) {
 	// Create the path to the test licence list.
 	// Assumes that the test-suite executable is inside build/.
@@ -50,16 +55,19 @@ int test_setup__licences(void **state) {
 	struct LicenceClassifier *classifier = classifier_newLoose(licences);
 	assert_non_null(classifier);
 
-	*state = classifier;
+	struct TestState *ts = malloc(sizeof(struct TestState));
+	ts->data = licences;
+	ts->class = classifier;
+
+	*state = ts;
 	return 0;
 }
 
 int test_teardown__licences(void **state) {
-	struct LicenceClassifier *classifier = *state;
-	struct LicenceData *data = (struct LicenceData*)classifier->data;
+	struct TestState *ts = *state;
 
-	classifier->free(classifier);
-	licences_free(data);
+	ts->class->free(ts->class);
+	licences_free(ts->data);
 
 	opt_licencelist = NULL;
 	return 0;
@@ -120,7 +128,7 @@ static void assert_ltn_equal(const struct LicenceTreeNode *actual, const struct 
 
 // Test license strings that evaluate to a single licence.
 void test__licences_single(void **state) {
-	struct LicenceClassifier *classifier = *state;
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
 
 	// Test some simple good licences.
 	{
@@ -154,7 +162,7 @@ void test__licences_single(void **state) {
 
 // Test licence strings that evaluate to a single-level and/or chain.
 void test__licences_one_level(void **state) {
-	struct LicenceClassifier *classifier = *state;
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
 
 	// Test some simple "A or B" licences.
 	{
@@ -248,7 +256,7 @@ void test__licences_one_level(void **state) {
 
 // Test licence strings that evaluate to a tree.
 void test__licences_tree(void **state) {
-	struct LicenceClassifier *classifier = *state;
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
 
 	// Test some complex licences with parentheses.
 	{
@@ -429,7 +437,7 @@ void test__licences_tree(void **state) {
 
 // Test some licence strings with spurious parentheses
 void test__licences_extra_parentheses(void **state) {
-	struct LicenceClassifier *classifier = *state;
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
 
 	{
 		struct LicenceTreeNode *expected;
@@ -458,7 +466,7 @@ void test__licences_extra_parentheses(void **state) {
 
 // Test whether joiners ("and"/"or") are case-insensitive
 void test__licences_case_insensitive_joiners(void **state) {
-	struct LicenceClassifier *classifier = *state;
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
 
 	{
 		struct LicenceTreeNode *first, *second, *expected;
@@ -511,7 +519,7 @@ void test__licences_case_insensitive_joiners(void **state) {
 }
 
 void test__licences_acceptable_suffixes(void **state) {
-	struct LicenceClassifier *classifier = *state;
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
 
 	{
 		struct LicenceTreeNode *expected;
@@ -549,7 +557,7 @@ void test__licences_acceptable_suffixes(void **state) {
 // We're mostly concerned about avoiding segfaults.
 // Trying to make sense out of the string is a secondary concern.
 void test__licences_mismatched_parentheses(void **state) {
-	struct LicenceClassifier *classifier = *state;
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
 
 	testcase("(Bad", NULL);
 	testcase("Bad)", NULL);

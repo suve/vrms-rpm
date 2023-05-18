@@ -20,9 +20,6 @@
 #include "licences.h"
 
 struct LicenceClassifier {
-	const struct LicenceData *data;
-	void *private;
-
 	struct LicenceTreeNode* (*classify)(struct LicenceClassifier *self, char *licence);
 	void (*free)(struct LicenceClassifier *self);
 };
