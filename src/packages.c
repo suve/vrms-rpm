@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2021-2022 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -195,8 +195,14 @@ static void printnode(struct LicenceTreeNode *node) {
 			
 		return;
 	}
-	
-	const char *const joiner = (node->type == LTNT_AND) ? " and " : " or ";
+
+	// SPDX mandates that AND/OR operators should be matched in a case-sensitive manner.
+	// Of course, we also support lenient mode, which allows for "and" (also "And" etc.)...
+	// Maybe the joiner strings should also be stored in nodes?
+	const char *const joiner = (opt_grammar != OPT_GRAMMAR_LOOSE)
+		? ((node->type == LTNT_AND) ? " AND " : " OR ")
+		: ((node->type == LTNT_AND) ? " and " : " or ");
+
 	for(unsigned int m = 0; m < node->members;) {
 		if(node->child[m]->type != LTNT_LICENCE) {
 			putc('(', stdout);
