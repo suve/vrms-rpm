@@ -82,17 +82,21 @@ static int is_defined(const char *value) {
 }
 
 extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
-	if(init_buffers() != 0) return -1;
-	sorted = 0;
+	char *line = NULL;
+	FILE *f = NULL;
 
-	FILE *f = pipe_fopen(pipe);
-	if(f == NULL) return -1;
+	#define LINEBUF_SIZE 4096
+	line = malloc(LINEBUF_SIZE);
+	if(line == NULL) goto fail;
+	if(init_buffers() != 0) goto fail;
+
+	f = pipe_fopen(pipe);
+	if(f == NULL) goto fail;
 
 	const int expected = opt_describe ? 7 : 6;
 	char* fields[7];
 
-	char line[512];
-	while(fgets(line, sizeof(line), f) != NULL) {
+	while(fgets(line, LINEBUF_SIZE, f) != NULL) {
 		replace_unicode_spaces(line);
 		if(str_split(line, '\t', fields, expected) != expected) continue;
 
@@ -129,10 +133,21 @@ extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier
 			.arch = arch,
 			.licence = classification,
 		};
-		if(rebuf_append(list, &pkg, sizeof(struct Package)) == NULL) return -1;
+		if(rebuf_append(list, &pkg, sizeof(struct Package)) == NULL) goto fail;
 	}
-	
+
+	fclose(f);
+	free(line);
+
+	sorted = 0;
 	return LIST_COUNT;
+
+	fail: { // As seen in CVE-2014-1266!
+		if(f != NULL) fclose(f);
+		if(line != NULL) free(line);
+		packages_free();
+		return -1;
+	}
 }
 
 void packages_free(void) {
