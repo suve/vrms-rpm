@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "buffers.h"
 #include "classifiers.h"
 #include "licences.h"
 #include "stringutils.h"
@@ -135,6 +136,11 @@ static enum LicenceTreeNodeType detect_type(const char *licence) {
 	return LTNT_LICENCE;
 }
 
+static struct LicenceTreeNode* append(struct LicenceClassifier *class, char *licence, enum LicenceTreeNodeType rootType, int *rootIsFree);
+
+// Helper macro: make a pointer to a LicenceTreeNode from the value located in the nodeBuf at given offset
+#define NODEBUFPTR(offset) ((struct LicenceTreeNode*)(((char*)nodeBuf->data) + (offset)))
+
 static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, char *licence) {
 	enum LicenceTreeNodeType type = detect_type(licence);
 	if(type == LTNT_LICENCE) {
@@ -144,8 +150,8 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 			// Advance one char to skip the opening paren
 			++licence;
 			// Check the end of the string for the closing paren
-			size_t liclen = strlen(licence);
-			if(licence[liclen - 1] == ')') licence[liclen - 1] = '\0';
+			const size_t length = strlen(licence);
+			if(licence[length - 1] == ')') licence[length - 1] = '\0';
 			// Both parentheses have been stripped - try again.
 			return spdx_classify(class, licence);
 		}
@@ -159,20 +165,107 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 		return node;
 	}
 
-	// TODO: Handle AND/OR licences
-	return NULL;
+	struct ReBuffer *nodeBuf = class->private;
+	const size_t bufStart = nodeBuf->used;
+	int isFree = (type == LTNT_AND) ? 1 : 0;
+
+	char *s = licence;
+	while(1) {
+		while((*s != '\0') && (*s != '(') && (*s != ')') && (*s != ' ')) ++s;
+		if(*s == '\0') {
+			// TODO: Handle errors here
+			if(s > licence) append(class, licence, type, &isFree);
+			break;
+		}
+		if(*s == '(') {
+			char* closingParen = find_closing_paren(s);
+			s = (closingParen != NULL) ? closingParen : (s + 1);
+			continue;
+		}
+
+		// Not a NUL byte and not an opening paren - must be closing paren or space.
+		// Try matching for AND/OR.
+		int match = 1;
+		if(type == LTNT_AND) {
+			match = match && ((s[1] == 'A') || (s[1] == 'a'));
+			match = match && ((s[2] == 'N') || (s[2] == 'n'));
+			match = match && ((s[3] == 'D') || (s[3] == 'd'));
+			match = match && ((s[4] == ' ') || (s[4] == '('));
+		} else {
+			match = match && ((s[1] == 'O') || (s[1] == 'o'));
+			match = match && ((s[2] == 'R') || (s[2] == 'r'));
+			match = match && ((s[3] == ' ') || (s[3] == '('));
+		}
+		if(!match) {
+			++s; // TODO: Skip more than one char, based on failed match length
+			continue;
+		}
+
+		if(*s == ')') ++s;
+		*s = '\0';
+
+		// TODO: Handle errors here
+		append(class, licence, type, &isFree);
+
+		while((*s != ' ') && (*s != '(')) {
+			*s = '\0';
+			++s;
+		}
+		licence = s;
+	}
+
+	const size_t bufDataLen = nodeBuf->used - bufStart;
+	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + bufDataLen);
+	if(node != NULL) {
+		node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
+		memcpy(node->child, NODEBUFPTR(bufStart), bufDataLen);
+
+		node->type = type;
+		node->is_free = isFree;
+	}
+
+	nodeBuf->used = bufStart;
+	return node;
+}
+
+static struct LicenceTreeNode* append(struct LicenceClassifier *class, char *licence, enum LicenceTreeNodeType rootType, int *rootIsFree) {
+	licence = trim(licence, NULL);
+
+	struct LicenceTreeNode *child = spdx_classify(class, licence);
+	if(child == NULL) return NULL;
+
+	struct ReBuffer *nodeBuf = class->private;
+	if(rebuf_append(nodeBuf, &child, sizeof(struct LicenceTreeNode*)) == NULL) {
+		licence_freeTree(child);
+		return NULL;
+	}
+
+	*rootIsFree = (rootType == LTNT_AND) ? (*rootIsFree && child->is_free) : (*rootIsFree || child->is_free);
+	return child;
 }
 
 static void spdx_free(struct LicenceClassifier *self) {
-	free(self);
+	if(self != NULL) {
+		if(self->private != NULL) {
+			rebuf_free(self->private);
+			self->private = NULL;
+		}
+		free(self);
+	}
 }
 
 struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data) {
 	struct LicenceClassifier *self = malloc(sizeof(struct LicenceClassifier));
 	if(self == NULL) return NULL;
 
+	struct ReBuffer *nodeBuf = rebuf_init();
+	if(nodeBuf == NULL) {
+		free(self);
+		return NULL;
+	}
+
 	self->data = data;
-	self->private = NULL;
+	self->private = nodeBuf;
 	self->classify = &spdx_classify;
 	self->free = &spdx_free;
 
