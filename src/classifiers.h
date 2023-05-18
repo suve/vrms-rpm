@@ -25,6 +25,6 @@ struct LicenceClassifier {
 };
 
 extern struct LicenceClassifier* classifier_newLoose(const struct LicenceData *data);
-extern struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data);
+extern struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data, int lenient);
 
 #endif

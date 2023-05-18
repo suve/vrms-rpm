@@ -56,7 +56,7 @@ When listing packages, display licences as to justify
 the free / non-free classification.
 
 .TP
-\fB\-\-grammar\fR <\fIloose\fR, \fIspdx\fR>
+\fB\-\-grammar\fR <\fIloose\fR, \fIspdx-strict\fR, \fIspdx-lenient\fR>
 Specifies the grammar rules used when parsing the license strings.
 .RS
 .TP
@@ -64,8 +64,11 @@ Specifies the grammar rules used when parsing the license strings.
 Use an informal, loose grammar. This is the behaviour used by \fBvrms-rpm\fR
 v2.2 and earlier.
 .TP
-.B spdx
+.B spdx-strict
 Employ the SPDX License Expression rules.
+.TP
+.B spdx-lenient
+The same as above, but relax some rules regarding case sensitivity and whitespace.
 .TP
 The default value is '\fIloose\fR'.
 .RE

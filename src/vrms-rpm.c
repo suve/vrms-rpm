@@ -47,8 +47,10 @@ static struct LicenceClassifier* allocClassifier(const struct LicenceData *data)
 	switch(opt_grammar) {
 		case OPT_GRAMMAR_LOOSE:
 			return classifier_newLoose(data);
-		case OPT_GRAMMAR_SPDX:
-			return classifier_newSPDX(data);
+		case OPT_GRAMMAR_SPDX_STRICT:
+			return classifier_newSPDX(data, 0);
+		case OPT_GRAMMAR_SPDX_LENIENT:
+			return classifier_newSPDX(data, 1);
 		default:
 			return NULL; // Should Never Happen (TM)
 	}

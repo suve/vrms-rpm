@@ -172,8 +172,10 @@ static void parseopt_evra(void) {
 static void parseopt_grammar(void) {
 	if(arg_eq("loose")) {
 		opt_grammar = OPT_GRAMMAR_LOOSE;
-	} else if(arg_eq("spdx")) {
-		opt_grammar = OPT_GRAMMAR_SPDX;
+	} else if(arg_eq("spdx-strict")) {
+		opt_grammar = OPT_GRAMMAR_SPDX_STRICT;
+	} else if(arg_eq("spdx-lenient")) {
+		opt_grammar = OPT_GRAMMAR_SPDX_LENIENT;
 	} else {
 		lang_fprint(stderr, MSG_ERR_BADOPT_GRAMMAR);
 		exit(EXIT_FAILURE);
@@ -213,7 +215,7 @@ static void print_help(void) {
 	puts("  --explain");
 	lang_print(MSG_HELP_OPTION_EXPLAIN);
 
-	puts("  --grammar <loose, spdx>");
+	puts("  --grammar <loose, spdx-strict, spdx-lenient>");
 	lang_print(MSG_HELP_OPTION_GRAMMAR);
 
 	puts("  --help");

@@ -26,15 +26,15 @@ struct SpdxClassifier {
 	struct LicenceClassifier interface;
 	const struct LicenceData *data;
 	struct ReBuffer *nodeBuf;
+	int lenient;
 };
 
-static int is_free(const struct LicenceData *data, char *licence) {
-	if(licences_find(data, licence) >= 0) return 1;
+static int is_free(struct SpdxClassifier *self, char *licence) {
+	if(licences_find(self->data, licence) >= 0) return 1;
 
 	// SPDX allows specifying additional rights ("licensing exceptions")
 	// through the use of the "WITH" operator.
-	// TODO: Allow this to be case-insensitive.
-	//       The spec mandates case-sensitivity, but we want to be lenient.
+	// TODO: Allow this to be case-insensitive when running in lenient mode.
 	char* with = strstr(licence, " WITH ");
 	if(with != NULL) *with = '\0';
 
@@ -45,11 +45,14 @@ static int is_free(const struct LicenceData *data, char *licence) {
 	if((len > 0) && (licence[len - 1] == '+')) {
 		plusPos = len - 1;
 		plusChar = '+';
-		// The SPDX spec mandates no whitespace between LicenceName and '+',
-		// but we want to be lenient.
-		while((plusPos > 0) && (licence[plusPos - 1] == ' ')) {
-			plusPos -= 1;
-			plusChar = ' ';
+
+		// The SPDX spec mandates no whitespace between LicenceName and '+'.
+		// If running in lenient mode, check and remove any spaces.
+		if(self->lenient) {
+			while((plusPos > 0) && (licence[plusPos - 1] == ' ')) {
+				plusPos -= 1;
+				plusChar = ' ';
+			}
 		}
 	}
 
@@ -57,7 +60,7 @@ static int is_free(const struct LicenceData *data, char *licence) {
 	if((plusPos >= len) && (with == NULL)) return 0;
 
 	// Try matching the licence name, stripped from the +/WITH parts, again.
-	int found = licences_find(data, licence);
+	int found = licences_find(self->data, licence);
 
 	// Restore the licence string to its original shape.
 	if(plusPos < len) licence[plusPos] = plusChar;
@@ -76,7 +79,11 @@ enum DetectionState {
 	DT_FOUND_OR_R,
 };
 
-static enum LicenceTreeNodeType detect_type(const char *licence) {
+// Convenience macro: checks if character under `value` matches the character under `letter`.
+// When running in lenient mode, the lowercase variant of `letter` will also be considered.
+#define MATCH_LETTER(value, letter) ( ((value) == letter) || ((self->lenient) && ((value) == (letter+32))) )
+
+static enum LicenceTreeNodeType detect_type(struct SpdxClassifier *self, const char *licence) {
 	int found_and = 0;
 	int found_or = 0;
 
@@ -105,20 +112,20 @@ static enum LicenceTreeNodeType detect_type(const char *licence) {
 			break;
 
 			case DT_MATCH_START:
-				if((c == 'a') || (c == 'A'))
+				if(MATCH_LETTER(c, 'A'))
 					state = DT_FOUND_AND_A;
-				else if((c == 'o') || (c == 'O'))
+				else if(MATCH_LETTER(c, 'O'))
 					state = DT_FOUND_OR_O;
 				else if(c != ' ')
 					state = DT_SEARCHING;
 			break;
 
 			case DT_FOUND_AND_A:
-				state = ((c == 'n') || (c == 'N')) ? DT_FOUND_AND_N : DT_SEARCHING;
+				state = MATCH_LETTER(c, 'N') ? DT_FOUND_AND_N : DT_SEARCHING;
 			break;
 
 			case DT_FOUND_AND_N:
-				state = ((c == 'd') || (c == 'D')) ? DT_FOUND_AND_D : DT_SEARCHING;
+				state = MATCH_LETTER(c, 'D') ? DT_FOUND_AND_D : DT_SEARCHING;
 			break;
 
 			case DT_FOUND_AND_D:
@@ -127,7 +134,7 @@ static enum LicenceTreeNodeType detect_type(const char *licence) {
 			break;
 
 			case DT_FOUND_OR_O:
-				state = ((c == 'r') || (c == 'R')) ? DT_FOUND_OR_R : DT_SEARCHING;
+				state = MATCH_LETTER(c, 'R') ? DT_FOUND_OR_R : DT_SEARCHING;
 			break;
 
 			case DT_FOUND_OR_R:
@@ -150,7 +157,7 @@ static struct LicenceTreeNode* append(struct SpdxClassifier *self, char *licence
 static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, char *licence) {
 	struct SpdxClassifier *self = (struct SpdxClassifier*)class;
 
-	enum LicenceTreeNodeType type = detect_type(licence);
+	enum LicenceTreeNodeType type = detect_type(self, licence);
 	if(type == LTNT_LICENCE) {
 		// If the detected type is LICENCE, but we've got an opening parenthesis,
 		// then that means the whole string is parenthesised (e.g. "(text)" instead of "text").
@@ -168,7 +175,7 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 		if(node != NULL) {
 			node->type = LTNT_LICENCE;
 			node->licence = licence;
-			node->is_free = is_free(self->data, licence);
+			node->is_free = is_free(self, licence);
 		}
 		return node;
 	}
@@ -194,13 +201,13 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 		// Try matching for AND/OR.
 		int match = 1;
 		if(type == LTNT_AND) {
-			match = match && ((s[1] == 'A') || (s[1] == 'a'));
-			match = match && ((s[2] == 'N') || (s[2] == 'n'));
-			match = match && ((s[3] == 'D') || (s[3] == 'd'));
+			match = match && MATCH_LETTER(s[1], 'A');
+			match = match && MATCH_LETTER(s[2], 'N');
+			match = match && MATCH_LETTER(s[3], 'D');
 			match = match && ((s[4] == ' ') || (s[4] == '('));
 		} else {
-			match = match && ((s[1] == 'O') || (s[1] == 'o'));
-			match = match && ((s[2] == 'R') || (s[2] == 'r'));
+			match = match && MATCH_LETTER(s[1], 'O');
+			match = match && MATCH_LETTER(s[2], 'R');
 			match = match && ((s[3] == ' ') || (s[3] == '('));
 		}
 		if(!match) {
@@ -262,7 +269,7 @@ static void spdx_free(struct LicenceClassifier *class) {
 	}
 }
 
-struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data) {
+struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data, int lenient) {
 	struct SpdxClassifier *self = malloc(sizeof(struct SpdxClassifier));
 	if(self == NULL) return NULL;
 
@@ -274,6 +281,7 @@ struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data) {
 
 	self->data = data;
 	self->nodeBuf = nodeBuf;
+	self->lenient = lenient;
 
 	self->interface.classify = &spdx_classify;
 	self->interface.free = &spdx_free;

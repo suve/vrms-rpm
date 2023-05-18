@@ -60,15 +60,18 @@ Podczas listowania paczek, wyświetlaj informacje o licencjach,
 aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych.
 
 .TP
-\fB\-\-grammar\fR <\fIloose\fR, \fIspdx\fR>
+\fB\-\-grammar\fR <\fIloose\fR, \fIspdx-strict\fR, \fIspdx-lenient\fR>
 Pozwala wybrać zestaw reguł gramatycznych używanych podczas analizowania licencji.
 .RS
 .TP
 .B loose
 Użyj luźnego zestawu nieformalnych reguł. Zachowanie kompatybilne z wersją 2.2 programu oraz starszymi.
 .TP
-.B spdx
+.B spdx-strict
 Użyj reguł zgodnych z zasadami wyraźeń licencyjnych SPDX.
+.TP
+.B spdx-lenient
+Jak wyżej, ale rozlużnij wymagania dotyczące wielkości liter czy obecności białych znaków.
 .TP
 Domyślna wartość to '\fIloose\fR'.
 .RE
