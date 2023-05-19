@@ -75,7 +75,14 @@ static int is_free(struct SpdxClassifier *self, char *licence) {
 	// SPDX allows specifying additional rights ("licensing exceptions")
 	// through the use of the "WITH" operator.
 	char* with = find_WITH_operator(self, licence);
-	if(with != NULL) *with = '\0';
+	if(with != NULL) {
+		// The "WITH" operator can be preceded by any number of spaces.
+		size_t withPos = (with - licence);
+		while((withPos > 0) && (licence[withPos - 1] == ' ')) --withPos;
+
+		with = licence + withPos;
+		*with = '\0';
+	}
 
 	// SPDX allows specifying "or later version" by tacking a "+" to the licence name.
 	const size_t len = strlen(licence);
@@ -93,6 +100,8 @@ static int is_free(struct SpdxClassifier *self, char *licence) {
 				plusChar = ' ';
 			}
 		}
+		// Trim the string to desired length.
+		licence[plusPos] = '\0';
 	}
 
 	// If we didn't find the "WITH" operator nor the "+" operator, bail out early.

@@ -17,8 +17,8 @@
 #include "licences.h"
 
 // Test license strings that evaluate to a single licence.
-void test__licences_single(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
+void test__looseClassifier_single(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->looseClassifier;
 
 	// Test some simple good licences.
 	{
@@ -51,8 +51,8 @@ void test__licences_single(void **state) {
 }
 
 // Test licence strings that evaluate to a single-level and/or chain.
-void test__licences_one_level(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
+void test__looseClassifier_one_level(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->looseClassifier;
 
 	// Test some simple "A or B" licences.
 	{
@@ -145,8 +145,8 @@ void test__licences_one_level(void **state) {
 }
 
 // Test licence strings that evaluate to a tree.
-void test__licences_tree(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
+void test__looseClassifier_tree(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->looseClassifier;
 
 	// Test some complex licences with parentheses.
 	{
@@ -326,8 +326,8 @@ void test__licences_tree(void **state) {
 }
 
 // Test some licence strings with spurious parentheses
-void test__licences_extra_parentheses(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
+void test__looseClassifier_extra_parentheses(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->looseClassifier;
 
 	{
 		struct LicenceTreeNode *expected;
@@ -355,8 +355,8 @@ void test__licences_extra_parentheses(void **state) {
 }
 
 // Test whether joiners ("and"/"or") are case-insensitive
-void test__licences_case_insensitive_joiners(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
+void test__looseClassifier_case_insensitive_joiners(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->looseClassifier;
 
 	{
 		struct LicenceTreeNode *first, *second, *expected;
@@ -408,8 +408,8 @@ void test__licences_case_insensitive_joiners(void **state) {
 	}
 }
 
-void test__licences_acceptable_suffixes(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
+void test__looseClassifier_acceptable_suffixes(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->looseClassifier;
 
 	{
 		struct LicenceTreeNode *expected;
@@ -446,8 +446,8 @@ void test__licences_acceptable_suffixes(void **state) {
 // Test some licence strings with mismatched parentheses.
 // We're mostly concerned about avoiding segfaults.
 // Trying to make sense out of the string is a secondary concern.
-void test__licences_mismatched_parentheses(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->class;
+void test__looseClassifier_mismatched_parentheses(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->looseClassifier;
 
 	test_licence("(Bad", NULL);
 	test_licence("Bad)", NULL);

@@ -66,13 +66,15 @@ int main(int argc, char **argv) {
 	failures += cmocka_run_group_tests(tests, NULL, NULL);
 
 	const struct CMUnitTest licence_tests[] = {
-		cmocka_unit_test(test__licences_single),
-		cmocka_unit_test(test__licences_one_level),
-		cmocka_unit_test(test__licences_tree),
-		cmocka_unit_test(test__licences_extra_parentheses),
-		cmocka_unit_test(test__licences_case_insensitive_joiners),
-		cmocka_unit_test(test__licences_acceptable_suffixes),
-		cmocka_unit_test(test__licences_mismatched_parentheses),
+		cmocka_unit_test(test__looseClassifier_single),
+		cmocka_unit_test(test__looseClassifier_one_level),
+		cmocka_unit_test(test__looseClassifier_tree),
+		cmocka_unit_test(test__looseClassifier_extra_parentheses),
+		cmocka_unit_test(test__looseClassifier_case_insensitive_joiners),
+		cmocka_unit_test(test__looseClassifier_acceptable_suffixes),
+		cmocka_unit_test(test__looseClassifier_mismatched_parentheses),
+		cmocka_unit_test(test__spdxStrict_single),
+		cmocka_unit_test(test__spdxStrict_suffixes),
 	};
 	failures += cmocka_run_group_tests(licence_tests, test_setup__licences, test_teardown__licences);
 

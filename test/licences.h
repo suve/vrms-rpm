@@ -34,19 +34,21 @@ extern char *argv_zero;
 
 struct TestState {
 	struct LicenceData *data;
-	struct LicenceClassifier *class;
+	struct LicenceClassifier *looseClassifier;
+	struct LicenceClassifier *spdxStrictClassifier;
+	struct LicenceClassifier *spdxLenientClassifier;
 };
 
 extern int test_setup__licences(void **state);
 extern int test_teardown__licences(void **state);
 
-extern void test__licences_single(void **state);
-extern void test__licences_one_level(void **state);
-extern void test__licences_tree(void **state);
-extern void test__licences_extra_parentheses(void **state);
-extern void test__licences_case_insensitive_joiners(void **state);
-extern void test__licences_acceptable_suffixes(void **state);
-extern void test__licences_mismatched_parentheses(void **state);
+extern void test__looseClassifier_single(void **state);
+extern void test__looseClassifier_one_level(void **state);
+extern void test__looseClassifier_tree(void **state);
+extern void test__looseClassifier_extra_parentheses(void **state);
+extern void test__looseClassifier_case_insensitive_joiners(void **state);
+extern void test__looseClassifier_acceptable_suffixes(void **state);
+extern void test__looseClassifier_mismatched_parentheses(void **state);
 
 extern void test__spdxStrict_single(void **state);
 extern void test__spdxStrict_suffixes(void **state);

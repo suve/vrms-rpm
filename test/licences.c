@@ -36,12 +36,19 @@ int test_setup__licences(void **state) {
 
 	struct LicenceData *licences = licences_read();
 	assert_non_null(licences);
-	struct LicenceClassifier *classifier = classifier_newLoose(licences);
-	assert_non_null(classifier);
+
+	struct LicenceClassifier *looseClassifier = classifier_newLoose(licences);
+	assert_non_null(looseClassifier);
+	struct LicenceClassifier *spdxStrictClassifier = classifier_newSPDX(licences, 0);
+	assert_non_null(spdxStrictClassifier);
+	struct LicenceClassifier *spdxLenientClassifier = classifier_newSPDX(licences, 1);
+	assert_non_null(spdxLenientClassifier);
 
 	struct TestState *ts = malloc(sizeof(struct TestState));
 	ts->data = licences;
-	ts->class = classifier;
+	ts->looseClassifier = looseClassifier;
+	ts->spdxStrictClassifier = spdxStrictClassifier;
+	ts->spdxLenientClassifier = spdxLenientClassifier;
 
 	*state = ts;
 	return 0;
@@ -50,7 +57,9 @@ int test_setup__licences(void **state) {
 int test_teardown__licences(void **state) {
 	struct TestState *ts = *state;
 
-	ts->class->free(ts->class);
+	ts->looseClassifier->free(ts->looseClassifier);
+	ts->spdxStrictClassifier->free(ts->spdxStrictClassifier);
+	ts->spdxLenientClassifier->free(ts->spdxLenientClassifier);
 	licences_free(ts->data);
 
 	opt_licencelist = NULL;
