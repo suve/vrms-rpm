@@ -21,7 +21,7 @@
 #include <setjmp.h>
 #include <cmocka.h>
 
-char *argv_zero;
+#include "licences.h"
 
 extern void test__chainbuffer(void **state);
 extern int test_setup__chainbuffer(void **state);
@@ -30,16 +30,6 @@ extern int test_teardown__chainbuffer(void **state);
 extern void test__rebuffer(void **state);
 extern int test_setup__rebuffer(void **state);
 extern int test_teardown__rebuffer(void **state);
-
-extern void test__licences_single(void **state);
-extern void test__licences_one_level(void **state);
-extern void test__licences_tree(void **state);
-extern void test__licences_extra_parentheses(void **state);
-extern void test__licences_case_insensitive_joiners(void **state);
-extern void test__licences_acceptable_suffixes(void **state);
-extern void test__licences_mismatched_parentheses(void **state);
-extern int test_setup__licences(void **state);
-extern int test_teardown__licences(void **state);
 
 extern void test__compare_versions(void **state);
 extern void test__find_closing_paren(void **state);
