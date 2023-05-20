@@ -84,6 +84,15 @@ remove: install/prepare
 test: build/test-suite
 	./build/test-suite
 
+.PHONY: fuzz
+fuzz: build/fuzz-classifier-spdx
+	afl-fuzz -i test/fuzz/input -o test/fuzz/output "$(PWD)/build/fuzz-classifier-spdx"
+
+.PHONY: fuzz-coverage
+fuzz-coverage: CFLAGS += --coverage
+fuzz-coverage: LDLIBS += -lgcov
+fuzz-coverage: fuzz
+
 help:
 	@echo "TARGETS:"
 	@echo "    all - build whole project (excluding tests)"
@@ -148,6 +157,11 @@ build/vrms-rpm: $(OBJECTS)
 
 build/test-suite: $(filter-out build/vrms-rpm.o, $(OBJECTS)) $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -lcmocka -o "$@" $^
+
+build/fuzz-classifier-spdx: CC = afl-gcc-fast
+build/fuzz-classifier-spdx: LDLIBS += -lcmocka
+build/fuzz-classifier-spdx: build/test/fuzz/classifier-spdx.o build/test/licences.o $(filter-out build/vrms-rpm.o, $(OBJECTS))
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^ $(LDLIBS)
 
 install/bin/vrms-rpm: build/vrms-rpm
 	install -vD -p -m 755 "$<" "$@"
