@@ -31,7 +31,7 @@ struct ChainBuffer {
 #define REBUF_STEP 4096
 
 struct ReBuffer {
-	void **data;
+	void *data;
 	size_t capacity;
 	size_t used;
 };
