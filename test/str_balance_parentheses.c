@@ -44,7 +44,7 @@ void test__str_balance_parentheses(void **state) {
 	testcase("One (Two))", "(One (Two))");
 	testcase("(One) and (Two))", "((One) and (Two))");
 
-	// First ')' appears before first '('
+	// Same number of '(' and ')', but some '(' do not have a matching preceding '('
 	testcase("One) or (Two", "(One) or (Two)");
-	testcase("One and Two) or Three) and Four", "((One and Two) or Three) and Four");
+	testcase("One and Two) or (Three)) and (Four))", "(((One and Two) or (Three)) and (Four))");
 }

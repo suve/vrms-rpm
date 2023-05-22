@@ -142,15 +142,16 @@ int str_compare_with_null_check(const char *first, const char *second, int(*comp
 }
 
 int str_balance_parentheses(const char *input, char *buffer, const size_t bufSize, size_t *outputLen) {
-	size_t written = 0;
-	// Subtract one extra byte, so we have space for the NUL terminator
-	#define REMAINING (bufSize - written - 1)
-
 	// Holds the result, allows easily bailing out via goto
 	int ok = 0;
 
-	unsigned int depth = 0;
-	size_t inputLen;
+	// Keep track of number of bytes written
+	size_t written = 0;
+	// Convenience macro. Subtracts one extra byte, so we have space for the NUL terminator.
+	#define REMAINING (bufSize - written - 1)
+
+	size_t depth = 0;
+	size_t inputLen; // Avoid the strlen() call since we're iterating over the string anyway
 	{
 		const char *s;
 		for(s = input; *s != '\0'; ++s) {
@@ -182,7 +183,7 @@ int str_balance_parentheses(const char *input, char *buffer, const size_t bufSiz
 	ok = 1;
 	terminateString: {
 		buffer[written] = '\0';
-		*outputLen = written;
+		if(outputLen != NULL) *outputLen = written;
 		return ok;
 	}
 }
