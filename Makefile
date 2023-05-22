@@ -1,6 +1,6 @@
 #
 # Makefile for vrms-rpm
-# Copyright (C) 2017 Marcin "dextero" Radomski
+# Copyright (C) 2017,2023 Marcin "dextero" Radomski
 # Copyright (C) 2018-2023 suve (a.k.a. Artur Frenszek-Iwicki)
 #
 # This program is free software: you can redistribute it and/or modify
