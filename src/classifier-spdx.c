@@ -87,7 +87,7 @@ static int is_free(struct SpdxClassifier *self, char *licence) {
 	// SPDX allows specifying "or later version" by tacking a "+" to the licence name.
 	const size_t len = strlen(licence);
 	size_t plusPos = len;
-	char plusChar;
+	char plusChar = 0;
 	if((len > 0) && (licence[len - 1] == '+')) {
 		plusPos = len - 1;
 		plusChar = '+';
