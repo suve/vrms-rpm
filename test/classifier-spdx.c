@@ -98,3 +98,278 @@ void test__spdxStrict_suffixes(void **state) {
 		test_licence("Bad WITH Even-More-Badness", expected);
 	}
 }
+
+// Test licence strings that evaluate to a single-level and/or chain.
+void test__spdxStrict_one_level(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+
+	// Test some simple "A OR B" licences.
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn(expected, 1, LTNT_OR, first, second);
+
+		test_licence("Good OR Awesome", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Awful");
+		make_ltn(expected, 1, LTNT_OR, first, second);
+
+		test_licence("Good OR Awful", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn(expected, 1, LTNT_OR, first, second);
+
+		test_licence("Bad OR Awesome", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 0, "Awful");
+		make_ltn(expected, 0, LTNT_OR, first, second);
+
+		test_licence("Bad OR Awful", expected);
+	}
+
+	// Test some simple "A AND B" licences.
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn(expected, 1, LTNT_AND, first, second);
+
+		test_licence("Good AND Awesome", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Awful");
+		make_ltn(expected, 0, LTNT_AND, first, second);
+
+		test_licence("Good AND Awful", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn(expected, 0, LTNT_AND, first, second);
+
+		test_licence("Bad AND Awesome", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 0, "Awful");
+		make_ltn(expected, 0, LTNT_AND, first, second);
+
+		test_licence("Bad AND Awful", expected);
+	}
+
+	// Test chains with more than 2 sub-licences.
+	{
+		struct LicenceTreeNode *first, *second, *third, *expected;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn_simple(third, 0, "Bad");
+		make_ltn(expected, 0, LTNT_AND, first, second, third);
+
+		test_licence("Good AND Awesome AND Bad", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *third, *fourth, *expected;
+		make_ltn_simple(first, 0, "Awful");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn_simple(third, 0, "Unknown");
+		make_ltn_simple(fourth, 1, "Good");
+		make_ltn(expected, 1, LTNT_OR, first, second, third, fourth);
+
+		test_licence("Awful OR Bad OR Unknown OR Good", expected);
+	}
+}
+
+// Test licence strings that evaluate to a tree.
+void test__spdxStrict_tree(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+
+	// Test some complex licences with parentheses.
+	{
+		struct LicenceTreeNode *left;
+		make_ltn_simple(left, 1, "Good");
+
+		struct LicenceTreeNode *first, *second, *right;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(right, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_AND, left, right);
+		test_licence("Good AND (Good OR Bad)", expected);
+	}
+	{
+		struct LicenceTreeNode *left;
+		make_ltn_simple(left, 1, "Good");
+
+		struct LicenceTreeNode *first, *second, *right;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(right, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_AND, left, right);
+		test_licence("Good AND (Good AND Bad)", expected);
+	}
+	{
+		struct LicenceTreeNode *left;
+		make_ltn_simple(left, 0, "Bad");
+
+		struct LicenceTreeNode *first, *second, *right;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(right, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, right);
+		test_licence("Bad OR (Good OR Bad)", expected);
+	}
+	{
+		struct LicenceTreeNode *left;
+		make_ltn_simple(left, 0, "Bad");
+
+		struct LicenceTreeNode *first, *second, *right;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(right, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_OR, left, right);
+		test_licence("Bad OR (Good AND Bad)", expected);
+	}
+
+	// Test licences where both sides are parenthesized.
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(left, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good");
+		make_ltn_simple(fourth, 1, "Awesome");
+		make_ltn(right, 1, LTNT_OR, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_AND, left, right);
+		test_licence("(Good OR Bad) AND (Good OR Awesome)", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(left, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good");
+		make_ltn_simple(fourth, 1, "Awesome");
+		make_ltn(right, 1, LTNT_AND, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_AND, left, right);
+		test_licence("(Good OR Bad) AND (Good AND Awesome)", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(left, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 0, "Bad");
+		make_ltn_simple(fourth, 0, "Awful");
+		make_ltn(right, 0, LTNT_OR, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_AND, left, right);
+		test_licence("(Good OR Bad) AND (Bad OR Awful)", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(left, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 0, "Bad");
+		make_ltn_simple(fourth, 0, "Awful");
+		make_ltn(right, 0, LTNT_AND, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_AND, left, right);
+		test_licence("(Good OR Bad) AND (Bad AND Awful)", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn(left, 1, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good");
+		make_ltn_simple(fourth, 1, "Long name with spaces");
+		make_ltn(right, 1, LTNT_OR, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, right);
+		test_licence("(Good AND Awesome) OR (Good OR Long name with spaces)", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(left, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good");
+		make_ltn_simple(fourth, 1, "Awesome");
+		make_ltn(right, 1, LTNT_AND, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, right);
+		test_licence("(Good AND Bad) OR (Good AND Awesome)", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(left, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good");
+		make_ltn_simple(fourth, 0, "Awful");
+		make_ltn(right, 1, LTNT_OR, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, right);
+		test_licence("(Good AND Bad) OR (Good OR Awful)", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(left, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good");
+		make_ltn_simple(fourth, 0, "Awful");
+		make_ltn(right, 0, LTNT_AND, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_OR, left, right);
+		test_licence("(Good AND Bad) OR (Good AND Awful)", expected);
+	}
+}
