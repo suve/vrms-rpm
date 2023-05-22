@@ -56,7 +56,7 @@ TEST_OBJECTS := $(TEST_SOURCES:test/%.c=build/test/%.o)
 # -- variables end
 
 
-.PHONY: all build executable lang-files man-pages install install/prepare remove test fuzz fuzz-coverage
+.PHONY: all build executable lang-files man-pages install install/prepare remove test fuzz fuzz-coverage fuzz-classifier-spdx-strict fuzz-classifier-spdx-lenient fuzz-classifier-loose
 
 all: build
 
@@ -84,8 +84,17 @@ remove: install/prepare
 test: build/test-suite
 	./build/test-suite
 
-fuzz: build/fuzz-classifier-spdx
-	afl-fuzz -i test/fuzz/input -o test/fuzz/output "$(PWD)/build/fuzz-classifier-spdx"
+fuzz: build/fuzz-classifier
+	afl-fuzz -i test/fuzz/input -o test/fuzz/output "$(PWD)/build/fuzz-classifier" "$(FUZZ_CLASSIFIER)"
+
+fuzz-classifier-spdx-strict: FUZZ_CLASSIFIER = spdx-strict
+fuzz-classifier-spdx-strict: fuzz
+
+fuzz-classifier-spdx-lenient: FUZZ_CLASSIFIER = spdx-lenient
+fuzz-classifier-spdx-lenient: fuzz
+
+fuzz-classifier-loose: FUZZ_CLASSIFIER = loose
+fuzz-classifier-loose: fuzz
 
 fuzz-coverage: CFLAGS += --coverage
 fuzz-coverage: LDLIBS += -lgcov
@@ -103,7 +112,11 @@ help:
 	@echo "    remove - uninstall project"
 	@echo ""
 	@echo "    test - compile and run the test suite (requires cmocka)"
-	@echo "    fuzz - compile and run the SPDX fuzz test"
+	@echo "    fuzz - compile and run the SPDX fuzz test. Variants for"
+	@echo "           specific classifiers:"
+	@echo "           * fuzz-classifier-spdx-strict (default)"
+	@echo "           * fuzz-classifier-spdx-lenient"
+	@echo "           * fuzz-classifier-loose"
 	@echo "    fuzz-coverage - compile and run the SPDX fuzz test with"
 	@echo "                    coverage instrumentation"
 	@echo ""
@@ -120,6 +133,11 @@ help:
 	@echo "        used to set up file paths"
 	@echo "    WITH_LIBRPM"
 	@echo "        when set to \"0\", disables linking against librpm"
+	@echo "    FUZZ_CLASSIFIER"
+	@echo "        set to pick a specific classifier in `make fuzz`:"
+	@echo "        * spdx-strict (default)"
+	@echo "        * spdx-lenient"
+	@echo "        * loose"
 
 
 # -- PHONY targets end
@@ -159,9 +177,9 @@ build/vrms-rpm: $(OBJECTS)
 build/test-suite: $(filter-out build/vrms-rpm.o, $(OBJECTS)) $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -lcmocka -o "$@" $^ $(LDLIBS)
 
-build/fuzz-classifier-spdx: CC = afl-gcc-fast
-build/fuzz-classifier-spdx: LDLIBS += -lcmocka
-build/fuzz-classifier-spdx: build/test/fuzz/classifier-spdx.o build/test/licences.o $(filter-out build/vrms-rpm.o, $(OBJECTS))
+build/fuzz-classifier: CC = afl-gcc-fast
+build/fuzz-classifier: LDLIBS += -lcmocka
+build/fuzz-classifier: build/test/fuzz/classifier.o build/test/licences.o $(filter-out build/vrms-rpm.o, $(OBJECTS))
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^ $(LDLIBS)
 
 install/bin/vrms-rpm: build/vrms-rpm
