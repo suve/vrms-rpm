@@ -27,7 +27,7 @@ CERRORS := -Werror=incompatible-pointer-types -Werror=discarded-qualifiers -Werr
 
 ifeq "$(WITH_LIBRPM)" "1"
 	CFLAGS += -DWITH_LIBRPM
-	LDFLAGS += -lrpm -lrpmio
+	LDLIBS += -lrpm -lrpmio
 else ifneq "$(WITH_LIBRPM)" "0"
 	# The following line must *NOT* be indented, otherwise it's a syntax error
 $(error "WITH_LIBRPM" must be "0" or "1", found "$(WITH_LIBRPM)")
@@ -153,10 +153,10 @@ build/test/%.o: test/%.c
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
-	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^ $(LDLIBS)
 
 build/test-suite: $(filter-out build/vrms-rpm.o, $(OBJECTS)) $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -lcmocka -o "$@" $^
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -lcmocka -o "$@" $^ $(LDLIBS)
 
 build/fuzz-classifier-spdx: CC = afl-gcc-fast
 build/fuzz-classifier-spdx: LDLIBS += -lcmocka
