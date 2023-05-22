@@ -83,11 +83,17 @@ static int is_defined(const char *value) {
 
 extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
 	char *line = NULL;
+	char *licenceBuffer = NULL;
 	FILE *f = NULL;
 
 	#define LINEBUF_SIZE 4096
 	line = malloc(LINEBUF_SIZE);
 	if(line == NULL) goto fail;
+
+	#define LICBUF_SIZE LINEBUF_SIZE
+	licenceBuffer = malloc(LICBUF_SIZE);
+	if(licenceBuffer == NULL) goto fail;
+
 	if(init_buffers() != 0) goto fail;
 
 	f = pipe_fopen(pipe);
@@ -98,6 +104,7 @@ extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier
 
 	while(fgets(line, LINEBUF_SIZE, f) != NULL) {
 		replace_unicode_spaces(line);
+		str_squeeze_char(line, ' ');
 		if(str_split(line, '\t', fields, expected) != expected) continue;
 
 		char *name    = fields[0];
@@ -108,8 +115,11 @@ extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier
 		char *licence = fields[5];
 		char *summary = fields[6];
 
-		name = chainbuf_append(&buffer, name);
-		licence = chainbuf_append(&buffer, trim(licence, NULL));
+		// FIXME: This function can fail, should handle that somehow
+		str_balance_parentheses(trim(licence, NULL), licenceBuffer, LICBUF_SIZE, NULL);
+		licence = chainbuf_append(&buffer, licenceBuffer);
+
+		name = chainbuf_append(&buffer, trim(name, NULL));
 		if(opt_describe) summary = chainbuf_append(&buffer, trim(summary, NULL));
 
 		// Epoch is typically undefined. RPM reports this using the special string "(none)".
@@ -137,6 +147,7 @@ extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier
 	}
 
 	fclose(f);
+	free(licenceBuffer);
 	free(line);
 
 	sorted = 0;
@@ -144,6 +155,7 @@ extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier
 
 	fail: { // As seen in CVE-2014-1266!
 		if(f != NULL) fclose(f);
+		if(licenceBuffer != NULL) free(licenceBuffer);
 		if(line != NULL) free(line);
 		packages_free();
 		return -1;
