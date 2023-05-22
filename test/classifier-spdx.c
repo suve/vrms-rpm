@@ -373,3 +373,77 @@ void test__spdxStrict_tree(void **state) {
 		test_licence("(Good AND Bad) OR (Good AND Awful)", expected);
 	}
 }
+
+// The SPDX spec says that the "AND" operator takes precedence over "OR".
+// This means that AND/OR can be mixed without parentheses.
+void test__spdxStrict_precedence(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+
+	// Single AND pair
+	{
+		struct LicenceTreeNode *left;
+		make_ltn_simple(left, 1, "Awesome");
+
+		struct LicenceTreeNode *first, *second, *right;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 1, "Good");
+		make_ltn(right, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, right);
+		test_licence("Awesome OR Bad AND Good", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn(left, 1, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *right;
+		make_ltn_simple(right, 0, "Bad WITH Extra badness");
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, right);
+		test_licence("Good AND Awesome OR Bad WITH Extra badness", expected);
+	}
+
+	// Two AND pairs
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 0, "Awful");
+		make_ltn(left, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good+ WITH More goodies");
+		make_ltn_simple(fourth, 0, "Bad");
+		make_ltn(right, 0, LTNT_AND, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_OR, left, right);
+		test_licence("Bad AND Awful OR Good+ WITH More goodies AND Bad", expected);
+	}
+
+	// Three AND groups
+	{
+		struct LicenceTreeNode *first, *second, *third, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn_simple(third, 1, "Long name with spaces");
+		make_ltn(left, 1, LTNT_AND, first, second, third);
+
+		struct LicenceTreeNode *fourth, *fifth, *middle;
+		make_ltn_simple(fourth, 0, "Bad");
+		make_ltn_simple(fifth, 0, "Awful");
+		make_ltn(middle, 0, LTNT_AND, fourth, fifth);
+
+		struct LicenceTreeNode *sixth, *seventh, *right;
+		make_ltn_simple(sixth, 1, "Good");
+		make_ltn_simple(seventh, 0, "Bad");
+		make_ltn(right, 0, LTNT_AND, sixth, seventh);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, middle, right);
+		test_licence("Good AND Awesome AND Long name with spaces OR Bad AND Awful OR Good AND Bad", expected);
+	}
+}
