@@ -56,7 +56,7 @@ TEST_OBJECTS := $(TEST_SOURCES:test/%.c=build/test/%.o)
 # -- variables end
 
 
-.PHONY: all build executable lang-files man-pages install install/prepare remove test
+.PHONY: all build executable lang-files man-pages install install/prepare remove test fuzz fuzz-coverage
 
 all: build
 
@@ -84,11 +84,9 @@ remove: install/prepare
 test: build/test-suite
 	./build/test-suite
 
-.PHONY: fuzz
 fuzz: build/fuzz-classifier-spdx
 	afl-fuzz -i test/fuzz/input -o test/fuzz/output "$(PWD)/build/fuzz-classifier-spdx"
 
-.PHONY: fuzz-coverage
 fuzz-coverage: CFLAGS += --coverage
 fuzz-coverage: LDLIBS += -lgcov
 fuzz-coverage: fuzz
@@ -105,6 +103,9 @@ help:
 	@echo "    remove - uninstall project"
 	@echo ""
 	@echo "    test - compile and run the test suite (requires cmocka)"
+	@echo "    fuzz - compile and run the SPDX fuzz test"
+	@echo "    fuzz-coverage - compile and run the SPDX fuzz test with"
+	@echo "                    coverage instrumentation"
 	@echo ""
 	@echo "VARIABLES:"
 	@echo "    DEFAULT_LICENCE_LIST"
