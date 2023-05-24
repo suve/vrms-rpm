@@ -1,6 +1,7 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
  * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
+ * Copyright (C) 2023 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -31,7 +32,7 @@ struct ChainBuffer {
 #define REBUF_STEP 4096
 
 struct ReBuffer {
-	void **data;
+	void *data;
 	size_t capacity;
 	size_t used;
 };

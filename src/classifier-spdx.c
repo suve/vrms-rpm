@@ -1,6 +1,7 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
  * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -87,7 +88,7 @@ static int is_free(struct SpdxClassifier *self, char *licence) {
 	// SPDX allows specifying "or later version" by tacking a "+" to the licence name.
 	const size_t len = strlen(licence);
 	size_t plusPos = len;
-	char plusChar;
+	char plusChar = 0;
 	if((len > 0) && (licence[len - 1] == '+')) {
 		plusPos = len - 1;
 		plusChar = '+';
