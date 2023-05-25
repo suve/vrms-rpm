@@ -1,6 +1,7 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
  * Copyright (C) 2023 Marcin "dextero" Radomski
+ * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -19,13 +20,14 @@
 #include <stdlib.h>
 
 #include "src/buffers.h"
+#include "src/stringutils.h"
 #include "test/licences.h"
 
-char *read_stdin() {
+int read_stdin(char **dataPtr, size_t *dataLen) {
 	const size_t CHUNK_SIZE = 4096;
 	struct ReBuffer *buf = rebuf_init();
 	if (!buf) {
-		return NULL;
+		return 0;
 	}
 
 	while (!feof(stdin)) {
@@ -33,15 +35,17 @@ char *read_stdin() {
 		size_t read = fread(chunk, 1, sizeof(chunk), stdin);
 		if (rebuf_append(buf, chunk, read) == NULL) {
 			rebuf_free(buf);
-			return NULL;
+			return 0;
 		}
 	}
 	rebuf_append(buf, "", 1);
 
-	char *result = buf->data;
+	*dataPtr = buf->data;
+	*dataLen = buf->used;
+
 	buf->data = NULL;
 	rebuf_free(buf);
-	return result;
+	return 1;
 }
 
 struct LicenceClassifier *pick_classifier(struct TestState *state, const char *name) {
@@ -72,12 +76,20 @@ int main(int argc, char *argv[]) {
 		return -2;
 	}
 
-	char *input = read_stdin();
-	if (!input) {
+	char *input;
+	size_t input_len;
+	if(!read_stdin(&input, &input_len)) {
 		return -3;
 	}
 
-	struct LicenceTreeNode *ltn = classifier->classify(classifier, input);
+	// TODO: This basically duplicates stuff happening inside "src/packages.c".
+	//       Consider moving licence string sanitization to a separate function.
+	char *sanitized = malloc(input_len + 256);
+	str_squeeze_char(input, ' ');
+	input = trim(input, NULL);
+	str_balance_parentheses(input, sanitized, (input_len + 256), NULL);
+
+	struct LicenceTreeNode *ltn = classifier->classify(classifier, sanitized);
 	if (!ltn) {
 		return -4;
 	}
@@ -86,6 +98,7 @@ int main(int argc, char *argv[]) {
 	putc('\n', stdout);
 
 	licence_freeTree(ltn);
+	free(sanitized);
 	free(input);
 	test_teardown__licences((void **) &state);
 }

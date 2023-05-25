@@ -78,10 +78,10 @@ struct ReBuffer* rebuf_init(void) {
 }
 
 void rebuf_free(struct ReBuffer *buf) {
-	if(buf == NULL) return;
-	
-	free(buf->data);
-	free(buf);
+	if(buf != NULL) {
+		if(buf->data != NULL) free(buf->data);
+		free(buf);
+	}
 }
 
 void* rebuf_append(struct ReBuffer *const buf, const void *const data, const size_t datalen) {
