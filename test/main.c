@@ -43,10 +43,7 @@ extern void test__str_split(void **state);
 extern void test__str_squeeze_char(void **state);
 extern void test__trim(void **state);
 
-int main(int argc, char **argv) {
-	(void)(argc);
-	argv_zero = argv[0];
-
+int main(void) {
 	int failures = 0;
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test_setup_teardown(test__chainbuffer, test_setup__chainbuffer, test_teardown__chainbuffer),

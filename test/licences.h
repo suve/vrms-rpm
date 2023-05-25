@@ -29,9 +29,6 @@
 #include "src/classifiers.h"
 #include "src/licences.h"
 
-// Dirty dirty dirty hack!
-extern char *argv_zero;
-
 struct TestState {
 	struct LicenceData *data;
 	struct LicenceClassifier *looseClassifier;
@@ -56,7 +53,6 @@ extern void test__spdxStrict_one_level(void **state);
 extern void test__spdxStrict_tree(void **state);
 extern void test__spdxStrict_precedence(void **state);
 
-extern void ltn_to_str(char *buffer, const size_t bufsize, const struct LicenceTreeNode *ltn);
 extern void assert_ltn_equal(const struct LicenceTreeNode *actual, const struct LicenceTreeNode *expected, const char *const file, const int line);
 
 #define make_ltn_simple(name, pop_is_free, pop_licence) do{ \

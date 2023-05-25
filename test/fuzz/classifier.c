@@ -62,9 +62,6 @@ struct LicenceClassifier *pick_classifier(struct TestState *state, const char *n
 }
 
 int main(int argc, char *argv[]) {
-	extern char *argv_zero;
-	argv_zero = argv[0];
-
 	struct TestState *state = &(struct TestState) { 0 };
 	if (test_setup__licences((void **) &state)) {
 		return -1;
