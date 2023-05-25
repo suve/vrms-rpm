@@ -21,7 +21,7 @@
 #include <setjmp.h>
 #include <cmocka.h>
 
-#include "../src/stringutils.h"
+#include "src/stringutils.h"
 
 #define UNUSED(x) ((void)(x))
 

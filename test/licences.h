@@ -26,8 +26,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../src/classifiers.h"
-#include "../src/licences.h"
+#include "src/classifiers.h"
+#include "src/licences.h"
 
 // Dirty dirty dirty hack!
 extern char *argv_zero;

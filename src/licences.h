@@ -18,6 +18,8 @@
 #ifndef VRMS_RPM_LICENCES_H
 #define VRMS_RPM_LICENCES_H
 
+#include "src/buffers.h"
+
 struct LicenceData {
 	struct ReBuffer *list;
 	struct ChainBuffer *buffer;

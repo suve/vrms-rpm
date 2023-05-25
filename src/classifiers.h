@@ -17,7 +17,7 @@
 #ifndef VRMS_RPM_CLASSIFIERS_H
 #define VRMS_RPM_CLASSIFIERS_H
 
-#include "licences.h"
+#include "src/licences.h"
 
 struct LicenceClassifier {
 	struct LicenceTreeNode* (*classify)(struct LicenceClassifier *self, char *licence);

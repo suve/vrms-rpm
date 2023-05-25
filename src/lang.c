@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -21,8 +21,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "config.h"
-#include "lang.h"
+#include "src/config.h"
+#include "src/lang.h"
 
 #define GENERATE_STRING(what) #what "\n",
 static const char *const msgname[] = {

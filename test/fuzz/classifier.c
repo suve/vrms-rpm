@@ -15,12 +15,11 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../licences.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../../src/buffers.h"
+#include "src/buffers.h"
+#include "test/licences.h"
 
 char *read_stdin() {
 	const size_t CHUNK_SIZE = 4096;

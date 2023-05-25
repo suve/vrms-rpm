@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2023 "suve" (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -22,8 +22,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include "lang.h"
-#include "pipes.h"
+#include "src/lang.h"
+#include "src/pipes.h"
 
 #define FD_STDIN  0
 #define FD_STDOUT 1

@@ -20,12 +20,12 @@
 #include <stdlib.h>
 #include <strings.h>
 
-#include "buffers.h"
-#include "config.h"
-#include "lang.h"
-#include "licences.h"
-#include "options.h"
-#include "stringutils.h"
+#include "src/buffers.h"
+#include "src/config.h"
+#include "src/lang.h"
+#include "src/licences.h"
+#include "src/options.h"
+#include "src/stringutils.h"
 
 #define LIST_COUNT(data) ((data)->list->used / sizeof(char*))
 

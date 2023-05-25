@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-#include "licences.h"
+#include "test/licences.h"
 
 // Test license strings that evaluate to a single licence.
 void test__looseClassifier_single(void **state) {

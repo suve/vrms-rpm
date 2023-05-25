@@ -16,7 +16,7 @@
  */
 #include <string.h>
 
-#include "stringutils.h"
+#include "src/stringutils.h"
 
 
 #define IS_WHITESPACE(chr)  ((chr) > '\0' && (chr) <= ' ')

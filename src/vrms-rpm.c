@@ -17,13 +17,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "classifiers.h"
-#include "fileutils.h"
-#include "lang.h"
-#include "licences.h"
-#include "options.h"
-#include "packages.h"
-#include "pipes.h"
+#include "src/classifiers.h"
+#include "src/fileutils.h"
+#include "src/lang.h"
+#include "src/licences.h"
+#include "src/options.h"
+#include "src/packages.h"
+#include "src/pipes.h"
 
 static void easteregg(void) {
 	int free, nonfree;

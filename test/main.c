@@ -21,7 +21,7 @@
 #include <setjmp.h>
 #include <cmocka.h>
 
-#include "licences.h"
+#include "test/licences.h"
 
 extern void test__chainbuffer(void **state);
 extern int test_setup__chainbuffer(void **state);

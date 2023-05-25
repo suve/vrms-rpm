@@ -17,8 +17,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "licences.h"
-#include "../src/options.h"
+#include "src/options.h"
+#include "test/licences.h"
 
 char *argv_zero;
 

@@ -19,14 +19,14 @@
 #include <string.h>
 #include <strings.h>
 
-#include "buffers.h"
-#include "lang.h"
-#include "licences.h"
-#include "options.h"
-#include "packages.h"
-#include "pipes.h"
-#include "stringutils.h"
-#include "versions.h"
+#include "src/buffers.h"
+#include "src/lang.h"
+#include "src/licences.h"
+#include "src/options.h"
+#include "src/packages.h"
+#include "src/pipes.h"
+#include "src/stringutils.h"
+#include "src/versions.h"
 
 struct Pipe* packages_openPipe(void) {
 	char *queryformat;

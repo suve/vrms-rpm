@@ -21,9 +21,9 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "config.h"
-#include "lang.h"
-#include "options.h"
+#include "src/config.h"
+#include "src/lang.h"
+#include "src/options.h"
 
 static void print_help(void);
 

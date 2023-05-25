@@ -18,10 +18,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "buffers.h"
-#include "classifiers.h"
-#include "licences.h"
-#include "stringutils.h"
+#include "src/buffers.h"
+#include "src/classifiers.h"
+#include "src/licences.h"
+#include "src/stringutils.h"
 
 struct SpdxClassifier {
 	struct LicenceClassifier interface;

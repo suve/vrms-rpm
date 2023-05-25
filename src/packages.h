@@ -18,8 +18,8 @@
 #ifndef VRMS_RPM_PACKAGES_H
 #define VRMS_RPM_PACKAGES_H
 
-#include "classifiers.h"
-#include "pipes.h"
+#include "src/classifiers.h"
+#include "src/pipes.h"
 
 extern struct Pipe* packages_openPipe(void);
 extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier);
