@@ -213,37 +213,6 @@ static void packages_sort(void) {
 	sorted = 1;
 }
 
-static void printnode(struct LicenceTreeNode *node) {
-	if(node->type == LTNT_LICENCE) {
-		if(opt_colour)
-			printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
-		else
-			printf("%s", node->licence);
-			
-		return;
-	}
-
-	// SPDX mandates that AND/OR operators should be matched in a case-sensitive manner.
-	// Of course, we also support lenient mode, which allows for "and" (also "And" etc.)...
-	// Maybe the joiner strings should also be stored in nodes?
-	const char *const joiner = (opt_grammar != OPT_GRAMMAR_LOOSE)
-		? ((node->type == LTNT_AND) ? " AND " : " OR ")
-		: ((node->type == LTNT_AND) ? " and " : " or ");
-
-	for(unsigned int m = 0; m < node->members;) {
-		if(node->child[m]->type != LTNT_LICENCE) {
-			putc('(', stdout);
-			printnode(node->child[m]);
-			putc(')', stdout);
-		} else {
-			printnode(node->child[m]);
-		}
-		
-		++m;
-		if(m < node->members) printf("%s", joiner);
-	}
-}
-
 static void format_evra(char *bufptr, const size_t bufsize, const struct Package *pkg) {
 	snprintf(
 		bufptr, bufsize, "-%s%s%s-%s%s%s",
@@ -304,7 +273,7 @@ static void printlist(const int which_kind) {
 		
 		if(opt_explain) {
 			printf("\n   ");
-			printnode(pkg->licence);
+			licence_printNode(pkg->licence);
 		}
 		putc('\n', stdout);
 	}

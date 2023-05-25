@@ -72,15 +72,20 @@ int main(int argc, char *argv[]) {
 		return -2;
 	}
 
-	struct LicenceTreeNode *ltn = NULL;
 	char *input = read_stdin();
 	if (!input) {
 		return -3;
 	}
 
-	ltn = classifier->classify(classifier, input);
-	licence_freeTree(ltn);
+	struct LicenceTreeNode *ltn = classifier->classify(classifier, input);
+	if (!ltn) {
+		return -4;
+	}
 
+	licence_printNode(ltn);
+	putc('\n', stdout);
+
+	licence_freeTree(ltn);
 	free(input);
 	test_teardown__licences((void **) &state);
 }

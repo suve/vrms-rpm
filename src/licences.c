@@ -128,6 +128,37 @@ int licences_find(const struct LicenceData *data, const char *licence) {
 	return binary_search(data, licence, 0, LIST_COUNT(data)-1);
 }
 
+void licence_printNode(const struct LicenceTreeNode *node) {
+	if(node->type == LTNT_LICENCE) {
+		if(opt_colour)
+			printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
+		else
+			printf("%s", node->licence);
+
+		return;
+	}
+
+	// SPDX mandates that AND/OR operators should be matched in a case-sensitive manner.
+	// Of course, we also support lenient mode, which allows for "and" (also "And" etc.)...
+	// Maybe the joiner strings should also be stored in nodes?
+	const char *const joiner = (opt_grammar != OPT_GRAMMAR_LOOSE)
+		? ((node->type == LTNT_AND) ? " AND " : " OR ")
+		: ((node->type == LTNT_AND) ? " and " : " or ");
+
+	for(unsigned int m = 0; m < node->members;) {
+		if(node->child[m]->type != LTNT_LICENCE) {
+			putc('(', stdout);
+			licence_printNode(node->child[m]);
+			putc(')', stdout);
+		} else {
+			licence_printNode(node->child[m]);
+		}
+
+		++m;
+		if(m < node->members) printf("%s", joiner);
+	}
+}
+
 void licence_freeTree(struct LicenceTreeNode *node) {
 	if(node == NULL) return;
 
