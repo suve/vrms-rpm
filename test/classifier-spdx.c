@@ -554,3 +554,102 @@ void test__spdxStrict_whitespace(void **state) {
 		test_licence("( ( Bad OR Good ) AND Atrocious ) OR ( Awful AND Awesome )", expected);
 	}
 }
+
+void test__spdxStrict_caseSensitivity(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+
+	// The SPDX spec mandates that licence names must be matched case-insensitively.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "good");
+		test_licence("good", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "AwEsOmE");
+		test_licence("AwEsOmE", expected);
+	}
+
+	// The SPDX spec mandates that operators (AND/OR) must be matched in a case-sensitive manner.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good or Awful");
+		test_licence("Good or Awful", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Awesome and Good");
+		test_licence("Awesome and Good", expected);
+	}
+}
+
+// Test behaviour specific to SPDX classifier's lenient mode.
+void test__spdxLenient(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxLenientClassifier;
+
+	// "+" operator: in lenient mode, permit whitespace between the licence name and the "+".
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Good +");
+		test_licence("Good +", expected);
+	}
+	// Obviously, a bad licence is still bad, even with a plus.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Not Approved +");
+		test_licence("Not Approved +", expected);
+	}
+
+	// "WITH" operator: in lenient mode, we perform a case-insensitive match.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Awesome with Extra-Permissions");
+		test_licence("Awesome with Extra-Permissions", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Good WitH More Goodies");
+		test_licence("Good WitH More Goodies", expected);
+	}
+	// Lenient mode or not, a bad licence with extra permissions is still bad.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Awful With Extra Stink");
+		test_licence("Awful With Extra Stink", expected);
+	}
+
+	// "AND"/"OR": once again, the spec says "case matters", and we ignore that in lenient mode.
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Awful");
+		make_ltn(expected, 1, LTNT_OR, first, second);
+
+		test_licence("Good or Awful", expected);
+	}
+	{
+		struct LicenceTreeNode *first, *second, *expected;
+		make_ltn_simple(first, 1, "Awesome");
+		make_ltn_simple(second, 1, "good");
+		make_ltn(expected, 1, LTNT_AND, first, second);
+
+		test_licence("Awesome and good", expected);
+	}
+
+	// Combine all of the above
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 0, "Awful");
+		make_ltn_simple(second, 1, "Awesome +");
+		make_ltn(left, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good With More Goodies");
+		make_ltn_simple(fourth, 0, "Bad");
+		make_ltn(right, 0, LTNT_AND, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_OR, left, right);
+		test_licence("Awful And Awesome + or Good With More Goodies anD Bad", expected);
+	}
+}
