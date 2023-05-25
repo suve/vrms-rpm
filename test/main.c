@@ -75,6 +75,7 @@ int main(void) {
 		cmocka_unit_test(test__spdxStrict_one_level),
 		cmocka_unit_test(test__spdxStrict_tree),
 		cmocka_unit_test(test__spdxStrict_precedence),
+		cmocka_unit_test(test__spdxStrict_whitespace),
 	};
 	failures += cmocka_run_group_tests(licence_tests, test_setup__licences, test_teardown__licences);
 

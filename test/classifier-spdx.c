@@ -447,3 +447,110 @@ void test__spdxStrict_precedence(void **state) {
 		test_licence("Good AND Awesome AND Long name with spaces OR Bad AND Awful OR Good AND Bad", expected);
 	}
 }
+
+// Quote from the SPDX spec (Annex D: SPDX license expressions):
+//   > There MUST be white space and/or parentheses on either side of the operators AND and OR.
+// This means that, when the AND/OR operator appears near parentheses, whitespace is not required.
+void test__spdxStrict_whitespace(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+
+	// No whitespace before operator, simple licence expression after operator,
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 1, "Awesome");
+		make_ltn(left, 1, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *right;
+		make_ltn_simple(right, 0, "Bad");
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, right);
+		test_licence("(Good AND Awesome)OR Bad", expected);
+	}
+	// No whitespace before operator, parenthesized expression after operator.
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 1, "Good");
+		make_ltn_simple(second, 0, "Bad");
+		make_ltn(left, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 0, "Awful");
+		make_ltn_simple(fourth, 1, "Awesome");
+		make_ltn(right, 0, LTNT_AND, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_OR, left, right);
+		test_licence("(Good AND Bad)OR (Awful AND Awesome)", expected);
+	}
+
+	// No whitespace after operator. Simple licence expression before it.
+	{
+		struct LicenceTreeNode *left;
+		make_ltn_simple(left, 1, "Awesome");
+
+		struct LicenceTreeNode *first, *second, *right;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 1, "Good");
+		make_ltn(right, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_AND, left, right);
+		test_licence("Awesome AND(Bad OR Good)", expected);
+	}
+	// No whitespace after operator. Parenthesized expression before it.
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 0, "Awful");
+		make_ltn(left, 0, LTNT_AND, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 1, "Good");
+		make_ltn_simple(fourth, 0, "Atrocious");
+		make_ltn(right, 1, LTNT_OR, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_OR, left, right);
+		test_licence("(Bad AND Awful) OR(Good OR Atrocious)", expected);
+	}
+
+	// No whitespace on either side.
+	{
+		struct LicenceTreeNode *first, *second, *left;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 1, "Good");
+		make_ltn(left, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *third, *fourth, *right;
+		make_ltn_simple(third, 0, "Awful");
+		make_ltn_simple(fourth, 1, "Awesome");
+		make_ltn(right, 1, LTNT_OR, third, fourth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 1, LTNT_AND, left, right);
+		test_licence("(Bad OR Good)AND(Awful OR Awesome)", expected);
+	}
+
+	// While we're at it, test if extra whitespace around parentheses won't mess anything up.
+	{
+		struct LicenceTreeNode *first, *second, *inner;
+		make_ltn_simple(first, 0, "Bad");
+		make_ltn_simple(second, 1, "Good");
+		make_ltn(inner, 1, LTNT_OR, first, second);
+
+		struct LicenceTreeNode *third, *left;
+		make_ltn_simple(third, 0, "Atrocious");
+		make_ltn(left, 0, LTNT_AND, inner, third);
+
+		struct LicenceTreeNode *fourth, *fifth, *right;
+		make_ltn_simple(fourth, 0, "Awful");
+		make_ltn_simple(fifth, 1, "Awesome");
+		make_ltn(right, 0, LTNT_AND, fourth, fifth);
+
+		struct LicenceTreeNode *expected;
+		make_ltn(expected, 0, LTNT_OR, left, right);
+		test_licence("( ( Bad OR Good ) AND Atrocious ) OR ( Awful AND Awesome )", expected);
+	}
+}

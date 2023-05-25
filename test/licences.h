@@ -52,6 +52,7 @@ extern void test__spdxStrict_suffixes(void **state);
 extern void test__spdxStrict_one_level(void **state);
 extern void test__spdxStrict_tree(void **state);
 extern void test__spdxStrict_precedence(void **state);
+extern void test__spdxStrict_whitespace(void **state);
 
 extern void assert_ltn_equal(const struct LicenceTreeNode *actual, const struct LicenceTreeNode *expected, const char *const file, const int line);
 
