@@ -54,21 +54,26 @@ static int init_buffers(void) {
 
 static FILE* openfile(char *name) {
 	char* buffer = NULL;
+	FILE *f = NULL;
 
-	const int non_built_in = str_starts_with(name, "/") || str_starts_with(name, "./") || str_starts_with(name, "../");
-	if(!non_built_in) {
+	const int skip_builtin_check = str_starts_with(name, "/") || str_starts_with(name, "./") || str_starts_with(name, "../");
+	if(!skip_builtin_check) {
 		const size_t bufsize = strlen(name) + strlen(INSTALL_DIR "/licences/.txt") + 1;
 		buffer = malloc(bufsize);
 		if(buffer == NULL) return NULL;
 
 		snprintf(buffer, bufsize, INSTALL_DIR "/licences/%s.txt", name);
-		name = buffer;
+		f = fopen(buffer, "r");
 	}
 
-	FILE *f = fopen(name, "r");
+	// There's no built-in file with said name, or we skipped the built-in check - try again, passing "name" as-is
 	if(f == NULL) {
-		char *errstr = strerror(errno);
-		lang_fprint(stderr, MSG_ERR_LICENCES_BADFILE, name, errstr);
+		f = fopen(name, "r");
+		// Both attempts failed, print error message
+		if(f == NULL) {
+			const char *errstr = strerror(errno);
+			lang_fprint(stderr, MSG_ERR_LICENCES_BADFILE, name, errstr);
+		}
 	}
 
 	if(buffer != NULL) free(buffer);
