@@ -24,14 +24,13 @@
 #include "test/licences.h"
 
 int read_stdin(char **dataPtr, size_t *dataLen) {
-	const size_t CHUNK_SIZE = 4096;
 	struct ReBuffer *buf = rebuf_init();
 	if (!buf) {
 		return 0;
 	}
 
 	while (!feof(stdin)) {
-		char chunk[CHUNK_SIZE];
+		char chunk[4096];
 		size_t read = fread(chunk, 1, sizeof(chunk), stdin);
 		if (rebuf_append(buf, chunk, read) == NULL) {
 			rebuf_free(buf);
@@ -86,8 +85,7 @@ int main(int argc, char *argv[]) {
 	//       Consider moving licence string sanitization to a separate function.
 	char *sanitized = malloc(input_len + 256);
 	str_squeeze_char(input, ' ');
-	input = trim(input, NULL);
-	str_balance_parentheses(input, sanitized, (input_len + 256), NULL);
+	str_balance_parentheses(trim(input, NULL), sanitized, (input_len + 256), NULL);
 
 	struct LicenceTreeNode *ltn = classifier->classify(classifier, sanitized);
 	if (!ltn) {
