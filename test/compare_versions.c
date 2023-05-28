@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021 Artur "suve" Iwicki
+ * Copyright (C) 2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -42,6 +42,7 @@ void test__compare_versions(void **state) {
 	// We want to test our fallback mechanism, not librpm's behaviour.
 	skip();
 #else
+	// Some standard version strings.
 	testcase("1.0", "0.9", +1);
 	testcase("1.1", "1.0", +1);
 	testcase("1.1.1", "1.1", +1);
@@ -62,5 +63,34 @@ void test__compare_versions(void **state) {
 	testcase("1.a.2", "1.a.2", 0);
 	testcase("1.a.2.b", "1.a.2.b", 0);
 	testcase("1.a.2.b.3", "1.a.2.b.3", 0);
+
+	// Test version strings using tilde components.
+	testcase("1.2~5", "1.2", -1);
+	testcase("1.2~5", "1.2.0", -1);
+	testcase("1.2~5", "1.3", -1);
+	testcase("1.2.3~5", "1.2.1", +1);
+	testcase("1.2.3~5", "1.2.3", -1);
+
+	testcase("1.1~3", "1.2~2", -1);
+	testcase("1.2~1", "1.2~2", -1);
+	testcase("1.2~3", "1.2~2", +1);
+	testcase("1.3~1", "1.2~2", +1);
+
+	// Test version strings using caret components.
+	testcase("1.2^0", "1.2", +1);
+	testcase("1.2^0", "1.2.5", -1);
+	testcase("1.1^5", "1.2", -1);
+	testcase("1.3^5", "1.2", +1);
+
+	testcase("1.1^3", "1.2^2", -1);
+	testcase("1.2^1", "1.2^2", -1);
+	testcase("1.2^3", "1.2^2", +1);
+	testcase("1.3^1", "1.2^2", +1);
+
+	// Test tilde vs caret components.
+	testcase("1.1~3", "1.2^5", -1);
+	testcase("1.2~3", "1.2^5", -1);
+	testcase("1.2~7", "1.2^5", -1);
+	testcase("1.3~7", "1.2^5", +1);
 #endif
 }
