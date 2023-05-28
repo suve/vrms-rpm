@@ -35,7 +35,7 @@ static void print_help(void);
 int opt_colour = OPT_COLOUR_AUTO;
 int opt_describe = 0;
 int opt_evra = OPT_EVRA_AUTO;
-int opt_grammar = OPT_GRAMMAR_LOOSE;
+int opt_grammar = DEFAULT_GRAMMAR_ENUM;
 int opt_explain = 0;
 int opt_image = OPT_IMAGE_NONE;
 int opt_list = OPT_LIST_NONFREE;
@@ -216,7 +216,7 @@ static void print_help(void) {
 	lang_print(MSG_HELP_OPTION_EXPLAIN);
 
 	puts("  --grammar <loose, spdx-strict, spdx-lenient>");
-	lang_print(MSG_HELP_OPTION_GRAMMAR);
+	lang_print(MSG_HELP_OPTION_GRAMMAR, DEFAULT_GRAMMAR_NAME);
 
 	puts("  --help");
 	lang_print(MSG_HELP_OPTION_HELP);

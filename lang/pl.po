@@ -60,7 +60,7 @@ msgstr "    Określa zestaw reguł gramatycznych używanych podczas analizowania
        "      * spdx-strict: Użyj gramatyki wyrażeń licencyjnych SPDX.\n"
        "      * spdx-lenient: Jak wyżej, ale rozluźnij wymagania dotyczące\n"
        "        wielkości liter oraz obecności białych znaków.\n"
-       "    Domyślna wartość to 'loose'.\n"
+       "    Domyślna wartość to '%s'.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Wyświetl krótką instrukcję obsługi programu i zakończ.\n"

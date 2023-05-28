@@ -72,8 +72,9 @@ Użyj reguł zgodnych z zasadami wyraźeń licencyjnych SPDX.
 .TP
 .B spdx-lenient
 Jak wyżej, ale rozlużnij wymagania dotyczące wielkości liter czy obecności białych znaków.
-.TP
-Domyślna wartość to '\fIloose\fR'.
+.PP
+Domyślna wartość to
+__DEFAULT_GRAMMAR__
 .RE
 
 .TP

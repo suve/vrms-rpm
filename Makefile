@@ -16,6 +16,7 @@
 # this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
 #
 
+DEFAULT_GRAMMAR ?= loose
 DEFAULT_LICENCE_LIST ?= tweaked
 DESTDIR ?=
 PREFIX ?= /usr/local
@@ -121,6 +122,10 @@ help:
 	@echo "                    coverage instrumentation"
 	@echo ""
 	@echo "VARIABLES:"
+	@echo "    DEFAULT_GRAMMAR"
+	@echo "        default grammar rules to use for parsing licence strings"
+	@echo "        changed at run-time using --grammar"
+	@echo "        possible values: 'loose' (default), 'spdx-strict', 'spdx-lenient'"
 	@echo "    DEFAULT_LICENCE_LIST"
 	@echo "        default list of good licences to use (default: tweaked)"
 	@echo "        changed at run-time using --licence-list"
@@ -144,16 +149,16 @@ help:
 
 
 src/config.h: src/generate-config.sh
-	src/generate-config.sh -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' > "$@"
+	src/generate-config.sh -d '$(DEFAULT_LICENCE_LIST)' -g '$(DEFAULT_GRAMMAR)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' > "$@"
 
 build/bash-completion.sh: src/bash-completion.sh
 	mkdir -p "$(dir $@)"
 	sed -e 's|__LICENCE_LIST__|$(LICENCE_FILENAMES)|' < "$<" > "$@"
 
-build/man/%.man: man/%.man
+build/man/%.man: man/%.man src/convert-man.sh
 	mkdir -p "$(dir $@)"
 	cp "$<" "$@"
-	src/convert-man.sh -d '$(DEFAULT_LICENCE_LIST)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' -f "$@"
+	src/convert-man.sh -d '$(DEFAULT_LICENCE_LIST)' -g '$(DEFAULT_GRAMMAR)' -l '$(LICENCE_FILENAMES)' -p '$(PREFIX)' -f "$@"
 
 build/locale/%/LC_MESSAGES/vrms-rpm.mo: lang/%.po
 	mkdir -p "$(dir $@)"

@@ -56,7 +56,7 @@ msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
        "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
        "      * spdx-lenient: Same as above, but relax some rules\n"
        "        regarding case-sensitivity and whitespace.\n"
-       "    The default value is 'loose'.\n"
+       "    The default value is '%s'.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Display this help and exit.\n"

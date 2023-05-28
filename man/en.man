@@ -69,8 +69,9 @@ Employ the SPDX License Expression rules.
 .TP
 .B spdx-lenient
 The same as above, but relax some rules regarding case sensitivity and whitespace.
-.TP
-The default value is '\fIloose\fR'.
+.PP
+The default value is
+__DEFAULT_GRAMMAR__
 .RE
 
 .TP
