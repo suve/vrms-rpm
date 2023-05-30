@@ -54,6 +54,7 @@ extern void test__spdxStrict_tree(void **state);
 extern void test__spdxStrict_precedence(void **state);
 extern void test__spdxStrict_whitespace(void **state);
 extern void test__spdxStrict_caseSensitivity(void **state);
+extern void test__spdxStrict_mangledStrings(void **state);
 
 extern void test__spdxLenient(void **state);
 

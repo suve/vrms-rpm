@@ -583,6 +583,71 @@ void test__spdxStrict_caseSensitivity(void **state) {
 	}
 }
 
+// Test some strings that don't really make sense.
+void test__spdxStrict_mangledStrings(void **state) {
+	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+
+	// Valid licence string, but with extra parentheses
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Good");
+		test_licence("(Good)", expected);
+	}
+	// Gimme more!
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Good");
+		test_licence("(((Good)))", expected);
+	}
+
+	// WITH operator present, but no licensing exception (string ends)
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Empty Licensing Exception String WITH ");
+		test_licence("(Empty Licensing Exception String WITH )", expected);
+	}
+	// WITH operator present, but no license
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, " WITH Lol Where's The Licence");
+		test_licence("( WITH Lol Where's The Licence)", expected);
+	}
+
+	// AND joiner present, but no licence preceding it
+	{
+		struct LicenceTreeNode *left, *right, *expected;
+		make_ltn_simple(left, 0, "");
+		make_ltn_simple(right, 0, "Stuff");
+		make_ltn(expected, 0, LTNT_AND, left, right);
+		test_licence("( AND Stuff)", expected);
+	}
+	// AND joiner present, but no licence after it
+	{
+		struct LicenceTreeNode *left, *right, *expected;
+		make_ltn_simple(left, 0, "Other Stuff");
+		make_ltn_simple(right, 0, "");
+		make_ltn(expected, 0, LTNT_AND, left, right);
+		test_licence("(Other Stuff AND )", NULL);
+	}
+
+	// OR joiner present, but no licence preceding it
+	{
+		struct LicenceTreeNode *left, *right, *expected;
+		make_ltn_simple(left, 0, "");
+		make_ltn_simple(right, 0, "Things");
+		make_ltn(expected, 0, LTNT_OR, left, right);
+		test_licence("( OR Things)", NULL);
+	}
+	// OR joiner present, but no licence after it
+	{
+		struct LicenceTreeNode *left, *right, *expected;
+		make_ltn_simple(left, 0, "More Things");
+		make_ltn_simple(right, 0, "");
+		make_ltn(expected, 0, LTNT_OR, left, right);
+		test_licence("(More Things OR )", NULL);
+	}
+}
+
 // Test behaviour specific to SPDX classifier's lenient mode.
 void test__spdxLenient(void **state) {
 	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxLenientClassifier;
