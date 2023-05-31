@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2021-2022 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -211,9 +211,9 @@ static void printnode(struct LicenceTreeNode *node) {
 	}
 }
 
-static void format_evra(char *bufptr, const size_t bufsize, const struct Package *pkg) {
-	snprintf(
-		bufptr, bufsize, "-%s%s%s-%s%s%s",
+static void print_evra(const struct Package *pkg) {
+	printf(
+		"-%s%s%s-%s%s%s",
 		(pkg->epoch != NULL) ? pkg->epoch : "",
 		(pkg->epoch != NULL) ? ":" : "",
 		pkg->version,
@@ -232,7 +232,7 @@ static void printlist(const int which_kind) {
 		if(pkg->licence->is_free != which_kind) continue;
 
 		/*
-		 * A buffer for formatting the epoch:version-release.arch information,
+		 * Decide whether to print the epoch:version-release.arch information,
 		 * to eliminate ambiguity as to which package we're describing.
 		 *
 		 * Subject to the --evra option:
@@ -240,7 +240,7 @@ static void printlist(const int which_kind) {
 		 * - when set to 'always', print for all packages
 		 * - when set to 'never', well, don't print it
 		 */
-		char evra[128] = {'\0'};
+		int evra = 0;
 		if(opt_evra == OPT_EVRA_AUTO) {
 			/*
 			 * Compare with next package to determine whether this is a duplicate.
@@ -258,17 +258,15 @@ static void printlist(const int which_kind) {
 				duplicate_next = 0;
 			}
 
-			if(duplicate_this) format_evra(evra, sizeof(evra), pkg);
+			if(duplicate_this) evra = 1;
 		} else if(opt_evra == OPT_EVRA_ALWAYS) {
-			format_evra(evra, sizeof(evra), pkg);
+			evra = 1;
 		}
 
-		if(opt_describe) {
-			printf(" - %s%s: %s", pkg->name, evra, pkg->summary);
-		} else {
-			printf(" - %s%s", pkg->name, evra);
-		}
-		
+		printf(" - %s", pkg->name);
+		if(evra) print_evra(pkg);
+		if(opt_describe) printf(": %s", pkg->summary);
+
 		if(opt_explain) {
 			printf("\n   ");
 			printnode(pkg->licence);
