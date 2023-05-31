@@ -241,7 +241,9 @@ static void printlist(const int which_kind) {
 		 * - when set to 'never', well, don't print it
 		 */
 		int evra = 0;
-		if(opt_evra == OPT_EVRA_AUTO) {
+		if(opt_evra == OPT_EVRA_ALWAYS) {
+			evra = 1;
+		} else if(opt_evra == OPT_EVRA_AUTO) {
 			/*
 			 * Compare with next package to determine whether this is a duplicate.
 			 * Since we sorted the packages by name earlier, duplicates are guaranteed
@@ -259,8 +261,25 @@ static void printlist(const int which_kind) {
 			}
 
 			if(duplicate_this) evra = 1;
-		} else if(opt_evra == OPT_EVRA_ALWAYS) {
-			evra = 1;
+		}
+
+		/*
+		 * RPM stores imported GPG keys as fake "gpg-pubkey-XXXXXXXX-YYYYYYYY" packages.
+		 * However, the X and Y parts are not stored inside the Name,
+		 * but rather in the Version and Release fields.
+		 *
+		 * For example, the package holding the Fedora 38 signing key looks like this:
+		 *   - Name: "gpg-pubkey"
+		 *   - Version: "eb10b464"
+		 *   - Release: "6202d9c6"
+		 *
+		 * Since printing just "gpg-pubkey" is rather unhelpful, we want to always
+		 * print EVRA information for these packages, even if the user specified "--evra never".
+		 */
+		if(evra == 0) {
+			// gpg-pubkey packages seem to always have their Arch set to "(none)",
+			// so check for that first, before engaging in strcmp().
+			evra = (pkg->arch == NULL) && (strcmp(pkg->name, "gpg-pubkey") == 0);
 		}
 
 		printf(" - %s", pkg->name);
