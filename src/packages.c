@@ -223,67 +223,70 @@ static void print_evra(const struct Package *pkg) {
 	);
 }
 
-static void printlist(const int which_kind) {
-	int duplicate_next = 0;
+/*
+ * Decide whether to print the epoch:version-release.arch information,
+ * to eliminate ambiguity as to which package we're describing.
+ *
+ * Subject to the --evra option:
+ * - when set to 'always', print for all packages
+ * - when set to 'auto', print E:V-R.A only for duplicate packages
+ * - when set to 'never', well, don't print it
+ *
+ * An exception to the rules above are "gpg-pubkey-XXXXXXXX-YYYYYYYY" packages.
+ * These are "fake" packages in which RPM stores imported GPG keys.
+ * However, the XXXXXXXX and YYYYYYYY parts are not stored inside the Name,
+ * but rather in the Version and Release fields.
+ *
+ * For example, the package holding the Fedora 38 signing key looks like this:
+ * - Name: "gpg-pubkey"
+ * - Version: "eb10b464"
+ * - Release: "6202d9c6"
+ *
+ * Since printing just "gpg-pubkey" is rather unhelpful, we want to ALWAYS
+ * print EVRA information for these packages, even if the user specified "--evra never".
+ */
+static int should_print_evra(const size_t i, const struct Package *pkg, const size_t count, int *duplicate_next) {
+	if(opt_evra == OPT_EVRA_ALWAYS) {
+		return 1;
+	}
 
-	const int count = LIST_COUNT;
-	for(int i = 0; i < count; ++i) {
+	if(opt_evra == OPT_EVRA_AUTO) {
+		/*
+		 * Compare with next package to determine whether this is a duplicate.
+		 * Since we sorted the packages by name earlier, duplicates are guaranteed
+		 * to be located next to each other in the list.
+		 *
+		 * If this is not a duplicate of the next package, check whether
+		 * the previous package set the "next package is a duplicate" flag.
+		 */
+		int duplicate_this;
+		if((i != count-1) && (strcasecmp(pkg->name, LIST_ITEM(i+1).name) == 0)) {
+			*duplicate_next = duplicate_this = 1;
+		} else {
+			duplicate_this = *duplicate_next;
+			*duplicate_next = 0;
+		}
+
+		if(duplicate_this) return 1;
+	}
+
+	/*
+	 * gpg-pubkey packages seem to always have their Arch set to "(none)",
+	 * so check for that first, before engaging in expensive strcmp() calls.
+	 */
+	return (pkg->arch == NULL) && (strcmp(pkg->name, "gpg-pubkey") == 0);
+}
+
+static void printlist(const int which_kind) {
+	int duplicate = 0;
+
+	const size_t count = LIST_COUNT;
+	for(size_t i = 0; i < count; ++i) {
 		struct Package *pkg = &LIST_ITEM(i);
 		if(pkg->licence->is_free != which_kind) continue;
 
-		/*
-		 * Decide whether to print the epoch:version-release.arch information,
-		 * to eliminate ambiguity as to which package we're describing.
-		 *
-		 * Subject to the --evra option:
-		 * - when set to 'auto', print E:V-R.A only for duplicate packages
-		 * - when set to 'always', print for all packages
-		 * - when set to 'never', well, don't print it
-		 */
-		int evra = 0;
-		if(opt_evra == OPT_EVRA_ALWAYS) {
-			evra = 1;
-		} else if(opt_evra == OPT_EVRA_AUTO) {
-			/*
-			 * Compare with next package to determine whether this is a duplicate.
-			 * Since we sorted the packages by name earlier, duplicates are guaranteed
-			 * to be located next to each other in the list.
-			 *
-			 * If this is not a duplicate of the next package, check whether
-			 * the previous package set the "next package is a duplicate" flag.
-			 */
-			int duplicate_this;
-			if((i != (count-1)) && (strcasecmp(pkg->name, LIST_ITEM(i+1).name) == 0)) {
-				duplicate_next = duplicate_this = 1;
-			} else {
-				duplicate_this = duplicate_next;
-				duplicate_next = 0;
-			}
-
-			if(duplicate_this) evra = 1;
-		}
-
-		/*
-		 * RPM stores imported GPG keys as fake "gpg-pubkey-XXXXXXXX-YYYYYYYY" packages.
-		 * However, the X and Y parts are not stored inside the Name,
-		 * but rather in the Version and Release fields.
-		 *
-		 * For example, the package holding the Fedora 38 signing key looks like this:
-		 *   - Name: "gpg-pubkey"
-		 *   - Version: "eb10b464"
-		 *   - Release: "6202d9c6"
-		 *
-		 * Since printing just "gpg-pubkey" is rather unhelpful, we want to always
-		 * print EVRA information for these packages, even if the user specified "--evra never".
-		 */
-		if(evra == 0) {
-			// gpg-pubkey packages seem to always have their Arch set to "(none)",
-			// so check for that first, before engaging in strcmp().
-			evra = (pkg->arch == NULL) && (strcmp(pkg->name, "gpg-pubkey") == 0);
-		}
-
 		printf(" - %s", pkg->name);
-		if(evra) print_evra(pkg);
+		if(should_print_evra(i, pkg, count, &duplicate)) print_evra(pkg);
 		if(opt_describe) printf(": %s", pkg->summary);
 
 		if(opt_explain) {
