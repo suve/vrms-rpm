@@ -198,6 +198,26 @@ static enum LicenceTreeNodeType detect_type(struct SpdxClassifier *self, const c
 	return LTNT_LICENCE;
 }
 
+/*
+ * Helper function for spdx_classify(), should not be called from other places.
+ *
+ * Check if text[0] is followed by "AND"/"OR", and then either a space (' ') or an opening parenthesis ('(').
+ * Returns 0 if match is found, or number of characters that can be skipped if it isn't.
+ */
+static int skip_non_joiner(struct SpdxClassifier *self, const char *const text, const enum LicenceTreeNodeType type) {
+	if(type == LTNT_AND) {
+		if(!MATCH_LETTER(text[1], 'A')) return 1;
+		if(!MATCH_LETTER(text[2], 'N')) return 2;
+		if(!MATCH_LETTER(text[3], 'D')) return 3;
+		if((text[4] != ' ') && (text[4] != '(')) return 4;
+	} else {
+		if(!MATCH_LETTER(text[1], 'O')) return 1;
+		if(!MATCH_LETTER(text[2], 'R')) return 2;
+		if((text[3] != ' ') && (text[3] != '(')) return 3;
+	}
+	return 0;
+}
+
 static struct LicenceTreeNode* append(struct SpdxClassifier *self, char *licence, enum LicenceTreeNodeType rootType, int *rootIsFree);
 
 // Helper macro: make a pointer to a LicenceTreeNode from the value located in the nodeBuf at given offset
@@ -247,20 +267,10 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 		}
 
 		// Not a NUL byte and not an opening paren - must be closing paren or space.
-		// Try matching for AND/OR.
-		int match = 1;
-		if(type == LTNT_AND) {
-			match = match && MATCH_LETTER(s[1], 'A');
-			match = match && MATCH_LETTER(s[2], 'N');
-			match = match && MATCH_LETTER(s[3], 'D');
-			match = match && ((s[4] == ' ') || (s[4] == '('));
-		} else {
-			match = match && MATCH_LETTER(s[1], 'O');
-			match = match && MATCH_LETTER(s[2], 'R');
-			match = match && ((s[3] == ' ') || (s[3] == '('));
-		}
-		if(!match) {
-			++s; // TODO: Skip more than one char, based on failed match length
+		// Check if this is followed by AND/OR.
+		const int skip = skip_non_joiner(self, s, type);
+		if(skip > 0) {
+			s += skip;
 			continue;
 		}
 
