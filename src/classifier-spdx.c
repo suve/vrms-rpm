@@ -219,6 +219,16 @@ static int skip_non_joiner(struct SpdxClassifier *self, const char *const text, 
 }
 
 static struct LicenceTreeNode* append(struct SpdxClassifier *self, char *licence, enum LicenceTreeNodeType rootType, int *rootIsFree);
+static void cleanup(struct SpdxClassifier *self, size_t bufStart);
+
+// Helper macro: append a child node, or bail out if an error occurs
+#define try_append(lic, type, isFree) \
+	do { \
+		if(append(self, (lic), (type), (isFree)) == NULL) { \
+			cleanup(self, bufStart); \
+			return NULL; \
+		} \
+	} while(0)
 
 // Helper macro: make a pointer to a LicenceTreeNode from the value located in the nodeBuf at given offset
 #define NODEBUFPTR(offset) ((struct LicenceTreeNode*)(((char*)self->nodeBuf->data) + (offset)))
@@ -256,8 +266,7 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 	while(1) {
 		while((*s != '\0') && (*s != '(') && (*s != ')') && (*s != ' ')) ++s;
 		if(*s == '\0') {
-			// TODO: Handle errors here
-			if(s > licence) append(self, licence, type, &isFree);
+			if(s > licence) try_append(licence, type, &isFree);
 			break;
 		}
 		if(*s == '(') {
@@ -277,8 +286,7 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 		if(*s == ')') ++s;
 		*s = '\0';
 
-		// TODO: Handle errors here
-		append(self, licence, type, &isFree);
+		try_append(licence, type, &isFree);
 
 		while((*s != ' ') && (*s != '(')) {
 			*s = '\0';
@@ -315,6 +323,16 @@ static struct LicenceTreeNode* append(struct SpdxClassifier *self, char *licence
 
 	*rootIsFree = (rootType == LTNT_AND) ? (*rootIsFree && child->is_free) : (*rootIsFree || child->is_free);
 	return child;
+}
+
+static void cleanup(struct SpdxClassifier *self, size_t bufStart) {
+	// Free any child nodes allocated so far.
+	for(size_t pos = bufStart; bufStart < self->nodeBuf->used; pos += sizeof(struct LicenceTreeNode*)) {
+		licence_freeTree(NODEBUFPTR(pos));
+	}
+
+	// Re-wind the nodeBuffer so we can pretend we never appended anything.
+	self->nodeBuf->used = bufStart;
 }
 
 static void spdx_free(struct LicenceClassifier *class) {
