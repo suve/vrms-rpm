@@ -17,13 +17,19 @@
  * this program (LICENCE.txt). If not, see <https://www.gnu.org/licenses/>.
  */
 
-function read_json_file($url) {
+function read_file($url) {
 	$content = file_get_contents($url);
 	if($content === false) {
 		fprintf(STDERR, "Failed to read file at \"%s\"\n", $url);
 		die(1);
 	}
 
+	return $content;
+}
+
+
+function read_json_file($url) {
+	$content = read_file($url);
 	$json = json_decode($content, null, 32, JSON_OBJECT_AS_ARRAY | JSON_INVALID_UTF8_SUBSTITUTE);
 	if(json_last_error() !== JSON_ERROR_NONE) {
 		fprintf(STDERR, "Failed to decode JSON: %s\n", json_last_error_msg());
@@ -150,7 +156,23 @@ function update_spdx() {
 	write_to_file('../licences/spdx-fsf-and-osi.txt', $both);
 }
 
+function update_tweaked() {
+	$combined = [];
+
+	$files = glob('../licences/*.txt', GLOB_NOSORT);
+	foreach($files as $file) {
+		$content = read_file($file);
+		$lines = explode("\n", $content);
+		$combined = array_merge($combined, $lines);
+	}
+
+	$combined = array_unique($combined, SORT_STRING);
+	sort($combined, SORT_STRING | SORT_FLAG_CASE);
+	write_to_file('../licences/tweaked.txt', $combined);
+}
+
 chdir(__DIR__);
 update_fedora();
 update_spdx();
+update_tweaked();
 
