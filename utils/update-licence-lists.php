@@ -156,6 +156,64 @@ function update_spdx() {
 	write_to_file('../licences/spdx-fsf-and-osi.txt', $both);
 }
 
+// SUSE licensing guidelines say to use SPDX identifiers.
+// The spreadsheet exists mostly to list licenses that do not
+// have an SPDX identifier yet, plus some legacy identifiers.
+//
+// TODO: Take the SPDX data and include it here.
+function update_suse() {
+	$suseSourceUrl = 'https://docs.google.com/spreadsheets/d/14AdaJ6cmU0kvQ4ulq9pWpjdZL5tkR03exRSYJmPGdfs/pub';
+
+	$dom = new DOMDocument("1.0", "UTF-8");
+	if($dom->loadHTML(read_file($suseSourceUrl)) === false) {
+		fprintf(STDERR, "Failed to read HTML\n");
+		die(1);
+	}
+
+	$viewport = $dom->getElementById("sheets-viewport");
+	if($viewport === NULL) {
+		fprintf(STDERR, "Failed to find #sheets-viewport in HTML\n");
+		die(1);
+	}
+
+	$list = [];
+	foreach($viewport->getElementsByTagName("td") as $cell) {
+		// The SUSE spreadsheet is a mess.
+		// It contains both alternative names for licences
+		// and some assorted comments.
+		$text = trim($cell->textContent);
+
+		// We do not want to pull in "Freeware" or "NonFree".
+		if(($text === "Freeware") || ($text === "NonFree") || ($text === "SUSE-Freeware") || ($text === "SUSE-NonFree")) {
+			continue;
+		}
+
+		// URLs are definitely not licence names.
+		if(str_starts_with($text, "https://") || str_starts_with($text, "http://")) {
+			continue;
+		}
+
+		// Assume that anything with a parenthesis in it is not a licence name.
+		if(str_contains($text, "(")) {
+			continue;
+		}
+
+		// Assume that anything with a space is not a licence name.
+		if(str_contains($text, " ")) {
+			// ...unless the space is there because of "WITH".
+			if(!str_contains($text, " WITH ")) {
+				continue;
+			}
+		}
+
+		$list[] = $text;
+	}
+
+	$list = array_unique($list, SORT_STRING);
+	sort($list, SORT_STRING | SORT_FLAG_CASE);
+	write_to_file('../licences/suse.txt', $list);
+}
+
 function update_tweaked() {
 	$combined = [];
 
@@ -174,5 +232,6 @@ function update_tweaked() {
 chdir(__DIR__);
 update_fedora();
 update_spdx();
+update_suse();
 update_tweaked();
 
