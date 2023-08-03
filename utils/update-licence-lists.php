@@ -47,6 +47,21 @@ function write_to_file($filename, $data) {
 	}
 }
 
+function uniqsort(&$data) {
+	sort($data, SORT_STRING | SORT_FLAG_CASE);
+	$count = count($data);
+
+	$i = 1;
+	while($i < $count) {
+		if(strcasecmp($data[$i-1], $data[$i]) === 0) {
+			array_splice($data, $i, 1);
+			$count -= 1;
+		} else {
+			$i += 1;
+		}
+	}
+}
+
 function get_nested_value($jsonObj, ...$keys) {
 	foreach($keys as $key) {
 		if(!array_key_exists($key, $jsonObj)) return NULL;
@@ -112,9 +127,7 @@ function update_fedora() {
 		if($legacyAbbr !== NULL) $list[] = $legacyAbbr;
 	}
 
-	// TODO: Probably need to write custom function for case-insensitive sort+uniq
-	$list = array_unique($list, SORT_STRING);
-	sort($list, SORT_STRING | SORT_FLAG_CASE);
+	uniqsort($list);
 	write_to_file('../licences/fedora.txt', $list);
 }
 
@@ -154,14 +167,19 @@ function update_spdx() {
 
 	sort($both, SORT_STRING | SORT_FLAG_CASE);
 	write_to_file('../licences/spdx-fsf-and-osi.txt', $both);
+
+	return [
+		'fsfOnly' => $fsfOnly,
+		'osiOnly' => $osiOnly,
+		'either' => $either,
+		'both' => $both,
+	];
 }
 
 // SUSE licensing guidelines say to use SPDX identifiers.
 // The spreadsheet exists mostly to list licenses that do not
 // have an SPDX identifier yet, plus some legacy identifiers.
-//
-// TODO: Take the SPDX data and include it here.
-function update_suse() {
+function update_suse($spdxData) {
 	$suseSourceUrl = 'https://docs.google.com/spreadsheets/d/14AdaJ6cmU0kvQ4ulq9pWpjdZL5tkR03exRSYJmPGdfs/pub';
 
 	$dom = new DOMDocument("1.0", "UTF-8");
@@ -176,7 +194,7 @@ function update_suse() {
 		die(1);
 	}
 
-	$list = [];
+	$list = $spdxData;
 	foreach($viewport->getElementsByTagName("td") as $cell) {
 		// The SUSE spreadsheet is a mess.
 		// It contains both alternative names for licences
@@ -206,11 +224,15 @@ function update_suse() {
 			}
 		}
 
+		// Also ignore stuff ending in a dot / period.
+		if(str_ends_with($text, ".")) {
+			continue;
+		}
+
 		$list[] = $text;
 	}
 
-	$list = array_unique($list, SORT_STRING);
-	sort($list, SORT_STRING | SORT_FLAG_CASE);
+	uniqsort($list);
 	write_to_file('../licences/suse.txt', $list);
 }
 
@@ -224,14 +246,19 @@ function update_tweaked() {
 		$combined = array_merge($combined, $lines);
 	}
 
-	$combined = array_unique($combined, SORT_STRING);
-	sort($combined, SORT_STRING | SORT_FLAG_CASE);
+	uniqsort($combined);
+	while(trim($combined[0]) === "") {
+		array_shift($combined);
+	}
+
 	write_to_file('../licences/tweaked.txt', $combined);
 }
 
 chdir(__DIR__);
+$spdx = update_spdx();
+
 update_fedora();
-update_spdx();
-update_suse();
+update_suse($spdx['either']);
+
 update_tweaked();
 
