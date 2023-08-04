@@ -52,6 +52,7 @@ struct Package {
 	char *name, *summary;
 	char *epoch, *release, *version, *arch;
 	struct LicenceTreeNode *licence;
+	int is_pubkey;
 };
 
 #define LIST_COUNT      (list->used / sizeof(struct Package))
@@ -81,7 +82,17 @@ static int is_defined(const char *value) {
 	return strcmp(value, "(none)") != 0;
 }
 
-extern int packages_read(struct Pipe *pipe) {
+/*
+ * "gpg-pubkey-XXXXXXXX-YYYYYYYY" packages are "fake" packages
+ * in which RPM stores imported GPG keys. These are a special case
+ * and should be treated as such.
+ */
+static int is_pubkey_package(const char *name, const char *arch, const char *licence) {
+	// Check arch first before engaging in expensive strcmp() calls
+	return (arch == NULL) && (strcmp(name, "gpg-pubkey") == 0) && (strcmp(licence, "pubkey") == 0);
+}
+
+int packages_read(struct Pipe *pipe) {
 	if(init_buffers() != 0) return -1;
 	sorted = 0;
 
@@ -117,9 +128,10 @@ extern int packages_read(struct Pipe *pipe) {
 		version = chainbuf_append(&buffer, version);
 		release = chainbuf_append(&buffer, release);
 
-		struct LicenceTreeNode *classification = licence_classify(licence);
+		const int is_pubkey = is_pubkey_package(name, arch, licence);
+		struct LicenceTreeNode *classification = is_pubkey ? ((struct LicenceTreeNode*)(&PubkeyLicence)) : licence_classify(licence);
 		class_count[classification->is_free] += 1;
-		
+
 		struct Package pkg = {
 			.name = name,
 			.summary = summary,
@@ -128,6 +140,7 @@ extern int packages_read(struct Pipe *pipe) {
 			.release = release,
 			.arch = arch,
 			.licence = classification,
+			.is_pubkey = is_pubkey,
 		};
 		if(rebuf_append(list, &pkg, sizeof(struct Package)) == NULL) return -1;
 	}
@@ -140,7 +153,7 @@ void packages_free(void) {
 		const int count = LIST_COUNT;
 		for(int i = 0; i < count; ++i) {
 			struct Package *pkg = &LIST_ITEM(i);
-			licence_freeTree(pkg->licence);
+			if(!pkg->is_pubkey) licence_freeTree(pkg->licence);
 		}
 		
 		rebuf_free(list);
@@ -233,9 +246,8 @@ static void print_evra(const struct Package *pkg) {
  * - when set to 'never', well, don't print it
  *
  * An exception to the rules above are "gpg-pubkey-XXXXXXXX-YYYYYYYY" packages.
- * These are "fake" packages in which RPM stores imported GPG keys.
- * However, the XXXXXXXX and YYYYYYYY parts are not stored inside the Name,
- * but rather in the Version and Release fields.
+ * For all of them, the name is just "gpg-pubkey"; the XXXXXXXX and YYYYYYYY parts
+ * are stored inside the Version and Release fields.
  *
  * For example, the package holding the Fedora 38 signing key looks like this:
  * - Name: "gpg-pubkey"
@@ -270,11 +282,7 @@ static int should_print_evra(const size_t i, const struct Package *pkg, const si
 		if(duplicate_this) return 1;
 	}
 
-	/*
-	 * gpg-pubkey packages seem to always have their Arch set to "(none)",
-	 * so check for that first, before engaging in expensive strcmp() calls.
-	 */
-	return (pkg->arch == NULL) && (strcmp(pkg->name, "gpg-pubkey") == 0);
+	return pkg->is_pubkey;
 }
 
 static void printlist(const int which_kind) {

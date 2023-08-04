@@ -27,6 +27,12 @@
 #include "options.h"
 #include "stringutils.h"
 
+const struct LicenceTreeNode PubkeyLicence = (struct LicenceTreeNode) {
+	.type = LTNT_LICENCE,
+	.is_free = 1,
+	.licence = "pubkey",
+};
+
 #define LIST_COUNT (list->used / sizeof(char*))
 static struct ReBuffer *list = NULL;
 static struct ChainBuffer *buffer = NULL;
