@@ -28,12 +28,17 @@
 #include "stringutils.h"
 #include "versions.h"
 
+#define QUERY_BASE \
+	"%{NAME}\\t%{EPOCH}\\t%{VERSION}\\t%{RELEASE}\\t%{ARCH}" \
+	"\\t%|PUBKEYS?{1}:{0}|" \
+	"\\t%{LICENSE}" \
+
 struct Pipe* packages_openPipe(void) {
 	char *queryformat;
 	if(!opt_describe)
-		queryformat = "%{NAME}\\t%{EPOCH}\\t%{VERSION}\\t%{RELEASE}\\t%{ARCH}\\t%{LICENSE}\\n";
+		queryformat = QUERY_BASE "\\n";
 	else
-		queryformat = "%{NAME}\\t%{EPOCH}\\t%{VERSION}\\t%{RELEASE}\\t%{ARCH}\\t%{LICENSE}\\t%{SUMMARY}\\n";
+		queryformat = QUERY_BASE "\\t%{SUMMARY}\\n";
 
 	char *args[] = {
 		"/usr/bin/rpm",
@@ -87,9 +92,13 @@ static int is_defined(const char *value) {
  * in which RPM stores imported GPG keys. These are a special case
  * and should be treated as such.
  */
-static int is_pubkey_package(const char *name, const char *arch, const char *licence) {
-	// Check arch first before engaging in expensive strcmp() calls
-	return (arch == NULL) && (strcmp(name, "gpg-pubkey") == 0) && (strcmp(licence, "pubkey") == 0);
+static int is_pubkey_package(const char *name, const char *arch, const char *pubkeys, const char *licence) {
+	// Check arch first before engaging in expensive strcmp() calls.
+	return
+		(arch == NULL) &&
+		(strcmp(pubkeys, "1") == 0) &&
+		(strcmp(name, "gpg-pubkey") == 0) &&
+		(strcmp(licence, "pubkey") == 0);
 }
 
 int packages_read(struct Pipe *pipe) {
@@ -99,8 +108,8 @@ int packages_read(struct Pipe *pipe) {
 	FILE *f = pipe_fopen(pipe);
 	if(f == NULL) return -1;
 
-	const int expected = opt_describe ? 7 : 6;
-	char* fields[7];
+	const int expected = opt_describe ? 8 : 7;
+	char* fields[8];
 
 	char line[512];
 	while(fgets(line, sizeof(line), f) != NULL) {
@@ -112,8 +121,9 @@ int packages_read(struct Pipe *pipe) {
 		char *version = fields[2];
 		char *release = fields[3];
 		char *arch    = fields[4];
-		char *licence = fields[5];
-		char *summary = fields[6];
+		char *pubkeys = fields[5];
+		char *licence = fields[6];
+		char *summary = fields[7];
 
 		name = chainbuf_append(&buffer, name);
 		licence = chainbuf_append(&buffer, trim(licence, NULL));
@@ -128,7 +138,7 @@ int packages_read(struct Pipe *pipe) {
 		version = chainbuf_append(&buffer, version);
 		release = chainbuf_append(&buffer, release);
 
-		const int is_pubkey = is_pubkey_package(name, arch, licence);
+		const int is_pubkey = is_pubkey_package(name, arch, pubkeys, licence);
 		struct LicenceTreeNode *classification = is_pubkey ? ((struct LicenceTreeNode*)(&PubkeyLicence)) : licence_classify(licence);
 		class_count[classification->is_free] += 1;
 
