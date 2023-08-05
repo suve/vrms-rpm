@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -14,19 +14,17 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef VRMS_RPM_CLASSIFIERS_H
+#define VRMS_RPM_CLASSIFIERS_H
 
-#ifndef VRMS_RPM_PACKAGES_H
-#define VRMS_RPM_PACKAGES_H
+#include "src/licences.h"
 
-#include "src/classifiers.h"
-#include "src/pipes.h"
+struct LicenceClassifier {
+	struct LicenceTreeNode* (*classify)(struct LicenceClassifier *self, char *licence);
+	void (*free)(struct LicenceClassifier *self);
+};
 
-extern struct Pipe* packages_openPipe(void);
-extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier);
-
-extern void packages_getcount(int *free, int *nonfree);
-extern void packages_list(void);
-
-extern void packages_free(void);
+extern struct LicenceClassifier* classifier_newLoose(const struct LicenceData *data);
+extern struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data, int lenient);
 
 #endif

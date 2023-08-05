@@ -49,6 +49,15 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    When listing packages, display their licences\n"
        "    to justify the free / non-free classification.\n"
 
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
+
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Display this help and exit.\n"
 
@@ -91,13 +100,16 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: failed to read list of good licences from \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: argument to --colour option must be one of 'never', 'always', or 'auto'\n"
+msgstr "vrms-rpm: argument to the --colour option must be one of 'never', 'always', or 'auto'\n"
 
 msgid "ERR_BADOPT_EVRA\n"
-msgstr "vrms-rpm: argument to --evra option must be one of 'never', 'always', or 'auto'\n"
+msgstr "vrms-rpm: argument to the --evra option must be one of 'never', 'always', or 'auto'\n"
+
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: argument to the --grammar option must be either 'loose' or 'spdx'\n"
 
 msgid "ERR_BADOPT_LIST\n"
-msgstr "vrms-rpm: argument to --list option must be one of 'none', 'non-free', 'free' or 'all'\n"
+msgstr "vrms-rpm: argument to the --list option must be one of 'none', 'non-free', 'free' or 'all'\n"
 
 msgid "ERR_BADOPT_NOARG\n"
 msgstr "vrms-rpm: option \"%s\" requires an argument\n"

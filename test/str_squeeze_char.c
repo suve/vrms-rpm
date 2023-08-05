@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -25,32 +25,27 @@
 
 #define UNUSED(x) ((void)(x))
 
-#define testcase(input, expected) do { \
+#define testcase(input, squeezable, expected) do { \
 	char buffer[] = input; \
-	size_t result_len = replace_unicode_spaces(buffer); \
-\
+	str_squeeze_char(buffer, squeezable); \
 	assert_string_equal(buffer, expected); \
-	assert_int_equal((int)result_len, (int)strlen(buffer)); \
 }while(0)
 
-#define NBSP "\u00A0"
-
-void test__replace_unicode_spaces(void **state) {
+void test__str_squeeze_char(void **state) {
 	UNUSED(state);
 
-	testcase(NBSP "single at start", " single at start");
-	testcase(NBSP NBSP NBSP "triple at start", "   triple at start");
+	// At the start
+	testcase("00001", '0', "01");
+	testcase("aaaaabsolutely!", 'a', "absolutely!");
 
-	testcase("single at end" NBSP, "single at end ");
-	testcase("triple at end" NBSP NBSP NBSP, "triple at end   ");
+	// In the middle
+	testcase("Hello", 'l', "Helo");
+	testcase("Boogeyman", 'o', "Bogeyman");
 
-	testcase("single in the" NBSP "middle", "single in the middle");
-	testcase("triple in the" NBSP NBSP NBSP "middle", "triple in the   middle");
+	// At the end
+	testcase("Mamma mia!!!", '!', "Mamma mia!");
+	testcase("123.3333333", '3', "123.3");
 
-	testcase("intertwined" NBSP " " NBSP " " NBSP "with spaces", "intertwined     with spaces");
-	testcase(NBSP "literally" NBSP "everywhere" NBSP, " literally everywhere ");
-
-	testcase(NBSP, " ");
-	testcase(NBSP NBSP, "  ");
-	testcase(NBSP NBSP NBSP NBSP, "    ");
+	// Multiple locations
+	testcase("--- Header ---", '-', "- Header -");
 }

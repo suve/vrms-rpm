@@ -18,6 +18,13 @@
 #ifndef VRMS_RPM_LICENCES_H
 #define VRMS_RPM_LICENCES_H
 
+#include "src/buffers.h"
+
+struct LicenceData {
+	struct ReBuffer *list;
+	struct ChainBuffer *buffer;
+};
+
 enum LicenceTreeNodeType {
 	LTNT_LICENCE,
 	LTNT_AND,
@@ -39,10 +46,13 @@ struct LicenceTreeNode {
 
 extern const struct LicenceTreeNode PubkeyLicence;
 
-extern int licences_read(void);
-extern void licences_free(void);
 
-extern struct LicenceTreeNode* licence_classify(char *licence);
+extern struct LicenceData* licences_read(void);
+extern int licences_find(const struct LicenceData *data, const char *licence);
+extern void licences_free(struct LicenceData *data);
+
+
+extern void licence_printNode(const struct LicenceTreeNode *node);
 extern void licence_freeTree(struct LicenceTreeNode *node);
 
 #endif

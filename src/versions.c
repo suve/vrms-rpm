@@ -15,8 +15,8 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "stringutils.h"
-#include "versions.h"
+#include "src/stringutils.h"
+#include "src/versions.h"
 
 #ifdef WITH_LIBRPM
 #include <rpm/rpmio.h>

@@ -38,6 +38,7 @@ replace_string() {
 	rm "${1}.bak"
 }
 
+default_grammar=""
 default_licence_list=""
 install_prefix=""
 licence_lists=""
@@ -48,7 +49,7 @@ if [ "$#" -eq 0 ]; then
 	exit 1
 fi
 
-while getopts 'd:f:l:p:' OPTNAME; do
+while getopts 'd:g:f:l:p:' OPTNAME; do
 	case "${OPTNAME}" in
 		d)
 			default_licence_list="${OPTARG}"
@@ -57,7 +58,11 @@ while getopts 'd:f:l:p:' OPTNAME; do
 		f)
 			file="${OPTARG}"
 		;;
-		
+
+		g)
+			default_grammar="${OPTARG}"
+		;;
+
 		l)
 			licence_lists="${OPTARG}"
 		;;
@@ -73,7 +78,7 @@ while getopts 'd:f:l:p:' OPTNAME; do
 	esac
 done
 
-if [ "${default_licence_list}" = "" ] || [ "${file}" = "" ] || [ "${install_prefix}" = "" ] || [ "${licence_lists}" = "" ]; then
+if [ -z "${default_grammar}" ] || [ -z "${default_licence_list}" ] || [ -z "${file}" ] || [ -z "${install_prefix}" ] || [ -z "${licence_lists}" ]; then
 	print_usage
 	exit 1
 fi
@@ -83,3 +88,4 @@ licence_lists=$(echo "${licence_lists} .br" | sed -e 's|\([^ ]*\) |.br\n\\(bu \1
 
 replace_string "${file}" "__BUNDLED_LICENCE_LISTS__" "${licence_lists}"
 replace_string "${file}" "__DEFAULT_LICENCE_LIST__" "\"\\fI${default_licence_list}\\fR\"."
+replace_string "${file}" "__DEFAULT_GRAMMAR__" "\"\\fI${default_grammar}\\fR\"."

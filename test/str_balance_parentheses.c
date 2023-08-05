@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -26,31 +26,25 @@
 #define UNUSED(x) ((void)(x))
 
 #define testcase(input, expected) do { \
-	char buffer[] = input; \
-	size_t result_len = replace_unicode_spaces(buffer); \
-\
+	char buffer[strlen(input) + 16]; \
+	size_t outputLen; \
+	assert_true(str_balance_parentheses(input, buffer, sizeof(buffer), &outputLen)); \
 	assert_string_equal(buffer, expected); \
-	assert_int_equal((int)result_len, (int)strlen(buffer)); \
+	assert_int_equal(strlen(buffer), outputLen); \
 }while(0)
 
-#define NBSP "\u00A0"
-
-void test__replace_unicode_spaces(void **state) {
+void test__str_balance_parentheses(void **state) {
 	UNUSED(state);
 
-	testcase(NBSP "single at start", " single at start");
-	testcase(NBSP NBSP NBSP "triple at start", "   triple at start");
+	// More '(' than ')'
+	testcase("(One (Two", "(One (Two))");
+	testcase("One (Two (Three", "One (Two (Three))");
 
-	testcase("single at end" NBSP, "single at end ");
-	testcase("triple at end" NBSP NBSP NBSP, "triple at end   ");
+	// More ')' than '('
+	testcase("One (Two))", "(One (Two))");
+	testcase("(One) and (Two))", "((One) and (Two))");
 
-	testcase("single in the" NBSP "middle", "single in the middle");
-	testcase("triple in the" NBSP NBSP NBSP "middle", "triple in the   middle");
-
-	testcase("intertwined" NBSP " " NBSP " " NBSP "with spaces", "intertwined     with spaces");
-	testcase(NBSP "literally" NBSP "everywhere" NBSP, " literally everywhere ");
-
-	testcase(NBSP, " ");
-	testcase(NBSP NBSP, "  ");
-	testcase(NBSP NBSP NBSP NBSP, "    ");
+	// Same number of '(' and ')', but some '(' do not have a matching preceding '('
+	testcase("One) or (Two", "(One) or (Two)");
+	testcase("One and Two) or (Three)) and (Four))", "(((One and Two) or (Three)) and (Four))");
 }

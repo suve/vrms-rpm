@@ -16,7 +16,7 @@
  */
 #include <string.h>
 
-#include "stringutils.h"
+#include "src/stringutils.h"
 
 
 #define IS_WHITESPACE(chr)  ((chr) > '\0' && (chr) <= ' ')
@@ -44,6 +44,27 @@ char* trim_extra(char *buffer, size_t *const length, const char *const extrachar
 
 char* trim(char *buffer, size_t *const length) {
 	return trim_extra(buffer, length, "");
+}
+
+size_t str_squeeze_char(char *str, const char needle) {
+	size_t len = strlen(str);
+	size_t pos = 0;
+	while(pos < len) {
+		if(str[pos] != needle) {
+			++pos;
+			continue;
+		}
+
+		size_t match_len = 1;
+		while(str[pos + match_len] == needle) ++match_len;
+
+		if(match_len > 1) {
+			memmove(str + pos + 1, str + pos + match_len, len - (pos + match_len) + 1);
+			len -= (match_len - 1);
+		}
+		++pos;
+	}
+	return len;
 }
 
 int str_split(char *const str, const char separator, char* *const fields, const int max_fields) {
@@ -118,6 +139,68 @@ int str_compare_with_null_check(const char *first, const char *second, int(*comp
 			return 0;
 		}
 	}
+}
+
+int str_balance_parentheses(const char *input, char *buffer, const size_t bufSize, size_t *outputLen) {
+	// Holds the result, allows easily bailing out via goto
+	int ok = 0;
+
+	// Keep track of number of bytes written
+	size_t written = 0;
+	// Convenience macro. Subtracts one extra byte, so we have space for the NUL terminator.
+	#define REMAINING (bufSize - written - 1)
+
+	size_t depth = 0;
+	size_t inputLen; // Avoid the strlen() call since we're iterating over the string anyway
+	{
+		const char *s;
+		for(s = input; *s != '\0'; ++s) {
+			if(*s == ')') {
+				if(depth == 0) {
+					// Mismatched parentheses: a ')' that doesn't have a preceding '('.
+					if(REMAINING == 0) goto terminateString;
+					buffer[written++] = '(';
+				} else {
+					--depth;
+				}
+			} else if(*s == '(') {
+				++depth;
+			}
+		}
+		inputLen = s - input;
+	}
+
+	if(inputLen > REMAINING) goto terminateString;
+	memcpy(buffer + written, input, inputLen);
+	written += inputLen;
+
+	// If depth is non-zero, that means we had '(' without matching ')'.
+	if(depth > 0) {
+		if(depth > REMAINING) goto terminateString;
+		while(depth-- > 0) buffer[written++] = ')';
+	}
+
+	ok = 1;
+	terminateString: {
+		buffer[written] = '\0';
+		if(outputLen != NULL) *outputLen = written;
+		return ok;
+	}
+}
+
+char* find_closing_paren(const char *str) {
+	if(*str != '(') return NULL;
+
+	unsigned int depth = 1;
+	while(depth > 0) {
+		switch(*(++str)) {
+			case '(': ++depth; break;
+			case ')': --depth; break;
+			case '\0': return NULL;
+		}
+	}
+
+	return (char*)str;
 }
 
 // Based on: https://en.wikipedia.org/wiki/Whitespace_character#Unicode

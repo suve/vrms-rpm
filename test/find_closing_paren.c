@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -25,24 +25,34 @@
 
 #define UNUSED(x) ((void)(x))
 
-#define testcase(haystack, needle, expected) do{ \
-	const char *result = str_starts_with(haystack, needle); \
-	if(expected) { \
-		assert_non_null(result); \
-		assert_ptr_equal(haystack, result); \
+#define testcase(input, expected) do { \
+	char *result = find_closing_paren(input); \
+	if((expected) > 0) { \
+		int diff = result - input; \
+		assert_int_equal(diff, (expected)); \
 	} else { \
 		assert_null(result); \
 	} \
 }while(0)
 
-void test__str_starts_with(void **state) {
+void test__find_closing_paren(void **state) {
 	UNUSED(state);
 
-	testcase("partial match", "partial", 1);
-	testcase("full string match", "full string match", 1);
-	testcase("an empty needle", "", 1);
+	// Simple nested parens
+	testcase("(single)", 7);
+	testcase("((double))", 9);
+	testcase("(((triple)))", 11);
+	testcase("((( ))))) spurious closing parens", 6);
 
-	testcase("no match", "blah", 0);
-	testcase("very", "very long needle", 0);
-	testcase("", "an empty haystack", 0);
+	// More complicated nesting
+	testcase("( (one) (two) )", 14);
+	testcase("( ((one)) ((two)) )", 18);
+
+	// Mismatched parentheses
+	testcase("( no closing paren", 0);
+	testcase("((( still no closing paren", 0);
+	testcase("((( not enough closing parens ))", 0);
+
+	// Invalid input
+	testcase("string does not start with an opening paren", 0);
 }

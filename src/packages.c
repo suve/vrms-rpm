@@ -19,14 +19,14 @@
 #include <string.h>
 #include <strings.h>
 
-#include "buffers.h"
-#include "lang.h"
-#include "licences.h"
-#include "options.h"
-#include "packages.h"
-#include "pipes.h"
-#include "stringutils.h"
-#include "versions.h"
+#include "src/buffers.h"
+#include "src/lang.h"
+#include "src/licences.h"
+#include "src/options.h"
+#include "src/packages.h"
+#include "src/pipes.h"
+#include "src/stringutils.h"
+#include "src/versions.h"
 
 #define QUERY_BASE \
 	"%{NAME}\\t%{EPOCH}\\t%{VERSION}\\t%{RELEASE}\\t%{ARCH}" \
@@ -101,19 +101,30 @@ static int is_pubkey_package(const char *name, const char *arch, const char *pub
 		(strcmp(licence, "pubkey") == 0);
 }
 
-int packages_read(struct Pipe *pipe) {
-	if(init_buffers() != 0) return -1;
-	sorted = 0;
+int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
+	char *line = NULL;
+	char *licenceBuffer = NULL;
+	FILE *f = NULL;
 
-	FILE *f = pipe_fopen(pipe);
-	if(f == NULL) return -1;
+	#define LINEBUF_SIZE 4096
+	line = malloc(LINEBUF_SIZE);
+	if(line == NULL) goto fail;
+
+	#define LICBUF_SIZE LINEBUF_SIZE
+	licenceBuffer = malloc(LICBUF_SIZE);
+	if(licenceBuffer == NULL) goto fail;
+
+	if(init_buffers() != 0) goto fail;
+
+	f = pipe_fopen(pipe);
+	if(f == NULL) goto fail;
 
 	const int expected = opt_describe ? 8 : 7;
 	char* fields[8];
 
-	char line[512];
-	while(fgets(line, sizeof(line), f) != NULL) {
+	while(fgets(line, LINEBUF_SIZE, f) != NULL) {
 		replace_unicode_spaces(line);
+		str_squeeze_char(line, ' ');
 		if(str_split(line, '\t', fields, expected) != expected) continue;
 
 		char *name    = fields[0];
@@ -125,8 +136,11 @@ int packages_read(struct Pipe *pipe) {
 		char *licence = fields[6];
 		char *summary = fields[7];
 
-		name = chainbuf_append(&buffer, name);
-		licence = chainbuf_append(&buffer, trim(licence, NULL));
+		// FIXME: This function can fail, should handle that somehow
+		str_balance_parentheses(trim(licence, NULL), licenceBuffer, LICBUF_SIZE, NULL);
+		licence = chainbuf_append(&buffer, licenceBuffer);
+
+		name = chainbuf_append(&buffer, trim(name, NULL));
 		if(opt_describe) summary = chainbuf_append(&buffer, trim(summary, NULL));
 
 		// Epoch is typically undefined. RPM reports this using the special string "(none)".
@@ -139,7 +153,9 @@ int packages_read(struct Pipe *pipe) {
 		release = chainbuf_append(&buffer, release);
 
 		const int is_pubkey = is_pubkey_package(name, arch, pubkeys, licence);
-		struct LicenceTreeNode *classification = is_pubkey ? ((struct LicenceTreeNode*)(&PubkeyLicence)) : licence_classify(licence);
+		struct LicenceTreeNode *classification = is_pubkey
+				? ((struct LicenceTreeNode*)(&PubkeyLicence))
+				: classifier->classify(classifier, licence);
 		class_count[classification->is_free] += 1;
 
 		struct Package pkg = {
@@ -152,10 +168,23 @@ int packages_read(struct Pipe *pipe) {
 			.licence = classification,
 			.is_pubkey = is_pubkey,
 		};
-		if(rebuf_append(list, &pkg, sizeof(struct Package)) == NULL) return -1;
+		if(rebuf_append(list, &pkg, sizeof(struct Package)) == NULL) goto fail;
 	}
-	
+
+	fclose(f);
+	free(licenceBuffer);
+	free(line);
+
+	sorted = 0;
 	return LIST_COUNT;
+
+	fail: { // As seen in CVE-2014-1266!
+		if(f != NULL) fclose(f);
+		if(licenceBuffer != NULL) free(licenceBuffer);
+		if(line != NULL) free(line);
+		packages_free();
+		return -1;
+	}
 }
 
 void packages_free(void) {
@@ -207,31 +236,6 @@ static int pkgcompare(const void *A, const void *B) {
 static void packages_sort(void) {
 	qsort(list->data, LIST_COUNT, sizeof(struct Package), &pkgcompare);
 	sorted = 1;
-}
-
-static void printnode(struct LicenceTreeNode *node) {
-	if(node->type == LTNT_LICENCE) {
-		if(opt_colour)
-			printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
-		else
-			printf("%s", node->licence);
-			
-		return;
-	}
-	
-	const char *const joiner = (node->type == LTNT_AND) ? " and " : " or ";
-	for(unsigned int m = 0; m < node->members;) {
-		if(node->child[m]->type != LTNT_LICENCE) {
-			putc('(', stdout);
-			printnode(node->child[m]);
-			putc(')', stdout);
-		} else {
-			printnode(node->child[m]);
-		}
-		
-		++m;
-		if(m < node->members) printf("%s", joiner);
-	}
 }
 
 static void print_evra(const struct Package *pkg) {
@@ -309,7 +313,7 @@ static void printlist(const int which_kind) {
 
 		if(opt_explain) {
 			printf("\n   ");
-			printnode(pkg->licence);
+			licence_printNode(pkg->licence);
 		}
 		putc('\n', stdout);
 	}
