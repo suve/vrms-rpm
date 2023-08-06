@@ -587,7 +587,7 @@ void test__spdxStrict_caseSensitivity(void **state) {
 void test__spdxStrict_mangledStrings(void **state) {
 	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
 
-	// Valid licence string, but with extra parentheses
+	// Valid licence string, but wrapped in extra parentheses
 	{
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 1, "Good");
@@ -598,6 +598,31 @@ void test__spdxStrict_mangledStrings(void **state) {
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 1, "Good");
 		test_licence("(((Good)))", expected);
+	}
+
+	// Licence string with parenthesized text - at the start
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "(Very) Bad Licence");
+		test_licence("(Very) Bad Licence", expected);
+	}
+	// In the middle
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Unknown (Alien) Licence");
+		test_licence("Unknown (Alien) Licence", expected);
+	}
+	// At the end
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Absolutely Proprietary (eww)");
+		test_licence("Absolutely Proprietary (eww)", expected);
+	}
+	// Both start and end
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "(Wow!) Friendly LicenceTuber gets sued by BigCorp! (MUST SEE!)");
+		test_licence("(Wow!) Friendly LicenceTuber gets sued by BigCorp! (MUST SEE!)", expected);
 	}
 
 	// WITH operator present, but no licensing exception (string ends)

@@ -238,16 +238,20 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 
 	enum LicenceTreeNodeType type = detect_type(self, licence);
 	if(type == LTNT_LICENCE) {
-		// If the detected type is LICENCE, but we've got an opening parenthesis,
-		// then that means the whole string is parenthesised (e.g. "(text)" instead of "text").
+		/*
+		 * If the detected type is LICENCE, but we've got an opening parenthesis,
+		 * then that means one of the two following scenarios:
+		 * 1. The whole string is parenthesized (e.g. "(text)" instead of "text")
+		 * 2. The licence string contains parenthesized text (e.g. "(Very) Bad Licence")
+		 * If we're in scenario 1, strip the parentheses and try again.
+		 */
 		if(*licence == '(') {
-			// Advance one char to skip the opening paren
-			++licence;
-			// Check the end of the string for the closing paren
-			const size_t length = strlen(licence);
-			if(licence[length - 1] == ')') licence[length - 1] = '\0';
-			// Both parentheses have been stripped - try again.
-			return spdx_classify(class, licence);
+			char *closingParen = find_closing_paren(licence);
+			if((closingParen != NULL) && (*(closingParen + 1) == '\0')) {
+				++licence; // Advance one char to skip the opening paren
+				*closingParen = '\0'; // Shorten the string to remove the closing paren
+				return spdx_classify(class, licence);
+			}
 		}
 
 		struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode));
