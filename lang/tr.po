@@ -44,12 +44,27 @@ msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Paketleri listelerken paket özetlerini(kısa açıklamalar)\n"
        "    dahil et.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Apart from the package names, print also their epoch:version-release.arch.\n"
+       "    Default is 'auto', which does this only for packages sharing a name.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Paketleri listelerken, özgür / özgür olmayan\n"
        "    sınıflandırmasını yapmak için lisanslarını görüntüle.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Bu yardımı görüntüle ve çık.\n"
+
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
 
 msgid "HELP_OPTION_IMAGE\n"
 msgstr "    --ascii seçeneği benzeri, Unicode block karakterlerini ve\n"
@@ -95,9 +110,23 @@ msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: --colour seçeneğinin parametreleri 'never', 'always', veya\n"
        "'auto' seçeneklerinden biri olmalı.\n"
 
+#, fuzzy
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: --evra seçeneğinin parametreleri 'never', 'always', veya\n"
+       "'auto' seçeneklerinden biri olmalı.\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: --evra seçeneğinin parametreleri 'spdx-strict', 'spdx-lenient',\n"
+       "veya 'loose' seçeneklerinden biri olmalı.\n"
+
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: --list seçeneğinin parametreleri 'none', 'non-free',\n"
        "'free' veya 'all' seçeneklerinden biri olmalı\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: option \"%s\" requires an argument\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: bilinmeyen seçenek \"%s\"\n"

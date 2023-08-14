@@ -40,9 +40,24 @@ msgstr "    Contrôle l'utilisation ou non de caractères d'échappement de term
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Inclus une courte description du logiciel dans les listes de logiciel.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Apart from the package names, print also their epoch:version-release.arch.\n"
+       "    Default is 'auto', which does this only for packages sharing a name.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Affiche la license du logiciels dans les listes de logiciel pour justifier\n"
        "    leur classification.\n"
+
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Affiche l'aide et quitte.\n"
@@ -88,6 +103,14 @@ msgstr "vrms-rpm: erreur lors de la lecture de liste de bonnes licenses \"%s\": 
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: l'argument de l'option --colour doit être choisi parmi 'never', 'always', ou 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: l'argument de l'option --evra doit être choisi parmi 'never', 'always', ou 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: l'argument de l'option --grammar doit être choisi parmi 'spdx-strict', 'spdx-lenient', ou 'loose'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: l'argument de l'option --list doit être choisi parmi 'none', \n"

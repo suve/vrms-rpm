@@ -43,9 +43,24 @@ msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Όταν εκτυπώνονται τα αρχεία, συμπεριελάμβανε τις περιλήψεις τους\n"
        "    (σύντομες περιγραφές).\n"
 
+#, fuzzy
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Apart from the package names, print also their epoch:version-release.arch.\n"
+       "    Default is 'auto', which does this only for packages sharing a name.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Όταν εκτυπώνονται τα αρχεία, εκτύπωσε τις αδειές τους\n"
        "    για να αιτιολογηθεί η ταξινόμηση σε ελεύθερα / μη ελεύθερα.\n"
+
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Εκτύπωσε αυτή τη βοήθεια και τερμάτησε.\n"
@@ -93,6 +108,16 @@ msgstr "vrms-rpm: αποτυχία διαβάσματος της λίστας τ
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: το όρισμα της επιλογής --colour πρέπει να είναι ένα\n"
        "    από τα 'never', 'always', ή 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: το όρισμα της επιλογής --evra πρέπει να είναι ένα\n"
+       "    από τα 'never', 'always', ή 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: το όρισμα της επιλογής --grammar πρέπει να είναι ένα\n"
+       "    από τα 'spdx-strict', 'spdx-lenient', ή 'loose'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: το όρισμα της επιλογής --list πρέπει να είναι ένα από\n"

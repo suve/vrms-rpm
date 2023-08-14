@@ -49,6 +49,16 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Ketika mendaftar paket, tampilkan lisensinya\n"
        "    untuk memastikan apakah termasuk klasifikasi free / non-free.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
+
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Menampilkan bantuan dan keluar.\n"
 
@@ -95,6 +105,10 @@ msgstr "vrms-rpm: argumen untuk opsi --colour harus salah satu dari 'never', 'al
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: argumen untuk opsi --evra harus salah satu dari 'never', 'always', atau 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: argumen untuk opsi --grammar harus salah satu dari 'spdx-strict', 'spdx-lenient', atau 'loose'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: argumen untuk opsi --list harus salah satu dari 'none', 'non-free', 'free' atau 'all'\n"

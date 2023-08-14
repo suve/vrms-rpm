@@ -53,6 +53,16 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Bij het tonen van pakketten, laat de licenties zien\n"
        "    om te zien welke pakketten vrije of propriëtaire software bevatten.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
+
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Laat dit help scherm zien en sluit daarna.\n"
 
@@ -94,18 +104,25 @@ msgstr "vrms-rpm: kon niet lezen van de pipe naar /usr/bin/rpm\n"
 msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties\n"
 
-msgid "ERR_BADOPT_EVRA\n"
-msgstr "vrms-rpm: argument voor--evra optie moet 'never', 'always', of 'auto' zijn\n"
-
 msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: kon niet lezen van de lijst met goede licenties van \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: het argument voor de --colour optie moet 'never', 'always', of 'auto' zijn\n"
 
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: argument voor --evra optie moet 'never', 'always', of 'auto' zijn\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: argument voor --grammar optie moet 'spdx-strict', 'spdx-lenient', of 'loose' zijn\n"
+
 msgid "ERR_BADOPT_LIST\n"
-msgstr "      vrms-rpm:\n"
-       "      het argument vor de --list optie moet 'none', 'non-free', 'free' of 'all' zijn\n"
+msgstr "vrms-rpm: het argument vor de --list optie moet 'none', 'non-free', 'free' of 'all' zijn\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: option \"%s\" requires an argument\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: onbekende optie \"%s\"\n"

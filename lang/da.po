@@ -40,9 +40,24 @@ msgstr "    Styrrer om terminal escape sekvens skal bruges til at farve\n"
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Inkluder pakkereferat i pakkeoversigten (kort beskrivelse).\n"
 
+#, fuzzy
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Apart from the package names, print also their epoch:version-release.arch.\n"
+       "    Default is 'auto', which does this only for packages sharing a name.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Vis licenser i pakkeoversigten, for at fremhæve\n"
        "    fri / ikke-fri klassificering.\n"
+
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Vis denne hjælp og exit.\n"
@@ -91,9 +106,23 @@ msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: argumentet til --colour valgmuligheden skal være en af\n"
        "'never', 'always', eller 'auto'\n"
 
+#, fuzzy
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: argumentet til --evra valgmuligheden skal være en af\n"
+       "'never', 'always', eller 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: argumentet til --grammar valgmuligheden skal være en af\n"
+       "'spdx-strict', 'spdx-lenient', eller 'loose'\n"
+
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: argumentet til --list valgmuligheden skal være en af\n"
        "'none', 'non-free', 'free' eller 'all'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: option \"%s\" requires an argument\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: ukendt valgmulighed \"%s\"\n"

@@ -43,10 +43,25 @@ msgstr  "    Налаштувати кольорове виведення тер
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "    Відображати короткі описи пакетів при виведенні їх переліку.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Apart from the package names, print also their epoch:version-release.arch.\n"
+       "    Default is 'auto', which does this only for packages sharing a name.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr  "    Відображати ліцензії пакетів при виведенні їх переліку,\n"
         "    щоб переконатися в правильності класіффікаціі\n"
         "    вільних / пропрієтарних пакетів.\n"
+
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Показати „Допомога“ і вийти.\n"
@@ -59,7 +74,7 @@ msgstr  "    Як --ascii, тільки показує зображення з �
 msgid "HELP_OPTION_LICENCELIST\n"
 msgstr  "    Визначає перелік допустимих для використання ліцензій.\n"
         "    FILE може бути шляхом до файлу на диску, або одним з\n"
-        "    готових списків ліцензій:\n"
+        "    готових списків ліцензій:\n"
         "    %s\n"
         "    Типове значення: '%s'.\n"
 
@@ -96,9 +111,23 @@ msgid "ERR_BADOPT_COLOUR\n"
 msgstr  "vrms-rpm: аргумент для флага --colour може бути "
         "одним з наступних значень: 'never', 'always', або 'auto'\n"
 
+#, fuzzy
+msgid "ERR_BADOPT_EVRA\n"
+msgstr  "vrms-rpm: аргумент для флага --evra може бути "
+        "одним з наступних значень: 'never', 'always', або 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr  "vrms-rpm: аргумент для флага --grammar може бути "
+        "одним з наступних значень: 'spdx-strict', 'spdx-lenient', або 'loose'\n"
+
 msgid "ERR_BADOPT_LIST\n"
 msgstr  "vrms-rpm: аргумент для флага --list може бути одним "
         "з наступних значень: 'none', 'non-free', 'free' або 'all'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: option \"%s\" requires an argument\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: невідомий флаг \"%s\"\n"

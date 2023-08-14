@@ -57,6 +57,16 @@ msgstr "    Отображать лицензии пакетов при выво
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Показать \"Помощь\" и выйти.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
+
 msgid "HELP_OPTION_IMAGE\n"
 msgstr "    Как --ascii, только показывает изображение из блочных\n"
        "    символов Unicode  и использует 256-цветный режим\n"
@@ -105,6 +115,11 @@ msgstr "vrms-rpm: аргумент для флага --colour может быт�
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: аргумент для опции --evra может быть одним\n"
        "из следующих значений: 'never', 'always', либо 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: аргумент для опции --grammar может быть одним\n"
+       "из следующих значений: 'spdx-strict', 'spdx-lenient', либо 'loose'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: аргумент для флага --list может быть одним\n"

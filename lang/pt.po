@@ -41,9 +41,24 @@ msgstr "    Define se as sequências de escape do terminal devem ser usadas\n"
 msgid "HELP_OPTION_DESCRIBE\n"
 msgstr "   Quando listar pacotes, incluir resumo(descrição curta).\n"
 
+#, fuzzy
+msgid "HELP_OPTION_EVRA\n"
+msgstr "    Apart from the package names, print also their epoch:version-release.arch.\n"
+       "    Default is 'auto', which does this only for packages sharing a name.\n"
+
 msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "   Quando listar pacotes, exibir sua licença\n"
        "   para justificar a classificação livre/não livre.\n"
+
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
 
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Mostrar a ajuda e sair.\n"
@@ -89,8 +104,20 @@ msgstr "vrms-rpm: falha ao ler a lista de licenças boas de \"%s\": %s\n"
 msgid "ERR_BADOPT_COLOUR\n"
 msgstr "vrms-rpm: argumento para a opção --colour precisa ser 'never', 'always', ou 'auto'\n"
 
+#, fuzzy
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: argumento para a opção --evra precisa ser 'never', 'always', ou 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: argumento para a opção --evra precisa ser 'spdx-strict', 'spdx-lenient', ou 'loose'\n"
+
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: argumento para a opção --list precisa ser 'none', 'non-free', 'free' ou 'all'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: option \"%s\" requires an argument\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: opção desconhecida \"%s\"\n"

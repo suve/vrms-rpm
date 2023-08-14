@@ -51,6 +51,16 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Při výpisu balíčků zobrazit jejich licence pro objasnění zařazení\n"
        "    mezi svobodné a nesvobodné.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
+
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Zobrazit tuto nápovědu a skončit.\n"
 
@@ -93,13 +103,21 @@ msgid "ERR_LICENCES_BADFILE\n"
 msgstr "vrms-rpm: nelze přečíst seznam dobrých licencí z \"%s\": %s\n"
 
 msgid "ERR_BADOPT_COLOUR\n"
-msgstr "vrms-rpm: hodnota parametru --colour musí být jedna z 'never', 'always', or 'auto'\n"
+msgstr "vrms-rpm: hodnota parametru --colour musí být jedna z 'never', 'always', nebo 'auto'\n"
 
 msgid "ERR_BADOPT_EVRA\n"
-msgstr "vrms-rpm: hodnota parametru --evra musí být jedna z 'never', 'always', or 'auto'\n"
+msgstr "vrms-rpm: hodnota parametru --evra musí být jedna z 'never', 'always', nebo 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: hodnota parametru --grammar musí být jedna z 'spdx-strict', 'spdx-lenient', nebo 'loose'\n"
 
 msgid "ERR_BADOPT_LIST\n"
-msgstr "vrms-rpm: hodnota parametru --list musí být jedna z 'none', 'non-free', 'free' or 'all'\n"
+msgstr "vrms-rpm: hodnota parametru --list musí být jedna z 'none', 'non-free', 'free' nebo 'all'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: option \"%s\" requires an argument\n"
 
 msgid "ERR_BADOPT_UNKNOWN\n"
 msgstr "vrms-rpm: neznámá volba \"%s\"\n"

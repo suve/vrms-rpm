@@ -52,6 +52,16 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Cuando enlistas paquetes, muestra sus licencias\n"
        "    para justificar la clasificación de libre o privado.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
+       "      * loose: Use a loose, informal grammar.\n"
+       "        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+       "      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+       "      * spdx-lenient: Same as above, but relax some rules\n"
+       "        regarding case-sensitivity and whitespace.\n"
+       "    The default value is '%s'.\n"
+
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Muestra esta ayuda y termina el programa.\n"
 
@@ -99,6 +109,10 @@ msgstr "vrms-rpm: El argumento para la opción --colour debe de ser uno de los s
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: argumento para la opción --evra debe ser una de 'never', 'always', o 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: argumento para la opción --grammar debe ser una de 'spdx-strict', 'spdx-lenient', o 'loose'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: El argumento para la opción --list debe ser uno de los siguientes: 'none', 'non-free', 'free' o 'all'\n"
