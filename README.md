@@ -17,9 +17,30 @@ quite possible that making a fork instead of starting fresh would only
 complicate matters. After all, removing code is hard.
 
 
+**How does it work?**
+----------
+*vrms-rpm* works by processing the list of installed packages (as reported by *rpm*)
+and analysing their licence strings. The program breaks down compound expressions
+using AND / OR operators and parentheses, and then checks individual licences against
+a list of acceptable licences.
+
+To make a simple example, the licence string `(AGPL-3.0-or-later OR SSPL) AND CC-BY-3.0`
+will be broken down in the following way:
+```
+AGPL-3.0-or-later      SSPL      CC-BY-3.0
+     [Free]         [Non-free]     [Free]
+        |               |            |
+        \----- OR ------/            |
+             [Free]                  |
+                |                    |
+                \-------- AND -------/
+                         [Free]
+```
+
+
 **Installing from a repository**
 ----------
-[![Packaging status](https://repology.org/badge/vertical-allrepos/vrms-rpm.svg?exclude_unsupported=true&minversion=2.2)](https://repology.org/metapackage/vrms-rpm)    
+[![Packaging status](https://repology.org/badge/vertical-allrepos/vrms-rpm.svg?exclude_unsupported=true&minversion=2.2)](https://repology.org/project/vrms-rpm/)    
 Fedora users can install *vrms-rpm* from the official distro repository.
 RHEL/CentOS users can get the package from the Fedora EPEL repositories.
 ```
@@ -46,9 +67,8 @@ $ dnf install vrms-rpm
 
 **Picking the licence list**
 ----------
-*vrms-rpm* works by analysing the list of installed packages (as reported by *rpm*)
-and comparing their licences to a list of known good licences. Since distributions
-can have differing opinions on what constitutes as free software,
+As mentioned earlier, *vrms-rpm* works by checking package licences against a list of known good licences.
+Since distributions can have differing opinions on what constitutes as free software,
 and what the licence tags should be written as (e.g. "GPLv2" vs "GPL-2.0"),
 *vrms-rpm* comes packaged with several different licence lists.
 
@@ -69,8 +89,35 @@ These are:
 - `tweaked` - a list that combines all of the above and also includes many non-standard licence tags spotted in the wild.
 This list has the smallest chance of generating false-positives (free packages being marked as non-free)
 
-When building the program, one of those lists has to be selected as the default.
+When building the program, one of those lists has to be selected as default.
 This can be done by providing the `DEFAULT_LICENCE_LIST` variable to *make*.
+
+
+**Picking the grammar rules**
+----------
+Licensing can be a complicated subject, with many pieces of software utilising various
+multiple-licensing schemes. These can be written down in various ways - using combining words
+such as "and" / "or", but also listing individual licences separated by commas or semicolons.
+This results in a myriad of possible ways to describe the licensing situation.
+
+In recent years, the SPDX standard - offering a formalized way of building
+licence expressions - has gained a lot of traction, with more and more distributions
+adopting SPDX as the preferred way of specifying package licences.
+
+To reflect this, *vrms-rpm* comes with multiple licence-string parsers.
+Currently, the supported options are:
+
+- `spdx-strict` - a parser implementing the [SPDX license expressions](https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/)
+  specification.
+
+- `spdx-lenient` - a variant of the SPDX parser, which relaxes some rules regarding case-sensitivity
+  and whitespace.
+
+- `loose` - an ad-hoc, informal parser that tries its best to make sense of licence strings
+  that do not follow any formal grammar. This is the original parser used in *vrms-rpm* v2.2 and older.
+
+When building the program, one of the parsers has to be selected as default.
+This can be done by providing the `DEFAULT_GRAMMAR` variable to *make*.
 
 
 **Building**
@@ -83,7 +130,7 @@ By default, *vrms-rpm* links against `librpm` and `librpmio`, to make use of RPM
 To disable this feature, you can set the `WITH_LIBRPM` variable to `0`. In this case, *vrms-rpm* will use a fallback,
 simplified algorithm when comparing package versions.
 ```
-$ make build [PREFIX=/usr/local] [DEFAULT_LICENCE_LIST=tweaked] [WITH_LIBRPM=1]
+$ make build [PREFIX=/usr/local] [DEFAULT_GRAMMAR=loose] [DEFAULT_LICENCE_LIST=tweaked] [WITH_LIBRPM=1]
 ```
 
 
@@ -150,5 +197,9 @@ When sending patches, please keep in mind the following:
 ----------
 If you'd like to support the development of this program financially,
 you can use the following methods:
+
 - [GitHub Sponsors](https://github.com/sponsors/suve/)
+
 - [Liberapay](https://liberapay.com/suve)
+
+Much appreciated!
