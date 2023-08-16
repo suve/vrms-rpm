@@ -87,6 +87,10 @@ msgstr "    Помимо вывода суммарного количества 
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Показать информацию о версии и выйти.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: не удалось открыть pipe для /usr/bin/rpm\n"
 

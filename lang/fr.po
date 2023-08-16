@@ -79,6 +79,10 @@ msgstr "    En plus d'afficher un résumé des logiciels libres et non-libres, a
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Affiche le numéro de version et quitte.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: erreur lors de l'ouverture du tube vers /usr/bin/rpm\n"
 

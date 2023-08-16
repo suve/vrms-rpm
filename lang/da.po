@@ -79,6 +79,10 @@ msgstr "    Vis ikke kun antal fri / ikke-fri pakker, men vis\n"
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Vis information om version og exit.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: det lykkedes ikke at åbne pipe til /usr/bin/rpm\n"
 

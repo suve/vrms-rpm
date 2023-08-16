@@ -85,6 +85,10 @@ msgstr "    Toon naast een overzicht van het aantal vrije en propriëtaire pakke
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Laat de versieinformatie zien en sluit daarna.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: het is niet gelukt een pipe te openen naar /usr/bin/rpm\n"
 

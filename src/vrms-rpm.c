@@ -73,8 +73,7 @@ int main(int argc, char *argv[]) {
 	}
 	struct LicenceClassifier *classifier = allocClassifier(licenses);
 	if(classifier == NULL) {
-		// TODO: This needs its own error message
-		lang_fprint(stderr, MSG_ERR_LICENCES_FAILED);
+		lang_fprint(stderr, MSG_ERR_MALLOC);
 		exit(EXIT_FAILURE);
 	}
 	

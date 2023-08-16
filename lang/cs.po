@@ -81,6 +81,10 @@ msgstr "    Kromě počtu svobodných a nesvobodných balíkčů vypíše také 
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Zobrazit informace o verzi a skončit.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: nelze otevřít rouru /usr/bin/rpm\n"
 

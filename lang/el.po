@@ -83,6 +83,10 @@ msgstr "    Πέρα από την εκτύπωση της σύνοψης των
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Εκτύπωσε πληροφορίες έκδοσης και τερμάτησε.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: Αποτυχία ανοίγματος διασωλήνωσης με /usr/bin/rpm\n"
 

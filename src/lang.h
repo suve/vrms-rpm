@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2021, 2023 "suve" (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -40,6 +40,7 @@
 	MESSAGE(HELP_OPTION_LICENCELIST) \
 	MESSAGE(HELP_OPTION_LIST)        \
 	MESSAGE(HELP_OPTION_VERSION)     \
+	MESSAGE(ERR_MALLOC)              \
 	MESSAGE(ERR_PIPE_OPEN_FAILED)    \
 	MESSAGE(ERR_PIPE_NOEVENTS)       \
 	MESSAGE(ERR_PIPE_POLL_ERROR)     \

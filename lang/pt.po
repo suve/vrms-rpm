@@ -80,6 +80,10 @@ msgstr "    Além de mostrar um resumo de pacotes livres e não livres,\n"
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Mostrar informação de versão e sair.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: Falha ao abrir pipe para /usr/bin/rpm\n"
 

@@ -84,6 +84,10 @@ msgstr "    Özgür ve özgür olmayan paketlerin sayısını özet olarak\n"
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Versiyon bilgisini görüntüle ve çık.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: /usr/bin/rpm'e pipe açma başarısız oldu\n"
 

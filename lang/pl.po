@@ -83,6 +83,9 @@ msgstr "    Oprócz wypisania łącznej liczby wolnych oraz nie-wolnych paczek,\
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Wyświetl informację o wersji programu i zakończ.\n"
 
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: błąd podczas alokacji pamięci\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: otwarcie potoku do /usr/bin/rpm nie powiodło się\n"
 

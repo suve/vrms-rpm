@@ -79,6 +79,10 @@ msgstr "    Selain menampilkan ringkasan jumlah paket free & non-free,\n"
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Menampilkan informasi versi dan keluar.\n"
 
+#, fuzzy
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: gagal membuka pipe ke /usr/bin/rpm\n"
 

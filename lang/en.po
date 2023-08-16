@@ -78,6 +78,9 @@ msgstr "    Apart from displaying a summary number of free & non-free packages,\
 msgid "HELP_OPTION_VERSION\n"
 msgstr "    Display version information and exit.\n"
 
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: failed to allocate memory\n"
+
 msgid "ERR_PIPE_OPEN_FAILED\n"
 msgstr "vrms-rpm: failed to open pipe to /usr/bin/rpm\n"
 
