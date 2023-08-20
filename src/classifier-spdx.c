@@ -354,7 +354,7 @@ struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data, int
 	struct SpdxClassifier *self = malloc(sizeof(struct SpdxClassifier));
 	if(self == NULL) return NULL;
 
-	struct ReBuffer *nodeBuf = rebuf_init();
+	struct ReBuffer *nodeBuf = rebuf_init(1024);
 	if(nodeBuf == NULL) {
 		free(self);
 		return NULL;

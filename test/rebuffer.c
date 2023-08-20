@@ -31,7 +31,7 @@
 int test_setup__rebuffer(void **state) {
 	srand(time(NULL));
 
-	struct ReBuffer *rb = rebuf_init();
+	struct ReBuffer *rb = rebuf_init(1024);
 	assert_non_null(rb);
 	*state = rb;
 
@@ -81,7 +81,7 @@ void test__rebuffer(void **state) {
 
 	// Perform a few very large (anywhere from 0.5x to 8x REBUF_STEP) appends.
 	for(int i = 0; i < 10; ++i) {
-		const size_t size = random(5, 80) * REBUF_STEP / 10;
+		const size_t size = random(5, 80) * rb->step / 10;
 		char *buffer = test_malloc(size);
 		randomize_string(buffer, size);
 

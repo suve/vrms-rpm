@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2020-2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2023 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,10 +29,9 @@ struct ChainBuffer {
 	struct ChainBuffer *previous;
 };
 
-#define REBUF_STEP 4096
-
 struct ReBuffer {
 	void *data;
+	size_t step;
 	size_t capacity;
 	size_t used;
 };
@@ -43,9 +42,9 @@ extern void chainbuf_free(struct ChainBuffer *buf);
 
 extern char* chainbuf_append(struct ChainBuffer **buf, const char *data);
 
-extern struct ReBuffer* rebuf_init(void);
+extern struct ReBuffer* rebuf_init(size_t stepSize);
 extern void rebuf_free(struct ReBuffer *buf);
 
-extern void* rebuf_append(struct ReBuffer *const buf, const void *const data, const size_t datalen);
+extern void* rebuf_append(struct ReBuffer *const buf, const void *const data, const size_t dataLength);
 
 #endif

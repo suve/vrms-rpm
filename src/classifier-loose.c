@@ -243,7 +243,7 @@ struct LicenceClassifier* classifier_newLoose(const struct LicenceData *data) {
 	struct LooseClassifier *self = malloc(sizeof(struct LooseClassifier));
 	if(self == NULL) return NULL;
 
-	struct ReBuffer *nodeBuf = rebuf_init();
+	struct ReBuffer *nodeBuf = rebuf_init(1024);
 	if(nodeBuf == NULL) {
 		free(self);
 		return NULL;

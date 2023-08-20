@@ -30,7 +30,7 @@ static void append_licence(struct LicenceData *data, const char *text) {
 int test_setup__licences(void **state) {
 	struct LicenceData *licences = malloc(sizeof(struct LicenceData));
 	assert_non_null(licences);
-	licences->list = rebuf_init();
+	licences->list = rebuf_init(4 * sizeof(void*));
 	assert_non_null(licences->list);
 	licences->buffer = chainbuf_init();
 	assert_non_null(licences->buffer);
