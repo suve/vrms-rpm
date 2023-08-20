@@ -1,11 +1,15 @@
 Name:          vrms-rpm
-Version:       2.1
-Release:       1%{?dist}
 Summary:       Report non-free software
-License:       GPLv3
+License:       GPL-3.0-only
+
+Version:       2.3
+Release:       1%{?dist}
 
 BuildRequires: gcc
-BuildRequires: gettext-devel 
+BuildRequires: gettext-devel
+BuildRequires: libcmocka-devel
+BuildRequires: make
+BuildRequires: rpm-devel
 
 %global githubowner suve
 %global gittag0 release-%{version}
@@ -21,7 +25,13 @@ installed on the system.
 %autosetup -n %{name}-%{gittag0} 
 
 %build
-make build PREFIX=%{_prefix} DEFAULT_LICENCE_LIST=tweaked %{?_smp_mflags}
+make all %{?_smp_mflags} \
+	DEFAULT_GRAMMAR=loose \
+	DEFAULT_LICENCE_LIST=tweaked \
+	PREFIX=%{_prefix}
+
+%check
+make test
 
 %install
 %make_install PREFIX=%{_prefix}
@@ -35,6 +45,13 @@ make build PREFIX=%{_prefix} DEFAULT_LICENCE_LIST=tweaked %{?_smp_mflags}
 %license LICENCE.txt IMAGE-CREDITS.txt
 
 %changelog
+* Sun Aug 20 2023 suve <veg@svgames.pl> - 2.3-1
+- Update to latest upstream release
+- Migrate license tag to SPDX
+
+* Fri Jul 24 2020 suve <veg@svgames.pl> - 2.2-1
+- Update to latest upstream release
+
 * Sat Jul 27 2019 suve <veg@svgames.pl> 2.1-1
 - Update to latest upstream release
 

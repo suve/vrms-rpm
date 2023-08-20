@@ -40,7 +40,7 @@ AGPL-3.0-or-later      SSPL      CC-BY-3.0
 
 **Installing from a repository**
 ----------
-[![Packaging status](https://repology.org/badge/vertical-allrepos/vrms-rpm.svg?exclude_unsupported=true&minversion=2.2)](https://repology.org/project/vrms-rpm/)    
+[![Packaging status](https://repology.org/badge/vertical-allrepos/vrms-rpm.svg?exclude_unsupported=true&minversion=2.3)](https://repology.org/project/vrms-rpm/)    
 Fedora users can install *vrms-rpm* from the official distro repository.
 RHEL/CentOS users can get the package from the Fedora EPEL repositories.
 ```
