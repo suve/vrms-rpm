@@ -27,11 +27,12 @@
 #include "src/buffers.h"
 
 #define UNUSED(x) ((void)(x))
+#define CHAINBUF_CAPACITY 2000
 
 int test_setup__chainbuffer(void **state) {
 	srand(time(NULL));
 
-	struct ChainBuffer *cb = chainbuf_init();
+	struct ChainBuffer *cb = chainbuf_init(CHAINBUF_CAPACITY);
 	assert_non_null(cb);
 	*state = cb;
 

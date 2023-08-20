@@ -20,13 +20,11 @@
 
 #include <string.h>
 
-#define CHAINBUF_SIZEOF    4096
-#define CHAINBUF_CAPACITY  (CHAINBUF_SIZEOF - sizeof(size_t) - sizeof(void*))
-
 struct ChainBuffer {
-	char data[CHAINBUF_CAPACITY];
-	size_t used;
 	struct ChainBuffer *previous;
+	size_t capacity;
+	size_t used;
+	char data[];
 };
 
 struct ReBuffer {
@@ -37,7 +35,7 @@ struct ReBuffer {
 };
 
 
-extern struct ChainBuffer* chainbuf_init(void);
+extern struct ChainBuffer* chainbuf_init(size_t capacity);
 extern void chainbuf_free(struct ChainBuffer *buf);
 
 extern char* chainbuf_append(struct ChainBuffer **buf, const char *data);

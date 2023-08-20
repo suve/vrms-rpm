@@ -32,7 +32,7 @@ int test_setup__licences(void **state) {
 	assert_non_null(licences);
 	licences->list = rebuf_init(4 * sizeof(void*));
 	assert_non_null(licences->list);
-	licences->buffer = chainbuf_init();
+	licences->buffer = chainbuf_init(200);
 	assert_non_null(licences->buffer);
 
 	append_licence(licences, "Awesome");

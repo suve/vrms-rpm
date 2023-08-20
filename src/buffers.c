@@ -19,17 +19,17 @@
 
 #include "src/buffers.h"
 
-_Static_assert(sizeof(struct ChainBuffer) == CHAINBUF_SIZEOF, "ChainBuffer sizeof() doesn't match CHAINBUF_SIZEOF macro");
+struct ChainBuffer* chainbuf_init(size_t capacity) {
+	if(capacity == 0) return NULL;
 
-
-struct ChainBuffer* chainbuf_init(void) {
-	struct ChainBuffer *buf = malloc(CHAINBUF_SIZEOF);
+	struct ChainBuffer *buf = malloc(sizeof(struct ChainBuffer) + capacity);
 	if(buf != NULL) {
-		memset(buf->data, 0, CHAINBUF_CAPACITY);
+		memset(buf->data, 0, capacity);
+		buf->capacity = capacity;
 		buf->used = 0;
 		buf->previous = NULL;
 	}
-	
+
 	return buf;
 }
 
@@ -42,20 +42,23 @@ void chainbuf_free(struct ChainBuffer *buf) {
 }
 
 char* chainbuf_append(struct ChainBuffer **buf, const char *data) {
-	const size_t datalen = strlen(data) + 1;
-	if(datalen > CHAINBUF_CAPACITY) return NULL;
-	
-	if((*buf)->used + datalen > CHAINBUF_CAPACITY) {
-		struct ChainBuffer *newbuf = chainbuf_init();
+	const size_t dataLength = strlen(data) + 1;
+	const size_t remaining = (*buf)->capacity - (*buf)->used;
+
+	if(dataLength > remaining) {
+		// TODO: Allow to allocate larger chunks if needed
+		if(dataLength > (*buf)->capacity) return NULL;
+
+		struct ChainBuffer *newbuf = chainbuf_init((*buf)->capacity);
 		if(newbuf == NULL) return NULL;
-		
+
 		newbuf->previous = *buf;
 		*buf = newbuf;
 	}
 	
 	char *insert_pos = (*buf)->data + (*buf)->used;
-	memcpy(insert_pos, data, datalen);
-	(*buf)->used += datalen;
+	memcpy(insert_pos, data, dataLength);
+	(*buf)->used += dataLength;
 	
 	return insert_pos;
 }

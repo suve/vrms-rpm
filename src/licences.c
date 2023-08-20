@@ -78,8 +78,8 @@ static struct LicenceData* licensedata_init(void) {
 	struct LicenceData *data = malloc(sizeof(struct LicenceData));
 	if(data == NULL) return NULL;
 
-	data->list = rebuf_init(4 * 1024);
-	data->buffer = chainbuf_init();
+	data->list = rebuf_init(500 * sizeof(void*));
+	data->buffer = chainbuf_init(8000);
 
 	if((data->list == NULL) || (data->buffer == NULL)) {
 		licences_free(data);

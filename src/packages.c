@@ -71,11 +71,11 @@ static int sorted = 0;
 
 static int init_buffers(void) {
 	if(list == NULL) {
-		list = rebuf_init(16 * 1024);
+		list = rebuf_init(1024 * sizeof(void*));
 		if(list == NULL) return -1;
 	}
 	if(buffer == NULL) {
-		buffer = chainbuf_init();
+		buffer = chainbuf_init(16256);
 		if(buffer == NULL) return -1;
 	}
 	return 0;
