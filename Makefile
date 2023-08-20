@@ -57,7 +57,7 @@ TEST_OBJECTS := $(TEST_SOURCES:test/%.c=build/test/%.o)
 # -- variables end
 
 
-.PHONY: all build executable lang-files man-pages install install/prepare remove test fuzz fuzz-coverage fuzz-classifier-spdx-strict fuzz-classifier-spdx-lenient fuzz-classifier-loose
+.PHONY: all build executable lang-files man-pages clean install install/prepare remove test fuzz fuzz-coverage fuzz-classifier-spdx-strict fuzz-classifier-spdx-lenient fuzz-classifier-loose
 
 all: build
 
@@ -179,8 +179,9 @@ build/test/%.o: test/%.c
 build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^ $(LDLIBS)
 
+build/test-suite: LDLIBS += -lcmocka
 build/test-suite: $(filter-out build/vrms-rpm.o, $(OBJECTS)) $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -lcmocka -o "$@" $^ $(LDLIBS)
+	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^ $(LDLIBS)
 
 build/fuzz-classifier: CC = afl-gcc-fast
 build/fuzz-classifier: LDLIBS += -lcmocka
