@@ -1,5 +1,10 @@
 0BSD
 AAL
+Abstyles
+AdaCore-doc
+Adobe
+Adobe-2006
+Adobe-Glyph
 ADSL
 AFL
 AFL-1.1
@@ -7,10 +12,12 @@ AFL-1.2
 AFL-2.0
 AFL-2.1
 AFL-3.0
+Afmparse
 AGPL
 AGPL-1.0
 AGPL-1.0-only
 AGPL-3.0
+AGPL-3.0+
 AGPL-3.0-only
 AGPL-3.0-or-later
 AGPLv1
@@ -23,46 +30,66 @@ AMPAS
 AMPAS BSD
 AMS
 ANTLR-PD
+Apache Software License 2.0
+Apache-1.0
+Apache-1.1
+Apache-2.0
+Apache-2.0 WITH LLVM-exception
+Apache-2.0 WITH Swift-exception
+Apache-2.0+
 APAFML
 APL-1.0
+App-s2p
 APSL 2.0
 APSL-1.0
 APSL-1.1
 APSL-1.2
 APSL-2.0
 ARL
+Arphic
+Arphic-1999
+Array
+Artistic
+Artistic 1.0
+Artistic 2.0
+Artistic clarified
+Artistic Licence 1.0
+Artistic Licence 2.0
+Artistic-1.0
+Artistic-1.0+
+Artistic-1.0-cl8
+Artistic-1.0-Perl
+Artistic-2.0
 ASL 1.0
 ASL 1.1
 ASL 2.0
 ASL 2.0 with exceptions for GPL2/LGPL2
 ASL1.0
 ASL1.1
+ASL2
 ASL2.0
-Abstyles
-Adobe
-Adobe-2006
-Adobe-Glyph
-Afmparse
-Apache Software License 2.0
-Apache-1.0
-Apache-1.1
-Apache-2.0
-Apache-2.0 WITH LLVM-exception
-Apache-2.0+
-App-s2p
-Arphic
-Arphic-1999
-Array
-Artistic 1.0
-Artistic 2.0
-Artistic Licence 1.0
-Artistic Licence 2.0
-Artistic clarified
-Artistic-1.0
-Artistic-1.0+
-Artistic-1.0-Perl
-Artistic-1.0-cl8
-Artistic-2.0
+ASLv2
+ASLv2.0
+ASLv2.0+
+Baekmuk
+Bahyph
+Barr
+Beerware
+BeOpen
+Bibtex
+Bitstream Vera
+Bitstream Vera Fonts Copyright
+Bitstream-Charter
+Bitstream-Vera
+BitTorrent
+BitTorrent-1.1
+blessing
+BlueOak-1.0.0
+Boehm-GC
+Boost
+Boost-1.0
+Borceux
+Brian-Gladman-3-Clause
 BSD
 BSD 2-Clause
 BSD 3-Clause
@@ -74,32 +101,27 @@ BSD-2-Clause-FreeBSD
 BSD-2-Clause-NetBSD
 BSD-2-Clause-Patent
 BSD-2-Clause-Views
+BSD-2c
+BSD-3
 BSD-3-Clause
 BSD-3-Clause-Attribution
 BSD-3-Clause-Clear
 BSD-3-Clause-LBNL
 BSD-3-Clause-Modification
+BSD-3-Clause-Open-MPI
 BSD-4-Clause
 BSD-4-Clause-UC
+BSD-4.3TAHOE
+BSD-Advertising-Acknowledgement
+BSD-Mark-Modifications
 BSD-Protection
 BSD-Source-Code
+BSD2c
+BSD3
+BSD3c
+BSD4c
 BSL-1.0
-Baekmuk
-Bahyph
-Barr
-BeOpen
-Beerware
-Bibtex
-BitTorrent
-BitTorrent-1.1
-Bitstream Vera
-Bitstream Vera Fonts Copyright
-Bitstream-Charter
-Bitstream-Vera
-BlueOak-1.0.0
-Boost
-Boost-1.0
-Borceux
+bzip2-1.0.6
 CAL-1.0
 CAL-1.0-Combined-Work-Exception
 CATOSL
@@ -152,6 +174,7 @@ CDDL 1.1
 CDDL-1.0
 CDDL-1.1
 CDL
+CeCILL
 CECILL-1.1
 CECILL-2.0
 CECILL-2.1
@@ -160,78 +183,97 @@ CECILL-C
 CERN-OHL-P-2.0
 CERN-OHL-S-2.0
 CERN-OHL-W-2.0
+CFITSIO
+Charter
+check-cvs
+checkmk
+ClArtistic
+CMU-Mach
 CNRI
 CNRI-Python
+Condor
+Condor-1.1
+Copyright only
 CPAL
 CPAL-1.0
 CPL
 CPL-1.0
 CPM
 CRC32
-CUA-OPL-1.0
-CeCILL
-CeCILL-B
-CeCILL-C
-Charter
-ClArtistic
-Condor
-Condor-1.1
-Copyright only
 Crossword
 Crystal Stacker
 CrystalStacker
+CUA-OPL-1.0
 Cube
+curl
+diffmark
 DL-DE-BY
 DL-DE-BY-2.0
 DMIT
 DMTF
 DOC
-DSDP
-DSL
-DWPL
 Dotseqn
 DoubleStroke
+DSDP
+DSL
+dtoa
+dvipdfm
+DWPL
+ec
 ECL 1.0
 ECL 2.0
 ECL-1.0
 ECL-2.0
+Eclipse-1.0
+eCos
+eCos-2.0
 EFL 2.0
 EFL-1.0
 EFL-2.0
 EFML
+eGenix
+Elvish
+Entessa
 EPICS
 EPL
 EPL 1.0
 EPL 1.1
 EPL 2.0
+EPL-1
 EPL-1.0
 EPL-1.1
 EPL-2.0
+ErlPL-1.1
 ERPL
+etalab-2.0
 EU Datagrid
 EUDatagrid
 EUPL 1.1
 EUPL 1.2
 EUPL-1.1
 EUPL-1.2
-Elvish
-Entessa
-ErlPL-1.1
 Eurosym
+Expat
+Fair
 FBSDDL
 FDK-AAC
-FSFAP
-FSFUL
-FSFULLR
-FSFULLRWD
-FTL
-Fair
+FDL-1.2+
+FDL-1.3+
+FDLv1.2+
+Fltk
 Frameworx-1.0
 Free Art
 FreeBSD-DOC
 FreeImage
 Freely Distributable
 Freely redistributable without restriction
+Freetype
+FSFAP
+FSFUL
+FSFULLR
+FSFULLRWD
+FTL
+GeoGratis
 GFDL
 GFDL+
 GFDL-1.1
@@ -243,6 +285,7 @@ GFDL-1.1-no-invariants-or-later
 GFDL-1.1-only
 GFDL-1.1-or-later
 GFDL-1.2
+GFDL-1.2+
 GFDL-1.2-invariants-only
 GFDL-1.2-invariants-or-later
 GFDL-1.2-no-invariants-only
@@ -258,11 +301,19 @@ GFDL-1.3-only
 GFDL-1.3-or-later
 GFDLv1.1
 GFDLv1.1+
+GFDLv1.2
+GFDLv1.2+
 GFDLv1.3
 GFDLv1.3+
 GFSL
+Giftware
 GL2PS
+Glide
+GLPv2
+Glulxe
 GNU Lesser General Public License v3.0 only
+GNU Lesser General Public License v3.0 only, with exceptions
+gnuplot
 GPL
 GPL 1
 GPL 1+
@@ -282,35 +333,64 @@ GPL-1.0
 GPL-1.0+
 GPL-1.0-only
 GPL-1.0-or-later
+GPL-1.0-or-later OR Artistic-1.0-Perl
+GPL-1.0-or-later WITH Linux-syscall-note
+GPL-2
+GPL-2+
 GPL-2.0
 GPL-2.0+
 GPL-2.0-only
+GPL-2.0-only WITH 389-exception
+GPL-2.0-only WITH Asterisk-exception
 GPL-2.0-only WITH Classpath-exception-2.0
 GPL-2.0-only WITH Font-exception-2.0
 GPL-2.0-only WITH GCC-exception-2.0
+GPL-2.0-only WITH libpri-OpenH323-exception
+GPL-2.0-only WITH Linux-syscall-note
 GPL-2.0-or-later
+GPL-2.0-or-later OR Artistic-1.0-Perl
+GPL-2.0-or-later WITH Autoconf-exception-generic
+GPL-2.0-or-later WITH Bison-exception-2.2
 GPL-2.0-or-later WITH Classpath-exception-2.0
-GPL-2.0-or-later WITH Font-exception-2.0
-GPL-2.0-or-later WITH Libtool-exception
+GPL-2.0-or-later WITH cryptsetup-OpenSSL-exception
 GPL-2.0-or-later WITH eCos-2.0
+GPL-2.0-or-later WITH eCos-exception-2.0
+GPL-2.0-or-later WITH Font-exception-2.0
+GPL-2.0-or-later WITH GCC-exception-2.0
+GPL-2.0-or-later WITH GNAT-exception
+GPL-2.0-or-later WITH Libtool-exception
+GPL-2.0-or-later WITH Linux-syscall-note
+GPL-2.0-or-later WITH SWI-exception
+GPL-2.0-or-later WITH WxWindows-exception-3.1
 GPL-2.0-or-later WITH x11vnc-openssl-exception
+GPL-2.0-with-FLOSS-exception
+GPL-3
+GPL-3+
 GPL-3.0
 GPL-3.0+
 GPL-3.0-only
 GPL-3.0-only WITH Classpath-exception-2.0
 GPL-3.0-only WITH Font-exception-2.0
+GPL-3.0-only WITH GCC-exception-3.1
+GPL-3.0-only WITH GPL-3.0-interface-exception
 GPL-3.0-only WITH Qt-GPL-exception-1.0
 GPL-3.0-or-later
 GPL-3.0-or-later WITH Autoconf-exception-3.0
+GPL-3.0-or-later WITH Autoconf-exception-generic-3.0
+GPL-3.0-or-later WITH Autoconf-exception-macro
 GPL-3.0-or-later WITH Bison-exception-2.2
 GPL-3.0-or-later WITH Classpath-exception-2.0
+GPL-3.0-or-later WITH cryptsetup-OpenSSL-exception
 GPL-3.0-or-later WITH Font-exception-2.0
 GPL-3.0-or-later WITH GCC-exception-3.1
-GPL-3.0-with-GCC-exception
+GPL-3.0-or-later WITH GNAT-exception
+GPL-3.0-or-later WITH GPL-3.0-interface-exception
+GPL-3.0-or-later WITH Texinfo-exception
 GPL-3.0-with-Qt-Company-Qt-exception-1.1
 GPL1
 GPL1.0
 GPL2
+GPL2+
 GPL2.0
 GPL3
 GPL3.0
@@ -320,48 +400,55 @@ GPLv2
 GPLv2+
 GPLv3
 GPLv3+
-GeoGratis
-Giftware
-Glide
-Glulxe
-Gnuplot
 Green OpenMusic
-HOFL
-HPND
-HPND-export-US
-HPND-sell-variant
-HSRL
 HaskellReport
 Hershey
+HOFL
+HP-1986
+HP-1989
+HPND
+HPND-export-US
+HPND-Markus-Kuhn
+HPND-sell-variant
+HPND-sell-variant-MIT-disclaimer
+HSRL
 IBM
 ICU
 IEEE
 IJG
 IJG-short
-IPA
-IPL-1.0
-ISC
 ImageMagick
+iMatix
 Imlib2
+Info-ZIP
 Inner-Net
+Inner-Net-2.0
 Intel
 Intel ACPI
 Intel-ACPI
 Interbase
 Interbase-1.0
-JPython
-JSON
+IPA
+IPL-1.0
+ISC
 Jabber
 Jam
 JasPer
 JasPer-2.0
+JPL-image
+JPython
+JSON
 Julius
+Kazlib
 Knuth
 Knuth-CTAN
 LAL-1.2
 LAL-1.3
+Latex2e
+Latex2e-translated-notice
 LBNL BSD
 LDPL
+Leptonica
 LGPL
 LGPL+
 LGPL-1.0
@@ -373,6 +460,7 @@ LGPL-2.0-only WITH OCaml-LGPL-linking-exception
 LGPL-2.0-or-later
 LGPL-2.0-or-later WITH FLTK-exception
 LGPL-2.0-or-later WITH GCC-exception-2.0
+LGPL-2.0-or-later WITH Linux-syscall-note
 LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception
 LGPL-2.0-or-later WITH WxWindows-exception-3.1
 LGPL-2.1
@@ -380,7 +468,9 @@ LGPL-2.1+
 LGPL-2.1-only
 LGPL-2.1-only WITH OCaml-LGPL-linking-exception
 LGPL-2.1-or-later
+LGPL-2.1-or-later WITH cryptsetup-OpenSSL-exception
 LGPL-2.1-or-later WITH GCC-exception-2.0
+LGPL-2.1-or-later WITH Linux-syscall-note
 LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception
 LGPL-2.1-or-later WITH Qwt-exception-1.0
 LGPL-2.1-with-Qt-Company-Qt-exception-1.1
@@ -393,13 +483,97 @@ LGPL-3.0-only WITH openvpn-openssl-exception
 LGPL-3.0-or-later
 LGPL-3.0-or-later WITH OCaml-LGPL-linking-exception
 LGPL-3.0-with-Qt-Company-Qt-exception-1.1
+LGPL2.1
 LGPLv2
 LGPLv2+
+LGPLv2.0
+LGPLv2.0+
 LGPLv2.1
 LGPLv2.1+
 LGPLv3
 LGPLv3+
+Lhcyr
+Liberation
+libtiff
+libutil-David-Nugent
+LicenseRef-AHFL
+LicenseRef-AMS
+LicenseRef-Array
+LicenseRef-Bacula
+LicenseRef-BeOpen
+LicenseRef-Bibtex
+LicenseRef-CCLP1
+LicenseRef-CCLP2
+LicenseRef-CDL
+LicenseRef-Charter
+LicenseRef-CPM
+LicenseRef-CRC32
+LicenseRef-DMIT
+LicenseRef-DMTF
+LicenseRef-DoubleStroke
+LicenseRef-DSL
+LicenseRef-ec
+LicenseRef-EFML
+LicenseRef-Elvish
+LicenseRef-Fedora-Public-Domain
+LicenseRef-Fedora-UltraPermissive
+LicenseRef-GeoGratis
+LicenseRef-Hershey
+LicenseRef-HOFL
+LicenseRef-IEEE
+LicenseRef-Jabber
+LicenseRef-JPython
+LicenseRef-LDPL
+LicenseRef-Lhcyr
+LicenseRef-Liberation
+LicenseRef-libzmq
+LicenseRef-License-of-Licenses
+LicenseRef-Logica
+LicenseRef-LOSLA
+LicenseRef-LPPL
+LicenseRef-Lucida
+LicenseRef-MgOpen
+LicenseRef-midnight
+LicenseRef-mod_macro
+LicenseRef-Newmat
+LicenseRef-OAL
+LicenseRef-OFSFDL
+LicenseRef-OpenData
+LicenseRef-OpenMusic-green
+LicenseRef-Par
+LicenseRef-PlainTeX
+LicenseRef-PTFL
+LicenseRef-Public-use
+LicenseRef-Punknova
+LicenseRef-radvd
+LicenseRef-REX
+LicenseRef-RiceBSD
+LicenseRef-Romio
+LicenseRef-RSA
+LicenseRef-Rsfs
+LicenseRef-SCRIP
+LicenseRef-SLIB
+LicenseRef-softSurfer
+LicenseRef-STIX
+LicenseRef-STMPL
+LicenseRef-TGPPL
+LicenseRef-Threeparttable
+LicenseRef-Tolua
+LicenseRef-Utopia
+LicenseRef-VNLSL
+LicenseRef-Wadalab
+LicenseRef-XANO
+LicenseRef-ZPLv1.0
+LiLiQ-P-1.1
+LiLiQ-R-1.1
+LiLiQ-Rplus-1.1
+Linux-man-pages-1-para
+Linux-man-pages-copyleft
+Linux-man-pages-copyleft-2-para
+Linux-man-pages-copyleft-var
+Linux-OpenIB
 LLGPL
+Logica
 LOOP
 LOSLA
 LPL
@@ -411,90 +585,33 @@ LPPL 1.3
 LPPL-1.2
 LPPL-1.3a
 LPPL-1.3c
-Latex2e
-Leptonica
-Lhcyr
-LiLiQ-P-1.1
-LiLiQ-R-1.1
-LiLiQ-Rplus-1.1
-Liberation
-LicenseRef-AHFL
-LicenseRef-AMS
-LicenseRef-BeOpen
-LicenseRef-Bibtex
-LicenseRef-CDL
-LicenseRef-CPM
-LicenseRef-CRC32
-LicenseRef-Charter
-LicenseRef-DMIT
-LicenseRef-DMTF
-LicenseRef-DSL
-LicenseRef-DoubleStroke
-LicenseRef-EFML
-LicenseRef-Elvish
-LicenseRef-Fedora-Public-Domain
-LicenseRef-Fedora-UltraPermissive
-LicenseRef-GeoGratis
-LicenseRef-HOFL
-LicenseRef-Hershey
-LicenseRef-IEEE
-LicenseRef-JPython
-LicenseRef-Jabber
-LicenseRef-LDPL
-LicenseRef-LOSLA
-LicenseRef-LPPL
-LicenseRef-Lhcyr
-LicenseRef-Liberation
-LicenseRef-Logica
-LicenseRef-Lucida
-LicenseRef-MgOpen
-LicenseRef-Newmat
-LicenseRef-OAL
-LicenseRef-OFSFDL
-LicenseRef-OpenData
-LicenseRef-OpenMusic-green
-LicenseRef-PTFL
-LicenseRef-Par
-LicenseRef-PlainTeX
-LicenseRef-Public-use
-LicenseRef-Punknova
-LicenseRef-REX
-LicenseRef-RSA
-LicenseRef-RiceBSD
-LicenseRef-Romio
-LicenseRef-Rsfs
-LicenseRef-SCRIP
-LicenseRef-SLIB
-LicenseRef-STIX
-LicenseRef-STMPL
-LicenseRef-TGPPL
-LicenseRef-Threeparttable
-LicenseRef-Tolua
-LicenseRef-Utopia
-LicenseRef-VNLSL
-LicenseRef-Wadalab
-LicenseRef-XANO
-LicenseRef-ZPLv1.0
-LicenseRef-ec
-LicenseRef-midnight
-LicenseRef-mod_macro
-LicenseRef-radvd
-LicenseRef-softSurfer
-Linux-OpenIB
-Linux-man-pages-copyleft
-Logica
 Lucida
+MakeIndex
+Martin-Birgmeier
+mecab-ipadic
+metamail
+MgOpen
+midnight
+Minpack
+MirOS
 MIT
 MIT License
 MIT-0
-MIT-CMU
-MIT-Modern-Variant
-MIT-Wu
 MIT-advertising
+MIT-CMU
 MIT-enna
 MIT-feh
+MIT-Festival
+MIT-Licence
+MIT-Modern-Variant
 MIT-open-group
+MIT-testregex
+MIT-Wu
+MIT/X11
 MITNFA
+mod_macro
+Motosoto
+mpich2
 MPL 1.0
 MPL 1.1
 MPL 2.0
@@ -506,6 +623,7 @@ MPL-2.0-no-copyleft-exception
 MPL1.0
 MPL1.1
 MPL2.0
+mplus
 MPLv1.0
 MPLv1.0+
 MPLv1.1
@@ -515,47 +633,44 @@ MPLv2.0+
 MS-PL
 MS-RL
 MTLL
-MakeIndex
-MgOpen
-Minpack
-MirOS
-Motosoto
 MulanPSL-2.0
 Multics
 Mup
 NAIST-2003
 NASA-1.3
+Naumen
 NCSA
+NetCDF
+Netscape
+Newmat
+Newsletr
 NGPL
 NIST-PD
 NIST-PD-fallback
+NIST-Software
 NISTSL
 NLPL
+Nmap
+Nokia
+NonFree
 NOSL
+Noweb
 NPL-1.0
 NPL-1.1
 NPOSL-3.0
 NRL
 NTP
-Naumen
-NetCDF
-Netscape
-Newmat
-Newsletr
-Nmap
-Nokia
-NonFree
-Noweb
 Nunit
 OAL
+Oasis-Specification-Notice
 OCLC-2.0
 ODbL-1.0
-ODbl-1.0
+OFFIS
 OFL
 OFL-1.0
 OFL-1.1
-OFL-1.1-RFN
 OFL-1.1-no-RFN
+OFL-1.1-RFN
 OFSFDL
 OGL
 OGL-UK-3.0
@@ -563,7 +678,13 @@ OGTSL
 OLDAP-2.3
 OLDAP-2.7
 OLDAP-2.8
+OLFL-1.3
 OML
+Open Publication
+OpenLDAP
+OpenPBS
+OpenPBS-2.3
+OpenSSL
 OPL-1.0
 OReilly
 OSET-PL-2.1
@@ -577,220 +698,243 @@ OSL-1.1
 OSL-2.0
 OSL-2.1
 OSL-3.0
-Open Publication
-OpenLDAP
-OpenPBS
-OpenSSL
 Ouverte
-PDDL-1.0
-PHP
-PHP-3.0
-PHP-3.01
-PSF-2.0
-PTFL
 Par
+PDDL-1.0
 Perl
 Phorum
+PHP
+PHP-3.0
+PHP-3.0.1
+PHP-3.01
 PlainTeX
 Plexus
 PostgreSQL
+PSF
+PSF-2.0
+psfrag
+psutils
+PTFL
 Public Domain
 Public Use
 Punknova
 Python
 Python-2.0
 Python-2.0.1
+Qhull
 QPL
 QPL-1.0
-Qhull
+QPL-1.0-INRIA-2004 WITH QPL-1.0-INRIA-2004-exception
+radvd
+Rdisc
 REX
+RiceBSD
+Romio
 RPL-1.1
 RPL-1.5
 RPSL
 RPSL-1.0
 RSA
 RSCPL
-Rdisc
-RiceBSD
-Romio
 Rsfs
 Ruby
+Saxpath
 SCEA
 SCRIP
+Sendmail
+Sendmail-8.23
+Sequence
 SGI-B-2.0
+SGP4
+SimPL-2.0
 SISSL
+SL
+Sleepycat
 SLIB
 SMLNJ
 SNIA
+softSurfer
+Soundex
+Spencer-86
+Spencer-94
+Spencer-99
 SPL
 SPL-1.0
+sprintf
+SSH-OpenSSH
+StandardML-NJ
 STIX
 STMPL
+SunPro
+SUSE-AGPL-3.0+
+SUSE-Apache-2.0+
 SUSE-Arphic
+SUSE-Artistic-1.0+
+SUSE-Beerware
+SUSE-Bitstream-Vera
 SUSE-BSD-3-Clause-with-non-nuclear-addition
 SUSE-BSD-Mark-Modifications
-SUSE-Bitstream-Vera
-SUSE-CC-Sampling-Plus-1.0
-SUSE-CPL-0.5
 SUSE-CacertRoot
+SUSE-CC-Sampling-Plus-1.0
 SUSE-Copyleft-Next-0.3.0
+SUSE-CPL-0.5
 SUSE-Curb
 SUSE-DMTF
 SUSE-Docbook-XSL
 SUSE-Egenix-1.1.0
+SUSE-EULA
 SUSE-FHS
+SUSE-Firmware
 SUSE-FLTK
 SUSE-Free-Art-1.3
 SUSE-Freetype
+SUSE-GFDL-1.1+
+SUSE-GFDL-1.2+
+SUSE-GFDL-1.3+
+SUSE-Gitslave
 SUSE-GL2PS-2.0
+SUSE-Gnuplot
 SUSE-GPL-2.0+-with-openssl-exception
 SUSE-GPL-2.0+-with-sane-exception
 SUSE-GPL-2.0-with-FLOSS-exception
-SUSE-GPL-2.0-with-OSI-exception
+SUSE-GPL-2.0-with-linking-exception
 SUSE-GPL-2.0-with-openssl-exception
+SUSE-GPL-2.0-with-OSI-exception
+SUSE-GPL-2.0-with-plugin-exception
 SUSE-GPL-3.0+
+SUSE-GPL-3.0+-with-font-exception
 SUSE-GPL-3.0+-with-openssl-exception
 SUSE-GPL-3.0-with-FLOSS-exception
+SUSE-GPL-3.0-with-font-exception
 SUSE-GPL-3.0-with-openssl-exception
 SUSE-GPL-3.0-with-template-exception
-SUSE-Gitslave
-SUSE-Gnuplot
 SUSE-Hack-Open-Font-2.0
 SUSE-IBPL-1.0
 SUSE-IDPL-1.0
 SUSE-IEEE
+SUSE-IJG
 SUSE-Innernet-2.0
 SUSE-Innernet-2.00
+SUSE-JSON
 SUSE-LDPL-2.0
+SUSE-LGPL-2.0-with-linking-exception
 SUSE-LGPL-2.1-with-digia-exception-1.1
 SUSE-LGPL-2.1-with-nokia-exception-1.1
+SUSE-LGPL-3.0-with-openssl-exception
 SUSE-Liberation
-SUSE-MIT-Khronos
+SUSE-MakeIndex
 SUSE-Manpages
 SUSE-Matplotlib
 SUSE-MgOpen
+SUSE-mirror
+SUSE-MIT-Khronos
+SUSE-MPL-1.1+
+SUSE-mplus
+SUSE-NetCDF
 SUSE-Oasis-Specification-Notice
 SUSE-OldFSFDocLicense
+SUSE-OML
 SUSE-OpenPublication-1.0
-SUSE-PHP-2.02
+SUSE-OSL-1.1
 SUSE-Permissive
 SUSE-Permissive-Modify-By-Patch
+SUSE-PHP-2.02
 SUSE-Public-Domain
 SUSE-Python-1.6
+SUSE-Qhull
 SUSE-QWT-1.0
 SUSE-Redistributable-Content
 SUSE-Repoze
+SUSE-Scrot
+SUSE-Sendmail
 SUSE-SGI-FreeB-2.0
 SUSE-SIP
 SUSE-SLIB
 SUSE-SNIA-1.0
 SUSE-SNIA-1.1
-SUSE-Scrot
 SUSE-Sun-Laboratories
-SUSE-TGPPL-1.0
+SUSE-TCL
 SUSE-TeX
+SUSE-TGPPL-1.0
 SUSE-Ubuntu-Font-License-1.0
-SUSE-XDebug
-SUSE-XSL-Lint
-SUSE-Xano
-SUSE-Xenonsoft-1.00
-SUSE-mirror
-SUSE-mplus
+SUSE-Vim
+SUSE-WTFPL-2.0
 SUSE-wxWidgets-3.1
+SUSE-Xano
+SUSE-XDebug
+SUSE-Xenonsoft-1.00
+SUSE-XFree86-1.0
+SUSE-xinetd
+SUSE-XSL-Lint
 SWL
-Saxpath
-Sendmail
-Sendmail-8.23
-Sequence
-SimPL-2.0
-Sleepycat
-Spencer-86
-Spencer-99
-StandardML-NJ
-SunPro
 Symlinks
 TCGL
 TCL
+Teeworlds
+TermReadKey
 TGPPL
+Threeparttable
 TMate
+Tolua
 TORQUE-1.1
 TORQUEv1.1
 TOSL
 TPDL
 TPL
+TPL-1.0
 TTWL
-Teeworlds
-Threeparttable
-Tolua
+TU-Berlin-2.0
 Tumbolia
 UCAR
 UCD
 UCL-1.0
-UPL
-UPL-1.0
 Unicode
 Unicode-DFS-2015
 Unicode-DFS-2016
+UnixCrypt
 Unlicense
+UPL
+UPL-1.0
 Utopia
+Verbatim
+Vim
 VNLSL
 VOSTROM
 VSL
 VSL-1.0
-Verbatim
-Vim
 W3C
 W3C-19980720
-WTFPL
 Wadalab
 Watcom-1.0
 Webmin
 Wsuipa
+WTFPL
+wxWidgets
+wxWindows
 X11
+X11-distribute-modifications-variant
+X11/MIT
 XANO
-XFree86-1.1
-XSkat
+Xdebug-1.03
 Xerox
+Xfig
+XFree86-1.1
+xinetd
 Xnet
+xpp
+XSkat
 YPL-1.1
 YPLv1.1
+Zed
+Zeeff
+Zend
+Zend-2.0
+Zimbra-1.3
+Zlib
+zlib-acknowledgement
+ZPL
 ZPL-2.0
 ZPL-2.1
 ZPLv1.0
 ZPLv2.0
 ZPLv2.1
-Zed
-Zend
-Zend-2.0
-Zimbra-1.3
-Zlib
-bzip2-1.0.6
-checkmk
-curl
-diffmark
-dvipdfm
-eCos
-eCos-2.0
-eGenix
-ec
-etalab-2.0
-gnuplot
-iMatix
-libtiff
-libutil-David-Nugent
-mecab-ipadic
-midnight
-mod_macro
-mpich2
-mplus
-psfrag
-psutils
-pubkey
-radvd
-softSurfer
-wxWidgets
-wxWindows
-xinetd
-xpp
-zlib
-zlib-acknowledgement

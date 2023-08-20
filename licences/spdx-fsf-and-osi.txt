@@ -6,9 +6,9 @@ AFL-3.0
 AGPL-3.0
 AGPL-3.0-only
 AGPL-3.0-or-later
-APSL-2.0
 Apache-1.1
 Apache-2.0
+APSL-2.0
 Artistic-2.0
 BSD-2-Clause
 BSD-3-Clause
@@ -32,10 +32,10 @@ GPL-3.0+
 GPL-3.0-only
 GPL-3.0-or-later
 HPND
+Intel
 IPA
 IPL-1.0
 ISC
-Intel
 LGPL-2.1
 LGPL-2.1+
 LGPL-2.1-only
@@ -62,11 +62,11 @@ Python-2.0
 QPL-1.0
 RPSL-1.0
 SISSL
-SPL-1.0
 Sleepycat
-UPL-1.0
+SPL-1.0
 Unlicense
+UPL-1.0
 W3C
+Zlib
 ZPL-2.0
 ZPL-2.1
-Zlib

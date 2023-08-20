@@ -31,6 +31,10 @@ struct LooseClassifier {
 	struct ReBuffer *nodeBuf;
 };
 
+// TODO: Convert the "suffix" code here to work similarly to the SPDX classifier.
+//       Instead of trying all suffixes against the end of the string,
+//       search for " WITH " or "-with-" first, slice the string
+//       and then check if the suffix is on the list.
 static int is_free(const struct LicenceData *data, char *licence) {
 	const char *suffixes[] = {
 		" with acknowledgement",
@@ -40,6 +44,7 @@ static int is_free(const struct LicenceData *data, char *licence) {
 		" with exception",
 		" with exceptions",
 		" with font exception",
+		" with GCC exception",
 		" with linking exception",
 		" with plugin exception",
 		"-with-acknowledgement",
@@ -49,6 +54,7 @@ static int is_free(const struct LicenceData *data, char *licence) {
 		"-with-exception",
 		"-with-exceptions",
 		"-with-font-exception",
+		"-with-GCC-exception",
 		"-with-linking-exception",
 		"-with-plugin-exception",
 		(const char*)NULL
