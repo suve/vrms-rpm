@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2024 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -162,7 +162,7 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 	}
 
 	if(type == LTNT_LICENCE) {
-		struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode));
+		struct LicenceTreeNode *node = licence_allocNode(0);
 		if(node != NULL) {
 			node->type = LTNT_LICENCE;
 			node->licence = licence;
@@ -224,13 +224,13 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 	} while(match >= 0);
 
 	const size_t bufDataLen = self->nodeBuf->used - bufStart;
-	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + bufDataLen);
-	if(node != NULL) {
-		node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
-		memcpy(node->child, NODEBUFPTR(bufStart), bufDataLen);
+	const unsigned int children = bufDataLen / sizeof(struct LicenceTreeNode*);
 
+	struct LicenceTreeNode *node = licence_allocNode(children);
+	if(node != NULL) {
 		node->type = type;
 		node->is_free = isFree;
+		memcpy(node->child, NODEBUFPTR(bufStart), bufDataLen);
 	}
 
 	self->nodeBuf->used = bufStart;

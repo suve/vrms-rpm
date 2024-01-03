@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2024 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 #include <errno.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
@@ -171,6 +172,18 @@ void licence_printNode(const struct LicenceTreeNode *node) {
 		++m;
 		if(m < node->members) printf("%s", joiner);
 	}
+}
+
+struct LicenceTreeNode* licence_allocNode(const unsigned int children) {
+	if(children == 0) {
+		return malloc(offsetof(struct LicenceTreeNode, licence) + sizeof(char *));
+	}
+
+	struct LicenceTreeNode *node = malloc(offsetof(struct LicenceTreeNode, child) + (children * sizeof(void *)));
+	if(node != NULL) {
+		node->members = children;
+	}
+	return node;
 }
 
 void licence_freeTree(struct LicenceTreeNode *node) {
