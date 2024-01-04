@@ -32,6 +32,7 @@ const struct LicenceTreeNode PubkeyLicence = (struct LicenceTreeNode) {
 	.type = LTNT_LICENCE,
 	.is_free = 1,
 	.licence = "pubkey",
+	.exception = NULL,
 };
 
 #define LIST_COUNT(data) ((data)->list->used / sizeof(char*))
@@ -143,16 +144,23 @@ int licences_find(const struct LicenceData *data, const char *licence) {
 	return binary_search(data, licence, 0, LIST_COUNT(data)-1);
 }
 
-void licence_printNode(const struct LicenceTreeNode *node) {
-	if(node->type == LTNT_LICENCE) {
-		if(opt_colour)
-			printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
-		else
-			printf("%s", node->licence);
-
-		return;
+static inline void print_single_node(const struct LicenceTreeNode *const node) {
+	if(opt_colour) {
+		printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
+	} else {
+		printf("%s", node->licence);
 	}
 
+	if(node->exception != NULL) {
+		if(opt_grammar != OPT_GRAMMAR_LOOSE) {
+			printf(" WITH %s", node->exception);
+		} else {
+			printf("%s", node->exception);
+		}
+	}
+}
+
+static inline void print_joiner_node(const struct LicenceTreeNode *const node) {
 	// SPDX mandates that AND/OR operators should be matched in a case-sensitive manner.
 	// Of course, we also support lenient mode, which allows for "and" (also "And" etc.)...
 	// Maybe the joiner strings should also be stored in nodes?
@@ -174,9 +182,17 @@ void licence_printNode(const struct LicenceTreeNode *node) {
 	}
 }
 
+void licence_printNode(const struct LicenceTreeNode *node) {
+	if(node->type == LTNT_LICENCE) {
+		print_single_node(node);
+	} else {
+		print_joiner_node(node);
+	}
+}
+
 struct LicenceTreeNode* licence_allocNode(const unsigned int children) {
 	if(children == 0) {
-		return malloc(offsetof(struct LicenceTreeNode, licence) + sizeof(char *));
+		return malloc(offsetof(struct LicenceTreeNode, exception) + sizeof(char *));
 	}
 
 	struct LicenceTreeNode *node = malloc(offsetof(struct LicenceTreeNode, child) + (children * sizeof(void *)));

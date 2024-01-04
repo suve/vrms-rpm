@@ -70,23 +70,38 @@ static char* find_WITH_operator(struct SpdxClassifier *self, char *licence) {
 	return NULL;
 }
 
-static int is_free(struct SpdxClassifier *self, char *licence) {
-	if(licences_find(self->data, licence) >= 0) return 1;
-
-	// SPDX allows specifying additional rights ("licensing exceptions")
-	// through the use of the "WITH" operator.
+// SPDX allows specifying additional rights ("licensing exceptions") through
+// the use of the "WITH" operator. This function will locate said operator,
+// trim the licence text, and return the exception text.
+static char* extract_exception(struct SpdxClassifier *self, char *licence) {
 	char* with = find_WITH_operator(self, licence);
-	if(with != NULL) {
-		// The "WITH" operator can be preceded by any number of spaces.
-		size_t withPos = (with - licence);
-		while((withPos > 0) && (licence[withPos - 1] == ' ')) --withPos;
-
-		with = licence + withPos;
-		*with = '\0';
+	if(with == NULL) {
+		return NULL;
 	}
 
-	// SPDX allows specifying "or later version" by tacking a "+" to the licence name.
+	// The "WITH" operator can be preceded by any number of spaces.
+	size_t withPos = (with - licence);
+	while((withPos > 0) && (licence[withPos - 1] == ' ')) --withPos;
+
+	// Trim the licence string to remove the " WITH" operator
+	// and the exception text.
+	char *withStart = licence + withPos;
+	*withStart = '\0';
+
+	// The value returned from find_WITH_operator() points at the space
+	// character before the operator. Skip to first character after
+	// the operator (" WITH" is 5 characters). Then, omit any extra whitespace.
+	char *withEnd = with + 5;
+	while(*withEnd == ' ') ++withEnd;
+
+	return withEnd;
+}
+
+static int is_free(struct SpdxClassifier *self, char *licence) {
 	const size_t len = strlen(licence);
+
+	// SPDX allows specifying "or later version" by tacking a "+"
+	// at the end of the licence name.
 	size_t plusPos = len;
 	char plusChar = 0;
 	if((len > 0) && (licence[len - 1] == '+')) {
@@ -105,15 +120,13 @@ static int is_free(struct SpdxClassifier *self, char *licence) {
 		licence[plusPos] = '\0';
 	}
 
-	// If we didn't find the "WITH" operator nor the "+" operator, bail out early.
-	if((plusPos >= len) && (with == NULL)) return 0;
-
-	// Try matching the licence name, stripped from the +/WITH parts, again.
+	// Match the licence text, possibly stripped of the '+' operator,
+	// against the licence list.
 	int found = licences_find(self->data, licence);
 
-	// Restore the licence string to its original shape.
+	// If there was a '+' operator present,
+	// restore the licence string to its original shape.
 	if(plusPos < len) licence[plusPos] = plusChar;
-	if(with != NULL) *with = ' ';
 
 	return found >= 0;
 }
@@ -257,6 +270,7 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 		struct LicenceTreeNode *node = licence_allocNode(0);
 		if(node != NULL) {
 			node->type = LTNT_LICENCE;
+			node->exception = extract_exception(self, licence);
 			node->licence = licence;
 			node->is_free = is_free(self, licence);
 		}

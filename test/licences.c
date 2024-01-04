@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2024 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -70,7 +70,11 @@ int test_teardown__licences(void **state) {
 
 static void ltn_to_str(char *buffer, const size_t bufsize, const struct LicenceTreeNode *ltn) {
 	if(ltn->type == LTNT_LICENCE) {
-		snprintf(buffer, bufsize, "{type = LICENCE, is_free = %d, licence = \"%s\"}", ltn->is_free, ltn->licence);
+		if(ltn->exception != NULL) {
+			snprintf(buffer, bufsize,"{type = LICENCE, is_free = %d, licence = \"%s\", exception = \"%s\"}",ltn->is_free, ltn->licence, ltn->exception);
+		} else {
+			snprintf(buffer, bufsize,"{type = LICENCE, is_free = %d, licence = \"%s\", exception = NULL}",ltn->is_free, ltn->licence);
+		}
 	} else {
 		snprintf(buffer, bufsize, "{type = %s, is_free = %d, members = %d}", (ltn->type == LTNT_AND) ? "AND" : (ltn->type == LTNT_OR) ? "OR": "???", ltn->is_free, ltn->members);
 	}

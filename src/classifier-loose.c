@@ -35,8 +35,8 @@ struct LooseClassifier {
 //       Instead of trying all suffixes against the end of the string,
 //       search for " WITH " or "-with-" first, slice the string
 //       and then check if the suffix is on the list.
-static int is_free(const struct LicenceData *data, char *licence) {
-	const char *suffixes[] = {
+static char* extract_exception(char *licence) {
+	static const char *suffixes[] = {
 		" with acknowledgement",
 		" with advertising",
 		" with additional permissions",
@@ -59,28 +59,23 @@ static int is_free(const struct LicenceData *data, char *licence) {
 		"-with-plugin-exception",
 		(const char*)NULL
 	};
-	
-	int search = licences_find(data, licence);
-	if(search >= 0) return 1;
-	
-	// See if the licence ends with an acceptable suffix.
-	// This allows us some flexibility when it comes to classifying licences.
+
 	for(const char **suf = suffixes; *suf != NULL; ++suf) {
 		char *sufpos = str_ends_with(licence, *suf);
 		if(sufpos == NULL) continue;
-		
-		const char oldchar = *sufpos;
+
+		// Trim the licence string where the suffix starts.
 		*sufpos = '\0';
 
-		search = licences_find(data, licence);
-		*sufpos = oldchar;
-		
-		// It's not possible for a licence string to have two valid suffixes,
-		// so we can return now, without looking through the rest of the suffixes.
-		return search >= 0;
+		// Return the static suffix string as the exception string.
+		return *((char**)suf);
 	}
-	
-	return 0;
+
+	return NULL;
+}
+
+static int is_free(const struct LicenceData *data, char *licence) {
+	return licences_find(data, licence) >= 0;
 }
 
 static int is_opening_paren(const char *str) {
@@ -165,6 +160,7 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 		struct LicenceTreeNode *node = licence_allocNode(0);
 		if(node != NULL) {
 			node->type = LTNT_LICENCE;
+			node->exception = extract_exception(licence);
 			node->licence = licence;
 			node->is_free = is_free(self->data, licence);
 		}

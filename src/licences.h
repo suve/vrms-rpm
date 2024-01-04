@@ -36,7 +36,11 @@ struct LicenceTreeNode {
 	int is_free;
 
 	union {
-		char *licence;
+		struct {
+			char *licence;
+			char *exception;
+		};
+
 		struct {
 			unsigned int members;
 			struct LicenceTreeNode *child[];

@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2024 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -60,11 +60,12 @@ extern void test__spdxLenient(void **state);
 
 extern void assert_ltn_equal(const struct LicenceTreeNode *actual, const struct LicenceTreeNode *expected, const char *const file, const int line);
 
-#define make_ltn_simple(name, pop_is_free, pop_licence) do{ \
+#define make_ltn_simple(name, pop_is_free, pop_licence, pop_exception) do{ \
 	(name) = malloc(sizeof(struct LicenceTreeNode)); \
 	(name)->type = LTNT_LICENCE; \
 	(name)->is_free = (pop_is_free); \
 	(name)->licence = (pop_licence); \
+	(name)->exception = (pop_exception); \
 } while(0)
 
 #define make_ltn(name, pop_is_free, pop_type, ...) do{ \
