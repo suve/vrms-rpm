@@ -439,6 +439,13 @@ void test__looseClassifier_acceptable_suffixes(void **state) {
 		test_licence("Bad with linking exception", expected);
 	}
 
+	// The algorithm should support a comma before the "with".
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Good, with advertising");
+		test_licence("Good, with advertising", expected);
+	}
+
 	// If the licence name contains the word "with", the split into
 	// licence and exception parts must not occur at the initial "with".
 	{

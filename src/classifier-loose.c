@@ -86,9 +86,18 @@ static int is_free(const struct LicenceData *data, char *licence) {
 		(const char*)NULL
 	};
 
-	char *const with = find_WITH_operator(licence);
+	char *with = find_WITH_operator(licence);
 	if(with != NULL) {
-		char *const past_with = with + 6; // Skip " WITH "
+		// The `with` pointer points to space/hyphen immediately before
+		// the "WITH" operator. Adding 6 chars skips past "-with-".
+		char *const past_with = with + 6;
+
+		// Check if there's a comma before the WITH operator, e.g.
+		// "Licence name, with extra permissions".
+		if((with > licence) && (*(with-1) == ',')) {
+			--with;
+		}
+
 		for(const char **suf = suffixes; *suf != NULL; ++suf) {
 			if(strcmp(past_with, *suf) != 0) continue;
 
