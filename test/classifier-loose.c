@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2024 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -421,11 +421,8 @@ void test__looseClassifier_acceptable_suffixes(void **state) {
 		make_ltn_simple(expected, 1, "Awesome with additional permissions");
 		test_licence("Awesome with additional permissions", expected);
 	}
-	{
-		struct LicenceTreeNode *expected;
-		make_ltn_simple(expected, 1, "Long name with spaces with linking exception");
-		test_licence("Long name with spaces with linking exception", expected);
-	}
+
+	// Bad licences with licensing exceptions are still bad.
 	{
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 0, "Bad with acknowledgement");
@@ -440,6 +437,14 @@ void test__looseClassifier_acceptable_suffixes(void **state) {
 		struct LicenceTreeNode *expected;
 		make_ltn_simple(expected, 0, "Bad with linking exception");
 		test_licence("Bad with linking exception", expected);
+	}
+
+	// If the licence name contains the word "with", the split into
+	// licence and exception parts must not occur at the initial "with".
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Long name with spaces with linking exception");
+		test_licence("Long name with spaces with linking exception", expected);
 	}
 }
 

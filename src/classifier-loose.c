@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2024 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,56 +31,82 @@ struct LooseClassifier {
 	struct ReBuffer *nodeBuf;
 };
 
-// TODO: Convert the "suffix" code here to work similarly to the SPDX classifier.
-//       Instead of trying all suffixes against the end of the string,
-//       search for " WITH " or "-with-" first, slice the string
-//       and then check if the suffix is on the list.
+// Try to find the WITH operator. The operator is matched in a case-insensitive
+// manner, and can be surrounded by either spaces or hyphens.
+//
+// The string is traversed in reverse because otherwise input like:
+//   "Licence name with spaces with extra permissions"
+// would be split into "Licence name" and "spaces with extra permissions"
+// instead of "Licence name with spaces" and "extra permissions".
+static char* find_WITH_operator(char *licence) {
+	const char matchChars[] = " HTIW ";
+	const char altChars[] = "-htiw-";
+
+	const size_t len = strlen(licence);
+	if(len == 0) return NULL; // Better safe than sorry
+	size_t pos = len - 1;
+
+	int charsMatched = 0;
+	while(1) {
+		char c = licence[pos];
+		if((c == matchChars[charsMatched]) || (c == altChars[charsMatched])) {
+			++charsMatched;
+			if(charsMatched == 6) { // " WITH " or "-with-" or whatever -> 6 chars
+				return licence + pos;
+			}
+		} else {
+			charsMatched = 0;
+		}
+
+		if(pos == 0) return NULL;
+		--pos;
+	}
+}
+
 static int is_free(const struct LicenceData *data, char *licence) {
+	// TODO: Multi-word suffixes appear in the list twice: first using
+	//       a space-separated form, and then a hyphen-seperated one.
+	//       Devise some mechanism to get rid of this duplication.
 	const char *suffixes[] = {
-		" with acknowledgement",
-		" with advertising",
-		" with additional permissions",
-		" with attribution",
-		" with exception",
-		" with exceptions",
-		" with font exception",
-		" with GCC exception",
-		" with linking exception",
-		" with plugin exception",
-		"-with-acknowledgement",
-		"-with-advertising",
-		"-with-additional-permissions",
-		"-with-attribution",
-		"-with-exception",
-		"-with-exceptions",
-		"-with-font-exception",
-		"-with-GCC-exception",
-		"-with-linking-exception",
-		"-with-plugin-exception",
+		"acknowledgement",
+		"advertising",
+		"additional permissions",
+		"additional-permissions",
+		"attribution",
+		"exception",
+		"exceptions",
+		"font exception",
+		"font-exception",
+		"GCC exception",
+		"GCC-exception",
+		"linking exception",
+		"linking-exception",
+		"plugin exception",
+		"plugin-exception",
 		(const char*)NULL
 	};
-	
-	int search = licences_find(data, licence);
-	if(search >= 0) return 1;
-	
-	// See if the licence ends with an acceptable suffix.
-	// This allows us some flexibility when it comes to classifying licences.
-	for(const char **suf = suffixes; *suf != NULL; ++suf) {
-		char *sufpos = str_ends_with(licence, *suf);
-		if(sufpos == NULL) continue;
-		
-		const char oldchar = *sufpos;
-		*sufpos = '\0';
 
-		search = licences_find(data, licence);
-		*sufpos = oldchar;
-		
-		// It's not possible for a licence string to have two valid suffixes,
-		// so we can return now, without looking through the rest of the suffixes.
-		return search >= 0;
+	char *const with = find_WITH_operator(licence);
+	if(with != NULL) {
+		char *const past_with = with + 6; // Skip " WITH "
+		for(const char **suf = suffixes; *suf != NULL; ++suf) {
+			if(strcmp(past_with, *suf) != 0) continue;
+
+			// Store the character appearing before the "WITH" operator.
+			// We allow both spaces and hyphens, so we must remember which one was it.
+			const char oldChar = *with;
+
+			*with = '\0'; // Trim the licence string before lookup
+			const int search = licences_find(data, licence);
+			*with = oldChar; // Restore old char
+
+			// It's not possible for a licence string to have two valid suffixes,
+			// so we can return now, without looking through the rest of the suffixes.
+			return search >= 0;
+		}
 	}
-	
-	return 0;
+
+	return licences_find(data, licence) >= 0;
 }
 
 static int is_opening_paren(const char *str) {
