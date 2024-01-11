@@ -90,11 +90,19 @@ static int is_free(const struct LicenceData *data, char *licence) {
 	if(with != NULL) {
 		// The `with` pointer points to space/hyphen immediately before
 		// the "WITH" operator. Adding 6 chars skips past "-with-".
-		char *const past_with = with + 6;
+		char *past_with = with + 6;
+		// Skip past any extra spaces/hyphens, should there be any.
+		while((*past_with == ' ') || (*past_with == '-')) ++past_with;
 
 		// Check if there's a comma before the WITH operator, e.g.
 		// "Licence name, with extra permissions".
 		if((with > licence) && (*(with-1) == ',')) {
+			--with;
+		}
+		// Remove any extra spaces/hyphens, should there be any.
+		while(with > licence) {
+			char previous = *(with - 1);
+			if((previous != ' ') && (previous != '-')) break;
 			--with;
 		}
 
