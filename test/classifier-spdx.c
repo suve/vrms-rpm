@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2024 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -570,16 +570,170 @@ void test__spdxStrict_caseSensitivity(void **state) {
 		test_licence("AwEsOmE", expected);
 	}
 
-	// The SPDX spec mandates that operators (AND/OR) must be matched in a case-sensitive manner.
+	// The SPDX spec mandates that operators (AND, OR, WITH) must be matched in a case-sensitive manner.
+	// Since SPDX v3.0, lowercase operators are also allowed. However, they are still case-sensitive.
+	// In other words: "OR" and "or" are both fine...
+	{
+		struct LicenceTreeNode *left, *right, *expected;
+		make_ltn_simple(left, 1, "Good");
+		make_ltn_simple(right, 0, "Awful");
+		make_ltn(expected, 1, LTNT_OR, left, right);
+
+		test_licence("Good OR Awful", expected);
+	}
+	{
+		struct LicenceTreeNode *left, *right, *expected;
+		make_ltn_simple(left, 1, "Good");
+		make_ltn_simple(right, 0, "Awful");
+		make_ltn(expected, 1, LTNT_OR, left, right);
+
+		test_licence("Good or Awful", expected);
+	}
+	// ...but "Or" and "oR" are not.
 	{
 		struct LicenceTreeNode *expected;
-		make_ltn_simple(expected, 0, "Good or Awful");
-		test_licence("Good or Awful", expected);
+		make_ltn_simple(expected, 0, "Good Or Awful");
+		test_licence("Good Or Awful", expected);
 	}
 	{
 		struct LicenceTreeNode *expected;
-		make_ltn_simple(expected, 0, "Awesome and Good");
+		make_ltn_simple(expected, 0, "Good oR Awful");
+		test_licence("Good oR Awful", expected);
+	}
+
+	// Same thing for the "AND" operator.
+	{
+		struct LicenceTreeNode *left, *right, *expected;
+		make_ltn_simple(left, 1, "Awesome");
+		make_ltn_simple(right, 1, "Good");
+		make_ltn(expected, 1, LTNT_AND, left, right);
+
+		test_licence("Awesome AND Good", expected);
+	}
+	{
+		struct LicenceTreeNode *left, *right, *expected;
+		make_ltn_simple(left, 1, "Awesome");
+		make_ltn_simple(right, 1, "Good");
+		make_ltn(expected, 1, LTNT_AND, left, right);
+
 		test_licence("Awesome and Good", expected);
+	}
+	// Check all the six invalid cases. Can never be too sure!
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Awesome And Good");
+		test_licence("Awesome And Good", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Awesome aNd Good");
+		test_licence("Awesome aNd Good", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Awesome anD Good");
+		test_licence("Awesome anD Good", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Awesome ANd Good");
+		test_licence("Awesome ANd Good", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Awesome AnD Good");
+		test_licence("Awesome AnD Good", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Awesome aND Good");
+		test_licence("Awesome aND Good", expected);
+	}
+
+	// ...and the same thing for the WITH operator.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Good with Head Pats");
+		test_licence("Good with Head Pats", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 1, "Awesome WITH EXPLOSIONS");
+		test_licence("Awesome WITH EXPLOSIONS", expected);
+	}
+	// The bad cases. Becase we test against a free licence, if the "with"
+	// operator gets recognized, the LTN will be marked free.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good With Goodness");
+		test_licence("Good With Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good wIth Goodness");
+		test_licence("Good wIth Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good wiTh Goodness");
+		test_licence("Good wiTh Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good witH Goodness");
+		test_licence("Good witH Goodness", expected);
+	}
+	// Two uppercase letters.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good WIth Goodness");
+		test_licence("Good WIth Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good WiTh Goodness");
+		test_licence("Good WiTh Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good WitH Goodness");
+		test_licence("Good WitH Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good wITh Goodness");
+		test_licence("Good wITh Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good wItH Goodness");
+		test_licence("Good wItH Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good wiTH Goodness");
+		test_licence("Good wiTH Goodness", expected);
+	}
+	// Three uppercase letters.
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good wITH Goodness");
+		test_licence("Good wITH Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good WiTH Goodness");
+		test_licence("Good WiTH Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good WItH Goodness");
+		test_licence("Good WItH Goodness", expected);
+	}
+	{
+		struct LicenceTreeNode *expected;
+		make_ltn_simple(expected, 0, "Good WITh Goodness");
+		test_licence("Good WITh Goodness", expected);
 	}
 }
 
@@ -693,8 +847,8 @@ void test__spdxLenient(void **state) {
 	// "WITH" operator: in lenient mode, we perform a case-insensitive match.
 	{
 		struct LicenceTreeNode *expected;
-		make_ltn_simple(expected, 1, "Awesome with Extra-Permissions");
-		test_licence("Awesome with Extra-Permissions", expected);
+		make_ltn_simple(expected, 1, "Awesome With Extra-Permissions");
+		test_licence("Awesome With Extra-Permissions", expected);
 	}
 	{
 		struct LicenceTreeNode *expected;
@@ -715,7 +869,7 @@ void test__spdxLenient(void **state) {
 		make_ltn_simple(second, 0, "Awful");
 		make_ltn(expected, 1, LTNT_OR, first, second);
 
-		test_licence("Good or Awful", expected);
+		test_licence("Good Or Awful", expected);
 	}
 	{
 		struct LicenceTreeNode *first, *second, *expected;
@@ -723,7 +877,7 @@ void test__spdxLenient(void **state) {
 		make_ltn_simple(second, 1, "good");
 		make_ltn(expected, 1, LTNT_AND, first, second);
 
-		test_licence("Awesome and good", expected);
+		test_licence("Awesome And good", expected);
 	}
 
 	// Combine all of the above

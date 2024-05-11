@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023-2024 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2023 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,51 @@ struct SpdxClassifier {
 	int lenient;
 };
 
+#define LOWERCASE_SHIFT ('a' - 'A')
+
+enum LetterCase {
+	LC_LOWERCASE = -1,
+	LC_NONE = 0,
+	LC_UPPERCASE = +1
+};
+
+/*
+ * Match a letter against another, while maintaining case-sensitivity rules.
+ * - If the classifier is set to lenient mode, match_case is disregarded
+ *   and lowercase and uppercase letters can be fixed freely. ("lIKE THiS")
+ * - If classifier is set to strict mode:
+ *   - If match_case is LC_NONE, then both lowercase and uppercase letters
+ *     are considered a match.
+ *   - If match_case is LC_LOWERCASE, then only lowercase letters match.
+ *   - If match_case is LC_UPPERCASE, then only uppercase letters match.
+ */
+static int match_letter(
+	const struct SpdxClassifier *const self,
+	const char letter,
+	char match_against,
+	enum LetterCase *const match_case
+) {
+	if(letter == match_against) {
+		if((!self->lenient) && (*match_case == LC_LOWERCASE)) {
+			*match_case = LC_NONE;
+			return 0;
+		}
+		*match_case = LC_UPPERCASE;
+		return 1;
+	}
+
+	if(letter == match_against + LOWERCASE_SHIFT) {
+		if((!self->lenient) && (*match_case == LC_UPPERCASE)) {
+			*match_case = LC_NONE;
+			return 0;
+		}
+		*match_case = LC_LOWERCASE;
+		return 1;
+	}
+
+	return 0;
+}
+
 enum WithSearchState {
 	WSS_SEARCHING,
 	WSS_MATCH_START,
@@ -39,10 +84,9 @@ enum WithSearchState {
 	WSS_MATCHED_H,
 };
 
+// TODO: Replace these ugly ternaries with something less offensive.
 static char* find_WITH_operator(struct SpdxClassifier *self, char *licence) {
-	// The SPDX spec mandates the "WITH" operator be matched case-sensitively.
-	if(!self->lenient) return strstr(licence, " WITH ");
-
+	enum LetterCase ltrcase = LC_NONE;
 	enum WithSearchState state = WSS_SEARCHING;
 	for(char c = *licence; c != '\0'; c = *(++licence)) {
 		switch(state) {
@@ -50,16 +94,20 @@ static char* find_WITH_operator(struct SpdxClassifier *self, char *licence) {
 				if(c == ' ') state = WSS_MATCH_START;
 				break;
 			case WSS_MATCH_START:
-				state = ((c == 'W') || (c == 'w')) ? WSS_MATCHED_W : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				state = match_letter(self, c, 'W', &ltrcase) ?
+							WSS_MATCHED_W : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
 				break;
 			case WSS_MATCHED_W:
-				state = ((c == 'I') || (c == 'i')) ? WSS_MATCHED_I : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				state = match_letter(self, c, 'I', &ltrcase) ?
+							WSS_MATCHED_I : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
 				break;
 			case WSS_MATCHED_I:
-				state = ((c == 'T') || (c == 't')) ? WSS_MATCHED_T : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				state = match_letter(self, c, 'T', &ltrcase) ?
+							WSS_MATCHED_T : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
 				break;
 			case WSS_MATCHED_T:
-				state = ((c == 'H') || (c == 'h')) ? WSS_MATCHED_H : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				state = match_letter(self, c, 'H', &ltrcase) ?
+							WSS_MATCHED_H : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
 				break;
 			case WSS_MATCHED_H:
 				if(c == ' ') return licence - 5;
@@ -128,14 +176,11 @@ enum DetectionState {
 	DT_FOUND_OR_R,
 };
 
-// Convenience macro: checks if character under `value` matches the character under `letter`.
-// When running in lenient mode, the lowercase variant of `letter` will also be considered.
-#define MATCH_LETTER(value, letter) ( ((value) == letter) || ((self->lenient) && ((value) == (letter+32))) )
-
 static enum LicenceTreeNodeType detect_type(struct SpdxClassifier *self, const char *licence) {
 	int found_and = 0;
 	int found_or = 0;
 
+	enum LetterCase ltrcase = LC_NONE;
 	enum DetectionState state = DT_SEARCHING;
 	for(char c = *licence; c != '\0'; c = *(++licence)) {
 		if(c == '(') {
@@ -161,20 +206,20 @@ static enum LicenceTreeNodeType detect_type(struct SpdxClassifier *self, const c
 			break;
 
 			case DT_MATCH_START:
-				if(MATCH_LETTER(c, 'A'))
+				if(match_letter(self, c, 'A', &ltrcase))
 					state = DT_FOUND_AND_A;
-				else if(MATCH_LETTER(c, 'O'))
+				else if(match_letter(self, c, 'O', &ltrcase))
 					state = DT_FOUND_OR_O;
 				else if(c != ' ')
 					state = DT_SEARCHING;
 			break;
 
 			case DT_FOUND_AND_A:
-				state = MATCH_LETTER(c, 'N') ? DT_FOUND_AND_N : DT_SEARCHING;
+				state = match_letter(self, c, 'N', &ltrcase) ? DT_FOUND_AND_N : DT_SEARCHING;
 			break;
 
 			case DT_FOUND_AND_N:
-				state = MATCH_LETTER(c, 'D') ? DT_FOUND_AND_D : DT_SEARCHING;
+				state = match_letter(self, c, 'D', &ltrcase) ? DT_FOUND_AND_D : DT_SEARCHING;
 			break;
 
 			case DT_FOUND_AND_D:
@@ -183,7 +228,7 @@ static enum LicenceTreeNodeType detect_type(struct SpdxClassifier *self, const c
 			break;
 
 			case DT_FOUND_OR_O:
-				state = MATCH_LETTER(c, 'R') ? DT_FOUND_OR_R : DT_SEARCHING;
+				state = match_letter(self, c, 'R', &ltrcase) ? DT_FOUND_OR_R : DT_SEARCHING;
 			break;
 
 			case DT_FOUND_OR_R:
@@ -205,14 +250,15 @@ static enum LicenceTreeNodeType detect_type(struct SpdxClassifier *self, const c
  * Returns 0 if match is found, or number of characters that can be skipped if it isn't.
  */
 static int skip_non_joiner(struct SpdxClassifier *self, const char *const text, const enum LicenceTreeNodeType type) {
+	enum LetterCase ltrcase = LC_NONE;
 	if(type == LTNT_AND) {
-		if(!MATCH_LETTER(text[1], 'A')) return 1;
-		if(!MATCH_LETTER(text[2], 'N')) return 2;
-		if(!MATCH_LETTER(text[3], 'D')) return 3;
+		if(!match_letter(self, text[1], 'A', &ltrcase)) return 1;
+		if(!match_letter(self, text[2], 'N', &ltrcase)) return 2;
+		if(!match_letter(self, text[3], 'D', &ltrcase)) return 3;
 		if((text[4] != ' ') && (text[4] != '(')) return 4;
 	} else {
-		if(!MATCH_LETTER(text[1], 'O')) return 1;
-		if(!MATCH_LETTER(text[2], 'R')) return 2;
+		if(!match_letter(self, text[1], 'O', &ltrcase)) return 1;
+		if(!match_letter(self, text[2], 'R', &ltrcase)) return 2;
 		if((text[3] != ' ') && (text[3] != '(')) return 3;
 	}
 	return 0;
