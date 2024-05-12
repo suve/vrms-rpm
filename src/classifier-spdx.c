@@ -47,6 +47,8 @@ enum LetterCase {
  *     are considered a match.
  *   - If match_case is LC_LOWERCASE, then only lowercase letters match.
  *   - If match_case is LC_UPPERCASE, then only uppercase letters match.
+ *
+ * The value used for the match_against argument must be an uppercase letter.
  */
 static int match_letter(
 	const struct SpdxClassifier *const self,
@@ -84,7 +86,8 @@ enum WithSearchState {
 	WSS_MATCHED_H,
 };
 
-// TODO: Replace these ugly ternaries with something less offensive.
+static const char WithLetters[] = {'\0', 'W', 'I', 'T', 'H', '\0'};
+
 static char* find_WITH_operator(struct SpdxClassifier *self, char *licence) {
 	enum LetterCase ltrcase = LC_NONE;
 	enum WithSearchState state = WSS_SEARCHING;
@@ -93,22 +96,18 @@ static char* find_WITH_operator(struct SpdxClassifier *self, char *licence) {
 			case WSS_SEARCHING:
 				if(c == ' ') state = WSS_MATCH_START;
 				break;
+
 			case WSS_MATCH_START:
-				state = match_letter(self, c, 'W', &ltrcase) ?
-							WSS_MATCHED_W : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
-				break;
 			case WSS_MATCHED_W:
-				state = match_letter(self, c, 'I', &ltrcase) ?
-							WSS_MATCHED_I : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
-				break;
 			case WSS_MATCHED_I:
-				state = match_letter(self, c, 'T', &ltrcase) ?
-							WSS_MATCHED_T : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
-				break;
 			case WSS_MATCHED_T:
-				state = match_letter(self, c, 'H', &ltrcase) ?
-							WSS_MATCHED_H : (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				if(match_letter(self, c, WithLetters[state], &ltrcase)) {
+					state += 1;
+				} else {
+					state = (c == ' ') ? WSS_MATCH_START : WSS_SEARCHING;
+				}
 				break;
+
 			case WSS_MATCHED_H:
 				if(c == ' ') return licence - 5;
 				state = WSS_SEARCHING;
