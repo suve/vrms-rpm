@@ -43,6 +43,10 @@ extern void test__str_split(void **state);
 extern void test__str_squeeze_char(void **state);
 extern void test__trim(void **state);
 
+extern void test__json(void **state);
+extern int test_setup__json(void **state);
+extern int test_teardown__json(void **state);
+
 int main(void) {
 	int failures = 0;
 	const struct CMUnitTest tests[] = {
@@ -81,6 +85,11 @@ int main(void) {
 		cmocka_unit_test(test__spdxLenient),
 	};
 	failures += cmocka_run_group_tests(licence_tests, test_setup__licences, test_teardown__licences);
+
+	const struct CMUnitTest json_tests[] = {
+		cmocka_unit_test(test__json),
+	};
+	failures += cmocka_run_group_tests(json_tests, test_setup__json, test_teardown__json);
 
 	return !!failures;
 }
