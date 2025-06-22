@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018-2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2020 Jan Drögehoff
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ int opt_evra = OPT_EVRA_AUTO;
 int opt_grammar = DEFAULT_GRAMMAR_ENUM;
 int opt_explain = 0;
 int opt_image = OPT_IMAGE_NONE;
+int opt_json = OPT_JSON_NONE;
 int opt_list = OPT_LIST_NONFREE;
 char* opt_licencelist = DEFAULT_LICENCE_LIST;
 
@@ -51,6 +52,7 @@ enum LongOpt {
 	LONGOPT_COLOUR,
 	LONGOPT_EVRA,
 	LONGOPT_GRAMMAR,
+	LONGOPT_JSON,
 	LONGOPT_LICENCELIST,
 	LONGOPT_LIST,
 	LONGOPT_VERSION
@@ -59,6 +61,7 @@ enum LongOpt {
 static void parseopt_colour(void);
 static void parseopt_evra(void);
 static void parseopt_grammar(void);
+static void parseopt_json(void);
 static void parseopt_list(void);
 
 void options_parse(int argc, char **argv) {
@@ -72,6 +75,7 @@ void options_parse(int argc, char **argv) {
 		{     "grammar", ARG_REQ, NULL, LONGOPT_GRAMMAR },
 		{        "help", ARG_NON, NULL, LONGOPT_HELP },
 		{       "image", ARG_NON, &opt_image, OPT_IMAGE_ICAT },
+		{        "json", ARG_OPT, NULL, LONGOPT_JSON },
 		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
 		{"license-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
 		{        "list", ARG_REQ, NULL, LONGOPT_LIST },
@@ -101,6 +105,10 @@ void options_parse(int argc, char **argv) {
 
 			case LONGOPT_GRAMMAR:
 				parseopt_grammar();
+			break;
+
+			case LONGOPT_JSON:
+				parseopt_json();
 			break;
 
 			case LONGOPT_LICENCELIST:
@@ -179,6 +187,20 @@ static void parseopt_grammar(void) {
 	} else {
 		lang_fprint(stderr, MSG_ERR_BADOPT_GRAMMAR);
 		exit(EXIT_FAILURE);
+	}
+}
+
+static void parseopt_json(void) {
+	if(optarg != NULL) {
+		if(arg_eq("compact")) {
+			opt_json = OPT_JSON_COMPACT;
+		} else if(arg_eq("pretty")) {
+			opt_json = OPT_JSON_PRETTY;
+		} else {
+			// TODO: Print error message and exit w/failure
+		}
+	} else {
+		opt_json = OPT_JSON_COMPACT;
 	}
 }
 

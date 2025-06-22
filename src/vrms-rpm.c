@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -81,9 +81,13 @@ int main(int argc, char *argv[]) {
 		lang_fprint(stderr, MSG_ERR_PIPE_READ_FAILED);
 		exit(EXIT_FAILURE);
 	}
-	
-	packages_list();
-	easteregg();
+
+	if(opt_json == OPT_JSON_NONE) {
+		packages_printList();
+		easteregg();
+	} else {
+		packages_printJSON();
+	}
 	
 	packages_free();
 	classifier->free(classifier);

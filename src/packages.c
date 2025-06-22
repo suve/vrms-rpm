@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2021-2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -20,6 +20,7 @@
 #include <strings.h>
 
 #include "src/buffers.h"
+#include "src/json.h"
 #include "src/lang.h"
 #include "src/licences.h"
 #include "src/options.h"
@@ -317,7 +318,7 @@ static void printlist(const int which_kind) {
 	}
 }
 
-void packages_list(void) {
+void packages_printList(void) {
 	if(!sorted) packages_sort();
 	
 	int promil_nonfree = (1000L * class_count[0]) / (class_count[0] + class_count[1]);
@@ -332,6 +333,65 @@ void packages_list(void) {
 	
 	lang_print_n(MSG_NONFREE_PACKAGES_COUNT, class_count[0], class_count[0], percent_nonfree);
 	if(opt_list & OPT_LIST_NONFREE) printlist(0);
+}
+
+#define UNUSED(x) ((void)(x))
+
+static void jsonCounts(struct JsonObject *obj, void *userdata) {
+	UNUSED(userdata);
+
+	jsonObj_pushInt(obj, "free", class_count[1]);
+	jsonObj_pushInt(obj, "non-free", class_count[0]);
+}
+
+static void jsonPackage(struct JsonObject *obj, void *userdata) {
+	struct Package *pkg = userdata;
+
+	jsonObj_pushStr(obj, "name", pkg->name);
+
+	// TODO: Maybe apply opt_evra here?
+	if(pkg->epoch != NULL) jsonObj_pushStr(obj, "epoch", pkg->epoch);
+	jsonObj_pushStr(obj, "version", pkg->version);
+	jsonObj_pushStr(obj, "release", pkg->release);
+	if(pkg->arch != NULL) jsonObj_pushStr(obj, "architecture", pkg->arch);
+
+	if(opt_describe) jsonObj_pushStr(obj, "summary", pkg->summary);
+
+	jsonObj_pushObj(obj, "licence", &licence_jsonNode, pkg->licence);
+}
+
+static void jsonPackageList(struct JsonArray *arr, void *userdata) {
+	UNUSED(userdata);
+
+	const int list_free = !!(opt_list & OPT_LIST_FREE);
+	const int list_nonfree = !!(opt_list & OPT_LIST_NONFREE);
+
+	const size_t count = LIST_COUNT;
+	for(size_t i = 0; i < count; ++i) {
+		struct Package *pkg = &LIST_ITEM(i);
+		if(
+			(list_free && (pkg->licence->is_free))
+			||
+			(list_nonfree && (!pkg->licence->is_free))
+		) {
+			jsonArr_pushObj(arr, &jsonPackage, pkg);
+		}
+	}
+}
+
+static void jsonTopLevel(struct JsonObject *obj, void *userdata) {
+	UNUSED(userdata);
+
+	// This represents the JSON schema version, not the program version!
+	jsonObj_pushInt(obj, "version", 0);
+
+	jsonObj_pushObj(obj, "count", &jsonCounts, NULL);
+	if(opt_list > 0) jsonObj_pushArr(obj, "packages", &jsonPackageList, NULL);
+}
+
+void packages_printJSON(void) {
+	json_new(stdout, opt_json, &jsonTopLevel, NULL);
+	putc('\n', stdout);
 }
 
 void packages_getcount(int *free, int *nonfree) {
