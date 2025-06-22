@@ -23,7 +23,7 @@ static void encodeString(FILE *output, const char *str) {
 	putc('"', output);
 
 	while(1) {
-		const char c = *str++;
+		const unsigned char c = *str++;
 		if(c >= ' ') switch(c) {
 			case '\\': fprintf(output, "\\\\"); break;
 			case '"': fprintf(output, "\\\""); break;
