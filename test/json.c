@@ -42,22 +42,29 @@ int test_teardown__json(void **state) {
 	return 0;
 }
 
-void test__json(void **state) {
-	char *buffer = *state;
-	FILE *f = fmemopen(buffer, JSON_BUFSIZ, "w");
+static void simpleObject(struct JsonObject *obj, void *userdata) {
+	UNUSED(userdata);
 
-	struct JsonObject *obj = jsonObj_open(f, 0);
 	jsonObj_pushInt(obj, "i", 0);
 	jsonObj_pushInt(obj, "ii", 22);
 	jsonObj_pushInt(obj, "iii", 333);
 	jsonObj_pushStr(obj, "string", "this is a \"string\"");
-	jsonObj_close(obj);
+}
 
-	putc('\0', f);
-	fflush(f);
-	fclose(f);
+#define testcase(func, ptr, pretty, expected) \
+	do { \
+		char *buffer = *state; \
+		FILE *f = fmemopen(buffer, JSON_BUFSIZ, "w"); \
+		json_new(f, (pretty), &(func), (ptr)); \
+		putc('\0', f); \
+		fflush(f); \
+		fclose(f); \
+		assert_string_equal(buffer, (expected)); \
+	} while(0)
 
-	assert_string_equal(buffer,
+void test__json(void **state) {
+	testcase(
+		simpleObject, NULL, 0,
 		"{\"i\":0,\"ii\":22,\"iii\":333,\"string\":\"this is a \\\"string\\\"\"}"
 	);
 }

@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2024 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2024-2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -28,15 +28,47 @@
 struct JsonArray;
 struct JsonObject;
 
-extern struct JsonObject* jsonObj_open(FILE *output, int pretty);
-extern void               jsonObj_pushInt(struct JsonObject *obj, const char *const key, const int value);
-extern void               jsonObj_pushStr(struct JsonObject *obj, const char *const key, const char *const value);
-extern struct JsonArray*  jsonObj_pushArr(struct JsonObject *obj, const char *const key);
-extern struct JsonObject* jsonObj_pushObj(struct JsonObject *obj, const char *const key);
-extern void               jsonObj_close(struct JsonObject *obj);
+typedef void (*JsonArrayCallback)(struct JsonArray *arr, void *userdata);
+typedef void (*JsonObjectCallback)(struct JsonObject *obj, void *userdata);
 
-extern void               jsonArr_pushStr(struct JsonArray *arr, const char *const value);
-extern struct JsonObject* jsonArr_pushObj(struct JsonArray *arr);
-extern void               jsonArr_close(struct JsonArray *arr);
+extern void json_new(
+	FILE *output,
+	int pretty,
+	JsonObjectCallback callback,
+	void *userdata
+);
+
+extern void jsonObj_pushInt(
+	struct JsonObject *obj,
+	const char *const key,
+	const int value
+);
+extern void jsonObj_pushStr(
+	struct JsonObject *obj,
+	const char *const key,
+	const char *const value
+);
+extern void jsonObj_pushArr(
+	struct JsonObject *obj,
+	const char *const key,
+	JsonArrayCallback callback,
+	void *userdata
+);
+extern void jsonObj_pushObj(
+	struct JsonObject *obj,
+	const char *const key,
+	JsonObjectCallback callback,
+	void *userdata
+);
+
+extern void jsonArr_pushStr(
+	struct JsonArray *arr,
+	const char *const value
+);
+extern void jsonArr_pushObj(
+	struct JsonArray *arr,
+	JsonObjectCallback callback,
+	void *userdata
+);
 
 #endif

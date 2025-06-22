@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2024 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2024-2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -41,114 +41,154 @@ exit:
 	putc('"', output);
 }
 
-struct JsonPrinter {
+struct Element {
+	char type;
+	unsigned int children;
+};
+
+#define MAX_DEPTH 16
+
+struct Document {
 	FILE *output;
 	int pretty;
-	int members;
 	int depth;
+	struct Element elems[MAX_DEPTH];
 };
-#define PRINTER(dest, source) struct JsonPrinter *(dest) = ((struct JsonPrinter*)(source));
+#define DOCUMENT(dest, source) struct Document *(dest) = ((struct Document*)(source));
 
-static struct JsonPrinter* printer_new(FILE *output, int pretty, int depth, char type) {
-	struct JsonPrinter *printer = malloc(sizeof(struct JsonPrinter));
-	if(printer == NULL) return NULL;
+static struct Document* doc_new(FILE *output, int pretty) {
+	struct Document *doc = malloc(sizeof(struct Document));
+	if(doc == NULL) return NULL;
 
-	printer->output = output;
-	printer->pretty = pretty;
-	printer->depth = depth;
-	printer->members = 0;
+	doc->output = output;
+	doc->pretty = pretty;
+	doc->depth = 0;
 
-	putc(type, printer->output);
-	return printer;
+	doc->elems[0] = (struct Element){
+		.type = '}',
+		.children = 0,
+	};
+
+	putc('{', doc->output);
+	return doc;
 }
 
-static struct JsonPrinter* printer_newChild(struct JsonPrinter *parent, char type) {
-	return printer_new(parent->output, parent->pretty, parent->depth + 1, type);
-}
+static void doc_addMember(struct Document *doc, const char *const key) {
+	if(doc->elems[doc->depth].children > 0) putc(',', doc->output);
+	doc->elems[doc->depth].children += 1;
 
-static void printer_indent(struct JsonPrinter *printer) {
-	putc('\n', printer->output);
-
-	int depth = printer->depth;
-	while(depth --> 0) putc('\t', printer->output);
-}
-
-static void printer_free(struct JsonPrinter *printer, char type) {
-	if(printer->pretty) printer_indent(printer);
-	putc(type, printer->output);
-	free(printer);
-}
-
-static void printer_addMember(struct JsonPrinter *printer, const char *const key) {
-	if(printer->members) {
-		putc(',', printer->output);
-	} else {
-		printer->members = 1;
+	if(doc->pretty) {
+		putc('\n', doc->output);
+		for(int i = 0; i <= doc->depth; ++i) putc('\t', doc->output);
 	}
-
-	if(printer->pretty) printer_indent(printer);
 
 	if(key != NULL) {
-		encodeString(printer->output, key);
-		putc(':', printer->output);
+		encodeString(doc->output, key);
+		putc(':', doc->output);
 
-		if(printer->pretty) putc(' ', printer->output);
+		if(doc->pretty) putc(' ', doc->output);
 	}
 }
 
-struct JsonObject* jsonObj_open(FILE *output, int pretty) {
-	struct JsonPrinter *printer = printer_new(output, pretty, 0, '{');
-	return (struct JsonObject*)printer;
+static void doc_deepen(struct Document *doc, const char type) {
+	putc(type, doc->output);
+	doc->depth += 1;
+
+	// Turn a closing bracket/brace into a closing one.
+	// 0x5B: '[', 0x5C: '\\', 0x5D: ']'
+	// 0x7B: '{', 0x7C: '|',  0x7D: '}'
+	doc->elems[doc->depth].type = type + 2;
+	doc->elems[doc->depth].children = 0;
 }
 
-void jsonObj_pushInt(struct JsonObject *obj, const char *const key, const int value) {
-	PRINTER(printer, obj);
+static void doc_shallow(struct Document *doc) {
+	if((doc->pretty) && (doc->elems[doc->depth].children > 0)) {
+		putc('\n', doc->output);
+		for(int i = 0; i < doc->depth; ++i) putc('\t', doc->output);
+	}
 
-	printer_addMember(printer, key);
-	fprintf(printer->output, "%d", value);
+	putc(doc->elems[doc->depth].type, doc->output);
+	doc->depth -= 1;
 }
 
-void jsonObj_pushStr(struct JsonObject *obj, const char *const key, const char *const value) {
-	PRINTER(printer, obj);
-
-	printer_addMember(printer, key);
-	encodeString(printer->output, value);
+void json_new(
+	FILE *output,
+	int pretty,
+	JsonObjectCallback callback,
+	void *userdata
+) {
+	struct Document *doc = doc_new(output, pretty);
+	callback((struct JsonObject*)doc, userdata);
+	doc_shallow(doc);
+	free(doc);
 }
 
-struct JsonArray*  jsonObj_pushArr(struct JsonObject *obj, const char *const key) {
-	PRINTER(printer, obj);
+void jsonObj_pushInt(
+	struct JsonObject *obj,
+	const char *const key,
+	const int value
+) {
+	DOCUMENT(doc, obj);
 
-	printer_addMember(printer, key);
-	return (struct JsonArray*)printer_newChild(printer, '[');
+	doc_addMember(doc, key);
+	fprintf(doc->output, "%d", value);
 }
 
-struct JsonObject* jsonObj_pushObj(struct JsonObject *obj, const char *const key) {
-	PRINTER(printer, obj);
+void jsonObj_pushStr(
+	struct JsonObject *obj,
+	const char *const key,
+	const char *const value
+) {
+	DOCUMENT(doc, obj);
 
-	printer_addMember(printer, key);
-	return (struct JsonObject*)printer_newChild(printer, '{');
+	doc_addMember(doc, key);
+	encodeString(doc->output, value);
 }
 
-void jsonObj_close(struct JsonObject *obj) {
-	PRINTER(printer, obj);
-	printer_free(printer, '}');
+void jsonObj_pushArr(
+	struct JsonObject *obj,
+	const char *const key,
+	JsonArrayCallback callback,
+	void *userdata
+) {
+	DOCUMENT(doc, obj);
+
+	doc_addMember(doc, key);
+	doc_deepen(doc, '[');
+	callback((struct JsonArray*)doc, userdata);
+	doc_shallow(doc);
+}
+
+void jsonObj_pushObj(
+	struct JsonObject *obj,
+	const char *const key,
+	JsonObjectCallback callback,
+	void *userdata
+) {
+	DOCUMENT(doc, obj);
+
+	doc_addMember(doc, key);
+	doc_deepen(doc, '{');
+	callback((struct JsonObject*)doc, userdata);
+	doc_shallow(doc);
 }
 
 void jsonArr_pushStr(struct JsonArray *arr, const char *const value) {
-	PRINTER(printer, arr);
+	DOCUMENT(doc, arr);
 
-	printer_addMember(printer, NULL);
-	encodeString(printer->output, value);
+	doc_addMember(doc, NULL);
+	encodeString(doc->output, value);
 }
 
-struct JsonObject* jsonArr_pushObj(struct JsonArray *arr) {
-	PRINTER(printer, arr);
+void jsonArr_pushObj(
+	struct JsonArray *arr,
+	JsonObjectCallback callback,
+	void *userdata
+) {
+	DOCUMENT(doc, arr);
 
-	printer_addMember(printer, NULL);
-	return (struct JsonObject*)printer_newChild(printer, '{');
-}
-
-void jsonArr_close(struct JsonArray *arr) {
-	PRINTER(printer, arr);
-	printer_free(printer, ']');
+	doc_addMember(doc, NULL);
+	doc_deepen(doc, '{');
+	callback((struct JsonObject*)doc, userdata);
+	doc_shallow(doc);
 }
