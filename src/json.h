@@ -38,6 +38,11 @@ extern void json_new(
 	void *userdata
 );
 
+extern void jsonObj_pushBool(
+	struct JsonObject *obj,
+	const char *const key,
+	const int value
+);
 extern void jsonObj_pushInt(
 	struct JsonObject *obj,
 	const char *const key,

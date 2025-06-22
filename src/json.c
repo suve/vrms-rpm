@@ -123,6 +123,17 @@ void json_new(
 	free(doc);
 }
 
+void jsonObj_pushBool(
+	struct JsonObject *obj,
+	const char *const key,
+	const int value
+) {
+	DOCUMENT(doc, obj);
+
+	doc_addMember(doc, key);
+	fprintf(doc->output, "%s", value ? "true": "false");
+}
+
 void jsonObj_pushInt(
 	struct JsonObject *obj,
 	const char *const key,

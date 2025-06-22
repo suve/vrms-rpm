@@ -45,10 +45,11 @@ int test_teardown__json(void **state) {
 static void simpleObject(struct JsonObject *obj, void *userdata) {
 	UNUSED(userdata);
 
-	jsonObj_pushInt(obj, "i", 0);
-	jsonObj_pushInt(obj, "ii", 22);
-	jsonObj_pushInt(obj, "iii", 333);
+	jsonObj_pushInt(obj, "pos", 333);
+	jsonObj_pushInt(obj, "neg", -42);
 	jsonObj_pushStr(obj, "string", "this is a \"string\"");
+	jsonObj_pushBool(obj, "T", 1);
+	jsonObj_pushBool(obj, "F", 0);
 }
 
 static void nestedObject(struct JsonObject *obj, void *userdata) {
@@ -109,15 +110,16 @@ static void objectOfArrays(struct JsonObject *obj, void *userdata) {
 void test__json(void **state) {
 	testcase(
 		simpleObject, NULL, 0,
-		"{\"i\":0,\"ii\":22,\"iii\":333,\"string\":\"this is a \\\"string\\\"\"}"
+		"{\"pos\":333,\"neg\":-42,\"string\":\"this is a \\\"string\\\"\",\"T\":true,\"F\":false}"
 	);
 	testcase(
 		simpleObject, NULL, 1,
 		"{\n"
-		"\t\"i\": 0,\n"
-		"\t\"ii\": 22,\n"
-		"\t\"iii\": 333,\n"
-		"\t\"string\": \"this is a \\\"string\\\"\"\n"
+		"\t\"pos\": 333,\n"
+		"\t\"neg\": -42,\n"
+		"\t\"string\": \"this is a \\\"string\\\"\",\n"
+		"\t\"T\": true,\n"
+		"\t\"F\": false\n"
 		"}"
 	);
 
