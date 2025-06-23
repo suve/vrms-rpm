@@ -41,18 +41,27 @@ exit:
 	putc('"', output);
 }
 
-struct Element {
-	char type;
-	unsigned int children;
-};
-
 #define MAX_DEPTH 16
 
 struct Document {
+	/* Destination file for the output. */
 	FILE *output;
+
+	/* Whether the output should feature newlines and tab-indentation. */
 	int pretty;
+
+	/* Current stack head position. 0 depth -> 1 element at index 0. */
 	int depth;
-	struct Element elems[MAX_DEPTH];
+
+	/*
+	 * Whether the top-most element has any children.
+	 * Elements further down the stack always have children,
+	 * otherwise there wouldn't be a stack.
+	 */
+	int children;
+
+	/* Holds the closing character for each open element. */
+	char stack[MAX_DEPTH];
 };
 #define DOCUMENT(dest, source) struct Document *(dest) = ((struct Document*)(source));
 
@@ -63,19 +72,18 @@ static struct Document* doc_new(FILE *output, int pretty) {
 	doc->output = output;
 	doc->pretty = pretty;
 	doc->depth = 0;
-
-	doc->elems[0] = (struct Element){
-		.type = '}',
-		.children = 0,
-	};
+	doc->children = 0;
+	doc->stack[0] = '}';
 
 	putc('{', doc->output);
 	return doc;
 }
 
 static void doc_addMember(struct Document *doc, const char *const key) {
-	if(doc->elems[doc->depth].children > 0) putc(',', doc->output);
-	doc->elems[doc->depth].children += 1;
+	if(doc->children > 0)
+		putc(',', doc->output);
+	else
+		doc->children = 1;
 
 	if(doc->pretty) {
 		putc('\n', doc->output);
@@ -97,18 +105,22 @@ static void doc_deepen(struct Document *doc, const char type) {
 	// Turn a closing bracket/brace into a closing one.
 	// 0x5B: '[', 0x5C: '\\', 0x5D: ']'
 	// 0x7B: '{', 0x7C: '|',  0x7D: '}'
-	doc->elems[doc->depth].type = type + 2;
-	doc->elems[doc->depth].children = 0;
+	doc->stack[doc->depth] = type + 2;
+	doc->children = 0;
 }
 
 static void doc_shallow(struct Document *doc) {
-	if((doc->pretty) && (doc->elems[doc->depth].children > 0)) {
+	if((doc->pretty) && (doc->children > 0)) {
 		putc('\n', doc->output);
 		for(int i = 0; i < doc->depth; ++i) putc('\t', doc->output);
 	}
 
-	putc(doc->elems[doc->depth].type, doc->output);
+	putc(doc->stack[doc->depth], doc->output);
 	doc->depth -= 1;
+
+	// The parent element of the current one must have at least one child,
+	// i.e. the very element we just popped.
+	doc->children = 1;
 }
 
 void json_new(
