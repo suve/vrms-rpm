@@ -41,8 +41,6 @@ exit:
 	putc('"', output);
 }
 
-#define MAX_DEPTH 16
-
 struct Document {
 	/* Destination file for the output. */
 	FILE *output;
@@ -59,13 +57,10 @@ struct Document {
 	 * otherwise there wouldn't be a stack.
 	 */
 	int children;
-
-	/* Holds the closing character for each open element. */
-	char stack[MAX_DEPTH];
 };
 #define DOCUMENT(dest, source) struct Document *(dest) = ((struct Document*)(source));
 
-static struct Document* doc_new(FILE *output, int pretty) {
+static struct Document* doc_new(FILE *output, const int pretty, const char type) {
 	struct Document *doc = malloc(sizeof(struct Document));
 	if(doc == NULL) return NULL;
 
@@ -73,9 +68,8 @@ static struct Document* doc_new(FILE *output, int pretty) {
 	doc->pretty = pretty;
 	doc->depth = 0;
 	doc->children = 0;
-	doc->stack[0] = '}';
 
-	putc('{', doc->output);
+	putc(type, doc->output);
 	return doc;
 }
 
@@ -100,22 +94,17 @@ static void doc_addMember(struct Document *doc, const char *const key) {
 
 static void doc_deepen(struct Document *doc, const char type) {
 	putc(type, doc->output);
-	doc->depth += 1;
-
-	// Turn a closing bracket/brace into a closing one.
-	// 0x5B: '[', 0x5C: '\\', 0x5D: ']'
-	// 0x7B: '{', 0x7C: '|',  0x7D: '}'
-	doc->stack[doc->depth] = type + 2;
 	doc->children = 0;
+	doc->depth += 1;
 }
 
-static void doc_shallow(struct Document *doc) {
+static void doc_shallow(struct Document *doc, const char type) {
 	if((doc->pretty) && (doc->children > 0)) {
 		putc('\n', doc->output);
 		for(int i = 0; i < doc->depth; ++i) putc('\t', doc->output);
 	}
 
-	putc(doc->stack[doc->depth], doc->output);
+	putc(type, doc->output);
 	doc->depth -= 1;
 
 	// The parent element of the current one must have at least one child,
@@ -129,9 +118,9 @@ void json_new(
 	JsonObjectCallback callback,
 	void *userdata
 ) {
-	struct Document *doc = doc_new(output, pretty);
+	struct Document *doc = doc_new(output, pretty, '{');
 	callback((struct JsonObject*)doc, userdata);
-	doc_shallow(doc);
+	doc_shallow(doc, '}');
 	free(doc);
 }
 
@@ -179,7 +168,7 @@ void jsonObj_pushArr(
 	doc_addMember(doc, key);
 	doc_deepen(doc, '[');
 	callback((struct JsonArray*)doc, userdata);
-	doc_shallow(doc);
+	doc_shallow(doc, ']');
 }
 
 void jsonObj_pushObj(
@@ -193,7 +182,7 @@ void jsonObj_pushObj(
 	doc_addMember(doc, key);
 	doc_deepen(doc, '{');
 	callback((struct JsonObject*)doc, userdata);
-	doc_shallow(doc);
+	doc_shallow(doc, '}');
 }
 
 void jsonArr_pushStr(struct JsonArray *arr, const char *const value) {
@@ -213,5 +202,5 @@ void jsonArr_pushObj(
 	doc_addMember(doc, NULL);
 	doc_deepen(doc, '{');
 	callback((struct JsonObject*)doc, userdata);
-	doc_shallow(doc);
+	doc_shallow(doc, '}');
 }
