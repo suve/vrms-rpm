@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2022-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2022-2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -19,6 +19,7 @@
 #define VRMS_RPM_LICENCES_H
 
 #include "src/buffers.h"
+#include "src/json.h"
 
 struct LicenceData {
 	struct ReBuffer *list;
@@ -53,6 +54,7 @@ extern void licences_free(struct LicenceData *data);
 
 
 extern void licence_printNode(const struct LicenceTreeNode *node);
+extern void licence_jsonNode(struct JsonObject *obj, void *node);
 extern void licence_freeTree(struct LicenceTreeNode *node);
 
 #endif

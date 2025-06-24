@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -170,6 +170,33 @@ void licence_printNode(const struct LicenceTreeNode *node) {
 
 		++m;
 		if(m < node->members) printf("%s", joiner);
+	}
+}
+
+static void licence_jsonNodeChildren(struct JsonArray *arr, void *node) {
+	const struct LicenceTreeNode *ltn = node;
+
+	for(unsigned int m = 0; m < ltn->members; ++m) {
+		jsonArr_pushObj(arr, &licence_jsonNode, ltn->child[m]);
+	}
+}
+
+void licence_jsonNode(struct JsonObject *obj, void *node) {
+	const struct LicenceTreeNode *ltn = node;
+
+	const char* type[] = {
+		[LTNT_LICENCE] = "licence",
+		[LTNT_AND] = "and",
+		[LTNT_OR] = "or",
+	};
+
+	jsonObj_pushBool(obj, "free", ltn->is_free);
+	jsonObj_pushStr(obj, "type", type[ltn->type]);
+	
+	if(ltn->type == LTNT_LICENCE) {
+		jsonObj_pushStr(obj, "text", ltn->licence);
+	} else {
+		jsonObj_pushArr(obj, "members", &licence_jsonNodeChildren, node);
 	}
 }
 

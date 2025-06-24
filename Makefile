@@ -22,7 +22,7 @@ DESTDIR ?=
 PREFIX ?= /usr/local
 WITH_LIBRPM ?= 1
 
-CFLAGS += -std=c11 -iquote ./ -Wall -Wextra -D_POSIX_C_SOURCE=200112L
+CFLAGS += -std=c11 -iquote ./ -Wall -Wextra
 CWARNS := -Wfloat-equal -Wparentheses
 CERRORS := -Werror=incompatible-pointer-types -Werror=discarded-qualifiers -Werror=int-conversion -Werror=div-by-zero -Werror=sequence-point -Werror=uninitialized -Werror=duplicated-cond
 
@@ -170,11 +170,11 @@ build/licences/%.txt: licences/%.txt
 
 build/%.o: src/%.c src/config.h
 	mkdir -p "$(dir $@)"
-	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
+	$(CC) -D_POSIX_C_SOURCE=200112L $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
 
 build/test/%.o: test/%.c
 	mkdir -p "$(dir $@)"
-	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
+	$(CC) -D_POSIX_C_SOURCE=200809L $(CFLAGS) $(CWARNS) $(CERRORS) -c -o "$@" "$<"
 
 build/vrms-rpm: $(OBJECTS)
 	$(CC) $(CFLAGS) $(CWARNS) $(CERRORS) $(LDFLAGS) -o "$@" $^ $(LDLIBS)

@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2021, 2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -30,6 +30,10 @@
 #define OPT_IMAGE_ASCII 1
 #define OPT_IMAGE_ICAT  2
 
+#define OPT_JSON_NONE    -1
+#define OPT_JSON_COMPACT  0
+#define OPT_JSON_PRETTY  +1
+
 #define OPT_LIST_FREE    (1<<0)
 #define OPT_LIST_NONFREE (1<<1)
 
@@ -39,6 +43,7 @@ extern int opt_evra;
 extern int opt_explain;
 extern int opt_grammar;
 extern int opt_image;
+extern int opt_json;
 extern int opt_list;
 extern char* opt_licencelist;
 
