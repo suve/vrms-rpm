@@ -47,9 +47,22 @@ static void simpleObject(struct JsonObject *obj, void *userdata) {
 
 	jsonObj_pushInt(obj, "pos", 333);
 	jsonObj_pushInt(obj, "neg", -42);
-	jsonObj_pushStr(obj, "string", "this is a \"string\"");
+	jsonObj_pushStr(obj, "string", "this is a string");
 	jsonObj_pushBool(obj, "T", 1);
 	jsonObj_pushBool(obj, "F", 0);
+}
+
+static void stringyObject(struct JsonObject *obj, void *userdata) {
+	UNUSED(userdata);
+
+	jsonObj_pushStr(obj, "empty", "");
+	jsonObj_pushStr(obj, "underEight", "\001\002\003\004\005\006\007");
+	jsonObj_pushStr(obj, "underSixteen", "\010\011\012\013\014\015\016\017");
+	jsonObj_pushStr(obj, "underTwentyFour", "\020\021\022\023\024\025\026\027");
+	jsonObj_pushStr(obj, "underThirtyTwo", "\030\031\032\033\034\035\036\037");
+	jsonObj_pushStr(obj, "quoted", "And then I said, \"Defend yourself, blackguard!\"");
+	jsonObj_pushStr(obj, "regex", "/\\s+$//g");
+	jsonObj_pushStr(obj, "utf-eight", "Pchnąć w tę łódź jeża i ośm skrzyń fig.");
 }
 
 static void nestedObject(struct JsonObject *obj, void *userdata) {
@@ -107,22 +120,45 @@ static void objectOfArrays(struct JsonObject *obj, void *userdata) {
 		assert_string_equal(buffer, (expected)); \
 	} while(0)
 
-void test__json(void **state) {
+void test__jsonTypes(void **state) {
 	testcase(
 		simpleObject, NULL, 0,
-		"{\"pos\":333,\"neg\":-42,\"string\":\"this is a \\\"string\\\"\",\"T\":true,\"F\":false}"
+		"{\"pos\":333,\"neg\":-42,\"string\":\"this is a string\",\"T\":true,\"F\":false}"
 	);
 	testcase(
 		simpleObject, NULL, 1,
 		"{\n"
 		"\t\"pos\": 333,\n"
 		"\t\"neg\": -42,\n"
-		"\t\"string\": \"this is a \\\"string\\\"\",\n"
+		"\t\"string\": \"this is a string\",\n"
 		"\t\"T\": true,\n"
 		"\t\"F\": false\n"
 		"}"
 	);
+}
 
+void test__jsonWeirdStrings(void **state) {
+	testcase(
+		stringyObject, NULL, 0,
+		"{\"empty\":\"\",\"underEight\":\"\\u0001\\u0002\\u0003\\u0004\\u0005\\u0006\\u0007\",\"underSixteen\":\"\\u0008\\t\\n\\u000b\\u000c\\r\\u000e\\u000f\",\"underTwentyFour\":\"\\u0010\\u0011\\u0012\\u0013\\u0014\\u0015\\u0016\\u0017\",\"underThirtyTwo\":\"\\u0018\\u0019\\u001a\\u001b\\u001c\\u001d\\u001e\\u001f\",\"quoted\":\"And then I said, \\\"Defend yourself, blackguard!\\\"\",\"regex\":\"/\\\\s+$//g\",\"utf-eight\":\"Pchnąć w tę łódź jeża i ośm skrzyń fig.\"}"
+	);
+
+	testcase(
+		stringyObject, NULL, 1,
+		"{\n"
+		"\t\"empty\": \"\",\n"
+		"\t\"underEight\": \"\\u0001\\u0002\\u0003\\u0004\\u0005\\u0006\\u0007\",\n"
+		"\t\"underSixteen\": \"\\u0008\\t\\n\\u000b\\u000c\\r\\u000e\\u000f\",\n"
+		"\t\"underTwentyFour\": \"\\u0010\\u0011\\u0012\\u0013\\u0014\\u0015\\u0016\\u0017\",\n"
+		"\t\"underThirtyTwo\": \"\\u0018\\u0019\\u001a\\u001b\\u001c\\u001d\\u001e\\u001f\",\n"
+		"\t\"quoted\": \"And then I said, \\\"Defend yourself, blackguard!\\\"\",\n"
+		"\t\"regex\": \"/\\\\s+$//g\",\n"
+		"\t\"utf-eight\": \"Pchnąć w tę łódź jeża i ośm skrzyń fig.\"\n"
+		"}"
+	);
+}
+
+void test__jsonNestedObjects(void **state) {
 	testcase(
 		nestedObject, NULL, 0,
 		"{\"depth\":0,\"child\":{\"depth\":1,\"child\":{\"depth\":2,\"child\":{}}}}"
@@ -140,7 +176,9 @@ void test__json(void **state) {
 		"\t}\n"
 		"}"
 	);
+}
 
+void test__jsonArrays(void **state) {
 	testcase(
 		objectOfArrays, NULL, 0,
 		"{\"strings\":[\"one\",\"two\",\"three\",\"four\"],\"objects\":[{\"true\":\"prawda\",\"false\":\"fałsz\"},{\"true\":\"richtig\",\"false\":\"falsch\"}]}"
