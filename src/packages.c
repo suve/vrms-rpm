@@ -390,7 +390,8 @@ static void jsonTopLevel(struct JsonObject *obj, void *userdata) {
 }
 
 void packages_printJSON(void) {
-	json_new(stdout, opt_json, &jsonTopLevel, NULL);
+	const int pretty = (opt_format == OPT_FORMAT_PRETTYJSON);
+	json_new(stdout, pretty, &jsonTopLevel, NULL);
 	putc('\n', stdout);
 }
 

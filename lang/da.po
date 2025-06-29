@@ -50,6 +50,15 @@ msgstr "    Vis licenser i pakkeoversigten, for at fremhæve\n"
        "    fri / ikke-fri klassificering.\n"
 
 #, fuzzy
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Specifies which output format to use.\n"
+       "      * text: Human-readable text format. (default)\n"
+       "      * json: Consise JSON document.\n"
+       "      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+       "    Note that all output formats are affected by the --describe, --evra\n"
+       "    and --explain options.\n"
+
+#, fuzzy
 msgid "HELP_OPTION_GRAMMAR\n"
 msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
        "      * loose: Use a loose, informal grammar.\n"
@@ -114,6 +123,11 @@ msgstr "vrms-rpm: argumentet til --colour valgmuligheden skal være en af\n"
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: argumentet til --evra valgmuligheden skal være en af\n"
        "'never', 'always', eller 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: argumentet til --format valgmuligheden skal være en af\n"
+       "'text', 'json', eller 'json-pretty'\n"
 
 #, fuzzy
 msgid "ERR_BADOPT_GRAMMAR\n"

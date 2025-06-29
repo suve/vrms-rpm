@@ -53,6 +53,14 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Podczas listowania paczek, wyświetlaj informacje o licencjach,\n"
        "    aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych.\n"
 
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Określa format, w którym drukowane są wyniki programu.\n"
+       "      * text: Przystępny dla ludzi format tekstowy. (domyślny)\n"
+       "      * json: Obiekt JSON.\n"
+       "      * json-pretty: JSON, ale z łamaniem linii i wcięciami.\n"
+       "    Dokładny wygląd każdego z formatów zależy od opcji --describe, --evra\n"
+       "    oraz --explain.\n"
+
 msgid "HELP_OPTION_GRAMMAR\n"
 msgstr "    Określa zestaw reguł gramatycznych używanych podczas analizowania licencji.\n"
        "      * loose: Użyj luźnego zestawu nieformalnych reguł.\n"
@@ -112,6 +120,9 @@ msgstr "vrms-rpm: dozwolone argumenty do opcji --colour to 'never', 'always', or
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --evra to 'never', 'always', oraz 'auto'\n"
+
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: dozwolone argumenty do opcji --format to 'text', 'json', oraz 'json-pretty'\n"
 
 msgid "ERR_BADOPT_GRAMMAR\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --grammar to 'loose' oraz 'spdx'\n"

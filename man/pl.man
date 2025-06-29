@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1 "2021-03-06"
+.TH VRMS-RPM 1 "2025-06-24"
 
 .SH NAZWA
 vrms-rpm - raportuj zainstalowane nie-wolne oprogramowanie
@@ -58,6 +58,24 @@ tylko w sytuacjach występowania kilku paczek o tej samej nazwie.
 \fB\-\-explain\fR
 Podczas listowania paczek, wyświetlaj informacje o licencjach,
 aby uzasadnić klasyfikację do grupy wolnych lub nie-wolnych.
+
+.TP
+\fB\-\-format\fR <\fItext\fR, \fIjson\fR, \fIjson-pretty\fR>
+Pozwala wybrać format, w którym drukowane są wyniki programu.
+.RS
+.TP
+.B text
+Czytelny dla ludzi format tekstowy. Wartość domyślna.
+.TP
+.B json
+Obiekt JSON. Przewidziany głównie do dalszego przetwarzania przez inne programy.
+.TP
+.B json\-pretty
+Jak wyżej, ale używa łamania linii oraz wcięć, aby stworzyć postać bardziej przyjazną dla ludzi.
+.PP
+Dokładny wygląd wszystkich formatów uzależniony jest od opcji \fB\-\-describe\fR,
+\fB\-\-evra\fR oraz \fB\-\-explain\fR.
+.RE
 
 .TP
 \fB\-\-grammar\fR <\fIloose\fR, \fIspdx-strict\fR, \fIspdx-lenient\fR>

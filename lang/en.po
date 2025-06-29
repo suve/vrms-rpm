@@ -49,6 +49,14 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    When listing packages, display their licences\n"
        "    to justify the free / non-free classification.\n"
 
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Specifies which output format to use.\n"
+       "      * text: Human-readable text format. (default)\n"
+       "      * json: Consise JSON document.\n"
+       "      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+       "    Note that all output formats are affected by the --describe, --evra\n"
+       "    and --explain options.\n"
+
 msgid "HELP_OPTION_GRAMMAR\n"
 msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
        "      * loose: Use a loose, informal grammar.\n"
@@ -107,6 +115,9 @@ msgstr "vrms-rpm: argument to the --colour option must be one of 'never', 'alway
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: argument to the --evra option must be one of 'never', 'always', or 'auto'\n"
+
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: argument to the --format option must be one of 'text', 'json', or 'json-pretty'\n"
 
 msgid "ERR_BADOPT_GRAMMAR\n"
 msgstr "vrms-rpm: argument to the --grammar option must be either 'loose' or 'spdx'\n"

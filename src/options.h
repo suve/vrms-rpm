@@ -26,13 +26,13 @@
 #define OPT_GRAMMAR_SPDX_STRICT  1
 #define OPT_GRAMMAR_SPDX_LENIENT 2
 
+#define OPT_FORMAT_TEXT       0
+#define OPT_FORMAT_JSON       1
+#define OPT_FORMAT_PRETTYJSON 2
+
 #define OPT_IMAGE_NONE  0
 #define OPT_IMAGE_ASCII 1
 #define OPT_IMAGE_ICAT  2
-
-#define OPT_JSON_NONE    -1
-#define OPT_JSON_COMPACT  0
-#define OPT_JSON_PRETTY  +1
 
 #define OPT_LIST_FREE    (1<<0)
 #define OPT_LIST_NONFREE (1<<1)
@@ -41,9 +41,9 @@ extern int opt_colour;
 extern int opt_describe;
 extern int opt_evra;
 extern int opt_explain;
+extern int opt_format;
 extern int opt_grammar;
 extern int opt_image;
-extern int opt_json;
 extern int opt_list;
 extern char* opt_licencelist;
 

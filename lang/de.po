@@ -51,6 +51,15 @@ msgstr "    Beim Auflisten der Pakete, auch die Lizenzen anzeigen\n"
        "    um die frei / proprietär Klassifikation zu rechtfertigen.\n"
 
 #, fuzzy
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Specifies which output format to use.\n"
+       "      * text: Human-readable text format. (default)\n"
+       "      * json: Consise JSON document.\n"
+       "      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+       "    Note that all output formats are affected by the --describe, --evra\n"
+       "    and --explain options.\n"
+
+#, fuzzy
 msgid "HELP_OPTION_GRAMMAR\n"
 msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
        "      * loose: Use a loose, informal grammar.\n"
@@ -110,6 +119,10 @@ msgstr "vrms-rpm: Option --colour benötigt eines der Argumente 'never', 'always
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: Option --evra benötigt eines der Argumente 'never', 'always' oder 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: Option --format benötigt eines der Argumente 'text', 'json' oder 'json-pretty'\n"
 
 #, fuzzy
 msgid "ERR_BADOPT_GRAMMAR\n"

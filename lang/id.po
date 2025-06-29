@@ -50,6 +50,15 @@ msgstr "    Ketika mendaftar paket, tampilkan lisensinya\n"
        "    untuk memastikan apakah termasuk klasifikasi free / non-free.\n"
 
 #, fuzzy
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Specifies which output format to use.\n"
+       "      * text: Human-readable text format. (default)\n"
+       "      * json: Consise JSON document.\n"
+       "      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+       "    Note that all output formats are affected by the --describe, --evra\n"
+       "    and --explain options.\n"
+
+#, fuzzy
 msgid "HELP_OPTION_GRAMMAR\n"
 msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
        "      * loose: Use a loose, informal grammar.\n"
@@ -109,6 +118,10 @@ msgstr "vrms-rpm: argumen untuk opsi --colour harus salah satu dari 'never', 'al
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: argumen untuk opsi --evra harus salah satu dari 'never', 'always', atau 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: argumen untuk opsi --format harus salah satu dari 'text', 'json', atau 'json-pretty'\n"
 
 #, fuzzy
 msgid "ERR_BADOPT_GRAMMAR\n"

@@ -54,6 +54,15 @@ msgstr "    Отображать лицензии пакетов при выво
        "    чтобы убедиться в правильности класиффикации\n"
        "    свободных/проприетарных пакетов.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Specifies which output format to use.\n"
+       "      * text: Human-readable text format. (default)\n"
+       "      * json: Consise JSON document.\n"
+       "      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+       "    Note that all output formats are affected by the --describe, --evra\n"
+       "    and --explain options.\n"
+
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Показать \"Помощь\" и выйти.\n"
 
@@ -119,6 +128,11 @@ msgstr "vrms-rpm: аргумент для флага --colour может быт�
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: аргумент для опции --evra может быть одним\n"
        "из следующих значений: 'never', 'always', либо 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: аргумент для опции --format может быть одним\n"
+       "из следующих значений: 'text', 'json', либо 'json-pretty'\n"
 
 #, fuzzy
 msgid "ERR_BADOPT_GRAMMAR\n"

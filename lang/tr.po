@@ -53,6 +53,15 @@ msgid "HELP_OPTION_EXPLAIN\n"
 msgstr "    Paketleri listelerken, özgür / özgür olmayan\n"
        "    sınıflandırmasını yapmak için lisanslarını görüntüle.\n"
 
+#, fuzzy
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Specifies which output format to use.\n"
+       "      * text: Human-readable text format. (default)\n"
+       "      * json: Consise JSON document.\n"
+       "      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+       "    Note that all output formats are affected by the --describe, --evra\n"
+       "    and --explain options.\n"
+
 msgid "HELP_OPTION_HELP\n"
 msgstr "    Bu yardımı görüntüle ve çık.\n"
 
@@ -118,6 +127,11 @@ msgstr "vrms-rpm: --colour seçeneğinin parametreleri 'never', 'always', veya\n
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: --evra seçeneğinin parametreleri 'never', 'always', veya\n"
        "'auto' seçeneklerinden biri olmalı.\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: --format seçeneğinin parametreleri 'text', 'json', veya\n"
+       "'json-pretty' seçeneklerinden biri olmalı.\n"
 
 #, fuzzy
 msgid "ERR_BADOPT_GRAMMAR\n"

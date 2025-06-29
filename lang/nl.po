@@ -54,6 +54,15 @@ msgstr "    Bij het tonen van pakketten, laat de licenties zien\n"
        "    om te zien welke pakketten vrije of propriëtaire software bevatten.\n"
 
 #, fuzzy
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Specifies which output format to use.\n"
+       "      * text: Human-readable text format. (default)\n"
+       "      * json: Consise JSON document.\n"
+       "      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+       "    Note that all output formats are affected by the --describe, --evra\n"
+       "    and --explain options.\n"
+
+#, fuzzy
 msgid "HELP_OPTION_GRAMMAR\n"
 msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
        "      * loose: Use a loose, informal grammar.\n"
@@ -116,6 +125,10 @@ msgstr "vrms-rpm: het argument voor de --colour optie moet 'never', 'always', of
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: argument voor --evra optie moet 'never', 'always', of 'auto' zijn\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: argument voor --format optie moet 'text', 'json', of 'json-pretty' zijn\n"
 
 #, fuzzy
 msgid "ERR_BADOPT_GRAMMAR\n"

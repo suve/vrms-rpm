@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2021, 2023 "suve" (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2021, 2023, 2025 "suve" (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -34,6 +34,7 @@
 	MESSAGE(HELP_OPTION_DESCRIBE)    \
 	MESSAGE(HELP_OPTION_EVRA)        \
 	MESSAGE(HELP_OPTION_EXPLAIN)     \
+	MESSAGE(HELP_OPTION_FORMAT)      \
 	MESSAGE(HELP_OPTION_GRAMMAR)     \
 	MESSAGE(HELP_OPTION_HELP)        \
 	MESSAGE(HELP_OPTION_IMAGE)       \
@@ -50,6 +51,7 @@
 	MESSAGE(ERR_LICENCES_BADFILE)    \
 	MESSAGE(ERR_BADOPT_COLOUR)       \
 	MESSAGE(ERR_BADOPT_EVRA)         \
+	MESSAGE(ERR_BADOPT_FORMAT)       \
 	MESSAGE(ERR_BADOPT_GRAMMAR)      \
 	MESSAGE(ERR_BADOPT_LIST)         \
 	MESSAGE(ERR_BADOPT_NOARG)        \

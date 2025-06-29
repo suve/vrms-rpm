@@ -52,6 +52,15 @@ msgstr "    Při výpisu balíčků zobrazit jejich licence pro objasnění zař
        "    mezi svobodné a nesvobodné.\n"
 
 #, fuzzy
+msgid "HELP_OPTION_FORMAT\n"
+msgstr "    Specifies which output format to use.\n"
+       "      * text: Human-readable text format. (default)\n"
+       "      * json: Consise JSON document.\n"
+       "      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+       "    Note that all output formats are affected by the --describe, --evra\n"
+       "    and --explain options.\n"
+
+#, fuzzy
 msgid "HELP_OPTION_GRAMMAR\n"
 msgstr "    Specifies the grammar rules to use when parsing licence strings.\n"
        "      * loose: Use a loose, informal grammar.\n"
@@ -111,6 +120,10 @@ msgstr "vrms-rpm: hodnota parametru --colour musí být jedna z 'never', 'always
 
 msgid "ERR_BADOPT_EVRA\n"
 msgstr "vrms-rpm: hodnota parametru --evra musí být jedna z 'never', 'always', nebo 'auto'\n"
+
+#, fuzzy
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: hodnota parametru --format musí být jedna z 'text', 'json', nebo 'json-pretty'\n"
 
 #, fuzzy
 msgid "ERR_BADOPT_GRAMMAR\n"

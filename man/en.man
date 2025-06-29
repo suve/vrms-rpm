@@ -1,4 +1,4 @@
-.TH VRMS-RPM 1 "2021-03-06"
+.TH VRMS-RPM 1 "2025-06-24"
 .SH NAME
 vrms-rpm - report of installed non-free software
 
@@ -54,6 +54,25 @@ with the same name are found.
 \fB\-\-explain\fR
 When listing packages, display licences as to justify
 the free / non-free classification.
+
+.TP
+\fB\-\-format\fR <\fItext\fR, \fIjson\fR, \fIjson-pretty\fR>
+The output format to use.
+.RS
+.TP
+.B text
+Human-readable text format. This is the default.
+.TP
+.B json
+Compact JSON output. This is mainly intended for comsumption by other programs.
+.TP
+.B json\-pretty
+Same as above, but includes newlines and tab-indentation in the output
+to make it more human-readable.
+.PP
+Note that all formats are affected by the \fB\-\-describe\fR,
+\fB\-\-evra\fR and \fB\-\-explain\fR options.
+.RE
 
 .TP
 \fB\-\-grammar\fR <\fIloose\fR, \fIspdx-strict\fR, \fIspdx-lenient\fR>

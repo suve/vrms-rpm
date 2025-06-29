@@ -37,8 +37,8 @@ int opt_describe = 0;
 int opt_evra = OPT_EVRA_AUTO;
 int opt_grammar = DEFAULT_GRAMMAR_ENUM;
 int opt_explain = 0;
+int opt_format = OPT_FORMAT_TEXT;
 int opt_image = OPT_IMAGE_NONE;
-int opt_json = OPT_JSON_NONE;
 int opt_list = OPT_LIST_NONFREE;
 char* opt_licencelist = DEFAULT_LICENCE_LIST;
 
@@ -51,8 +51,8 @@ enum LongOpt {
 	LONGOPT_HELP = 1,
 	LONGOPT_COLOUR,
 	LONGOPT_EVRA,
+	LONGOPT_FORMAT,
 	LONGOPT_GRAMMAR,
-	LONGOPT_JSON,
 	LONGOPT_LICENCELIST,
 	LONGOPT_LIST,
 	LONGOPT_VERSION
@@ -60,8 +60,8 @@ enum LongOpt {
 
 static void parseopt_colour(void);
 static void parseopt_evra(void);
+static void parseopt_format(void);
 static void parseopt_grammar(void);
-static void parseopt_json(void);
 static void parseopt_list(void);
 
 void options_parse(int argc, char **argv) {
@@ -72,10 +72,10 @@ void options_parse(int argc, char **argv) {
 		{    "describe", ARG_NON, &opt_describe, 1 },
 		{        "evra", ARG_REQ, NULL, LONGOPT_EVRA },
 		{     "explain", ARG_NON, &opt_explain, 1 },
+		{      "format", ARG_REQ, NULL, LONGOPT_FORMAT },
 		{     "grammar", ARG_REQ, NULL, LONGOPT_GRAMMAR },
 		{        "help", ARG_NON, NULL, LONGOPT_HELP },
 		{       "image", ARG_NON, &opt_image, OPT_IMAGE_ICAT },
-		{        "json", ARG_OPT, NULL, LONGOPT_JSON },
 		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
 		{"license-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
 		{        "list", ARG_REQ, NULL, LONGOPT_LIST },
@@ -103,12 +103,12 @@ void options_parse(int argc, char **argv) {
 				parseopt_evra();
 			break;
 
-			case LONGOPT_GRAMMAR:
-				parseopt_grammar();
+			case LONGOPT_FORMAT:
+				parseopt_format();
 			break;
 
-			case LONGOPT_JSON:
-				parseopt_json();
+			case LONGOPT_GRAMMAR:
+				parseopt_grammar();
 			break;
 
 			case LONGOPT_LICENCELIST:
@@ -190,17 +190,16 @@ static void parseopt_grammar(void) {
 	}
 }
 
-static void parseopt_json(void) {
-	if(optarg != NULL) {
-		if(arg_eq("compact")) {
-			opt_json = OPT_JSON_COMPACT;
-		} else if(arg_eq("pretty")) {
-			opt_json = OPT_JSON_PRETTY;
-		} else {
-			// TODO: Print error message and exit w/failure
-		}
+static void parseopt_format(void) {
+	if(arg_eq("text")) {
+		opt_format = OPT_FORMAT_TEXT;
+	} else if(arg_eq("json")) {
+		opt_format = OPT_FORMAT_JSON;
+	} else if(arg_eq("json-pretty") || arg_eq("pretty-json")) {
+		opt_format = OPT_FORMAT_PRETTYJSON;
 	} else {
-		opt_json = OPT_JSON_COMPACT;
+		lang_fprint(stderr, MSG_ERR_BADOPT_FORMAT);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -236,6 +235,9 @@ static void print_help(void) {
 
 	puts("  --explain");
 	lang_print(MSG_HELP_OPTION_EXPLAIN);
+
+	puts("  --format <text, json, json-pretty>");
+	lang_print(MSG_HELP_OPTION_FORMAT);
 
 	puts("  --grammar <loose, spdx-strict, spdx-lenient>");
 	lang_print(MSG_HELP_OPTION_GRAMMAR, DEFAULT_GRAMMAR_NAME);

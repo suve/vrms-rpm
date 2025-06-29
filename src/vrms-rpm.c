@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	if(opt_json == OPT_JSON_NONE) {
+	if(opt_format == OPT_FORMAT_TEXT) {
 		packages_printList();
 		easteregg();
 	} else {
