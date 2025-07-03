@@ -53,19 +53,13 @@ struct Pipe* packages_openPipe(void) {
 	return pipe_create(args);
 }
 
-
-struct Package {
-	char *name, *summary;
-	char *epoch, *release, *version, *arch;
-	struct LicenceTreeNode *licence;
-	int is_pubkey;
-};
-
 #define LIST_COUNT      (list->used / sizeof(struct Package))
 #define LIST_ITEM(idx)  ( ((struct Package*)list->data)[(idx)] )
 static struct ReBuffer *list = NULL;
 static struct ChainBuffer *buffer = NULL;
 
+// FIXME: Class counts are treated as "size_t" in some places
+//        and "int" in others
 static int class_count[2] = {0, 0};
 static int sorted = 0;
 
@@ -233,20 +227,34 @@ static int pkgcompare(const void *A, const void *B) {
 }
 
 static void packages_sort(void) {
+	if(sorted) return;
+
 	qsort(list->data, LIST_COUNT, sizeof(struct Package), &pkgcompare);
 	sorted = 1;
 }
 
-static void print_evra(const struct Package *pkg) {
-	printf(
-		"-%s%s%s-%s%s%s",
-		(pkg->epoch != NULL) ? pkg->epoch : "",
-		(pkg->epoch != NULL) ? ":" : "",
-		pkg->version,
-		pkg->release,
-		(pkg->arch != NULL) ? "." : "",
-		(pkg->arch != NULL) ? pkg->arch : ""
-	);
+struct PackageListIterator {
+	int free;
+	int next_is_duplicate;
+	size_t index;
+	size_t count;
+};
+
+struct PackageListIterator *pkgIter_new(int free) {
+	struct PackageListIterator *iter = malloc(sizeof(struct PackageListIterator));
+	if(iter == NULL) return NULL;
+
+	packages_sort();
+
+	iter->free = !!free;
+	iter->index = 0;
+	iter->count = LIST_COUNT;
+	iter->next_is_duplicate = 0;
+	return iter;
+}
+
+size_t pkgIter_getCount(struct PackageListIterator *iter) {
+	return class_count[iter->free];
 }
 
 /*
@@ -298,104 +306,27 @@ static int should_print_evra(const size_t i, const struct Package *pkg, const si
 	return pkg->is_pubkey;
 }
 
-static void printlist(const int which_kind) {
-	int duplicate = 0;
+int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item) {
+	struct Package *pkg;
+	do {
+		iter->index += 1;
+		if(iter->index >= iter->count) return 0;
 
-	const size_t count = LIST_COUNT;
-	for(size_t i = 0; i < count; ++i) {
-		struct Package *pkg = &LIST_ITEM(i);
-		if(pkg->licence->is_free != which_kind) continue;
+		pkg = &LIST_ITEM(iter->index);
+	} while(pkg->licence->is_free != iter->free);
 
-		printf(" - %s", pkg->name);
-		if(should_print_evra(i, pkg, count, &duplicate)) print_evra(pkg);
-		if(opt_describe) printf(": %s", pkg->summary);
-
-		if(opt_explain) {
-			printf("\n   ");
-			licence_printNode(pkg->licence);
-		}
-		putc('\n', stdout);
-	}
+	item->package = pkg;
+	item->duplicated = should_print_evra(
+		iter->index, pkg, iter->count, &iter->next_is_duplicate
+	);
+	return 1;
 }
 
-void packages_printList(void) {
-	if(!sorted) packages_sort();
-	
-	int promil_nonfree = (1000L * class_count[0]) / (class_count[0] + class_count[1]);
-	int promil_free = 1000 - promil_nonfree;
-	
-	char percent_nonfree[16], percent_free[16];
-	snprintf(percent_nonfree, sizeof(percent_nonfree), "%d.%d%%", promil_nonfree / 10, promil_nonfree % 10);
-	snprintf(percent_free, sizeof(percent_nonfree), "%d.%d%%", promil_free / 10, promil_free % 10);
-	
-	lang_print_n(MSG_FREE_PACKAGES_COUNT, class_count[1], class_count[1], percent_free);
-	if(opt_list & OPT_LIST_FREE) printlist(1);
-	
-	lang_print_n(MSG_NONFREE_PACKAGES_COUNT, class_count[0], class_count[0], percent_nonfree);
-	if(opt_list & OPT_LIST_NONFREE) printlist(0);
+void pkgIter_free(struct PackageListIterator *iter) {
+	free(iter);
 }
 
-#define UNUSED(x) ((void)(x))
-
-static void jsonCounts(struct JsonObject *obj, void *userdata) {
-	UNUSED(userdata);
-
-	jsonObj_pushInt(obj, "free", class_count[1]);
-	jsonObj_pushInt(obj, "non-free", class_count[0]);
-}
-
-static void jsonPackage(struct JsonObject *obj, void *userdata) {
-	struct Package *pkg = userdata;
-
-	jsonObj_pushStr(obj, "name", pkg->name);
-
-	// TODO: Maybe apply opt_evra here?
-	if(pkg->epoch != NULL) jsonObj_pushStr(obj, "epoch", pkg->epoch);
-	jsonObj_pushStr(obj, "version", pkg->version);
-	jsonObj_pushStr(obj, "release", pkg->release);
-	if(pkg->arch != NULL) jsonObj_pushStr(obj, "architecture", pkg->arch);
-
-	if(opt_describe) jsonObj_pushStr(obj, "summary", pkg->summary);
-
-	jsonObj_pushObj(obj, "licence", &licence_jsonNode, pkg->licence);
-}
-
-static void jsonPackageList(struct JsonArray *arr, void *userdata) {
-	UNUSED(userdata);
-
-	const int list_free = !!(opt_list & OPT_LIST_FREE);
-	const int list_nonfree = !!(opt_list & OPT_LIST_NONFREE);
-
-	const size_t count = LIST_COUNT;
-	for(size_t i = 0; i < count; ++i) {
-		struct Package *pkg = &LIST_ITEM(i);
-		if(
-			(list_free && (pkg->licence->is_free))
-			||
-			(list_nonfree && (!pkg->licence->is_free))
-		) {
-			jsonArr_pushObj(arr, &jsonPackage, pkg);
-		}
-	}
-}
-
-static void jsonTopLevel(struct JsonObject *obj, void *userdata) {
-	UNUSED(userdata);
-
-	// This represents the JSON schema version, not the program version!
-	jsonObj_pushInt(obj, "version", 0);
-
-	jsonObj_pushObj(obj, "count", &jsonCounts, NULL);
-	if(opt_list > 0) jsonObj_pushArr(obj, "packages", &jsonPackageList, NULL);
-}
-
-void packages_printJSON(void) {
-	const int pretty = (opt_format == OPT_FORMAT_PRETTYJSON);
-	json_new(stdout, pretty, &jsonTopLevel, NULL);
-	putc('\n', stdout);
-}
-
-void packages_getcount(int *free, int *nonfree) {
+void packages_getCount(int *free, int *nonfree) {
 	if(free != NULL) *free = class_count[1];
 	if(nonfree != NULL) *nonfree = class_count[0];
 }

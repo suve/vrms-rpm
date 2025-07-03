@@ -21,13 +21,28 @@
 #include "src/classifiers.h"
 #include "src/pipes.h"
 
+struct Package {
+	char *name, *summary;
+	char *epoch, *release, *version, *arch;
+	struct LicenceTreeNode *licence;
+	int is_pubkey;
+};
+
 extern struct Pipe* packages_openPipe(void);
 extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier);
-
-extern void packages_getcount(int *free, int *nonfree);
-extern void packages_printList(void);
-extern void packages_printJSON(void);
-
+extern void packages_getCount(int *free, int *nonfree);
 extern void packages_free(void);
+
+struct PackageListIterator;
+
+struct PackageListItem {
+	const struct Package *package;
+	int duplicated;
+};
+
+extern struct PackageListIterator *pkgIter_new(int free);
+extern size_t pkgIter_getCount(struct PackageListIterator *iter);
+extern int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item);
+extern void pkgIter_free(struct PackageListIterator *iter);
 
 #endif

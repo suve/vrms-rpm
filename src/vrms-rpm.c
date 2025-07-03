@@ -24,10 +24,11 @@
 #include "src/options.h"
 #include "src/packages.h"
 #include "src/pipes.h"
+#include "src/printers.h"
 
 static void easteregg(void) {
 	int free, nonfree;
-	packages_getcount(&free, &nonfree);
+	packages_getCount(&free, &nonfree);
 	
 	if(nonfree == 0) {
 		putc('\n', stdout);
@@ -53,6 +54,19 @@ static struct LicenceClassifier* allocClassifier(const struct LicenceData *data)
 			return classifier_newSPDX(data, 1);
 		default:
 			return NULL; // Should Never Happen (TM)
+	}
+}
+
+static struct Printer* allocPrinter(void) {
+	switch(opt_format) {
+		case OPT_FORMAT_TEXT:
+			return printer_newText();
+		case OPT_FORMAT_JSON:
+			return printer_newJSON(0);
+		case OPT_FORMAT_PRETTYJSON:
+			return printer_newJSON(1);
+		default:
+			return NULL;
 	}
 }
 
@@ -82,12 +96,23 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	if(opt_format == OPT_FORMAT_TEXT) {
-		packages_printList();
-		easteregg();
-	} else {
-		packages_printJSON();
+	struct Printer *printer = allocPrinter();
+	if(printer == NULL) {
+		lang_fprint(stderr, MSG_ERR_MALLOC);
+		exit(EXIT_FAILURE);
 	}
+
+	// FIXME: Handle allocation failures here. Consider wrapping malloc()
+	//        with some custom function that always panics on fail?
+	struct PackageListIterator *nonfreeIter = pkgIter_new(0);
+	struct PackageListIterator *freeIter = pkgIter_new(1);
+	printer->print(printer,	freeIter, nonfreeIter);
+	printer->free(printer);
+	pkgIter_free(nonfreeIter);
+	pkgIter_free(freeIter);
+
+	// TODO: Would make sense to move this into the text printer
+	if(opt_format == OPT_FORMAT_TEXT) easteregg();
 	
 	packages_free();
 	classifier->free(classifier);

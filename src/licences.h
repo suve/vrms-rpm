@@ -52,9 +52,6 @@ extern struct LicenceData* licences_read(void);
 extern int licences_find(const struct LicenceData *data, const char *licence);
 extern void licences_free(struct LicenceData *data);
 
-
-extern void licence_printNode(const struct LicenceTreeNode *node);
-extern void licence_jsonNode(struct JsonObject *obj, void *node);
 extern void licence_freeTree(struct LicenceTreeNode *node);
 
 #endif
