@@ -17,13 +17,13 @@
  */
 #include <errno.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <strings.h>
 
 #include "src/buffers.h"
 #include "src/config.h"
 #include "src/lang.h"
 #include "src/licences.h"
+#include "src/memory.h"
 #include "src/options.h"
 #include "src/stringutils.h"
 
@@ -42,8 +42,7 @@ static FILE* openfile(char *name) {
 	const int skip_builtin_check = str_starts_with(name, "/") || str_starts_with(name, "./") || str_starts_with(name, "../");
 	if(!skip_builtin_check) {
 		const size_t bufsize = strlen(name) + strlen(INSTALL_DIR "/licences/.txt") + 1;
-		buffer = malloc(bufsize);
-		if(buffer == NULL) return NULL;
+		buffer = mem_alloc(bufsize);
 
 		snprintf(buffer, bufsize, INSTALL_DIR "/licences/%s.txt", name);
 		f = fopen(buffer, "r");
@@ -59,7 +58,7 @@ static FILE* openfile(char *name) {
 		}
 	}
 
-	if(buffer != NULL) free(buffer);
+	if(buffer != NULL) mem_free(buffer);
 	return f;
 }
 
@@ -75,27 +74,19 @@ static void licences_sort(struct LicenceData *data) {
 }
 
 static struct LicenceData* licensedata_init(void) {
-	struct LicenceData *data = malloc(sizeof(struct LicenceData));
-	if(data == NULL) return NULL;
-
+	struct LicenceData *data = mem_alloc(sizeof(struct LicenceData));
 	data->list = rebuf_init(500 * sizeof(void*));
 	data->buffer = chainbuf_init(8000);
-
-	if((data->list == NULL) || (data->buffer == NULL)) {
-		licences_free(data);
-		return NULL;
-	}
 
 	return data;
 }
 
 struct LicenceData* licences_read(void) {
-	struct LicenceData *result = licensedata_init();
-	if(result == NULL) return NULL;
-	
 	FILE *goodlicences = openfile(opt_licencelist);
 	if(goodlicences == NULL) goto fail;
 	
+	struct LicenceData *result = licensedata_init();
+
 	char linebuffer[256];
 	while(fgets(linebuffer, sizeof(linebuffer), goodlicences)) {
 		size_t line_len;
@@ -123,7 +114,7 @@ void licences_free(struct LicenceData *data) {
 	if(data != NULL) {
 		rebuf_free(data->list);
 		chainbuf_free(data->buffer);
-		free(data);
+		mem_free(data);
 	}
 }
 
@@ -148,5 +139,5 @@ void licence_freeTree(struct LicenceTreeNode *node) {
 	if(node->type != LTNT_LICENCE) {
 		for(unsigned int m = 0; m < node->members; ++m) licence_freeTree(node->child[m]);
 	}
-	free(node);
+	mem_free(node);
 }

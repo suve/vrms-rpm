@@ -15,10 +15,10 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "src/json.h"
 #include "src/licences.h"
+#include "src/memory.h"
 #include "src/options.h"
 #include "src/packages.h"
 #include "src/printers.h"
@@ -130,13 +130,11 @@ void jsonPrinter_print(
 }
 
 void jsonPrinter_free(struct Printer *self) {
-	free((struct JsonPrinter*)self);
+	mem_free((struct JsonPrinter*)self);
 }
 
 struct Printer* printer_newJSON(const int pretty) {
-	struct JsonPrinter *printer = malloc(sizeof(struct JsonPrinter));
-	if(printer == NULL) return NULL;
-
+	struct JsonPrinter *printer = mem_alloc(sizeof(struct JsonPrinter));
 	printer->interface.print = &jsonPrinter_print;
 	printer->interface.free = &jsonPrinter_free;
 	printer->pretty = pretty;

@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2021, 2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -14,21 +14,19 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdlib.h>
 #include <string.h>
 
 #include "src/buffers.h"
+#include "src/memory.h"
 
 struct ChainBuffer* chainbuf_init(size_t capacity) {
 	if(capacity == 0) return NULL;
 
-	struct ChainBuffer *buf = malloc(sizeof(struct ChainBuffer) + capacity);
-	if(buf != NULL) {
-		memset(buf->data, 0, capacity);
-		buf->capacity = capacity;
-		buf->used = 0;
-		buf->previous = NULL;
-	}
+	struct ChainBuffer *buf = mem_alloc(sizeof(struct ChainBuffer) + capacity);
+	memset(buf->data, 0, capacity);
+	buf->capacity = capacity;
+	buf->used = 0;
+	buf->previous = NULL;
 
 	return buf;
 }
@@ -37,7 +35,7 @@ void chainbuf_free(struct ChainBuffer *buf) {
 	while(buf != NULL) {
 		struct ChainBuffer *current = buf;
 		buf = buf->previous;
-		free(current);
+		mem_free(current);
 	}
 }
 
@@ -50,8 +48,6 @@ char* chainbuf_append(struct ChainBuffer **buf, const char *data) {
 		if(dataLength > (*buf)->capacity) return NULL;
 
 		struct ChainBuffer *newbuf = chainbuf_init((*buf)->capacity);
-		if(newbuf == NULL) return NULL;
-
 		newbuf->previous = *buf;
 		*buf = newbuf;
 	}
@@ -66,16 +62,8 @@ char* chainbuf_append(struct ChainBuffer **buf, const char *data) {
 struct ReBuffer* rebuf_init(const size_t stepSize) {
 	if(stepSize == 0) return NULL;
 
-	void* mem = malloc(stepSize);
-	if(mem == NULL) return NULL;
-	
-	struct ReBuffer *buf = malloc(sizeof(struct ReBuffer));
-	if(buf == NULL) {
-		free(mem);
-		return NULL;
-	}
-	
-	buf->data = mem;
+	struct ReBuffer *buf = mem_alloc(sizeof(struct ReBuffer));
+	buf->data = mem_alloc(stepSize);
 	buf->step = stepSize;
 	buf->capacity = stepSize;
 	buf->used = 0;
@@ -85,8 +73,8 @@ struct ReBuffer* rebuf_init(const size_t stepSize) {
 
 void rebuf_free(struct ReBuffer *buf) {
 	if(buf != NULL) {
-		if(buf->data != NULL) free(buf->data);
-		free(buf);
+		if(buf->data != NULL) mem_free(buf->data);
+		mem_free(buf);
 	}
 }
 
@@ -95,9 +83,7 @@ void* rebuf_append(struct ReBuffer *const buf, const void *const data, const siz
 		const size_t steps = (dataLength / buf->step) + !!(dataLength % buf->step);
 		const size_t memsize = buf->capacity + (steps * buf->step);
 		
-		void* newmem = realloc(buf->data, memsize);
-		if(newmem == NULL) return NULL;
-		
+		void* newmem = mem_realloc(buf->data, memsize);
 		buf->data = newmem;
 		buf->capacity = memsize;
 	}

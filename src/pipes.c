@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2023 "suve" (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2023, 2025 "suve" (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -17,12 +17,12 @@
 #include <poll.h>
 #include <signal.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
 #include "src/lang.h"
+#include "src/memory.h"
 #include "src/pipes.h"
 
 #define FD_STDIN  0
@@ -53,12 +53,11 @@ static void parent(struct Pipe *const pipe) {
 }
 
 struct Pipe* pipe_create(char **argv) {
-	struct Pipe *res = malloc(sizeof(struct Pipe));
-	if(res == NULL) return NULL;
+	struct Pipe *res = mem_alloc(sizeof(struct Pipe));
 	
 	int pipefd[2];
 	if(pipe(pipefd) != 0) {
-		free(res);
+		mem_free(res);
 		return NULL;
 	}
 	
@@ -66,7 +65,7 @@ struct Pipe* pipe_create(char **argv) {
 	if(pid == -1) {
 		close(pipefd[0]);
 		close(pipefd[1]);
-		free(res);
+		mem_free(res);
 		return NULL;
 	}
 	
@@ -84,7 +83,7 @@ struct Pipe* pipe_create(char **argv) {
 
 FILE* pipe_fopen(struct Pipe *pipe) {
 	const int fd = pipe->readfd;
-	free(pipe);
+	mem_free(pipe);
 	
 	struct pollfd pfd = {
 		.fd = fd, 
@@ -114,5 +113,5 @@ FILE* pipe_fopen(struct Pipe *pipe) {
 void pipe_destroy(struct Pipe *pipe) {
 	close(pipe->readfd);
 	close(pipe->writefd);
-	free(pipe);
+	mem_free(pipe);
 }

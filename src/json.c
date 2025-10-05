@@ -15,9 +15,9 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "src/json.h"
+#include "src/memory.h"
 
 static void encodeString(FILE *output, const char *str) {
 	putc('"', output);
@@ -61,9 +61,7 @@ struct Document {
 #define DOCUMENT(dest, source) struct Document *(dest) = ((struct Document*)(source));
 
 static struct Document* doc_new(FILE *output, const int pretty, const char type) {
-	struct Document *doc = malloc(sizeof(struct Document));
-	if(doc == NULL) return NULL;
-
+	struct Document *doc = mem_alloc(sizeof(struct Document));
 	doc->output = output;
 	doc->pretty = pretty;
 	doc->depth = 0;
@@ -121,7 +119,7 @@ void json_new(
 	struct Document *doc = doc_new(output, pretty, '{');
 	callback((struct JsonObject*)doc, userdata);
 	doc_shallow(doc, '}');
-	free(doc);
+	mem_free(doc);
 }
 
 void jsonObj_pushBool(

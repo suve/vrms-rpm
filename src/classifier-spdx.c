@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2023-2024 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023-2025 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2023 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,12 +15,12 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdlib.h>
 #include <string.h>
 
 #include "src/buffers.h"
 #include "src/classifiers.h"
 #include "src/licences.h"
+#include "src/memory.h"
 #include "src/stringutils.h"
 
 struct SpdxClassifier {
@@ -299,12 +299,10 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 			}
 		}
 
-		struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode));
-		if(node != NULL) {
-			node->type = LTNT_LICENCE;
-			node->licence = licence;
-			node->is_free = is_free(self, licence);
-		}
+		struct LicenceTreeNode *node = mem_alloc(sizeof(struct LicenceTreeNode));
+		node->type = LTNT_LICENCE;
+		node->licence = licence;
+		node->is_free = is_free(self, licence);
 		return node;
 	}
 
@@ -345,14 +343,12 @@ static struct LicenceTreeNode* spdx_classify(struct LicenceClassifier *class, ch
 	}
 
 	const size_t bufDataLen = self->nodeBuf->used - bufStart;
-	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + bufDataLen);
-	if(node != NULL) {
-		node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
-		memcpy(node->child, NODEBUFPTR(bufStart), bufDataLen);
+	struct LicenceTreeNode *node = mem_alloc(sizeof(struct LicenceTreeNode) + bufDataLen);
+	node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
+	memcpy(node->child, NODEBUFPTR(bufStart), bufDataLen);
 
-		node->type = type;
-		node->is_free = isFree;
-	}
+	node->type = type;
+	node->is_free = isFree;
 
 	self->nodeBuf->used = bufStart;
 	return node;
@@ -391,22 +387,14 @@ static void spdx_free(struct LicenceClassifier *class) {
 			rebuf_free(self->nodeBuf);
 			self->nodeBuf = NULL;
 		}
-		free(self);
+		mem_free(self);
 	}
 }
 
 struct LicenceClassifier* classifier_newSPDX(const struct LicenceData *data, int lenient) {
-	struct SpdxClassifier *self = malloc(sizeof(struct SpdxClassifier));
-	if(self == NULL) return NULL;
-
-	struct ReBuffer *nodeBuf = rebuf_init(1024);
-	if(nodeBuf == NULL) {
-		free(self);
-		return NULL;
-	}
-
+	struct SpdxClassifier *self = mem_alloc(sizeof(struct SpdxClassifier));
 	self->data = data;
-	self->nodeBuf = nodeBuf;
+	self->nodeBuf = rebuf_init(1024);
 	self->lenient = lenient;
 
 	self->interface.classify = &spdx_classify;

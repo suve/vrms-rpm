@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2024 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2025 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,12 +15,12 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdlib.h>
 #include <strings.h>
 
 #include "src/buffers.h"
 #include "src/classifiers.h"
 #include "src/licences.h"
+#include "src/memory.h"
 #include "src/stringutils.h"
 
 #define LIST_COUNT(data) ((data)->list->used / sizeof(char*))
@@ -205,12 +205,10 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 	}
 
 	if(type == LTNT_LICENCE) {
-		struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode));
-		if(node != NULL) {
-			node->type = LTNT_LICENCE;
-			node->licence = licence;
-			node->is_free = is_free(self->data, licence);
-		}
+		struct LicenceTreeNode *node = mem_alloc(sizeof(struct LicenceTreeNode));
+		node->type = LTNT_LICENCE;
+		node->licence = licence;
+		node->is_free = is_free(self->data, licence);
 		return node;
 	}
 
@@ -267,14 +265,12 @@ static struct LicenceTreeNode* loose_classify(struct LicenceClassifier *class, c
 	} while(match >= 0);
 
 	const size_t bufDataLen = self->nodeBuf->used - bufStart;
-	struct LicenceTreeNode *node = malloc(sizeof(struct LicenceTreeNode) + bufDataLen);
-	if(node != NULL) {
-		node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
-		memcpy(node->child, NODEBUFPTR(bufStart), bufDataLen);
+	struct LicenceTreeNode *node = mem_alloc(sizeof(struct LicenceTreeNode) + bufDataLen);
+	node->members = bufDataLen / sizeof(struct LicenceTreeNode*);
+	memcpy(node->child, NODEBUFPTR(bufStart), bufDataLen);
 
-		node->type = type;
-		node->is_free = isFree;
-	}
+	node->type = type;
+	node->is_free = isFree;
 
 	self->nodeBuf->used = bufStart;
 	return node;
@@ -284,22 +280,14 @@ static void classifier_free(struct LicenceClassifier *class) {
 	if(class != NULL) {
 		struct LooseClassifier *self = (struct LooseClassifier*)class;
 		rebuf_free(self->nodeBuf);
-		free(self);
+		mem_free(self);
 	}
 }
 
 struct LicenceClassifier* classifier_newLoose(const struct LicenceData *data) {
-	struct LooseClassifier *self = malloc(sizeof(struct LooseClassifier));
-	if(self == NULL) return NULL;
-
-	struct ReBuffer *nodeBuf = rebuf_init(1024);
-	if(nodeBuf == NULL) {
-		free(self);
-		return NULL;
-	}
-
+	struct LooseClassifier *self = mem_alloc(sizeof(struct LooseClassifier));
 	self->data = data;
-	self->nodeBuf = nodeBuf;
+	self->nodeBuf = rebuf_init(1024);
 
 	self->interface.classify = &loose_classify;
 	self->interface.free = &classifier_free;

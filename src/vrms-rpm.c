@@ -102,8 +102,6 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	// FIXME: Handle allocation failures here. Consider wrapping malloc()
-	//        with some custom function that always panics on fail?
 	struct PackageListIterator *nonfreeIter = pkgIter_new(0);
 	struct PackageListIterator *freeIter = pkgIter_new(1);
 	printer->print(printer,	freeIter, nonfreeIter);

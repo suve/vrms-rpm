@@ -15,10 +15,10 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "src/lang.h"
 #include "src/licences.h"
+#include "src/memory.h"
 #include "src/options.h"
 #include "src/packages.h"
 #include "src/printers.h"
@@ -107,13 +107,11 @@ void textPrinter_print(
 }
 
 void textPrinter_free(struct Printer *self) {
-	free(self);
+	mem_free(self);
 }
 
 struct Printer* printer_newText(void) {
-	struct Printer *printer = malloc(sizeof(struct Printer));
-	if(printer == NULL) return NULL;
-
+	struct Printer *printer = mem_alloc(sizeof(struct Printer));
 	printer->print = &textPrinter_print;
 	printer->free = &textPrinter_free;
 	return printer;

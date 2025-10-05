@@ -15,7 +15,6 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <strings.h>
 
@@ -23,6 +22,7 @@
 #include "src/json.h"
 #include "src/lang.h"
 #include "src/licences.h"
+#include "src/memory.h"
 #include "src/options.h"
 #include "src/packages.h"
 #include "src/pipes.h"
@@ -65,14 +65,8 @@ static int sorted = 0;
 
 
 static int init_buffers(void) {
-	if(list == NULL) {
-		list = rebuf_init(1024 * sizeof(void*));
-		if(list == NULL) return -1;
-	}
-	if(buffer == NULL) {
-		buffer = chainbuf_init(16256);
-		if(buffer == NULL) return -1;
-	}
+	if(list == NULL) list = rebuf_init(1024 * sizeof(void*));
+	if(buffer == NULL) buffer = chainbuf_init(16256);
 	return 0;
 }
 
@@ -100,12 +94,10 @@ int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
 	FILE *f = NULL;
 
 	#define LINEBUF_SIZE 4096
-	line = malloc(LINEBUF_SIZE);
-	if(line == NULL) goto fail;
+	line = mem_alloc(LINEBUF_SIZE);
 
 	#define LICBUF_SIZE LINEBUF_SIZE
-	licenceBuffer = malloc(LICBUF_SIZE);
-	if(licenceBuffer == NULL) goto fail;
+	licenceBuffer = mem_alloc(LICBUF_SIZE);
 
 	if(init_buffers() != 0) goto fail;
 
@@ -165,16 +157,16 @@ int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
 	}
 
 	fclose(f);
-	free(licenceBuffer);
-	free(line);
+	mem_free(licenceBuffer);
+	mem_free(line);
 
 	sorted = 0;
 	return LIST_COUNT;
 
 	fail: { // As seen in CVE-2014-1266!
 		if(f != NULL) fclose(f);
-		if(licenceBuffer != NULL) free(licenceBuffer);
-		if(line != NULL) free(line);
+		if(licenceBuffer != NULL) mem_free(licenceBuffer);
+		if(line != NULL) mem_free(line);
 		packages_free();
 		return -1;
 	}
@@ -241,15 +233,14 @@ struct PackageListIterator {
 };
 
 struct PackageListIterator *pkgIter_new(int free) {
-	struct PackageListIterator *iter = malloc(sizeof(struct PackageListIterator));
-	if(iter == NULL) return NULL;
-
-	packages_sort();
-
+	struct PackageListIterator *iter = mem_alloc(sizeof(struct PackageListIterator));
 	iter->free = !!free;
 	iter->index = 0;
 	iter->count = LIST_COUNT;
 	iter->next_is_duplicate = 0;
+
+	packages_sort();
+
 	return iter;
 }
 
@@ -323,7 +314,7 @@ int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item)
 }
 
 void pkgIter_free(struct PackageListIterator *iter) {
-	free(iter);
+	mem_free(iter);
 }
 
 void packages_getCount(int *free, int *nonfree) {
