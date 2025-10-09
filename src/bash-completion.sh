@@ -1,5 +1,5 @@
 # bash-completion file for vrms-rpm
-# Copyright (C) 2018, 2020, 2022-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+# Copyright (C) 2018, 2020, 2022-2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -18,11 +18,14 @@ _vrms_rpm() {
 
 	local curr="${COMP_WORDS[COMP_CWORD]}"
 	local prev="${COMP_WORDS[COMP_CWORD-1]}"
-	local opts="--ascii --colour --describe --evra --explain --grammar --help --image --licence-list --list --version"
+	local opts="--ascii --colour --describe --evra --explain --format --grammar --help --image --licence-list --list --version"
 
 	if [[ "$prev" == "--color" ]] || [[ "$prev" == "--colour" ]] || [[ "$prev" == "--evra" ]]; then
 		local when="auto always never"
 		COMPREPLY=( $(compgen -W "$when" -- "$curr") )
+	elif [[ "$prev" == "--format" ]]; then
+		local choices="json json-pretty text"
+		COMPREPLY=( $(compgen -W "$choices" -- "$curr") )
 	elif [[ "$prev" == "--grammar" ]]; then
 		local when="spdx-strict spdx-lenient loose"
 		COMPREPLY=( $(compgen -W "$when" -- "$curr") )
