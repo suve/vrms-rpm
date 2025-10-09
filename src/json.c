@@ -17,7 +17,6 @@
 #include <stdio.h>
 
 #include "src/json.h"
-#include "src/memory.h"
 
 static void encodeString(FILE *output, const char *str) {
 	putc('"', output);
@@ -48,27 +47,25 @@ struct Document {
 	/* Whether the output should feature newlines and tab-indentation. */
 	int pretty;
 
-	/* Current stack head position. 0 depth -> 1 element at index 0. */
+	/* Current nesting level, starts at 0. */
 	int depth;
 
 	/*
-	 * Whether the top-most element has any children.
-	 * Elements further down the stack always have children,
-	 * otherwise there wouldn't be a stack.
+	 * Whether the innermost element has any children.
+	 * Outer elements always have children,
+	 * otherwise there wouldn't be any nesting.
 	 */
 	int children;
 };
 #define DOCUMENT(dest, source) struct Document *(dest) = ((struct Document*)(source));
 
-static struct Document* doc_new(FILE *output, const int pretty, const char type) {
-	struct Document *doc = mem_alloc(sizeof(struct Document));
+static void doc_init(struct Document *doc, FILE *output, const int pretty, const char type) {
 	doc->output = output;
 	doc->pretty = pretty;
 	doc->depth = 0;
 	doc->children = 0;
 
 	putc(type, doc->output);
-	return doc;
 }
 
 static void doc_addMember(struct Document *doc, const char *const key) {
@@ -116,10 +113,10 @@ void json_new(
 	JsonObjectCallback callback,
 	void *userdata
 ) {
-	struct Document *doc = doc_new(output, pretty, '{');
-	callback((struct JsonObject*)doc, userdata);
-	doc_shallow(doc, '}');
-	mem_free(doc);
+	struct Document doc;
+	doc_init(&doc, output, pretty, '{');
+	callback((struct JsonObject*)&doc, userdata);
+	doc_shallow(&doc, '}');
 }
 
 void jsonObj_pushBool(
