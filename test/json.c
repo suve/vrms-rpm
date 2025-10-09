@@ -14,19 +14,11 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-
-// The arg/def/jmp includes are required by cmocka.
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmocka.h>
-
-#include "src/json.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 
-#define UNUSED(x) ((void)(x))
+#include "src/json.h"
+#include "test/test.h"
 
 #define JSON_BUFSIZ (16 * 1024)
 

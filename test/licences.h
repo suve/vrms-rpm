@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -17,17 +17,12 @@
 #ifndef TEST_LICENCES_H
 #define TEST_LICENCES_H
 
-// The arg/def/jmp includes are required by cmocka.
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmocka.h>
-
 #include <stdlib.h>
 #include <string.h>
 
 #include "src/classifiers.h"
 #include "src/licences.h"
+#include "test/test.h"
 
 struct TestState {
 	struct LicenceData *data;

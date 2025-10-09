@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -14,16 +14,8 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-
-// The arg/def/jmp includes are required by cmocka.
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmocka.h>
-
 #include "src/stringutils.h"
-
-#define UNUSED(x) ((void)(x))
+#include "test/test.h"
 
 #define testcase(input, squeezable, expected) do { \
 	char buffer[] = input; \
@@ -35,14 +27,17 @@ void test__str_squeeze_char(void **state) {
 	UNUSED(state);
 
 	// At the start
+	testcase("Wow.", 'W', "Wow.");
 	testcase("00001", '0', "01");
 	testcase("aaaaabsolutely!", 'a', "absolutely!");
 
 	// In the middle
+	testcase("Aha!", 'h', "Aha!");
 	testcase("Hello", 'l', "Helo");
 	testcase("Boogeyman", 'o', "Bogeyman");
 
 	// At the end
+	testcase("lolwut?", '?', "lolwut?");
 	testcase("Mamma mia!!!", '!', "Mamma mia!");
 	testcase("123.3333333", '3', "123.3");
 

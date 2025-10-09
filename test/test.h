@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021, 2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -14,27 +14,24 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-#include "src/stringutils.h"
-#include "test/test.h"
+#ifndef TEST_TEST_H
+#define TEST_TEST_H
 
-#define testcase(haystack, needle, expected) do{ \
-	const char *result = str_starts_with(haystack, needle); \
-	if(expected) { \
-		assert_non_null(result); \
-		assert_ptr_equal(haystack, result); \
-	} else { \
-		assert_null(result); \
-	} \
-}while(0)
+/*
+ * CMocka does this thing where it does not include all the stuff it uses,
+ * because you may end up not using some macros,
+ * thus not needing some of the includes.
+ *
+ * I don't feel like maintaining a separate list of includes in each file
+ * inside the test/ directory, so here goes a shared list.
+ */
+#include <stdarg.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <setjmp.h>
 
-void test__str_starts_with(void **state) {
-	UNUSED(state);
+#include <cmocka.h>
 
-	testcase("partial match", "partial", 1);
-	testcase("full string match", "full string match", 1);
-	testcase("an empty needle", "", 1);
+#define UNUSED(x) ((void)(x))
 
-	testcase("no match", "blah", 0);
-	testcase("very", "very long needle", 0);
-	testcase("", "an empty haystack", 0);
-}
+#endif

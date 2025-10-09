@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021, 2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -14,16 +14,8 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
-
-// The arg/def/jmp includes are required by cmocka.
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmocka.h>
-
 #include "src/stringutils.h"
-
-#define UNUSED(x) ((void)(x))
+#include "test/test.h"
 
 #define testcase(haystack, needle, expected) do{ \
 	const char *result = str_ends_with(haystack, needle); \
