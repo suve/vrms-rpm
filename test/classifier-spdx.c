@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2024 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2025 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -806,7 +806,7 @@ void test__spdxStrict_mangledStrings(void **state) {
 		make_ltn_simple(left, 0, "Other Stuff");
 		make_ltn_simple(right, 0, "");
 		make_ltn(expected, 0, LTNT_AND, left, right);
-		test_licence("(Other Stuff AND )", NULL);
+		test_licence("(Other Stuff AND )", expected);
 	}
 
 	// OR joiner present, but no licence preceding it
@@ -815,7 +815,7 @@ void test__spdxStrict_mangledStrings(void **state) {
 		make_ltn_simple(left, 0, "");
 		make_ltn_simple(right, 0, "Things");
 		make_ltn(expected, 0, LTNT_OR, left, right);
-		test_licence("( OR Things)", NULL);
+		test_licence("( OR Things)", expected);
 	}
 	// OR joiner present, but no licence after it
 	{
@@ -823,7 +823,7 @@ void test__spdxStrict_mangledStrings(void **state) {
 		make_ltn_simple(left, 0, "More Things");
 		make_ltn_simple(right, 0, "");
 		make_ltn(expected, 0, LTNT_OR, left, right);
-		test_licence("(More Things OR )", NULL);
+		test_licence("(More Things OR )", expected);
 	}
 }
 
