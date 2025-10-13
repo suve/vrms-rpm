@@ -82,10 +82,13 @@ static struct LicenceData* licensedata_init(void) {
 }
 
 struct LicenceData* licences_read(void) {
-	FILE *goodlicences = openfile(opt_licencelist);
+	FILE *goodlicences = NULL;
+	struct LicenceData *result = NULL;
+
+	goodlicences = openfile(opt_licencelist);
 	if(goodlicences == NULL) goto fail;
 	
-	struct LicenceData *result = licensedata_init();
+	result = licensedata_init();
 
 	char linebuffer[256];
 	while(fgets(linebuffer, sizeof(linebuffer), goodlicences)) {
