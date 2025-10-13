@@ -21,17 +21,21 @@
 #include "src/classifiers.h"
 #include "src/pipes.h"
 
+// FIXME: Figure out a way to make this an opaque struct,
+//        while also allowing to create a custom struct for testing.
+struct PackageData {
+	struct ReBuffer *list;
+	struct ChainBuffer *buffer;
+	size_t count[2];
+	int sorted;
+};
+
 struct Package {
 	char *name, *summary;
 	char *epoch, *release, *version, *arch;
 	struct LicenceTreeNode *licence;
 	int is_pubkey;
 };
-
-extern struct Pipe* packages_openPipe(void);
-extern int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier);
-extern void packages_getCount(int *free, int *nonfree);
-extern void packages_free(void);
 
 struct PackageListIterator;
 
@@ -40,7 +44,11 @@ struct PackageListItem {
 	int duplicated;
 };
 
-extern struct PackageListIterator *pkgIter_new(int free);
+extern struct Pipe* packages_openPipe(void);
+extern struct PackageData* packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier);
+extern void packages_free(struct PackageData *pd);
+
+extern struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free);
 extern size_t pkgIter_getCount(struct PackageListIterator *iter);
 extern int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item);
 extern void pkgIter_free(struct PackageListIterator *iter);

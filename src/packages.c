@@ -53,21 +53,17 @@ struct Pipe* packages_openPipe(void) {
 	return pipe_create(args);
 }
 
-#define LIST_COUNT      (list->used / sizeof(struct Package))
-#define LIST_ITEM(idx)  ( ((struct Package*)list->data)[(idx)] )
-static struct ReBuffer *list = NULL;
-static struct ChainBuffer *buffer = NULL;
+#define LIST_COUNT(var)      ((var)->list->used / sizeof(struct Package))
+#define LIST_ITEM(var, idx)  ( ((struct Package*)(var)->list->data)[(idx)] )
 
-// FIXME: Class counts are treated as "size_t" in some places
-//        and "int" in others
-static int class_count[2] = {0, 0};
-static int sorted = 0;
-
-
-static int init_buffers(void) {
-	if(list == NULL) list = rebuf_init(1024 * sizeof(void*));
-	if(buffer == NULL) buffer = chainbuf_init(16256);
-	return 0;
+static struct PackageData* packages_alloc(void) {
+	struct PackageData *pd = mem_alloc(sizeof(struct PackageData));
+	pd->list = rebuf_init(1024 * sizeof(void*));
+	pd->buffer = chainbuf_init(16256);
+	pd->count[0] = 0;
+	pd->count[1] = 0;
+	pd->sorted = 0;
+	return pd;
 }
 
 static int is_defined(const char *value) {
@@ -88,18 +84,19 @@ static int is_pubkey_package(const char *name, const char *arch, const char *pub
 		(strcmp(licence, "pubkey") == 0);
 }
 
-int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
+struct PackageData* packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
+	struct PackageData *pd = NULL;
 	char *line = NULL;
 	char *licenceBuffer = NULL;
 	FILE *f = NULL;
+
+	pd = packages_alloc();
 
 	#define LINEBUF_SIZE 4096
 	line = mem_alloc(LINEBUF_SIZE);
 
 	#define LICBUF_SIZE LINEBUF_SIZE
 	licenceBuffer = mem_alloc(LICBUF_SIZE);
-
-	if(init_buffers() != 0) goto fail;
 
 	f = pipe_fopen(pipe);
 	if(f == NULL) goto fail;
@@ -123,25 +120,25 @@ int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
 
 		// FIXME: This function can fail, should handle that somehow
 		str_balance_parentheses(trim(licence, NULL), licenceBuffer, LICBUF_SIZE, NULL);
-		licence = chainbuf_append(&buffer, licenceBuffer);
+		licence = chainbuf_append(&pd->buffer, licenceBuffer);
 
-		name = chainbuf_append(&buffer, trim(name, NULL));
-		if(opt_describe) summary = chainbuf_append(&buffer, trim(summary, NULL));
+		name = chainbuf_append(&pd->buffer, trim(name, NULL));
+		if(opt_describe) summary = chainbuf_append(&pd->buffer, trim(summary, NULL));
 
 		// Epoch is typically undefined. RPM reports this using the special string "(none)".
 		// Avoid storing unnecessary epoch info by comparing epoch with this special string.
 		// In some very rare cases (hello, "gpg-pubkey" packages!), this can also happen to Arch.
-		epoch = is_defined(epoch) ? chainbuf_append(&buffer, epoch) : NULL;
-		arch = is_defined(arch) ? chainbuf_append(&buffer, arch) : NULL;
+		epoch = is_defined(epoch) ? chainbuf_append(&pd->buffer, epoch) : NULL;
+		arch = is_defined(arch) ? chainbuf_append(&pd->buffer, arch) : NULL;
 
-		version = chainbuf_append(&buffer, version);
-		release = chainbuf_append(&buffer, release);
+		version = chainbuf_append(&pd->buffer, version);
+		release = chainbuf_append(&pd->buffer, release);
 
 		const int is_pubkey = is_pubkey_package(name, arch, pubkeys, licence);
 		struct LicenceTreeNode *classification = is_pubkey
 				? ((struct LicenceTreeNode*)(&PubkeyLicence))
 				: classifier->classify(classifier, licence);
-		class_count[classification->is_free] += 1;
+		pd->count[classification->is_free] += 1;
 
 		struct Package pkg = {
 			.name = name,
@@ -153,43 +150,35 @@ int packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
 			.licence = classification,
 			.is_pubkey = is_pubkey,
 		};
-		if(rebuf_append(list, &pkg, sizeof(struct Package)) == NULL) goto fail;
+		if(rebuf_append(pd->list, &pkg, sizeof(struct Package)) == NULL) goto fail;
 	}
 
 	fclose(f);
 	mem_free(licenceBuffer);
 	mem_free(line);
-
-	sorted = 0;
-	return LIST_COUNT;
+	return pd;
 
 	fail: { // As seen in CVE-2014-1266!
 		if(f != NULL) fclose(f);
 		if(licenceBuffer != NULL) mem_free(licenceBuffer);
 		if(line != NULL) mem_free(line);
-		packages_free();
-		return -1;
+		if(pd != NULL) packages_free(pd);
+		return NULL;
 	}
 }
 
-void packages_free(void) {
-	if(list != NULL) {
-		const int count = LIST_COUNT;
-		for(int i = 0; i < count; ++i) {
-			struct Package *pkg = &LIST_ITEM(i);
-			if(!pkg->is_pubkey) licence_freeTree(pkg->licence);
-		}
-		
-		rebuf_free(list);
-		list = NULL;
+void packages_free(struct PackageData *pd) {
+	if(pd == NULL) return;
+
+	const size_t count = LIST_COUNT(pd);
+	for(size_t i = 0; i < count; ++i) {
+		struct Package *pkg = &LIST_ITEM(pd, i);
+		if(!pkg->is_pubkey) licence_freeTree(pkg->licence);
 	}
 	
-	if(buffer != NULL) {
-		chainbuf_free(buffer);
-		buffer = NULL;
-	}
-	
-	class_count[0] = class_count[1] = 0;
+	rebuf_free(pd->list);
+	chainbuf_free(pd->buffer);
+	mem_free(pd);
 }
 
 static int pkgcompare(const void *A, const void *B) {
@@ -218,34 +207,34 @@ static int pkgcompare(const void *A, const void *B) {
 	return str_compare_with_null_check(a->arch, b->arch, &strcmp);
 }
 
-static void packages_sort(void) {
-	if(sorted) return;
+static void packages_sort(struct PackageData *pd) {
+	if(pd->sorted) return;
 
-	qsort(list->data, LIST_COUNT, sizeof(struct Package), &pkgcompare);
-	sorted = 1;
+	qsort(pd->list->data, LIST_COUNT(pd), sizeof(struct Package), &pkgcompare);
+	pd->sorted = 1;
 }
 
 struct PackageListIterator {
+	struct PackageData *pd;
 	int free;
 	int next_is_duplicate;
 	size_t index;
-	size_t count;
 };
 
-struct PackageListIterator *pkgIter_new(int free) {
+struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free) {
 	struct PackageListIterator *iter = mem_alloc(sizeof(struct PackageListIterator));
 	iter->free = !!free;
 	iter->index = 0;
-	iter->count = LIST_COUNT;
 	iter->next_is_duplicate = 0;
 
-	packages_sort();
+	packages_sort(pd);
+	iter->pd = pd;
 
 	return iter;
 }
 
 size_t pkgIter_getCount(struct PackageListIterator *iter) {
-	return class_count[iter->free];
+	return iter->pd->count[iter->free];
 }
 
 /*
@@ -269,7 +258,7 @@ size_t pkgIter_getCount(struct PackageListIterator *iter) {
  * Since printing just "gpg-pubkey" is rather unhelpful, we want to ALWAYS
  * print EVRA information for these packages, even if the user specified "--evra never".
  */
-static int should_print_evra(const size_t i, const struct Package *pkg, const size_t count, int *duplicate_next) {
+static int should_print_evra(const struct PackageData *pd, const size_t i, const size_t count, int *duplicate_next) {
 	if(opt_evra == OPT_EVRA_ALWAYS) {
 		return 1;
 	}
@@ -284,7 +273,7 @@ static int should_print_evra(const size_t i, const struct Package *pkg, const si
 		 * the previous package set the "next package is a duplicate" flag.
 		 */
 		int duplicate_this;
-		if((i != count-1) && (strcasecmp(pkg->name, LIST_ITEM(i+1).name) == 0)) {
+		if((i != count-1) && (strcasecmp(LIST_ITEM(pd, i).name, LIST_ITEM(pd, i+1).name) == 0)) {
 			*duplicate_next = duplicate_this = 1;
 		} else {
 			duplicate_this = *duplicate_next;
@@ -294,30 +283,27 @@ static int should_print_evra(const size_t i, const struct Package *pkg, const si
 		if(duplicate_this) return 1;
 	}
 
-	return pkg->is_pubkey;
+	return LIST_ITEM(pd, i).is_pubkey;
 }
 
 int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item) {
+	const size_t count = LIST_COUNT(iter->pd);
+
 	struct Package *pkg;
 	do {
 		iter->index += 1;
-		if(iter->index >= iter->count) return 0;
+		if(iter->index >= count) return 0;
 
-		pkg = &LIST_ITEM(iter->index);
+		pkg = &LIST_ITEM(iter->pd, iter->index);
 	} while(pkg->licence->is_free != iter->free);
 
 	item->package = pkg;
 	item->duplicated = should_print_evra(
-		iter->index, pkg, iter->count, &iter->next_is_duplicate
+		iter->pd, iter->index, count, &iter->next_is_duplicate
 	);
 	return 1;
 }
 
 void pkgIter_free(struct PackageListIterator *iter) {
 	mem_free(iter);
-}
-
-void packages_getCount(int *free, int *nonfree) {
-	if(free != NULL) *free = class_count[1];
-	if(nonfree != NULL) *nonfree = class_count[0];
 }

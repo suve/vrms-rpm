@@ -26,16 +26,15 @@
 #include "src/pipes.h"
 #include "src/printers.h"
 
-static void easteregg(void) {
-	int free, nonfree;
-	packages_getCount(&free, &nonfree);
-	
+static void easteregg(struct PackageData *pd) {
+	const size_t nonfree = pd->count[0];
+	const size_t free = pd->count[1];
 	if(nonfree == 0) {
 		putc('\n', stdout);
 		rms_happy();
 		lang_print(MSG_RMS_HAPPY);
 	} else {
-		const int total_packages = free + nonfree;
+		const size_t total_packages = free + nonfree;
 		if(nonfree > (total_packages / 10)) {
 			putc('\n', stdout);
 			rms_disappointed();
@@ -91,7 +90,8 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 	
-	if(packages_read(rpmpipe, classifier) < 0) {
+	struct PackageData *pkgs = packages_read(rpmpipe, classifier);
+	if(pkgs == NULL) {
 		lang_fprint(stderr, MSG_ERR_PIPE_READ_FAILED);
 		exit(EXIT_FAILURE);
 	}
@@ -102,17 +102,17 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	struct PackageListIterator *nonfreeIter = pkgIter_new(0);
-	struct PackageListIterator *freeIter = pkgIter_new(1);
+	struct PackageListIterator *nonfreeIter = pkgIter_new(pkgs, 0);
+	struct PackageListIterator *freeIter = pkgIter_new(pkgs, 1);
 	printer->print(printer,	freeIter, nonfreeIter);
 	printer->free(printer);
 	pkgIter_free(nonfreeIter);
 	pkgIter_free(freeIter);
 
 	// TODO: Would make sense to move this into the text printer
-	if(opt_format == OPT_FORMAT_TEXT) easteregg();
+	if(opt_format == OPT_FORMAT_TEXT) easteregg(pkgs);
 	
-	packages_free();
+	packages_free(pkgs);
 	classifier->free(classifier);
 	licences_free(licenses);
 	return 0;
