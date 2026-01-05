@@ -218,13 +218,13 @@ struct PackageListIterator {
 	struct PackageData *pd;
 	int free;
 	int next_is_duplicate;
-	size_t index;
+	size_t next_index;
 };
 
 struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free) {
 	struct PackageListIterator *iter = mem_alloc(sizeof(struct PackageListIterator));
 	iter->free = !!free;
-	iter->index = 0;
+	iter->next_index = 0;
 	iter->next_is_duplicate = 0;
 
 	packages_sort(pd);
@@ -284,19 +284,27 @@ static int should_print_evra(const struct PackageData *pd, const size_t i, const
 
 int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item) {
 	const size_t count = LIST_COUNT(iter->pd);
+	if(iter->next_index >= count) return 0;
 
 	struct Package *pkg;
-	do {
-		iter->index += 1;
-		if(iter->index >= count) return 0;
+	size_t current_index = iter->next_index;
+	while(1) {
+		pkg = &LIST_ITEM(iter->pd, current_index);
+		if(pkg->licence->is_free == iter->free) break;
 
-		pkg = &LIST_ITEM(iter->pd, iter->index);
-	} while(pkg->licence->is_free != iter->free);
+		current_index += 1;
+		if(current_index >= count) {
+			iter->next_index = count;
+			return 0;
+		}
+	}
 
 	item->package = pkg;
 	item->duplicated = should_print_evra(
-		iter->pd, iter->index, count, &iter->next_is_duplicate
+		iter->pd, current_index, count, &iter->next_is_duplicate
 	);
+
+	iter->next_index = current_index + 1;
 	return 1;
 }
 
