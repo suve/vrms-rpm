@@ -84,49 +84,36 @@ static void listCallback(struct JsonArray *arr, void *userdata) {
 	}
 }
 
-static void countsCallback(struct JsonObject *obj, void *userdata) {
-	struct PackageListIterator **iters = userdata;
-	struct PackageListIterator *freeIter = iters[0];
-	struct PackageListIterator *nonfreeIter = iters[1];
+static void list(struct JsonObject *obj, const char *key, struct PackageData *pd, int free) {
+	struct PackageListIterator *iter = pkgIter_new(pd, free);
+	jsonObj_pushArr(obj, key, &listCallback, iter);
+	pkgIter_free(iter);
+}
 
-	jsonObj_pushInt(obj, "free", pkgIter_getCount(freeIter));
-	jsonObj_pushInt(obj, "non-free", pkgIter_getCount(nonfreeIter));
+static void countsCallback(struct JsonObject *obj, void *userdata) {
+	struct PackageData *pd = userdata;
+
+	jsonObj_pushInt(obj, "free", pd->count[1]);
+	jsonObj_pushInt(obj, "non-free", pd->count[0]);
 }
 
 static void topLevelCallback(struct JsonObject *obj, void *userdata) {
-	struct PackageListIterator **iters = userdata;
-	struct PackageListIterator *freeIter = iters[0];
-	struct PackageListIterator *nonfreeIter = iters[1];
+	struct PackageData *pd = userdata;
 
 	// This represents the JSON schema version, not the program version!
 	jsonObj_pushInt(obj, "version", 0);
 
 	jsonObj_pushObj(obj, "count", &countsCallback, userdata);
-	if(opt_list & OPT_LIST_FREE) {
-		jsonObj_pushArr(obj, "free", &listCallback, freeIter);
-	}
-	if(opt_list & OPT_LIST_NONFREE) {
-		jsonObj_pushArr(obj, "non-free", &listCallback, nonfreeIter);
-	}
+	if(opt_list & OPT_LIST_FREE) list(obj, "free", pd, 1);
+	if(opt_list & OPT_LIST_NONFREE) list(obj, "non-free", pd, 0);
 }
 
 void jsonPrinter_print(
 	struct Printer *self,
-	struct PackageListIterator *freeIter,
-	struct PackageListIterator *nonfreeIter
+	struct PackageData *pd
 ) {
 	struct JsonPrinter *printer = (void*)self;
-
-	/*
-	 * It's 23:45 when I write this and I don't feel like investigating whether
-	 * the C standard guarantees that items are placed on the stack
-	 * in a particular order. Arrays have a known order, so I'll go with that.
-	 */
-	struct PackageListIterator *iterPair[] = {
-		freeIter, nonfreeIter
-	};
-
-	json_new(stdout, printer->pretty, &topLevelCallback, iterPair);
+	json_new(stdout, printer->pretty, &topLevelCallback, pd);
 }
 
 void jsonPrinter_free(struct Printer *self) {

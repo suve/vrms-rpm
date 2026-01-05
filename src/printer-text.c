@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018-2025 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018-2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -67,7 +67,9 @@ static void printLicenceNode(const struct LicenceTreeNode *node) {
 	}
 }
 
-static void printList(struct PackageListIterator *iter) {
+static void printList(struct PackageData *pd, int free) {
+	struct PackageListIterator *iter = pkgIter_new(pd, free);
+
 	struct PackageListItem item;
 	while(pkgIter_next(iter, &item)) {
 		printf(" - %s", item.package->name);
@@ -80,17 +82,18 @@ static void printList(struct PackageListIterator *iter) {
 		}
 		putc('\n', stdout);
 	}
+
+	pkgIter_free(iter);
 }
 
 void textPrinter_print(
 	struct Printer *self,
-	struct PackageListIterator *freeIter,
-	struct PackageListIterator *nonfreeIter
+	struct PackageData *pd
 ) {
 	((void)self); // unused
 
-	const size_t count_nonfree = pkgIter_getCount(nonfreeIter);
-	const size_t count_free = pkgIter_getCount(freeIter);
+	const size_t count_nonfree = pd->count[0];
+	const size_t count_free = pd->count[1];
 
 	int promille_nonfree = (1000L * count_nonfree) / (count_nonfree + count_free);
 	int promille_free = 1000 - promille_nonfree;
@@ -100,10 +103,10 @@ void textPrinter_print(
 	snprintf(percent_free, sizeof(percent_nonfree), "%d.%d%%", promille_free / 10, promille_free % 10);
 
 	lang_print_n(MSG_FREE_PACKAGES_COUNT, count_free, count_free, percent_free);
-	if(opt_list & OPT_LIST_FREE) printList(freeIter);
+	if(opt_list & OPT_LIST_FREE) printList(pd, 1);
 	
 	lang_print_n(MSG_NONFREE_PACKAGES_COUNT, count_nonfree, count_nonfree, percent_nonfree);
-	if(opt_list & OPT_LIST_NONFREE) printList(nonfreeIter);
+	if(opt_list & OPT_LIST_NONFREE) printList(pd, 0);
 }
 
 void textPrinter_free(struct Printer *self) {

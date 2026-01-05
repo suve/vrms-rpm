@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2023, 2025-2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -49,7 +49,6 @@ extern struct PackageData* packages_read(struct Pipe *pipe, struct LicenceClassi
 extern void packages_free(struct PackageData *pd);
 
 extern struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free);
-extern size_t pkgIter_getCount(struct PackageListIterator *iter);
 extern int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item);
 extern void pkgIter_free(struct PackageListIterator *iter);
 

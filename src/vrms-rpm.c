@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2023, 2025-2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -102,12 +102,8 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	struct PackageListIterator *nonfreeIter = pkgIter_new(pkgs, 0);
-	struct PackageListIterator *freeIter = pkgIter_new(pkgs, 1);
-	printer->print(printer,	freeIter, nonfreeIter);
+	printer->print(printer,	pkgs);
 	printer->free(printer);
-	pkgIter_free(nonfreeIter);
-	pkgIter_free(freeIter);
 
 	// TODO: Would make sense to move this into the text printer
 	if(opt_format == OPT_FORMAT_TEXT) easteregg(pkgs);
