@@ -26,6 +26,7 @@
 struct JsonPrinter {
 	struct Printer interface;
 
+	FILE *file;
 	int pretty;
 };
 
@@ -113,17 +114,19 @@ void jsonPrinter_print(
 	struct PackageData *pd
 ) {
 	struct JsonPrinter *printer = (void*)self;
-	json_new(stdout, printer->pretty, &topLevelCallback, pd);
+	json_new(printer->file, printer->pretty, &topLevelCallback, pd);
 }
 
 void jsonPrinter_free(struct Printer *self) {
 	mem_free((struct JsonPrinter*)self);
 }
 
-struct Printer* printer_newJSON(const int pretty) {
+struct Printer* printer_newJSON(FILE *f, const int pretty) {
 	struct JsonPrinter *printer = mem_alloc(sizeof(struct JsonPrinter));
+	printer->file = f;
+	printer->pretty = pretty;
+
 	printer->interface.print = &jsonPrinter_print;
 	printer->interface.free = &jsonPrinter_free;
-	printer->pretty = pretty;
 	return &(printer->interface);
 }

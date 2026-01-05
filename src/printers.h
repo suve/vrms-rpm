@@ -17,6 +17,8 @@
 #ifndef VRMS_RPM_PRINTERS_H
 #define VRMS_RPM_PRINTERS_H
 
+#include <stdio.h>
+
 #include "src/packages.h"
 
 struct Printer {
@@ -28,7 +30,7 @@ struct Printer {
 	void (*free)(struct Printer *self);
 };
 
-extern struct Printer* printer_newText(void);
-extern struct Printer* printer_newJSON(const int pretty);
+extern struct Printer* printer_newText(FILE *f);
+extern struct Printer* printer_newJSON(FILE *f, const int pretty);
 
 #endif

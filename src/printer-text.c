@@ -24,8 +24,15 @@
 #include "src/printers.h"
 #include "src/stringutils.h"
 
-static void printEvra(const struct Package *pkg) {
-	printf(
+struct TextPrinter {
+	struct Printer interface;
+
+	FILE *file;
+};
+
+static void printEvra(FILE *file, const struct Package *pkg) {
+	fprintf(
+		file,
 		"-%s%s%s-%s%s%s",
 		(pkg->epoch != NULL) ? pkg->epoch : "",
 		(pkg->epoch != NULL) ? ":" : "",
@@ -36,12 +43,12 @@ static void printEvra(const struct Package *pkg) {
 	);
 }
 
-static void printLicenceNode(const struct LicenceTreeNode *node) {
+static void printLicenceNode(FILE *file, const struct LicenceTreeNode *node) {
 	if(node->type == LTNT_LICENCE) {
 		if(opt_colour)
-			printf("%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
+			fprintf(file, "%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
 		else
-			printf("%s", node->licence);
+			fprintf(file, "%s", node->licence);
 
 		return;
 	}
@@ -55,32 +62,32 @@ static void printLicenceNode(const struct LicenceTreeNode *node) {
 
 	for(unsigned int m = 0; m < node->members;) {
 		if(node->child[m]->type != LTNT_LICENCE) {
-			putc('(', stdout);
-			printLicenceNode(node->child[m]);
-			putc(')', stdout);
+			putc('(', file);
+			printLicenceNode(file, node->child[m]);
+			putc(')', file);
 		} else {
-			printLicenceNode(node->child[m]);
+			printLicenceNode(file, node->child[m]);
 		}
 
 		++m;
-		if(m < node->members) printf("%s", joiner);
+		if(m < node->members) fprintf(file, "%s", joiner);
 	}
 }
 
-static void printList(struct PackageData *pd, int free) {
+static void printList(FILE *file, struct PackageData *pd, int free) {
 	struct PackageListIterator *iter = pkgIter_new(pd, free);
 
 	struct PackageListItem item;
 	while(pkgIter_next(iter, &item)) {
-		printf(" - %s", item.package->name);
-		if(item.duplicated) printEvra(item.package);
-		if(opt_describe) printf(": %s", item.package->summary);
+		fprintf(file, " - %s", item.package->name);
+		if(item.duplicated) printEvra(file, item.package);
+		if(opt_describe) fprintf(file, ": %s", item.package->summary);
 
 		if(opt_explain) {
-			printf("\n   ");
-			printLicenceNode(item.package->licence);
+			fprintf(file, "\n   ");
+			printLicenceNode(file, item.package->licence);
 		}
-		putc('\n', stdout);
+		putc('\n', file);
 	}
 
 	pkgIter_free(iter);
@@ -90,7 +97,7 @@ void textPrinter_print(
 	struct Printer *self,
 	struct PackageData *pd
 ) {
-	((void)self); // unused
+	FILE *file = ((struct TextPrinter*)self)->file;
 
 	const size_t count_nonfree = pd->count[0];
 	const size_t count_free = pd->count[1];
@@ -102,20 +109,22 @@ void textPrinter_print(
 	snprintf(percent_nonfree, sizeof(percent_nonfree), "%d.%d%%", promille_nonfree / 10, promille_nonfree % 10);
 	snprintf(percent_free, sizeof(percent_nonfree), "%d.%d%%", promille_free / 10, promille_free % 10);
 
-	lang_print_n(MSG_FREE_PACKAGES_COUNT, count_free, count_free, percent_free);
-	if(opt_list & OPT_LIST_FREE) printList(pd, 1);
+	lang_fprint_n(file, MSG_FREE_PACKAGES_COUNT, count_free, count_free, percent_free);
+	if(opt_list & OPT_LIST_FREE) printList(file, pd, 1);
 	
-	lang_print_n(MSG_NONFREE_PACKAGES_COUNT, count_nonfree, count_nonfree, percent_nonfree);
-	if(opt_list & OPT_LIST_NONFREE) printList(pd, 0);
+	lang_fprint_n(file, MSG_NONFREE_PACKAGES_COUNT, count_nonfree, count_nonfree, percent_nonfree);
+	if(opt_list & OPT_LIST_NONFREE) printList(file, pd, 0);
 }
 
 void textPrinter_free(struct Printer *self) {
 	mem_free(self);
 }
 
-struct Printer* printer_newText(void) {
-	struct Printer *printer = mem_alloc(sizeof(struct Printer));
-	printer->print = &textPrinter_print;
-	printer->free = &textPrinter_free;
-	return printer;
+struct Printer* printer_newText(FILE *f) {
+	struct TextPrinter *printer = mem_alloc(sizeof(struct TextPrinter));
+	printer->file = f;
+
+	printer->interface.print = &textPrinter_print;
+	printer->interface.free = &textPrinter_free;
+	return &(printer->interface);
 }
