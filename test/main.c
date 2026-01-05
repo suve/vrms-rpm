@@ -44,6 +44,11 @@ extern void test__jsonArrays(void **state);
 extern int test_setup__json(void **state);
 extern int test_teardown__json(void **state);
 
+extern void test__textPrinter(void **state);
+extern void test__jsonPrinter(void **state);
+extern int test_setup__printers(void **state);
+extern int test_teardown__printers(void **state);
+
 int main(void) {
 	int failures = 0;
 	const struct CMUnitTest tests[] = {
@@ -90,6 +95,12 @@ int main(void) {
 		cmocka_unit_test(test__jsonArrays),
 	};
 	failures += cmocka_run_group_tests(json_tests, test_setup__json, test_teardown__json);
+
+	const struct CMUnitTest printer_tests[] = {
+		cmocka_unit_test(test__textPrinter),
+		cmocka_unit_test(test__jsonPrinter),
+	};
+	failures += cmocka_run_group_tests(printer_tests, test_setup__printers, test_teardown__printers);
 
 	return !!failures;
 }

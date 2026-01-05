@@ -31,8 +31,8 @@ struct PackageData {
 };
 
 struct Package {
-	char *name, *summary;
-	char *epoch, *release, *version, *arch;
+	const char *name, *summary;
+	const char *epoch, *release, *version, *arch;
 	struct LicenceTreeNode *licence;
 	int is_pubkey;
 };
