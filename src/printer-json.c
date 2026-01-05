@@ -115,6 +115,7 @@ void jsonPrinter_print(
 ) {
 	struct JsonPrinter *printer = (void*)self;
 	json_new(printer->file, printer->pretty, &topLevelCallback, pd);
+	if(printer->pretty) putc('\n', printer->file);
 }
 
 void jsonPrinter_free(struct Printer *self) {
