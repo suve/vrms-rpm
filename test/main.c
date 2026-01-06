@@ -15,6 +15,7 @@
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
 #include "test/licences.h"
+#include "test/packages.h"
 #include "test/test.h"
 
 extern void test__chainbuffer(void **state);
@@ -95,6 +96,11 @@ int main(void) {
 		cmocka_unit_test(test__jsonArrays),
 	};
 	failures += cmocka_run_group_tests(json_tests, test_setup__json, test_teardown__json);
+
+	const struct CMUnitTest package_tests[] = {
+		cmocka_unit_test(test__packageIter),
+	};
+	failures += cmocka_run_group_tests(package_tests, test_setup__packages, test_teardown__packages);
 
 	const struct CMUnitTest printer_tests[] = {
 		cmocka_unit_test(test__textPrinter),

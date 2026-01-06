@@ -17,11 +17,10 @@
 #include <stdlib.h>
 
 #include "src/buffers.h"
-#include "src/lang.h"
 #include "src/options.h"
 #include "src/packages.h"
 #include "src/printers.h"
-#include "src/licences.h"
+#include "test/packages.h"
 #include "test/test.h"
 
 #define BUFSIZE (8 * 1024)
@@ -31,42 +30,16 @@ struct TestState {
 	char *buffer;
 };
 
-static void add_package(
-	struct PackageData *pd,
-	const char *name,
-	const char *summary,
-	int is_free,
-	const char *licence
-) {
-	struct LicenceTreeNode *ltn = malloc(sizeof(struct LicenceTreeNode));
-	ltn->type = LTNT_LICENCE;
-	ltn->is_free = is_free;
-	ltn->licence = licence;
-
-	struct Package pkg = (struct Package){
-		.name = name,
-		.summary = summary,
-		.epoch = NULL,
-		.version = "1.0.0",
-		.release = "1",
-		.arch = "noarch",
-		.licence = ltn,
-		.is_pubkey = 0
-	};
-	rebuf_append(pd->list, &pkg, sizeof(struct Package));
-	pd->count[is_free] += 1;
-}
-
 static struct PackageData* setup_package_data(void) {
 	struct PackageData *pd = malloc(sizeof(struct PackageData));	
 	pd->list = rebuf_init(256);
 	pd->count[0] = pd->count[1] = 0;
 
 	// NOTE: This list should be sorted by name.
-	add_package(pd, "evil", "Package full of nasty stuff", 0, "All rights reserved");
-	add_package(pd, "first", "Come and served", 1, "GPL-2.0-or-later");
-	add_package(pd, "second", "Too bad, so sad", 1, "MPL-2.0");
-	add_package(pd, "third", "Still on the podium", 1, "BSD-3-Clause");
+	add_package(pd, "evil", "6.6.6", "Package full of nasty stuff", 0, "All rights reserved");
+	add_package(pd, "first", "1.0.0", "Come and served", 1, "GPL-2.0-or-later");
+	add_package(pd, "second", "2.4.8", "Too bad, so sad", 1, "MPL-2.0");
+	add_package(pd, "third", "3.0.3", "Still on the podium", 1, "BSD-3-Clause");
 
 	pd->buffer = NULL;
 	pd->sorted = 1;
@@ -126,12 +99,12 @@ void test__textPrinter(void **state) {
 		"FREE_PACKAGES_COUNT\n"
 		" - first-1.0.0-1.noarch: Come and served\n"
 		"   GPL-2.0-or-later\n"
-		" - second-1.0.0-1.noarch: Too bad, so sad\n"
+		" - second-2.4.8-1.noarch: Too bad, so sad\n"
 		"   MPL-2.0\n"
-		" - third-1.0.0-1.noarch: Still on the podium\n"
+		" - third-3.0.3-1.noarch: Still on the podium\n"
 		"   BSD-3-Clause\n"
 		"NONFREE_PACKAGES_COUNT\n"
-		" - evil-1.0.0-1.noarch: Package full of nasty stuff\n"
+		" - evil-6.6.6-1.noarch: Package full of nasty stuff\n"
 		"   All rights reserved\n"
 	);
 }
@@ -160,7 +133,7 @@ void test__jsonPrinter(void **state) {
 		"\t\t},\n"
 		"\t\t{\n"
 		"\t\t\t\"name\": \"second\",\n"
-		"\t\t\t\"version\": \"1.0.0\",\n"
+		"\t\t\t\"version\": \"2.4.8\",\n"
 		"\t\t\t\"release\": \"1\",\n"
 		"\t\t\t\"architecture\": \"noarch\",\n"
 		"\t\t\t\"summary\": \"Too bad, so sad\",\n"
@@ -172,7 +145,7 @@ void test__jsonPrinter(void **state) {
 		"\t\t},\n"
 		"\t\t{\n"
 		"\t\t\t\"name\": \"third\",\n"
-		"\t\t\t\"version\": \"1.0.0\",\n"
+		"\t\t\t\"version\": \"3.0.3\",\n"
 		"\t\t\t\"release\": \"1\",\n"
 		"\t\t\t\"architecture\": \"noarch\",\n"
 		"\t\t\t\"summary\": \"Still on the podium\",\n"
@@ -186,7 +159,7 @@ void test__jsonPrinter(void **state) {
 		"\t\"non-free\": [\n"
 		"\t\t{\n"
 		"\t\t\t\"name\": \"evil\",\n"
-		"\t\t\t\"version\": \"1.0.0\",\n"
+		"\t\t\t\"version\": \"6.6.6\",\n"
 		"\t\t\t\"release\": \"1\",\n"
 		"\t\t\t\"architecture\": \"noarch\",\n"
 		"\t\t\t\"summary\": \"Package full of nasty stuff\",\n"
