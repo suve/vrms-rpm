@@ -214,10 +214,19 @@ static void packages_sort(struct PackageData *pd) {
 	pd->sorted = 1;
 }
 
+enum DuplicateCheckStatus {
+	// Can be duplicate of [i-1] or [i+1]
+	DCS_UNKNOWN,
+	// Not a duplicate of [i-1], but can be of [i+1]
+	DCS_POSSIBLY,
+	// Is a duplicate of [i-1]
+	DCS_DEFINITELY
+};
+
 struct PackageListIterator {
 	struct PackageData *pd;
 	int free;
-	int next_is_duplicate;
+	enum DuplicateCheckStatus next_dup;
 	size_t next_index;
 };
 
@@ -225,7 +234,7 @@ struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free) {
 	struct PackageListIterator *iter = mem_alloc(sizeof(struct PackageListIterator));
 	iter->free = !!free;
 	iter->next_index = 0;
-	iter->next_is_duplicate = 0;
+	iter->next_dup = DCS_POSSIBLY;
 
 	packages_sort(pd);
 	iter->pd = pd;
@@ -254,32 +263,56 @@ struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free) {
  * Since printing just "gpg-pubkey" is rather unhelpful, we want to ALWAYS
  * print EVRA information for these packages, even if the user specified "--evra never".
  */
-static int should_print_evra(const struct PackageData *pd, const size_t i, const size_t count, int *duplicate_next) {
+static int should_print_evra(
+	const struct PackageData *pd,
+	const size_t i,
+	const size_t count,
+	enum DuplicateCheckStatus *next_dup
+) {
 	if(opt_evra == OPT_EVRA_ALWAYS) {
 		return 1;
 	}
 
-	if(opt_evra == OPT_EVRA_AUTO) {
-		/*
-		 * Compare with next package to determine whether this is a duplicate.
-		 * Since we sorted the packages by name earlier, duplicates are guaranteed
-		 * to be located next to each other in the list.
-		 *
-		 * If this is not a duplicate of the next package, check whether
-		 * the previous package set the "next package is a duplicate" flag.
-		 */
-		int duplicate_this;
-		if((i != count-1) && (strcasecmp(LIST_ITEM(pd, i).name, LIST_ITEM(pd, i+1).name) == 0)) {
-			*duplicate_next = duplicate_this = 1;
-		} else {
-			duplicate_this = *duplicate_next;
-			*duplicate_next = 0;
-		}
-
-		if(duplicate_this) return 1;
+	if(LIST_ITEM(pd, i).is_pubkey) {
+		*next_dup = DCS_UNKNOWN;
+		return 1;
 	}
 
-	return LIST_ITEM(pd, i).is_pubkey;
+	if(opt_evra == OPT_EVRA_NEVER) {
+		return 0;
+	}
+
+	/*
+	 * If control reaches this point, then:
+	 * - opt_evra must be OPT_EVRA_AUTO
+	 * - package is not pubkey
+	 * Perform the duplicate check logic.
+	 */
+
+	// Bail out early if "next package is duplicate" flag is set.
+	if(*next_dup == DCS_DEFINITELY) {
+		*next_dup = DCS_UNKNOWN;
+		return 1;
+	}
+
+	/*
+	 * Compare with next package to determine whether this is a duplicate.
+	 * Since we sorted the packages by name earlier, duplicates are guaranteed
+	 * to be located next to each other in the list.
+	 */
+	if((i != count-1) && (strcasecmp(LIST_ITEM(pd, i).name, LIST_ITEM(pd, i+1).name) == 0)) {
+		*next_dup = DCS_DEFINITELY;
+		return 1;
+	}
+
+	// If the previous package did not perform the comparison, do it now.
+	int duplicated = 0;
+	if(*next_dup == DCS_UNKNOWN) {
+		duplicated = ((i > 0) && (strcasecmp(LIST_ITEM(pd, i).name, LIST_ITEM(pd, i-1).name) == 0));
+	}
+
+	*next_dup = DCS_POSSIBLY;
+	return duplicated;
 }
 
 int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item) {
@@ -297,11 +330,13 @@ int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item)
 			iter->next_index = count;
 			return 0;
 		}
+
+		iter->next_dup = DCS_UNKNOWN;
 	}
 
 	item->package = pkg;
 	item->duplicated = should_print_evra(
-		iter->pd, current_index, count, &iter->next_is_duplicate
+		iter->pd, current_index, count, &iter->next_dup
 	);
 
 	iter->next_index = current_index + 1;

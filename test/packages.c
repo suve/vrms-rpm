@@ -18,6 +18,7 @@
 
 #include "src/buffers.h"
 #include "src/licences.h"
+#include "src/options.h"
 #include "test/packages.h"
 #include "test/test.h"
 
@@ -53,6 +54,9 @@ void add_package(
 void test__packageIter(void **state) {
 	struct PackageData *pd = *state;	
 	struct PackageListItem item;
+
+	// TODO: Global vars stink donkey ass
+	opt_evra = OPT_EVRA_AUTO;
 
 	// Non-Free iter
 	{
