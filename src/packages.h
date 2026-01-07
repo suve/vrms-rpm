@@ -39,6 +39,11 @@ struct Package {
 
 struct PackageListIterator;
 
+struct PackageListIteratorSettings {
+	int evra;
+	int free;
+};
+
 struct PackageListItem {
 	const struct Package *package;
 	int duplicated;
@@ -48,7 +53,10 @@ extern struct Pipe* packages_openPipe(void);
 extern struct PackageData* packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier);
 extern void packages_free(struct PackageData *pd);
 
-extern struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free);
+extern struct PackageListIterator *pkgIter_new(
+	struct PackageData *pd,
+	struct PackageListIteratorSettings settings
+);
 extern int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item);
 extern void pkgIter_free(struct PackageListIterator *iter);
 

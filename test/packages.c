@@ -51,16 +51,22 @@ void add_package(
 	pd->count[is_free] += 1;
 }
 
+#define ITER(Free) \
+	pkgIter_new( \
+		pd, \
+		(struct PackageListIteratorSettings){ \
+			.evra = OPT_EVRA_AUTO, \
+			.free = (Free), \
+		} \
+	)
+
 void test__packageIter(void **state) {
 	struct PackageData *pd = *state;	
 	struct PackageListItem item;
 
-	// TODO: Global vars stink donkey ass
-	opt_evra = OPT_EVRA_AUTO;
-
 	// Non-Free iter
 	{
-		struct PackageListIterator *iter = pkgIter_new(pd, 0);
+		struct PackageListIterator *iter = ITER(0);
 
 		assert_true(pkgIter_next(iter, &item));
 		assert_string_equal(item.package->name, "relicensed");
@@ -82,7 +88,7 @@ void test__packageIter(void **state) {
 	}
 	// Free iter
 	{
-		struct PackageListIterator *iter = pkgIter_new(pd, 1);
+		struct PackageListIterator *iter = ITER(1);
 
 		assert_true(pkgIter_next(iter, &item));
 		assert_string_equal(item.package->name, "relicensed");

@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2025 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2025-2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -27,6 +27,10 @@ struct JsonPrinter {
 	struct Printer interface;
 
 	FILE *file;
+	int describe;
+	int evra;
+	int explain;
+	int list;
 	int pretty;
 };
 
@@ -59,36 +63,51 @@ static void licenceNodeCallback(struct JsonObject *obj, void *node) {
 	}
 }
 
+// This one struct holds the data for (almost) all callbacks.
+// Since the printer runs single-threaded, there are no race conditions.
+//
+// Using a separate struct for each callback would be cleaner from an
+// architecture perspective, but would also result in more boilerplate code
+// and copying data around, so eh, let's just do it like this.
+struct CallbackData {
+	struct JsonPrinter *printer;
+	struct PackageData *pkgs;
+	struct PackageListIterator *iter;
+	struct PackageListItem item;
+};
+
 static void packageCallback(struct JsonObject *obj, void *userdata) {
-	const struct PackageListItem *item = userdata;
-	const struct Package *pkg = item->package;
+	const struct CallbackData *cbdata = userdata;
+	const struct Package *pkg = cbdata->item.package;
 
 	jsonObj_pushStr(obj, "name", pkg->name);
 
-	if(item->duplicated) {
+	if(cbdata->item.duplicated) {
 		if(pkg->epoch != NULL) jsonObj_pushStr(obj, "epoch", pkg->epoch);
 		jsonObj_pushStr(obj, "version", pkg->version);
 		jsonObj_pushStr(obj, "release", pkg->release);
 		if(pkg->arch != NULL) jsonObj_pushStr(obj, "architecture", pkg->arch);
 	}
 
-	if(opt_describe) jsonObj_pushStr(obj, "summary", pkg->summary);
-	if(opt_explain) jsonObj_pushObj(obj, "licence", &licenceNodeCallback, pkg->licence);
+	if(cbdata->printer->describe) jsonObj_pushStr(obj, "summary", pkg->summary);
+	if(cbdata->printer->explain) jsonObj_pushObj(obj, "licence", &licenceNodeCallback, pkg->licence);
 }
 
 static void listCallback(struct JsonArray *arr, void *userdata) {
-	struct PackageListIterator *iter = userdata;
-
-	struct PackageListItem item;
-	while(pkgIter_next(iter, &item)) {
-		jsonArr_pushObj(arr, &packageCallback, &item);
+	struct CallbackData *cbdata = userdata;
+	while(pkgIter_next(cbdata->iter, &cbdata->item)) {
+		jsonArr_pushObj(arr, &packageCallback, cbdata);
 	}
 }
 
-static void list(struct JsonObject *obj, const char *key, struct PackageData *pd, int free) {
-	struct PackageListIterator *iter = pkgIter_new(pd, free);
-	jsonObj_pushArr(obj, key, &listCallback, iter);
-	pkgIter_free(iter);
+static void list(struct JsonObject *obj, const char *key, struct CallbackData *cbdata, int free) {
+	struct PackageListIteratorSettings settings = (struct PackageListIteratorSettings){
+		.evra = cbdata->printer->evra,
+		.free = free
+	};
+	cbdata->iter = pkgIter_new(cbdata->pkgs, settings);
+	jsonObj_pushArr(obj, key, &listCallback, cbdata);
+	pkgIter_free(cbdata->iter);
 }
 
 static void countsCallback(struct JsonObject *obj, void *userdata) {
@@ -99,35 +118,47 @@ static void countsCallback(struct JsonObject *obj, void *userdata) {
 }
 
 static void topLevelCallback(struct JsonObject *obj, void *userdata) {
-	struct PackageData *pd = userdata;
+	struct CallbackData *cbdata = userdata;
 
 	// This represents the JSON schema version, not the program version!
 	jsonObj_pushInt(obj, "version", 0);
 
-	jsonObj_pushObj(obj, "count", &countsCallback, userdata);
-	if(opt_list & OPT_LIST_FREE) list(obj, "free", pd, 1);
-	if(opt_list & OPT_LIST_NONFREE) list(obj, "non-free", pd, 0);
+	jsonObj_pushObj(obj, "count", &countsCallback, cbdata->pkgs);
+	if(cbdata->printer->list & OPT_LIST_FREE) list(obj, "free", cbdata, 1);
+	if(cbdata->printer->list & OPT_LIST_NONFREE) list(obj, "non-free", cbdata, 0);
 }
 
-void jsonPrinter_print(
+static void jsonPrinter_print(
 	struct Printer *self,
 	struct PackageData *pd
 ) {
 	struct JsonPrinter *printer = (void*)self;
-	json_new(printer->file, printer->pretty, &topLevelCallback, pd);
+
+	struct CallbackData cbdata;
+	cbdata.printer = printer;
+	cbdata.pkgs = pd;
+
+	json_new(printer->file, printer->pretty, &topLevelCallback, &cbdata);
 	if(printer->pretty) putc('\n', printer->file);
 }
 
-void jsonPrinter_free(struct Printer *self) {
+static void jsonPrinter_free(struct Printer *self) {
 	mem_free((struct JsonPrinter*)self);
 }
 
-struct Printer* printer_newJSON(FILE *f, const int pretty) {
+struct Printer* printer_newJSON(struct PrinterSettings settings) {
 	struct JsonPrinter *printer = mem_alloc(sizeof(struct JsonPrinter));
-	printer->file = f;
-	printer->pretty = pretty;
-
-	printer->interface.print = &jsonPrinter_print;
-	printer->interface.free = &jsonPrinter_free;
+	*printer = (struct JsonPrinter){
+		.interface = (struct Printer){
+			.print = &jsonPrinter_print,
+			.free = &jsonPrinter_free,	
+		},
+		.describe = settings.describe,
+		.evra = settings.evra,
+		.explain = settings.explain,
+		.file = settings.file,
+		.list = settings.list,
+		.pretty = settings.pretty,
+	};
 	return &(printer->interface);
 }

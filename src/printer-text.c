@@ -28,6 +28,11 @@ struct TextPrinter {
 	struct Printer interface;
 
 	FILE *file;
+	int colour;
+	int describe;
+	int evra;
+	int explain;
+	int list;
 };
 
 static void printEvra(FILE *file, const struct Package *pkg) {
@@ -43,12 +48,12 @@ static void printEvra(FILE *file, const struct Package *pkg) {
 	);
 }
 
-static void printLicenceNode(FILE *file, const struct LicenceTreeNode *node) {
+static void printLicenceNode(struct TextPrinter *self, const struct LicenceTreeNode *node) {
 	if(node->type == LTNT_LICENCE) {
-		if(opt_colour)
-			fprintf(file, "%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
+		if(self->colour)
+			fprintf(self->file, "%s%s" ANSI_RESET, node->is_free ? ANSI_GREEN : ANSI_RED, node->licence);
 		else
-			fprintf(file, "%s", node->licence);
+			fprintf(self->file, "%s", node->licence);
 
 		return;
 	}
@@ -62,42 +67,46 @@ static void printLicenceNode(FILE *file, const struct LicenceTreeNode *node) {
 
 	for(unsigned int m = 0; m < node->members;) {
 		if(node->child[m]->type != LTNT_LICENCE) {
-			putc('(', file);
-			printLicenceNode(file, node->child[m]);
-			putc(')', file);
+			putc('(', self->file);
+			printLicenceNode(self, node->child[m]);
+			putc(')', self->file);
 		} else {
-			printLicenceNode(file, node->child[m]);
+			printLicenceNode(self, node->child[m]);
 		}
 
 		++m;
-		if(m < node->members) fprintf(file, "%s", joiner);
+		if(m < node->members) fprintf(self->file, "%s", joiner);
 	}
 }
 
-static void printList(FILE *file, struct PackageData *pd, int free) {
-	struct PackageListIterator *iter = pkgIter_new(pd, free);
+static void printList(struct TextPrinter *self, struct PackageData *pd, int free) {
+	struct PackageListIteratorSettings settings = (struct PackageListIteratorSettings){
+		.evra = self->evra,
+		.free = free
+	};
+	struct PackageListIterator *iter = pkgIter_new(pd, settings);
 
 	struct PackageListItem item;
 	while(pkgIter_next(iter, &item)) {
-		fprintf(file, " - %s", item.package->name);
-		if(item.duplicated) printEvra(file, item.package);
-		if(opt_describe) fprintf(file, ": %s", item.package->summary);
+		fprintf(self->file, " - %s", item.package->name);
+		if(item.duplicated) printEvra(self->file, item.package);
+		if(self->describe) fprintf(self->file, ": %s", item.package->summary);
 
-		if(opt_explain) {
-			fprintf(file, "\n   ");
-			printLicenceNode(file, item.package->licence);
+		if(self->explain) {
+			fprintf(self->file, "\n   ");
+			printLicenceNode(self, item.package->licence);
 		}
-		putc('\n', file);
+		putc('\n', self->file);
 	}
 
 	pkgIter_free(iter);
 }
 
-void textPrinter_print(
+static void textPrinter_print(
 	struct Printer *self,
 	struct PackageData *pd
 ) {
-	FILE *file = ((struct TextPrinter*)self)->file;
+	struct TextPrinter *printer = (void*)self;
 
 	const size_t count_nonfree = pd->count[0];
 	const size_t count_free = pd->count[1];
@@ -109,22 +118,30 @@ void textPrinter_print(
 	snprintf(percent_nonfree, sizeof(percent_nonfree), "%d.%d%%", promille_nonfree / 10, promille_nonfree % 10);
 	snprintf(percent_free, sizeof(percent_nonfree), "%d.%d%%", promille_free / 10, promille_free % 10);
 
-	lang_fprint_n(file, MSG_FREE_PACKAGES_COUNT, count_free, count_free, percent_free);
-	if(opt_list & OPT_LIST_FREE) printList(file, pd, 1);
+	lang_fprint_n(printer->file, MSG_FREE_PACKAGES_COUNT, count_free, count_free, percent_free);
+	if(printer->list & OPT_LIST_FREE) printList(printer, pd, 1);
 	
-	lang_fprint_n(file, MSG_NONFREE_PACKAGES_COUNT, count_nonfree, count_nonfree, percent_nonfree);
-	if(opt_list & OPT_LIST_NONFREE) printList(file, pd, 0);
+	lang_fprint_n(printer->file, MSG_NONFREE_PACKAGES_COUNT, count_nonfree, count_nonfree, percent_nonfree);
+	if(printer->list & OPT_LIST_NONFREE) printList(printer, pd, 0);
 }
 
-void textPrinter_free(struct Printer *self) {
+static void textPrinter_free(struct Printer *self) {
 	mem_free(self);
 }
 
-struct Printer* printer_newText(FILE *f) {
+struct Printer* printer_newText(struct PrinterSettings settings) {
 	struct TextPrinter *printer = mem_alloc(sizeof(struct TextPrinter));
-	printer->file = f;
-
-	printer->interface.print = &textPrinter_print;
-	printer->interface.free = &textPrinter_free;
+	*printer = (struct TextPrinter){
+		.interface = (struct Printer){
+			.print = &textPrinter_print,
+			.free = &textPrinter_free,	
+		},
+		.colour = settings.colour,
+		.describe = settings.describe,
+		.evra = settings.evra,
+		.explain = settings.explain,
+		.file = settings.file,
+		.list = settings.list,
+	};
 	return &(printer->interface);
 }

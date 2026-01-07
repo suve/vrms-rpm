@@ -225,14 +225,19 @@ enum DuplicateCheckStatus {
 
 struct PackageListIterator {
 	struct PackageData *pd;
-	int free;
+	struct PackageListIteratorSettings settings;
 	enum DuplicateCheckStatus next_dup;
 	size_t next_index;
 };
 
-struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free) {
+struct PackageListIterator *pkgIter_new(
+	struct PackageData *pd,
+	struct PackageListIteratorSettings settings
+) {
 	struct PackageListIterator *iter = mem_alloc(sizeof(struct PackageListIterator));
-	iter->free = !!free;
+	iter->settings = settings;
+	iter->settings.free = !!iter->settings.free;
+
 	iter->next_index = 0;
 	iter->next_dup = DCS_POSSIBLY;
 
@@ -264,34 +269,34 @@ struct PackageListIterator *pkgIter_new(struct PackageData *pd, int free) {
  * print EVRA information for these packages, even if the user specified "--evra never".
  */
 static int should_print_evra(
-	const struct PackageData *pd,
+	struct PackageListIterator *iter,
 	const size_t i,
-	const size_t count,
-	enum DuplicateCheckStatus *next_dup
+	const size_t count
 ) {
-	if(opt_evra == OPT_EVRA_ALWAYS) {
+	if(iter->settings.evra == OPT_EVRA_ALWAYS) {
 		return 1;
 	}
 
-	if(LIST_ITEM(pd, i).is_pubkey) {
-		*next_dup = DCS_UNKNOWN;
+	struct Package *this = &LIST_ITEM(iter->pd, i);
+	if(this->is_pubkey) {
+		iter->next_dup = DCS_UNKNOWN;
 		return 1;
 	}
 
-	if(opt_evra == OPT_EVRA_NEVER) {
+	if(iter->settings.evra == OPT_EVRA_NEVER) {
 		return 0;
 	}
 
 	/*
 	 * If control reaches this point, then:
-	 * - opt_evra must be OPT_EVRA_AUTO
+	 * - settings.evra must be OPT_EVRA_AUTO
 	 * - package is not pubkey
 	 * Perform the duplicate check logic.
 	 */
 
 	// Bail out early if "next package is duplicate" flag is set.
-	if(*next_dup == DCS_DEFINITELY) {
-		*next_dup = DCS_UNKNOWN;
+	if(iter->next_dup == DCS_DEFINITELY) {
+		iter->next_dup = DCS_UNKNOWN;
 		return 1;
 	}
 
@@ -300,18 +305,22 @@ static int should_print_evra(
 	 * Since we sorted the packages by name earlier, duplicates are guaranteed
 	 * to be located next to each other in the list.
 	 */
-	if((i != count-1) && (strcasecmp(LIST_ITEM(pd, i).name, LIST_ITEM(pd, i+1).name) == 0)) {
-		*next_dup = DCS_DEFINITELY;
-		return 1;
+	if(i != count-1) {
+		struct Package *next = &LIST_ITEM(iter->pd, i+1);
+		if(strcasecmp(this->name, next->name) == 0) {
+			iter->next_dup = DCS_DEFINITELY;
+			return 1;
+		}
 	}
 
 	// If the previous package did not perform the comparison, do it now.
 	int duplicated = 0;
-	if(*next_dup == DCS_UNKNOWN) {
-		duplicated = ((i > 0) && (strcasecmp(LIST_ITEM(pd, i).name, LIST_ITEM(pd, i-1).name) == 0));
+	if((iter->next_dup == DCS_UNKNOWN) && (i > 0)) {
+		struct Package *previous = &LIST_ITEM(iter->pd, i-1);
+		duplicated = (strcasecmp(this->name, previous->name) == 0);
 	}
 
-	*next_dup = DCS_POSSIBLY;
+	iter->next_dup = DCS_POSSIBLY;
 	return duplicated;
 }
 
@@ -323,7 +332,7 @@ int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item)
 	size_t current_index = iter->next_index;
 	while(1) {
 		pkg = &LIST_ITEM(iter->pd, current_index);
-		if(pkg->licence->is_free == iter->free) break;
+		if(pkg->licence->is_free == iter->settings.free) break;
 
 		current_index += 1;
 		if(current_index >= count) {
@@ -335,9 +344,7 @@ int pkgIter_next(struct PackageListIterator *iter, struct PackageListItem *item)
 	}
 
 	item->package = pkg;
-	item->duplicated = should_print_evra(
-		iter->pd, current_index, count, &iter->next_dup
-	);
+	item->duplicated = should_print_evra(iter, current_index, count);
 
 	iter->next_index = current_index + 1;
 	return 1;

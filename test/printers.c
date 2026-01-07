@@ -52,15 +52,6 @@ int test_setup__printers(void **state) {
 	ts->pkgs = setup_package_data();
 	ts->buffer = malloc(BUFSIZE);
 
-	// TODO: This sucks donkey ass. Testing would be easier if printers were
-	//       configured via constructor arguments, instead of grabbing values
-	//       from global options whenever they feel like.
-	opt_colour = 0;
-	opt_describe = 1;
-	opt_evra = OPT_EVRA_ALWAYS;
-	opt_explain = 1;
-	opt_list = OPT_LIST_FREE | OPT_LIST_NONFREE;
-
 	*state = ts;
 	return 0;
 }
@@ -76,11 +67,21 @@ int test_teardown__printers(void **state) {
 	struct TestState *ts = *state; \
 	FILE *bf = fmemopen(ts->buffer, BUFSIZE, "w"); \
 \
+	struct PrinterSettings settings = (struct PrinterSettings) { \
+		.colour = 0, \
+		.describe = 1, \
+		.evra = OPT_EVRA_ALWAYS, \
+		.explain = 1, \
+		.file = bf, \
+		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE), \
+		.pretty = ((format) == OPT_FORMAT_PRETTYJSON), \
+	}; \
+\
 	struct Printer *printer; \
 	if(format == OPT_FORMAT_TEXT) { \
-		printer = printer_newText(bf); \
+		printer = printer_newText(settings); \
 	} else { \
-		printer = printer_newJSON(bf, (format == OPT_FORMAT_PRETTYJSON)); \
+		printer = printer_newJSON(settings); \
 	} \
 	printer->print(printer, ts->pkgs); \
 	printer->free(printer); \

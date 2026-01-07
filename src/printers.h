@@ -21,6 +21,17 @@
 
 #include "src/packages.h"
 
+struct PrinterSettings {
+	FILE *file;
+	// TODO: Add separate enums for each option
+	int colour;
+	int describe;
+	int evra;
+	int explain;
+	int list;
+	int pretty;
+};
+
 struct Printer {
 	void (*print)(
 		struct Printer *self,
@@ -30,7 +41,7 @@ struct Printer {
 	void (*free)(struct Printer *self);
 };
 
-extern struct Printer* printer_newText(FILE *f);
-extern struct Printer* printer_newJSON(FILE *f, const int pretty);
+extern struct Printer* printer_newText(struct PrinterSettings settings);
+extern struct Printer* printer_newJSON(struct PrinterSettings settings);
 
 #endif

@@ -57,13 +57,23 @@ static struct LicenceClassifier* allocClassifier(const struct LicenceData *data)
 }
 
 static struct Printer* allocPrinter(void) {
+	struct PrinterSettings settings = (struct PrinterSettings){
+		.colour = opt_colour,
+		.describe = opt_describe,
+		.evra = opt_evra,
+		.explain = opt_explain,
+		.file = stdout,
+		.list = opt_list,
+		.pretty = (opt_format == OPT_FORMAT_PRETTYJSON),
+	};
+
 	switch(opt_format) {
 		case OPT_FORMAT_TEXT:
-			return printer_newText(stdout);
+			return printer_newText(settings);
 		case OPT_FORMAT_JSON:
-			return printer_newJSON(stdout, 0);
+			return printer_newJSON(settings);
 		case OPT_FORMAT_PRETTYJSON:
-			return printer_newJSON(stdout, 1);
+			return printer_newJSON(settings);
 		default:
 			return NULL;
 	}
