@@ -25,20 +25,21 @@
 #define PRINTER_TEST_BUFFER_SIZE (8 * 1024)
 
 struct PrinterTestState {
-	struct PackageData *pkgs;
+	struct PackageData *pkgs_simple;
+	struct PackageData *pkgs_complex;
 	char *buffer;
 };
 
 extern int test_setup__printers(void **state);
 extern int test_teardown__printers(void **state);
 
-#define printerTestCase(settings, constructor, expected) do { \
+#define printerTestCase(settings, constructor, dataset, expected) do { \
 	struct PrinterTestState *ts = *state; \
 	FILE *bf = fmemopen(ts->buffer, PRINTER_TEST_BUFFER_SIZE, "w"); \
 	(settings).file = bf; \
 \
 	struct Printer *printer = (constructor)(settings); \
-	printer->print(printer, ts->pkgs); \
+	printer->print(printer, ts->dataset); \
 	printer->free(printer); \
 \
 	putc('\0', bf); \
@@ -51,8 +52,10 @@ extern int test_teardown__printers(void **state);
 extern void test__textPrinter_none(void **state);
 extern void test__textPrinter_basic(void **state);
 extern void test__textPrinter_everything(void **state);
+extern void test__textPrinter_complex(void **state);
 extern void test__jsonPrinter_none(void **state);
 extern void test__jsonPrinter_basic(void **state);
 extern void test__jsonPrinter_everything(void **state);
+extern void test__jsonPrinter_complex(void **state);
 
 #endif

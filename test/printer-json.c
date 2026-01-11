@@ -30,6 +30,7 @@ void test__jsonPrinter_none(void **state) {
 	printerTestCase(
 		settings,
 		printer_newJSON,
+		pkgs_simple,
 		"{\"version\":0,\"count\":{\"free\":3,\"non-free\":1}}"
 	);
 }
@@ -48,6 +49,7 @@ void test__jsonPrinter_basic(void **state) {
 	printerTestCase(
 		settings,
 		printer_newJSON,
+		pkgs_simple,
 		"{"
 		"\"version\":0,"
 		"\"count\":{\"free\":3,\"non-free\":1},"
@@ -70,6 +72,7 @@ void test__jsonPrinter_everything(void **state) {
 	printerTestCase(
 		settings,
 		printer_newJSON,
+		pkgs_simple,
 		"{\n"
 		"\t\"version\": 0,\n"
 		"\t\"count\": {\n"
@@ -125,6 +128,94 @@ void test__jsonPrinter_everything(void **state) {
 		"\t\t\t\t\"is-free\": false,\n"
 		"\t\t\t\t\"type\": \"licence\",\n"
 		"\t\t\t\t\"text\": \"All rights reserved\"\n"
+		"\t\t\t}\n"
+		"\t\t}\n"
+		"\t]\n"
+		"}\n"
+	);
+}
+
+void test__jsonPrinter_complex(void **state) {
+	struct PrinterSettings settings = (struct PrinterSettings) {
+		.colour = 0,
+		.describe = 0,
+		.evra = OPT_EVRA_AUTO,
+		.explain = 1,
+		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
+		.pretty = 1,
+	};
+
+	printerTestCase(
+		settings,
+		printer_newJSON,
+		pkgs_complex,
+		"{\n"
+		"\t\"version\": 0,\n"
+		"\t\"count\": {\n"
+		"\t\t\"free\": 1,\n"
+		"\t\t\"non-free\": 1\n"
+		"\t},\n"
+		"\t\"free\": [\n"
+		"\t\t{\n"
+		"\t\t\t\"name\": \"pabog\",\n"
+		"\t\t\t\"licence\": {\n"
+		"\t\t\t\t\"is-free\": true,\n"
+		"\t\t\t\t\"type\": \"and\",\n"
+		"\t\t\t\t\"members\": [\n"
+		"\t\t\t\t\t{\n"
+		"\t\t\t\t\t\t\"is-free\": true,\n"
+		"\t\t\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\t\t\"text\": \"Permissive\"\n"
+		"\t\t\t\t\t},\n"
+		"\t\t\t\t\t{\n"
+		"\t\t\t\t\t\t\"is-free\": true,\n"
+		"\t\t\t\t\t\t\"type\": \"or\",\n"
+		"\t\t\t\t\t\t\"members\": [\n"
+		"\t\t\t\t\t\t\t{\n"
+		"\t\t\t\t\t\t\t\t\"is-free\": false,\n"
+		"\t\t\t\t\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\t\t\t\t\"text\": \"Bad\"\n"
+		"\t\t\t\t\t\t\t},\n"
+		"\t\t\t\t\t\t\t{\n"
+		"\t\t\t\t\t\t\t\t\"is-free\": true,\n"
+		"\t\t\t\t\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\t\t\t\t\"text\": \"Good\"\n"
+		"\t\t\t\t\t\t\t}\n"
+		"\t\t\t\t\t\t]\n"
+		"\t\t\t\t\t}\n"
+		"\t\t\t\t]\n"
+		"\t\t\t}\n"
+		"\t\t}\n"
+		"\t],\n"
+		"\t\"non-free\": [\n"
+		"\t\t{\n"
+		"\t\t\t\"name\": \"bagor\",\n"
+		"\t\t\t\"licence\": {\n"
+		"\t\t\t\t\"is-free\": false,\n"
+		"\t\t\t\t\"type\": \"or\",\n"
+		"\t\t\t\t\"members\": [\n"
+		"\t\t\t\t\t{\n"
+		"\t\t\t\t\t\t\"is-free\": false,\n"
+		"\t\t\t\t\t\t\"type\": \"and\",\n"
+		"\t\t\t\t\t\t\"members\": [\n"
+		"\t\t\t\t\t\t\t{\n"
+		"\t\t\t\t\t\t\t\t\"is-free\": false,\n"
+		"\t\t\t\t\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\t\t\t\t\"text\": \"Bad\"\n"
+		"\t\t\t\t\t\t\t},\n"
+		"\t\t\t\t\t\t\t{\n"
+		"\t\t\t\t\t\t\t\t\"is-free\": true,\n"
+		"\t\t\t\t\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\t\t\t\t\"text\": \"Good\"\n"
+		"\t\t\t\t\t\t\t}\n"
+		"\t\t\t\t\t\t]\n"
+		"\t\t\t\t\t},\n"
+		"\t\t\t\t\t{\n"
+		"\t\t\t\t\t\t\"is-free\": false,\n"
+		"\t\t\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\t\t\"text\": \"Restrictive\"\n"
+		"\t\t\t\t\t}\n"
+		"\t\t\t\t]\n"
 		"\t\t\t}\n"
 		"\t\t}\n"
 		"\t]\n"

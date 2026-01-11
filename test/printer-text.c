@@ -34,6 +34,7 @@ void test__textPrinter_none(void **state) {
 	printerTestCase(
 		settings,
 		printer_newText,
+		pkgs_simple,
 		"FREE_PACKAGES_COUNT\n"
 		"NONFREE_PACKAGES_COUNT\n"
 	);
@@ -52,6 +53,7 @@ void test__textPrinter_basic(void **state) {
 	printerTestCase(
 		settings,
 		printer_newText,
+		pkgs_simple,
 		"FREE_PACKAGES_COUNT\n"
 		" - first\n"
 		" - second\n"
@@ -74,6 +76,7 @@ void test__textPrinter_everything(void **state) {
 	printerTestCase(
 		settings,
 		printer_newText,
+		pkgs_simple,
 		"FREE_PACKAGES_COUNT\n"
 		" - first-1.0.0-1.noarch: Come and served\n"
 		"   " ANSI_GREEN "GPL-2.0-or-later" ANSI_RESET "\n"
@@ -84,5 +87,32 @@ void test__textPrinter_everything(void **state) {
 		"NONFREE_PACKAGES_COUNT\n"
 		" - evil-6.6.6-1.noarch: Package full of nasty stuff\n"
 		"   " ANSI_RED "All rights reserved" ANSI_RESET "\n"
+	);
+}
+
+void test__textPrinter_complex(void **state) {
+	// FIXME: Either control this via printer settings,
+	//        or store joiner string in licence node
+	opt_grammar = OPT_GRAMMAR_SPDX_STRICT;
+
+	struct PrinterSettings settings = (struct PrinterSettings) {
+		.colour = 1,
+		.describe = 1,
+		.evra = OPT_EVRA_AUTO,
+		.explain = 1,
+		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
+		.pretty = 0,
+	};
+
+	printerTestCase(
+		settings,
+		printer_newText,
+		pkgs_complex,
+		"FREE_PACKAGES_COUNT\n"
+		" - pabog: Pas all the bogs\n"
+		"   " ANSI_GREEN "Permissive" ANSI_RESET " AND (" ANSI_RED "Bad" ANSI_RESET " OR " ANSI_GREEN "Good" ANSI_RESET ")\n"
+		"NONFREE_PACKAGES_COUNT\n"
+		" - bagor: Bags all the ors\n"
+		"   (" ANSI_RED "Bad" ANSI_RESET " AND " ANSI_GREEN "Good" ANSI_RESET ") OR " ANSI_RED "Restrictive" ANSI_RESET "\n"
 	);
 }

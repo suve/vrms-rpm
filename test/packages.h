@@ -21,6 +21,11 @@
 
 extern void add_package(
 	struct PackageData *pd,
+	struct Package *pkg
+);
+
+extern void add_simple_package(
+	struct PackageData *pd,
 	const char *name,
 	const char *version,
 	const char *summary,

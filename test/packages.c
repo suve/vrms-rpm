@@ -24,17 +24,23 @@
 
 void add_package(
 	struct PackageData *pd,
+	struct Package *pkg
+) {
+	rebuf_append(pd->list, pkg, sizeof(struct Package));
+	pd->count[pkg->licence->is_free] += 1;
+}
+
+void add_simple_package(
+	struct PackageData *pd,
 	const char *name,
 	const char *version,
 	const char *summary,
 	int is_free,
 	const char *licence
 ) {
-	is_free = !!is_free;
-
 	struct LicenceTreeNode *ltn = malloc(sizeof(struct LicenceTreeNode));
 	ltn->type = LTNT_LICENCE;
-	ltn->is_free = is_free;
+	ltn->is_free = !!is_free;
 	ltn->licence = licence;
 
 	struct Package pkg = (struct Package){
@@ -47,8 +53,7 @@ void add_package(
 		.licence = ltn,
 		.is_pubkey = 0
 	};
-	rebuf_append(pd->list, &pkg, sizeof(struct Package));
-	pd->count[is_free] += 1;
+	add_package(pd, &pkg);
 }
 
 #define ITER(Free) \
@@ -106,10 +111,10 @@ int test_setup__packages(void **state) {
 	pd->list = rebuf_init(256);
 	pd->count[0] = pd->count[1] = 0;
 
-	add_package(pd, "relicensed", "1.0", "", 0, "Absolutely proprietary");
-	add_package(pd, "relicensed", "2.0", "", 0, "Still proprietary");
-	add_package(pd, "relicensed", "3.0", "", 1, "Free for all");
-	add_package(pd, "relinquished", "4.2", "", 0, "Freeware");
+	add_simple_package(pd, "relicensed", "1.0", "", 0, "Absolutely proprietary");
+	add_simple_package(pd, "relicensed", "2.0", "", 0, "Still proprietary");
+	add_simple_package(pd, "relicensed", "3.0", "", 1, "Free for all");
+	add_simple_package(pd, "relinquished", "4.2", "", 0, "Freeware");
 
 	pd->buffer = NULL;
 	pd->sorted = 0;

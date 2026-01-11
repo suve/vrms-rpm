@@ -102,9 +102,11 @@ int main(void) {
 		cmocka_unit_test(test__textPrinter_none),
 		cmocka_unit_test(test__textPrinter_basic),
 		cmocka_unit_test(test__textPrinter_everything),
+		cmocka_unit_test(test__textPrinter_complex),
 		cmocka_unit_test(test__jsonPrinter_none),
 		cmocka_unit_test(test__jsonPrinter_basic),
 		cmocka_unit_test(test__jsonPrinter_everything),
+		cmocka_unit_test(test__jsonPrinter_complex),
 	};
 	failures += cmocka_run_group_tests(printer_tests, test_setup__printers, test_teardown__printers);
 
