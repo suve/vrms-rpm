@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2025 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -18,7 +18,7 @@
 
 // Test license strings that evaluate to a single licence.
 void test__spdxStrict_single(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxStrictClassifier;
 
 	// Test some simple good licences.
 	{
@@ -52,7 +52,7 @@ void test__spdxStrict_single(void **state) {
 
 // Test licence strings using "WITH" and "+" operators.
 void test__spdxStrict_suffixes(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxStrictClassifier;
 
 	// A good licence with the "+" operator should be recognized as a good licence.
 	{
@@ -101,7 +101,7 @@ void test__spdxStrict_suffixes(void **state) {
 
 // Test licence strings that evaluate to a single-level and/or chain.
 void test__spdxStrict_one_level(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxStrictClassifier;
 
 	// Test some simple "A OR B" licences.
 	{
@@ -195,7 +195,7 @@ void test__spdxStrict_one_level(void **state) {
 
 // Test licence strings that evaluate to a tree.
 void test__spdxStrict_tree(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxStrictClassifier;
 
 	// Test some complex licences with parentheses.
 	{
@@ -377,7 +377,7 @@ void test__spdxStrict_tree(void **state) {
 // The SPDX spec says that the "AND" operator takes precedence over "OR".
 // This means that AND/OR can be mixed without parentheses.
 void test__spdxStrict_precedence(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxStrictClassifier;
 
 	// Single AND pair
 	{
@@ -452,7 +452,7 @@ void test__spdxStrict_precedence(void **state) {
 //   > There MUST be white space and/or parentheses on either side of the operators AND and OR.
 // This means that, when the AND/OR operator appears near parentheses, whitespace is not required.
 void test__spdxStrict_whitespace(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxStrictClassifier;
 
 	// No whitespace before operator, simple licence expression after operator,
 	{
@@ -556,7 +556,7 @@ void test__spdxStrict_whitespace(void **state) {
 }
 
 void test__spdxStrict_caseSensitivity(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxStrictClassifier;
 
 	// The SPDX spec mandates that licence names must be matched case-insensitively.
 	{
@@ -739,7 +739,7 @@ void test__spdxStrict_caseSensitivity(void **state) {
 
 // Test some strings that don't really make sense.
 void test__spdxStrict_mangledStrings(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxStrictClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxStrictClassifier;
 
 	// Valid licence string, but wrapped in extra parentheses
 	{
@@ -829,7 +829,7 @@ void test__spdxStrict_mangledStrings(void **state) {
 
 // Test behaviour specific to SPDX classifier's lenient mode.
 void test__spdxLenient(void **state) {
-	struct LicenceClassifier *classifier = ((struct TestState*)*state)->spdxLenientClassifier;
+	struct LicenceClassifier *classifier = ((struct LicenceTestState*)*state)->spdxLenientClassifier;
 
 	// "+" operator: in lenient mode, permit whitespace between the licence name and the "+".
 	{

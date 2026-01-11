@@ -1,0 +1,35 @@
+/**
+ * vrms-rpm - list non-free packages on an rpm-based Linux distribution
+ * Copyright (C) 2026 suve (a.k.a. Artur Frenszek-Iwicki)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
+ */
+#include "test/printers.h"
+#include "test/test.h"
+
+// FIXME: The text printer needs access to localized strings.
+void test__textPrinter(void **state) {
+	printerTestCase(
+		OPT_FORMAT_TEXT,
+		"FREE_PACKAGES_COUNT\n"
+		" - first-1.0.0-1.noarch: Come and served\n"
+		"   GPL-2.0-or-later\n"
+		" - second-2.4.8-1.noarch: Too bad, so sad\n"
+		"   MPL-2.0\n"
+		" - third-3.0.3-1.noarch: Still on the podium\n"
+		"   BSD-3-Clause\n"
+		"NONFREE_PACKAGES_COUNT\n"
+		" - evil-6.6.6-1.noarch: Package full of nasty stuff\n"
+		"   All rights reserved\n"
+	);
+}

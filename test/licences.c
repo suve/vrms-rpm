@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2021-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2021-2023, 2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -46,7 +46,7 @@ int test_setup__licences(void **state) {
 	struct LicenceClassifier *spdxLenientClassifier = classifier_newSPDX(licences, 1);
 	assert_non_null(spdxLenientClassifier);
 
-	struct TestState *ts = malloc(sizeof(struct TestState));
+	struct LicenceTestState *ts = malloc(sizeof(struct LicenceTestState));
 	assert_non_null(ts);
 
 	ts->data = licences;
@@ -59,7 +59,7 @@ int test_setup__licences(void **state) {
 }
 
 int test_teardown__licences(void **state) {
-	struct TestState *ts = *state;
+	struct LicenceTestState *ts = *state;
 	ts->looseClassifier->free(ts->looseClassifier);
 	ts->spdxStrictClassifier->free(ts->spdxStrictClassifier);
 	ts->spdxLenientClassifier->free(ts->spdxLenientClassifier);

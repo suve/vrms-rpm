@@ -16,6 +16,7 @@
  */
 #include "test/licences.h"
 #include "test/packages.h"
+#include "test/printers.h"
 #include "test/test.h"
 
 extern void test__chainbuffer(void **state);
@@ -44,11 +45,6 @@ extern void test__jsonNestedObjects(void **state);
 extern void test__jsonArrays(void **state);
 extern int test_setup__json(void **state);
 extern int test_teardown__json(void **state);
-
-extern void test__textPrinter(void **state);
-extern void test__jsonPrinter(void **state);
-extern int test_setup__printers(void **state);
-extern int test_teardown__printers(void **state);
 
 int main(void) {
 	int failures = 0;

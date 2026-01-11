@@ -1,0 +1,83 @@
+/**
+ * vrms-rpm - list non-free packages on an rpm-based Linux distribution
+ * Copyright (C) 2026 suve (a.k.a. Artur Frenszek-Iwicki)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
+ */
+#include "test/printers.h"
+#include "test/test.h"
+
+void test__jsonPrinter(void **state) {
+	printerTestCase(
+		OPT_FORMAT_PRETTYJSON,
+		"{\n"
+		"\t\"version\": 0,\n"
+		"\t\"count\": {\n"
+		"\t\t\"free\": 3,\n"
+		"\t\t\"non-free\": 1\n"
+		"\t},\n"
+		"\t\"free\": [\n"
+		"\t\t{\n"
+		"\t\t\t\"name\": \"first\",\n"
+		"\t\t\t\"version\": \"1.0.0\",\n"
+		"\t\t\t\"release\": \"1\",\n"
+		"\t\t\t\"architecture\": \"noarch\",\n"
+		"\t\t\t\"summary\": \"Come and served\",\n"
+		"\t\t\t\"licence\": {\n"
+		"\t\t\t\t\"is-free\": true,\n"
+		"\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\"text\": \"GPL-2.0-or-later\"\n"
+		"\t\t\t}\n"
+		"\t\t},\n"
+		"\t\t{\n"
+		"\t\t\t\"name\": \"second\",\n"
+		"\t\t\t\"version\": \"2.4.8\",\n"
+		"\t\t\t\"release\": \"1\",\n"
+		"\t\t\t\"architecture\": \"noarch\",\n"
+		"\t\t\t\"summary\": \"Too bad, so sad\",\n"
+		"\t\t\t\"licence\": {\n"
+		"\t\t\t\t\"is-free\": true,\n"
+		"\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\"text\": \"MPL-2.0\"\n"
+		"\t\t\t}\n"
+		"\t\t},\n"
+		"\t\t{\n"
+		"\t\t\t\"name\": \"third\",\n"
+		"\t\t\t\"version\": \"3.0.3\",\n"
+		"\t\t\t\"release\": \"1\",\n"
+		"\t\t\t\"architecture\": \"noarch\",\n"
+		"\t\t\t\"summary\": \"Still on the podium\",\n"
+		"\t\t\t\"licence\": {\n"
+		"\t\t\t\t\"is-free\": true,\n"
+		"\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\"text\": \"BSD-3-Clause\"\n"
+		"\t\t\t}\n"
+		"\t\t}\n"
+		"\t],\n"
+		"\t\"non-free\": [\n"
+		"\t\t{\n"
+		"\t\t\t\"name\": \"evil\",\n"
+		"\t\t\t\"version\": \"6.6.6\",\n"
+		"\t\t\t\"release\": \"1\",\n"
+		"\t\t\t\"architecture\": \"noarch\",\n"
+		"\t\t\t\"summary\": \"Package full of nasty stuff\",\n"
+		"\t\t\t\"licence\": {\n"
+		"\t\t\t\t\"is-free\": false,\n"
+		"\t\t\t\t\"type\": \"licence\",\n"
+		"\t\t\t\t\"text\": \"All rights reserved\"\n"
+		"\t\t\t}\n"
+		"\t\t}\n"
+		"\t]\n"
+		"}\n"
+	);
+}
