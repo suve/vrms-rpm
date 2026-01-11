@@ -99,8 +99,12 @@ int main(void) {
 	failures += cmocka_run_group_tests(package_tests, test_setup__packages, test_teardown__packages);
 
 	const struct CMUnitTest printer_tests[] = {
-		cmocka_unit_test(test__textPrinter),
-		cmocka_unit_test(test__jsonPrinter),
+		cmocka_unit_test(test__textPrinter_none),
+		cmocka_unit_test(test__textPrinter_basic),
+		cmocka_unit_test(test__textPrinter_everything),
+		cmocka_unit_test(test__jsonPrinter_none),
+		cmocka_unit_test(test__jsonPrinter_basic),
+		cmocka_unit_test(test__jsonPrinter_everything),
 	};
 	failures += cmocka_run_group_tests(printer_tests, test_setup__printers, test_teardown__printers);
 

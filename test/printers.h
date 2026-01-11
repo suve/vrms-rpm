@@ -48,7 +48,11 @@ extern int test_teardown__printers(void **state);
 	assert_string_equal(ts->buffer, (expected)); \
 } while(0)
 
-extern void test__textPrinter(void **state);
-extern void test__jsonPrinter(void **state);
+extern void test__textPrinter_none(void **state);
+extern void test__textPrinter_basic(void **state);
+extern void test__textPrinter_everything(void **state);
+extern void test__jsonPrinter_none(void **state);
+extern void test__jsonPrinter_basic(void **state);
+extern void test__jsonPrinter_everything(void **state);
 
 #endif

@@ -17,7 +17,47 @@
 #include "test/printers.h"
 #include "test/test.h"
 
-void test__jsonPrinter(void **state) {
+void test__jsonPrinter_none(void **state) {
+	struct PrinterSettings settings = (struct PrinterSettings) {
+		.colour = 0,
+		.describe = 0,
+		.evra = OPT_EVRA_NEVER,
+		.explain = 0,
+		.list = 0,
+		.pretty = 0,
+	};
+
+	printerTestCase(
+		settings,
+		printer_newJSON,
+		"{\"version\":0,\"count\":{\"free\":3,\"non-free\":1}}"
+	);
+}
+
+
+void test__jsonPrinter_basic(void **state) {
+	struct PrinterSettings settings = (struct PrinterSettings) {
+		.colour = 0,
+		.describe = 0,
+		.evra = OPT_EVRA_NEVER,
+		.explain = 0,
+		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
+		.pretty = 0,
+	};
+
+	printerTestCase(
+		settings,
+		printer_newJSON,
+		"{"
+		"\"version\":0,"
+		"\"count\":{\"free\":3,\"non-free\":1},"
+		"\"free\":[{\"name\":\"first\"},{\"name\":\"second\"},{\"name\":\"third\"}],"
+		"\"non-free\":[{\"name\":\"evil\"}]"
+		"}"
+	);
+}
+
+void test__jsonPrinter_everything(void **state) {
 	struct PrinterSettings settings = (struct PrinterSettings) {
 		.colour = 0,
 		.describe = 1,

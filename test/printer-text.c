@@ -14,13 +14,56 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
+#include "src/stringutils.h"
+
 #include "test/printers.h"
 #include "test/test.h"
 
-// FIXME: The text printer needs access to localized strings.
-void test__textPrinter(void **state) {
+// (!) FIXME: The text printer needs access to localized strings.
+
+void test__textPrinter_none(void **state) {
 	struct PrinterSettings settings = (struct PrinterSettings) {
 		.colour = 0,
+		.describe = 0,
+		.evra = OPT_EVRA_NEVER,
+		.explain = 0,
+		.list = 0,
+		.pretty = 0,
+	};
+
+	printerTestCase(
+		settings,
+		printer_newText,
+		"FREE_PACKAGES_COUNT\n"
+		"NONFREE_PACKAGES_COUNT\n"
+	);
+}
+
+void test__textPrinter_basic(void **state) {
+	struct PrinterSettings settings = (struct PrinterSettings) {
+		.colour = 0,
+		.describe = 0,
+		.evra = OPT_EVRA_NEVER,
+		.explain = 0,
+		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
+		.pretty = 0,
+	};
+
+	printerTestCase(
+		settings,
+		printer_newText,
+		"FREE_PACKAGES_COUNT\n"
+		" - first\n"
+		" - second\n"
+		" - third\n"
+		"NONFREE_PACKAGES_COUNT\n"
+		" - evil\n"
+	);
+}
+
+void test__textPrinter_everything(void **state) {
+	struct PrinterSettings settings = (struct PrinterSettings) {
+		.colour = 1,
 		.describe = 1,
 		.evra = OPT_EVRA_ALWAYS,
 		.explain = 1,
@@ -33,13 +76,13 @@ void test__textPrinter(void **state) {
 		printer_newText,
 		"FREE_PACKAGES_COUNT\n"
 		" - first-1.0.0-1.noarch: Come and served\n"
-		"   GPL-2.0-or-later\n"
+		"   " ANSI_GREEN "GPL-2.0-or-later" ANSI_RESET "\n"
 		" - second-2.4.8-1.noarch: Too bad, so sad\n"
-		"   MPL-2.0\n"
+		"   " ANSI_GREEN "MPL-2.0" ANSI_RESET "\n"
 		" - third-3.0.3-1.noarch: Still on the podium\n"
-		"   BSD-3-Clause\n"
+		"   " ANSI_GREEN "BSD-3-Clause" ANSI_RESET "\n"
 		"NONFREE_PACKAGES_COUNT\n"
 		" - evil-6.6.6-1.noarch: Package full of nasty stuff\n"
-		"   All rights reserved\n"
+		"   " ANSI_RED "All rights reserved" ANSI_RESET "\n"
 	);
 }
