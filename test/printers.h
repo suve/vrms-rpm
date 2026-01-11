@@ -32,26 +32,12 @@ struct PrinterTestState {
 extern int test_setup__printers(void **state);
 extern int test_teardown__printers(void **state);
 
-#define printerTestCase(format, expected) do { \
+#define printerTestCase(settings, constructor, expected) do { \
 	struct PrinterTestState *ts = *state; \
 	FILE *bf = fmemopen(ts->buffer, PRINTER_TEST_BUFFER_SIZE, "w"); \
+	(settings).file = bf; \
 \
-	struct PrinterSettings settings = (struct PrinterSettings) { \
-		.colour = 0, \
-		.describe = 1, \
-		.evra = OPT_EVRA_ALWAYS, \
-		.explain = 1, \
-		.file = bf, \
-		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE), \
-		.pretty = ((format) == OPT_FORMAT_PRETTYJSON) \
-	}; \
-\
-	struct Printer *printer; \
-	if(format == OPT_FORMAT_TEXT) { \
-		printer = printer_newText(settings); \
-	} else { \
-		printer = printer_newJSON(settings); \
-	} \
+	struct Printer *printer = (constructor)(settings); \
 	printer->print(printer, ts->pkgs); \
 	printer->free(printer); \
 \

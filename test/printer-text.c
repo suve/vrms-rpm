@@ -19,8 +19,18 @@
 
 // FIXME: The text printer needs access to localized strings.
 void test__textPrinter(void **state) {
+	struct PrinterSettings settings = (struct PrinterSettings) {
+		.colour = 0,
+		.describe = 1,
+		.evra = OPT_EVRA_ALWAYS,
+		.explain = 1,
+		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
+		.pretty = 0,
+	};
+
 	printerTestCase(
-		OPT_FORMAT_TEXT,
+		settings,
+		printer_newText,
 		"FREE_PACKAGES_COUNT\n"
 		" - first-1.0.0-1.noarch: Come and served\n"
 		"   GPL-2.0-or-later\n"

@@ -18,8 +18,18 @@
 #include "test/test.h"
 
 void test__jsonPrinter(void **state) {
+	struct PrinterSettings settings = (struct PrinterSettings) {
+		.colour = 0,
+		.describe = 1,
+		.evra = OPT_EVRA_ALWAYS,
+		.explain = 1,
+		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
+		.pretty = 1,
+	};
+
 	printerTestCase(
-		OPT_FORMAT_PRETTYJSON,
+		settings,
+		printer_newJSON,
 		"{\n"
 		"\t\"version\": 0,\n"
 		"\t\"count\": {\n"
