@@ -1,7 +1,7 @@
 #
 # Makefile for vrms-rpm
 # Copyright (C) 2017,2023 Marcin "dextero" Radomski
-# Copyright (C) 2018-2023 suve (a.k.a. Artur Frenszek-Iwicki)
+# Copyright (C) 2018-2024, 2026 suve (a.k.a. Artur Frenszek-Iwicki)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 3,
@@ -194,6 +194,9 @@ install/bin/vrms-rpm: build/vrms-rpm
 install/share/bash-completion/completions/vrms-rpm: build/bash-completion.sh
 	install -vD -m 644 "$<" "$@"
 
+install/share/suve/vrms-rpm/json-schema.json: docs/json-schema.json
+	install -vD -m 644 "$<" "$@"
+
 install/share/suve/vrms-rpm/images/%: images/%
 	install -vD -m 644 "$<" "$@"
 
@@ -212,6 +215,7 @@ install/share/locale/%: build/locale/%
 install/prepare: build
 install/prepare: install/bin/vrms-rpm
 install/prepare: install/share/bash-completion/completions/vrms-rpm
+install/prepare: install/share/suve/vrms-rpm/json-schema.json
 install/prepare: install/share/man/man1/vrms-rpm.1
 install/prepare: $(NON_EN_MAN_LANGS:%=install/share/man/%/man1/vrms-rpm.1)
 install/prepare: $(MO_FILES:build/%=install/share/%)

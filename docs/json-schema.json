@@ -1,0 +1,76 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"type": "object",
+	"properties": {
+		"version": {"const": 0},
+		"count": {
+			"type": "object",
+			"properties": {
+				"free": {"type": "integer"},
+				"non-free": {"type": "integer"}
+			},
+			"required": ["free", "non-free"],
+			"additionalProperties": false
+		},
+		"free": {
+			"type": "array",
+			"members": {"$ref": "#/$defs/package"}
+		},
+		"non-free": {
+			"type": "array",
+			"members": {"$ref": "#/$defs/package"}
+		}
+	},
+	"required": ["version",	"count"],
+	"additionalProperties": false,
+	"$defs": {
+		"simpleLicence": {
+			"type": "object",
+			"properties": {
+				"is-free": {"type": "boolean"},
+				"type": {"const": "licence"},
+				"text": {"type": "string"}
+			},
+			"required": ["is-free", "type", "text"],
+			"additionalProperties": false
+		},
+		"compoundLicence": {
+			"type": "object",
+			"properties": {
+				"is-free": {"type": "boolean"},
+				"type": {
+					"oneOf": [
+						{"const": "and"},
+						{"const": "or"}
+					]
+				},
+				"members": {
+					"type": "array",
+					"members": {"$ref": "#/$defs/licence"}
+				}
+			},
+			"required": ["is-free", "type", "members"],
+			"additionalProperties": false
+		},
+		"licence": {
+			"anyOf": [
+				{"$ref": "#/$defs/simpleLicence"},
+				{"$ref": "#/$defs/compoundLicence"}
+			]
+		},
+		"package": {
+			"type": "object",
+			"properties": {
+				"name": {"type": "string"},
+				"summary": {"type": "string"},
+				"epoch": {"type": "string"},
+				"version": {"type": "string"},
+				"release": {"type": "string"},
+				"architecture": {"type": "string"},
+				"licence": {"$ref": "#/$defs/licence"}
+			},
+			"required": ["name"],
+			"additionalProperties": false
+		}
+	}
+}
