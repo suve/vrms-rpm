@@ -14,6 +14,7 @@ jobs:
           command: >
             sudo dnf install --assumeyes --setopt=install_weak_deps=False
             findutils gawk gcc gettext git libcmocka-devel make rpm-devel
+            python3-jsonschema
       - checkout
       - run:
           name: Build the executable (WITH_LIBRPM=0)
@@ -32,6 +33,10 @@ jobs:
           name: Build rest of project files
           command: >
             make -j all
+      - run:
+          name: Run program and validate JSON schema
+          command: >
+            ./build/vrms-rpm --licence-list=./build/licences/fedora.txt --grammar=spdx-lenient --format=json --explain | jsonschema ./docs/json-schema.json
 
 workflows:
   build:
