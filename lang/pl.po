@@ -125,7 +125,7 @@ msgid "ERR_BADOPT_FORMAT\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --format to 'text', 'json', oraz 'json-pretty'\n"
 
 msgid "ERR_BADOPT_GRAMMAR\n"
-msgstr "vrms-rpm: dozwolone argumenty do opcji --grammar to 'loose' oraz 'spdx'\n"
+msgstr "vrms-rpm: dozwolone argumenty do opcji --grammar to 'spdx-strict', 'spdx-lenient', oraz 'loose'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: dozwolone argumenty do opcji --list to 'none', 'non-free', 'free' oraz 'all'\n"

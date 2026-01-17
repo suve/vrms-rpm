@@ -120,7 +120,7 @@ msgid "ERR_BADOPT_FORMAT\n"
 msgstr "vrms-rpm: argument to the --format option must be one of 'text', 'json', or 'json-pretty'\n"
 
 msgid "ERR_BADOPT_GRAMMAR\n"
-msgstr "vrms-rpm: argument to the --grammar option must be either 'loose' or 'spdx'\n"
+msgstr "vrms-rpm: argument to the --grammar option must be either 'spdx-strict', 'spdx-lenient', or 'loose'\n"
 
 msgid "ERR_BADOPT_LIST\n"
 msgstr "vrms-rpm: argument to the --list option must be one of 'none', 'non-free', 'free' or 'all'\n"
