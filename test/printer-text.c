@@ -29,6 +29,8 @@ void test__textPrinter_none(void **state) {
 		.explain = 0,
 		.list = 0,
 		.pretty = 0,
+		.textAnd = "AND",
+		.textOr = "OR",
 	};
 
 	printerTestCase(
@@ -48,6 +50,8 @@ void test__textPrinter_basic(void **state) {
 		.explain = 0,
 		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
 		.pretty = 0,
+		.textAnd = "AND",
+		.textOr = "OR",
 	};
 
 	printerTestCase(
@@ -71,6 +75,8 @@ void test__textPrinter_everything(void **state) {
 		.explain = 1,
 		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
 		.pretty = 0,
+		.textAnd = "AND",
+		.textOr = "OR",
 	};
 
 	printerTestCase(
@@ -91,10 +97,6 @@ void test__textPrinter_everything(void **state) {
 }
 
 void test__textPrinter_complex(void **state) {
-	// FIXME: Either control this via printer settings,
-	//        or store joiner string in licence node
-	opt_grammar = OPT_GRAMMAR_SPDX_STRICT;
-
 	struct PrinterSettings settings = (struct PrinterSettings) {
 		.colour = 1,
 		.describe = 1,
@@ -102,6 +104,8 @@ void test__textPrinter_complex(void **state) {
 		.explain = 1,
 		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
 		.pretty = 0,
+		.textAnd = "ANDrzej",
+		.textOr = "ORpheus",
 	};
 
 	printerTestCase(
@@ -110,9 +114,9 @@ void test__textPrinter_complex(void **state) {
 		pkgs_complex,
 		"FREE_PACKAGES_COUNT\n"
 		" - pabog: Pas all the bogs\n"
-		"   " ANSI_GREEN "Permissive" ANSI_RESET " AND (" ANSI_RED "Bad" ANSI_RESET " OR " ANSI_GREEN "Good" ANSI_RESET ")\n"
+		"   " ANSI_GREEN "Permissive" ANSI_RESET " ANDrzej (" ANSI_RED "Bad" ANSI_RESET " ORpheus " ANSI_GREEN "Good" ANSI_RESET ")\n"
 		"NONFREE_PACKAGES_COUNT\n"
 		" - bagor: Bags all the ors\n"
-		"   (" ANSI_RED "Bad" ANSI_RESET " AND " ANSI_GREEN "Good" ANSI_RESET ") OR " ANSI_RED "Restrictive" ANSI_RESET "\n"
+		"   (" ANSI_RED "Bad" ANSI_RESET " ANDrzej " ANSI_GREEN "Good" ANSI_RESET ") ORpheus " ANSI_RED "Restrictive" ANSI_RESET "\n"
 	);
 }

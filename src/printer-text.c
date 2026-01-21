@@ -33,6 +33,8 @@ struct TextPrinter {
 	int evra;
 	int explain;
 	int list;
+	const char *textAnd;
+	const char *textOr;
 };
 
 static void printEvra(FILE *file, const struct Package *pkg) {
@@ -58,12 +60,8 @@ static void printLicenceNode(struct TextPrinter *self, const struct LicenceTreeN
 		return;
 	}
 
-	// SPDX mandates that AND/OR operators should be matched in a case-sensitive manner.
-	// Of course, we also support lenient mode, which allows for "and" (also "And" etc.)...
-	// Maybe the joiner strings should also be stored in nodes?
-	const char *const joiner = (opt_grammar != OPT_GRAMMAR_LOOSE)
-		? ((node->type == LTNT_AND) ? " AND " : " OR ")
-		: ((node->type == LTNT_AND) ? " and " : " or ");
+	const char *const joiner =
+		(node->type == LTNT_AND) ? self->textAnd : self->textOr;
 
 	for(unsigned int m = 0; m < node->members;) {
 		if(node->child[m]->type != LTNT_LICENCE) {
@@ -75,7 +73,7 @@ static void printLicenceNode(struct TextPrinter *self, const struct LicenceTreeN
 		}
 
 		++m;
-		if(m < node->members) fprintf(self->file, "%s", joiner);
+		if(m < node->members) fprintf(self->file, " %s ", joiner);
 	}
 }
 
@@ -142,6 +140,8 @@ struct Printer* printer_newText(struct PrinterSettings settings) {
 		.explain = settings.explain,
 		.file = settings.file,
 		.list = settings.list,
+		.textAnd = settings.textAnd,
+		.textOr = settings.textOr,
 	};
 	return &(printer->interface);
 }

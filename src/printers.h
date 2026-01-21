@@ -30,6 +30,8 @@ struct PrinterSettings {
 	int explain;
 	int list;
 	int pretty;
+	const char *textAnd;
+	const char *textOr;
 };
 
 struct Printer {

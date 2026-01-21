@@ -25,6 +25,8 @@ void test__jsonPrinter_none(void **state) {
 		.explain = 0,
 		.list = 0,
 		.pretty = 0,
+		.textAnd = "and",
+		.textOr = "or",
 	};
 
 	printerTestCase(
@@ -44,6 +46,8 @@ void test__jsonPrinter_basic(void **state) {
 		.explain = 0,
 		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
 		.pretty = 0,
+		.textAnd = "and",
+		.textOr = "or",
 	};
 
 	printerTestCase(
@@ -67,6 +71,8 @@ void test__jsonPrinter_everything(void **state) {
 		.explain = 1,
 		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
 		.pretty = 1,
+		.textAnd = "and",
+		.textOr = "or",
 	};
 
 	printerTestCase(
@@ -143,6 +149,8 @@ void test__jsonPrinter_complex(void **state) {
 		.explain = 1,
 		.list = (OPT_LIST_FREE | OPT_LIST_NONFREE),
 		.pretty = 1,
+		.textAnd = "and",
+		.textOr = "or",
 	};
 
 	printerTestCase(

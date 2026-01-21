@@ -65,6 +65,8 @@ static struct Printer* allocPrinter(void) {
 		.file = stdout,
 		.list = opt_list,
 		.pretty = (opt_format == OPT_FORMAT_PRETTYJSON),
+		.textAnd = (opt_grammar == OPT_GRAMMAR_LOOSE) ? "and" : "AND",
+		.textOr = (opt_grammar == OPT_GRAMMAR_LOOSE) ? "or" : "OR",
 	};
 
 	switch(opt_format) {
