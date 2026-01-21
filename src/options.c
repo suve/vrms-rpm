@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018-2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018-2023, 2025-2026 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2020 Jan Drögehoff
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,15 +32,19 @@ static void print_help(void);
 #define OPT_COLOUR_ALWAYS 1
 #define OPT_COLOUR_AUTO   2
 
-int opt_colour = OPT_COLOUR_AUTO;
-int opt_describe = 0;
-int opt_evra = OPT_EVRA_AUTO;
-int opt_grammar = DEFAULT_GRAMMAR_ENUM;
-int opt_explain = 0;
-int opt_format = OPT_FORMAT_TEXT;
-int opt_image = OPT_IMAGE_NONE;
-int opt_list = OPT_LIST_NONFREE;
-char* opt_licencelist = DEFAULT_LICENCE_LIST;
+static struct Options options_default(void) {
+	return (struct Options) {
+		.colour = OPT_COLOUR_AUTO,
+		.describe = 0,
+		.evra = OPT_EVRA_AUTO,
+		.grammar = DEFAULT_GRAMMAR_ENUM,
+		.explain = 0,
+		.format = OPT_FORMAT_TEXT,
+		.image = OPT_IMAGE_NONE,
+		.list = OPT_LIST_NONFREE,
+		.licenceList = DEFAULT_LICENCE_LIST,
+	};
+}
 
 
 #define ARG_NON no_argument
@@ -50,32 +54,38 @@ char* opt_licencelist = DEFAULT_LICENCE_LIST;
 enum LongOpt {
 	LONGOPT_HELP = 1,
 	LONGOPT_COLOUR,
+	LONGOPT_DESCRIBE,
 	LONGOPT_EVRA,
+	LONGOPT_EXPLAIN,
 	LONGOPT_FORMAT,
 	LONGOPT_GRAMMAR,
+	LONGOPT_IMAGE_ASCII,
+	LONGOPT_IMAGE_ICAT,
 	LONGOPT_LICENCELIST,
 	LONGOPT_LIST,
 	LONGOPT_VERSION
 };
 
-static void parseopt_colour(void);
-static void parseopt_evra(void);
-static void parseopt_format(void);
-static void parseopt_grammar(void);
-static void parseopt_list(void);
+static void parseopt_colour(struct Options *opts);
+static void parseopt_evra(struct Options *opts);
+static void parseopt_format(struct Options *opts);
+static void parseopt_grammar(struct Options *opts);
+static void parseopt_list(struct Options *opts);
 
-void options_parse(int argc, char **argv) {
+struct Options options_parse(int argc, char **argv) {
+	struct Options opts = options_default();
+
 	const struct option vrms_opts[] = {
-		{       "ascii", ARG_NON, &opt_image, OPT_IMAGE_ASCII },
+		{       "ascii", ARG_NON, NULL, LONGOPT_IMAGE_ASCII },
 		{       "color", ARG_REQ, NULL, LONGOPT_COLOUR },
 		{      "colour", ARG_REQ, NULL, LONGOPT_COLOUR },
-		{    "describe", ARG_NON, &opt_describe, 1 },
+		{    "describe", ARG_NON, NULL, LONGOPT_DESCRIBE },
 		{        "evra", ARG_REQ, NULL, LONGOPT_EVRA },
-		{     "explain", ARG_NON, &opt_explain, 1 },
+		{     "explain", ARG_NON, NULL, LONGOPT_EXPLAIN },
 		{      "format", ARG_REQ, NULL, LONGOPT_FORMAT },
 		{     "grammar", ARG_REQ, NULL, LONGOPT_GRAMMAR },
 		{        "help", ARG_NON, NULL, LONGOPT_HELP },
-		{       "image", ARG_NON, &opt_image, OPT_IMAGE_ICAT },
+		{       "image", ARG_NON, NULL, LONGOPT_IMAGE_ICAT },
 		{"licence-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
 		{"license-list", ARG_REQ, NULL, LONGOPT_LICENCELIST },
 		{        "list", ARG_REQ, NULL, LONGOPT_LIST },
@@ -96,27 +106,43 @@ void options_parse(int argc, char **argv) {
 				exit(EXIT_SUCCESS);
 			
 			case LONGOPT_COLOUR:
-				parseopt_colour();
+				parseopt_colour(&opts);
+			break;
+
+			case LONGOPT_DESCRIBE:
+				opts.describe = 1;
 			break;
 
 			case LONGOPT_EVRA:
-				parseopt_evra();
+				parseopt_evra(&opts);
+			break;
+
+			case LONGOPT_EXPLAIN:
+				opts.explain = 1;
 			break;
 
 			case LONGOPT_FORMAT:
-				parseopt_format();
+				parseopt_format(&opts);
 			break;
 
 			case LONGOPT_GRAMMAR:
-				parseopt_grammar();
+				parseopt_grammar(&opts);
+			break;
+
+			case LONGOPT_IMAGE_ASCII:
+				opts.image = OPT_IMAGE_ASCII;
+			break;
+
+			case LONGOPT_IMAGE_ICAT:
+				opts.image = OPT_IMAGE_ICAT;
 			break;
 
 			case LONGOPT_LICENCELIST:
-				opt_licencelist = optarg;
+				opts.licenceList = optarg;
 			break;
 			
 			case LONGOPT_LIST:
-				parseopt_list();
+				parseopt_list(&opts);
 			break;
 			
 			case LONGOPT_VERSION:
@@ -137,13 +163,15 @@ void options_parse(int argc, char **argv) {
 		}
 	}
 	
-	if(opt_colour == OPT_COLOUR_AUTO) {
+	if(opts.colour == OPT_COLOUR_AUTO) {
 		if (getenv("NO_COLOR") != NULL) {
-			opt_colour = OPT_COLOUR_NEVER;
+			opts.colour = OPT_COLOUR_NEVER;
 		} else {
-			opt_colour = isatty(fileno(stdout));
+			opts.colour = isatty(fileno(stdout));
 		}
 	}
+
+	return opts;
 }
 
 #define arg_eq(str)  (strcmp((str), optarg) == 0)
@@ -151,67 +179,67 @@ void options_parse(int argc, char **argv) {
 // In the help text, we state that the only allowed values are "auto", "always" and "never".
 // However, previous versions of the program used "yes" instead of "always", and "no" instead of "never".
 // Keep support for these in the name of backwards-compatibility.
-static void parseopt_colour(void) {
+static void parseopt_colour(struct Options *opts) {
 	if(arg_eq("auto")) {
-		opt_colour = OPT_COLOUR_AUTO;
+		opts->colour = OPT_COLOUR_AUTO;
 	} else if(arg_eq("never") || (arg_eq("no"))) {
-		opt_colour = OPT_COLOUR_NEVER;
+		opts->colour = OPT_COLOUR_NEVER;
 	} else if(arg_eq("always") || arg_eq("yes")) {
-		opt_colour = OPT_COLOUR_ALWAYS;
+		opts->colour = OPT_COLOUR_ALWAYS;
 	} else {
 		lang_fprint(stderr, MSG_ERR_BADOPT_COLOUR);
 		exit(EXIT_FAILURE);
 	}
 }
 
-static void parseopt_evra(void) {
+static void parseopt_evra(struct Options *opts) {
 	if(arg_eq("auto")) {
-		opt_evra = OPT_EVRA_AUTO;
+		opts->evra = OPT_EVRA_AUTO;
 	} else if(arg_eq("never")) {
-		opt_evra = OPT_EVRA_NEVER;
+		opts->evra = OPT_EVRA_NEVER;
 	} else if(arg_eq("always")) {
-		opt_evra = OPT_EVRA_ALWAYS;
+		opts->evra = OPT_EVRA_ALWAYS;
 	} else {
 		lang_fprint(stderr, MSG_ERR_BADOPT_EVRA);
 		exit(EXIT_FAILURE);
 	}
 }
 
-static void parseopt_grammar(void) {
+static void parseopt_grammar(struct Options *opts) {
 	if(arg_eq("loose")) {
-		opt_grammar = OPT_GRAMMAR_LOOSE;
+		opts->grammar = OPT_GRAMMAR_LOOSE;
 	} else if(arg_eq("spdx-strict")) {
-		opt_grammar = OPT_GRAMMAR_SPDX_STRICT;
+		opts->grammar = OPT_GRAMMAR_SPDX_STRICT;
 	} else if(arg_eq("spdx-lenient")) {
-		opt_grammar = OPT_GRAMMAR_SPDX_LENIENT;
+		opts->grammar = OPT_GRAMMAR_SPDX_LENIENT;
 	} else {
 		lang_fprint(stderr, MSG_ERR_BADOPT_GRAMMAR);
 		exit(EXIT_FAILURE);
 	}
 }
 
-static void parseopt_format(void) {
+static void parseopt_format(struct Options *opts) {
 	if(arg_eq("text")) {
-		opt_format = OPT_FORMAT_TEXT;
+		opts->format = OPT_FORMAT_TEXT;
 	} else if(arg_eq("json")) {
-		opt_format = OPT_FORMAT_JSON;
+		opts->format = OPT_FORMAT_JSON;
 	} else if(arg_eq("json-pretty") || arg_eq("pretty-json")) {
-		opt_format = OPT_FORMAT_PRETTYJSON;
+		opts->format = OPT_FORMAT_JSON_PRETTY;
 	} else {
 		lang_fprint(stderr, MSG_ERR_BADOPT_FORMAT);
 		exit(EXIT_FAILURE);
 	}
 }
 
-static void parseopt_list(void) {
+static void parseopt_list(struct Options *opts) {
 	if(arg_eq("all")) {
-		opt_list = OPT_LIST_FREE | OPT_LIST_NONFREE;
+		opts->list = OPT_LIST_FREE | OPT_LIST_NONFREE;
 	} else if(arg_eq("free")) {
-		opt_list = OPT_LIST_FREE;
+		opts->list = OPT_LIST_FREE;
 	} else if(arg_eq("nonfree") || arg_eq("non-free")) {
-		opt_list = OPT_LIST_NONFREE;
+		opts->list = OPT_LIST_NONFREE;
 	} else if(arg_eq("none")) {
-		opt_list = 0;
+		opts->list = 0;
 	} else {
 		lang_fprint(stderr, MSG_ERR_BADOPT_LIST);
 		exit(EXIT_FAILURE);

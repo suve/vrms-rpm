@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018 Artur "suve" Iwicki
+ * Copyright (C) 2018, 2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -17,9 +17,11 @@
 #ifndef VRMS_RPM_FILEUTILS_H
 #define VRMS_RPM_FILEUTILS_H
 
+#include "src/options.h"
+
 extern void echo_file_contents(const char *const filename);
 
-extern void rms_disappointed(void);
-extern void rms_happy(void);
+extern void rms_disappointed(enum OptImage opt_image);
+extern void rms_happy(enum OptImage opt_image);
 
 #endif

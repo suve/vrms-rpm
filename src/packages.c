@@ -34,9 +34,9 @@
 	"\\t%|PUBKEYS?{1}:{0}|" \
 	"\\t%{LICENSE}" \
 
-struct Pipe* packages_openPipe(void) {
+struct Pipe* packages_openPipe(const struct Options *opts) {
 	char *queryformat;
-	if(!opt_describe)
+	if(!opts->describe)
 		queryformat = QUERY_BASE "\\n";
 	else
 		queryformat = QUERY_BASE "\\t%{SUMMARY}\\n";
@@ -84,7 +84,11 @@ static int is_pubkey_package(const char *name, const char *arch, const char *pub
 		(strcmp(licence, "pubkey") == 0);
 }
 
-struct PackageData* packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier) {
+struct PackageData* packages_read(
+	struct Pipe *pipe,
+	struct LicenceClassifier *classifier,
+	const struct Options *opts
+) {
 	struct PackageData *pd = NULL;
 	char *line = NULL;
 	char *licenceBuffer = NULL;
@@ -101,7 +105,7 @@ struct PackageData* packages_read(struct Pipe *pipe, struct LicenceClassifier *c
 	f = pipe_fopen(pipe);
 	if(f == NULL) goto fail;
 
-	const int expected = opt_describe ? 8 : 7;
+	const int expected = (opts->describe) ? 8 : 7;
 	char* fields[8];
 
 	while(fgets(line, LINEBUF_SIZE, f) != NULL) {
@@ -123,7 +127,7 @@ struct PackageData* packages_read(struct Pipe *pipe, struct LicenceClassifier *c
 		licence = chainbuf_append(&pd->buffer, licenceBuffer);
 
 		name = chainbuf_append(&pd->buffer, trim(name, NULL));
-		if(opt_describe) summary = chainbuf_append(&pd->buffer, trim(summary, NULL));
+		if(opts->describe) summary = chainbuf_append(&pd->buffer, trim(summary, NULL));
 
 		// Epoch is typically undefined. RPM reports this using the special string "(none)".
 		// Avoid storing unnecessary epoch info by comparing epoch with this special string.

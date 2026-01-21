@@ -48,7 +48,7 @@ struct LicenceTreeNode {
 extern const struct LicenceTreeNode PubkeyLicence;
 
 
-extern struct LicenceData* licences_read(void);
+extern struct LicenceData* licences_read(const char *listName);
 extern int licences_find(const struct LicenceData *data, const char *licence);
 extern void licences_free(struct LicenceData *data);
 

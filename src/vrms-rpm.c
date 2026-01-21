@@ -26,25 +26,28 @@
 #include "src/pipes.h"
 #include "src/printers.h"
 
-static void easteregg(struct PackageData *pd) {
+static void easteregg(struct PackageData *pd, enum OptImage opt_image) {
 	const size_t nonfree = pd->count[0];
 	const size_t free = pd->count[1];
 	if(nonfree == 0) {
 		putc('\n', stdout);
-		rms_happy();
+		rms_happy(opt_image);
 		lang_print(MSG_RMS_HAPPY);
 	} else {
 		const size_t total_packages = free + nonfree;
 		if(nonfree > (total_packages / 10)) {
 			putc('\n', stdout);
-			rms_disappointed();
+			rms_disappointed(opt_image);
 			lang_print(MSG_RMS_DISAPPOINTED);
 		}
 	}
 }
 
-static struct LicenceClassifier* allocClassifier(const struct LicenceData *data) {
-	switch(opt_grammar) {
+static struct LicenceClassifier* allocClassifier(
+	const struct Options *opts,
+	const struct LicenceData *data
+) {
+	switch(opts->grammar) {
 		case OPT_GRAMMAR_LOOSE:
 			return classifier_newLoose(data);
 		case OPT_GRAMMAR_SPDX_STRICT:
@@ -56,25 +59,24 @@ static struct LicenceClassifier* allocClassifier(const struct LicenceData *data)
 	}
 }
 
-static struct Printer* allocPrinter(void) {
+static struct Printer* allocPrinter(const struct Options *opts) {
 	struct PrinterSettings settings = (struct PrinterSettings){
-		.colour = opt_colour,
-		.describe = opt_describe,
-		.evra = opt_evra,
-		.explain = opt_explain,
+		.colour = opts->colour,
+		.describe = opts->describe,
+		.evra = opts->evra,
+		.explain = opts->explain,
 		.file = stdout,
-		.list = opt_list,
-		.pretty = (opt_format == OPT_FORMAT_PRETTYJSON),
-		.textAnd = (opt_grammar == OPT_GRAMMAR_LOOSE) ? "and" : "AND",
-		.textOr = (opt_grammar == OPT_GRAMMAR_LOOSE) ? "or" : "OR",
+		.list = opts->list,
+		.pretty = (opts->format == OPT_FORMAT_JSON_PRETTY),
+		.textAnd = (opts->grammar == OPT_GRAMMAR_LOOSE) ? "and" : "AND",
+		.textOr = (opts->grammar == OPT_GRAMMAR_LOOSE) ? "or" : "OR",
 	};
 
-	switch(opt_format) {
+	switch(opts->format) {
 		case OPT_FORMAT_TEXT:
 			return printer_newText(settings);
 		case OPT_FORMAT_JSON:
-			return printer_newJSON(settings);
-		case OPT_FORMAT_PRETTYJSON:
+		case OPT_FORMAT_JSON_PRETTY:
 			return printer_newJSON(settings);
 		default:
 			return NULL;
@@ -83,32 +85,32 @@ static struct Printer* allocPrinter(void) {
 
 int main(int argc, char *argv[]) {
 	lang_init();
-	options_parse(argc, argv);
+	struct Options opts = options_parse(argc, argv);
 	
-	struct Pipe *rpmpipe = packages_openPipe();
+	struct Pipe *rpmpipe = packages_openPipe(&opts);
 	if(rpmpipe == NULL) {
 		lang_fprint(stderr, MSG_ERR_PIPE_OPEN_FAILED);
 		exit(EXIT_FAILURE);
 	}
 
-	struct LicenceData *licenses = licences_read();
+	struct LicenceData *licenses = licences_read(opts.licenceList);
 	if(licenses == NULL) {
 		lang_fprint(stderr, MSG_ERR_LICENCES_FAILED);
 		exit(EXIT_FAILURE);
 	}
-	struct LicenceClassifier *classifier = allocClassifier(licenses);
+	struct LicenceClassifier *classifier = allocClassifier(&opts, licenses);
 	if(classifier == NULL) {
 		lang_fprint(stderr, MSG_ERR_MALLOC);
 		exit(EXIT_FAILURE);
 	}
 	
-	struct PackageData *pkgs = packages_read(rpmpipe, classifier);
+	struct PackageData *pkgs = packages_read(rpmpipe, classifier, &opts);
 	if(pkgs == NULL) {
 		lang_fprint(stderr, MSG_ERR_PIPE_READ_FAILED);
 		exit(EXIT_FAILURE);
 	}
 
-	struct Printer *printer = allocPrinter();
+	struct Printer *printer = allocPrinter(&opts);
 	if(printer == NULL) {
 		lang_fprint(stderr, MSG_ERR_MALLOC);
 		exit(EXIT_FAILURE);
@@ -118,7 +120,7 @@ int main(int argc, char *argv[]) {
 	printer->free(printer);
 
 	// TODO: Would make sense to move this into the text printer
-	if(opt_format == OPT_FORMAT_TEXT) easteregg(pkgs);
+	if(opts.format == OPT_FORMAT_TEXT) easteregg(pkgs, opts.image);
 	
 	packages_free(pkgs);
 	classifier->free(classifier);

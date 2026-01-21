@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2023, 2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -50,7 +50,7 @@ void echo_file_contents(const char *const filename) {
 	close(fd);
 }
 
-void rms_disappointed(void) {
+void rms_disappointed(enum OptImage opt_image) {
 	switch(opt_image) {
 		case OPT_IMAGE_ASCII:
 			echo_file_contents(INSTALL_DIR "/images/rms-disappointed-ascii");
@@ -59,10 +59,12 @@ void rms_disappointed(void) {
 		case OPT_IMAGE_ICAT:
 			echo_file_contents(INSTALL_DIR "/images/rms-disappointed-icat");
 		break;
+
+		default: // Do nothing
 	}
 }
 
-void rms_happy(void) {
+void rms_happy(enum OptImage opt_image) {
 	switch(opt_image) {
 		case OPT_IMAGE_ASCII:
 			echo_file_contents(INSTALL_DIR "/images/rms-happy-ascii");
@@ -71,5 +73,7 @@ void rms_happy(void) {
 		case OPT_IMAGE_ICAT:
 			echo_file_contents(INSTALL_DIR "/images/rms-happy-icat");
 		break;
+
+		default: // Do nothing
 	}
 }

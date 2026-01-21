@@ -19,6 +19,7 @@
 #define VRMS_RPM_PACKAGES_H
 
 #include "src/classifiers.h"
+#include "src/options.h"
 #include "src/pipes.h"
 
 // FIXME: Figure out a way to make this an opaque struct,
@@ -49,8 +50,12 @@ struct PackageListItem {
 	int duplicated;
 };
 
-extern struct Pipe* packages_openPipe(void);
-extern struct PackageData* packages_read(struct Pipe *pipe, struct LicenceClassifier *classifier);
+extern struct Pipe* packages_openPipe(const struct Options *opts);
+extern struct PackageData* packages_read(
+	struct Pipe *pipe,
+	struct LicenceClassifier *classifier,
+	const struct Options *opts
+);
 extern void packages_free(struct PackageData *pd);
 
 extern struct PackageListIterator *pkgIter_new(

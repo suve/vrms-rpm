@@ -1,6 +1,6 @@
 /**
  * vrms-rpm - list non-free packages on an rpm-based Linux distribution
- * Copyright (C) 2018, 2020-2023, 2025 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2018, 2020-2023, 2025-2026 suve (a.k.a. Artur Frenszek-Iwicki)
  * Copyright (C) 2018 Marcin "dextero" Radomski
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 #include "src/lang.h"
 #include "src/licences.h"
 #include "src/memory.h"
-#include "src/options.h"
 #include "src/stringutils.h"
 
 const struct LicenceTreeNode PubkeyLicence = (struct LicenceTreeNode) {
@@ -35,7 +34,7 @@ const struct LicenceTreeNode PubkeyLicence = (struct LicenceTreeNode) {
 
 #define LIST_COUNT(data) ((data)->list->used / sizeof(char*))
 
-static FILE* openfile(char *name) {
+static FILE* openfile(const char *name) {
 	char* buffer = NULL;
 	FILE *f = NULL;
 
@@ -81,11 +80,11 @@ static struct LicenceData* licensedata_init(void) {
 	return data;
 }
 
-struct LicenceData* licences_read(void) {
+struct LicenceData* licences_read(const char *listName) {
 	FILE *goodlicences = NULL;
 	struct LicenceData *result = NULL;
 
-	goodlicences = openfile(opt_licencelist);
+	goodlicences = openfile(listName);
 	if(goodlicences == NULL) goto fail;
 	
 	result = licensedata_init();
