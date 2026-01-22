@@ -66,6 +66,8 @@ struct SharedMemory {
  *
  * Since the cmocka testing library runs single-threaded, allocating
  * and freeing shared memory is done once, during setup & teardown.
+ *
+ * Based on this Stack Overflow answer: https://stackoverflow.com/a/5656561
  */
 int test_setup__options(void **state) {
 	struct SharedMemory *shared = mmap(
