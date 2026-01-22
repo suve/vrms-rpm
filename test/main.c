@@ -46,6 +46,18 @@ extern void test__jsonArrays(void **state);
 extern int test_setup__json(void **state);
 extern int test_teardown__json(void **state);
 
+extern void test__optionsDefault(void **state);
+extern void test__optionsFormat(void **state);
+extern void test__optionsGrammar(void **state);
+extern void test__optionsHelp(void **state);
+extern void test__optionsLicenceList(void **state);
+extern void test__optionsList(void **state);
+extern void test__optionsRequiredArgs(void **state);
+extern void test__optionsUnknown(void **state);
+extern void test__optionsVersion(void **state);
+extern int test_setup__options(void **state);
+extern int test_teardown__options(void **state);
+
 int main(void) {
 	int failures = 0;
 	const struct CMUnitTest tests[] = {
@@ -109,6 +121,19 @@ int main(void) {
 		cmocka_unit_test(test__jsonPrinter_complex),
 	};
 	failures += cmocka_run_group_tests(printer_tests, test_setup__printers, test_teardown__printers);
+
+	const struct CMUnitTest options_tests[] = {
+		cmocka_unit_test(test__optionsDefault),
+		cmocka_unit_test(test__optionsFormat),
+		cmocka_unit_test(test__optionsGrammar),
+		cmocka_unit_test(test__optionsHelp),
+		cmocka_unit_test(test__optionsLicenceList),
+		cmocka_unit_test(test__optionsList),
+		cmocka_unit_test(test__optionsRequiredArgs),
+		cmocka_unit_test(test__optionsUnknown),
+		cmocka_unit_test(test__optionsVersion),
+	};
+	failures += cmocka_run_group_tests(options_tests, test_setup__options, test_teardown__options);
 
 	return !!failures;
 }
