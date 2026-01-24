@@ -96,7 +96,18 @@ struct PackageData* packages_read(
 
 	pd = packages_alloc();
 
-	#define LINEBUF_SIZE 4096
+	/*
+	 * TODO: It would be preferable to use a growable buffer here,
+	 *       instead of hard-coding the size. That would most likely
+	 *       entail switching from fgets(3) to read(2) and performing
+	 *       end-of-line detection ourselves.
+	 *
+	 * The current buffer size is based on Fedora's "fex-emu-rootfs-fedora"
+	 * package, which contains an absolute monster of a licence string,
+	 * totaling at 12490 characters. 16 KiB will be enough for now
+	 * and should provide a bit of margin for the future.
+	 */
+	#define LINEBUF_SIZE (16 * 1024)
 	line = mem_alloc(LINEBUF_SIZE);
 
 	#define LICBUF_SIZE LINEBUF_SIZE
