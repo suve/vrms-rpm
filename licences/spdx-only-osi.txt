@@ -8,6 +8,7 @@ AFL-3.0
 AGPL-3.0
 AGPL-3.0-only
 AGPL-3.0-or-later
+ALGLIB-Documentation
 Apache-1.1
 Apache-2.0
 APL-1.0
@@ -19,11 +20,13 @@ Artistic-1.0
 Artistic-1.0-cl8
 Artistic-1.0-Perl
 Artistic-2.0
+BlueOak-1.0.0
 BSD-1-Clause
 BSD-2-Clause
 BSD-2-Clause-Patent
 BSD-3-Clause
 BSD-3-Clause-LBNL
+BSD-3-Clause-Open-MPI
 BSL-1.0
 CAL-1.0
 CAL-1.0-Combined-Work-Exception
@@ -59,6 +62,7 @@ GPL-3.0-only
 GPL-3.0-or-later
 GPL-3.0-with-GCC-exception
 HPND
+ICU
 Intel
 IPA
 IPL-1.0
@@ -128,12 +132,15 @@ SISSL
 Sleepycat
 SPL-1.0
 UCL-1.0
+Unicode-3.0
 Unicode-DFS-2016
 Unlicense
 UPL-1.0
 VSL-1.0
 W3C
+W3C-20150513
 Watcom-1.0
+WordNet
 wxWindows
 Xnet
 Zlib

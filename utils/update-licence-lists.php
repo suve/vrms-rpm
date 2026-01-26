@@ -2,7 +2,7 @@
 <?php
 /**
  * Licence list update script for vrms-rpm
- * Copyright (C) 2023 suve (a.k.a. Artur Frenszek-Iwicki)
+ * Copyright (C) 2023, 2026 suve (a.k.a. Artur Frenszek-Iwicki)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 3,
@@ -80,6 +80,7 @@ function allowed_in_fedora($licence) {
 				case 'allowed':
 				case 'allowed-content':
 				case 'allowed-documentation':
+				case 'allowed-firmware':
 				case 'allowed-fonts':
 					return true;
 
