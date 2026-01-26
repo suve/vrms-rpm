@@ -22,6 +22,7 @@
 #include "src/options.h"
 #include "src/packages.h"
 #include "src/printers.h"
+#include "src/version.h"
 
 struct JsonPrinter {
 	struct Printer interface;
@@ -117,12 +118,17 @@ static void countsCallback(struct JsonObject *obj, void *userdata) {
 	jsonObj_pushInt(obj, "non-free", pd->count[0]);
 }
 
+static void versionCallback(struct JsonObject *obj, void *userdata) {
+	((void)userdata); // purposefully unused
+	
+	jsonObj_pushInt(obj, "schema", JSON_SCHEMA_VERSION);
+	jsonObj_pushStr(obj, "program", PROGRAM_VERSION);
+}
+
 static void topLevelCallback(struct JsonObject *obj, void *userdata) {
 	struct CallbackData *cbdata = userdata;
 
-	// This represents the JSON schema version, not the program version!
-	jsonObj_pushInt(obj, "version", 0);
-
+	jsonObj_pushObj(obj, "version", &versionCallback, NULL);
 	jsonObj_pushObj(obj, "count", &countsCallback, cbdata->pkgs);
 	if(cbdata->printer->list & OPT_LIST_FREE) list(obj, "free", cbdata, 1);
 	if(cbdata->printer->list & OPT_LIST_NONFREE) list(obj, "non-free", cbdata, 0);

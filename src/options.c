@@ -24,6 +24,7 @@
 #include "src/config.h"
 #include "src/lang.h"
 #include "src/options.h"
+#include "src/version.h"
 
 static void print_help(void);
 
@@ -146,7 +147,7 @@ struct Options options_parse(int argc, char **argv) {
 			break;
 			
 			case LONGOPT_VERSION:
-				puts("vrms-rpm v2.3 by suve");
+				puts("vrms-rpm v" PROGRAM_VERSION " by suve");
 				
 				const char *translator = lang_getmsg(MSG_TRANSLATION_AUTHOR);
 				if(strcmp(translator, "--\n") != 0) printf("%s", translator);

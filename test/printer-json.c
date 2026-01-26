@@ -14,8 +14,11 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
+#include "src/version.h"
 #include "test/printers.h"
 #include "test/test.h"
+
+#define SCHEMA_VERSION STRINGIFY_EXPANSION(JSON_SCHEMA_VERSION)
 
 void test__jsonPrinter_none(void **state) {
 	struct PrinterSettings settings = (struct PrinterSettings) {
@@ -33,7 +36,7 @@ void test__jsonPrinter_none(void **state) {
 		settings,
 		printer_newJSON,
 		pkgs_simple,
-		"{\"version\":0,\"count\":{\"free\":3,\"non-free\":1}}"
+		"{\"version\":{\"schema\":" SCHEMA_VERSION ",\"program\":\"" PROGRAM_VERSION "\"},\"count\":{\"free\":3,\"non-free\":1}}"
 	);
 }
 
@@ -55,7 +58,7 @@ void test__jsonPrinter_basic(void **state) {
 		printer_newJSON,
 		pkgs_simple,
 		"{"
-		"\"version\":0,"
+		"\"version\":{\"schema\":" SCHEMA_VERSION ",\"program\":\"" PROGRAM_VERSION "\"},"
 		"\"count\":{\"free\":3,\"non-free\":1},"
 		"\"free\":[{\"name\":\"first\"},{\"name\":\"second\"},{\"name\":\"third\"}],"
 		"\"non-free\":[{\"name\":\"evil\"}]"
@@ -80,7 +83,10 @@ void test__jsonPrinter_everything(void **state) {
 		printer_newJSON,
 		pkgs_simple,
 		"{\n"
-		"\t\"version\": 0,\n"
+		"\t\"version\": {\n"
+		"\t\t\"schema\": " SCHEMA_VERSION ",\n"
+		"\t\t\"program\": \"" PROGRAM_VERSION "\"\n"
+		"\t},\n"
 		"\t\"count\": {\n"
 		"\t\t\"free\": 3,\n"
 		"\t\t\"non-free\": 1\n"
@@ -158,7 +164,10 @@ void test__jsonPrinter_complex(void **state) {
 		printer_newJSON,
 		pkgs_complex,
 		"{\n"
-		"\t\"version\": 0,\n"
+		"\t\"version\": {\n"
+		"\t\t\"schema\": " SCHEMA_VERSION ",\n"
+		"\t\t\"program\": \"" PROGRAM_VERSION "\"\n"
+		"\t},\n"
 		"\t\"count\": {\n"
 		"\t\t\"free\": 1,\n"
 		"\t\t\"non-free\": 1\n"

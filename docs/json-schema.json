@@ -2,7 +2,15 @@
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"type": "object",
 	"properties": {
-		"version": {"const": 0},
+		"version": {
+			"type": "object",
+			"properties": {
+				"schema": {"const": 0},
+				"program": {"type": "string"}
+			},
+			"required": ["schema", "program"],
+			"additionalProperties": false
+		},
 		"count": {
 			"type": "object",
 			"properties": {
