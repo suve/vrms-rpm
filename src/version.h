@@ -17,7 +17,7 @@
 #ifndef VRMS_RPM_VERSION_H
 #define VRMS_RPM_VERSION_H
 
-#define PROGRAM_VERSION "2.3"
+#define PROGRAM_VERSION "2.4"
 #define JSON_SCHEMA_VERSION 0
 
 #endif
