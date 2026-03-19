@@ -1,0 +1,148 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==1 ? 0 : 1);\n"
+"X-Generator: Poedit 3.8\n"
+
+# A place for you to credit yourself!
+# Put something like "Latin translation by Jvlivs Gaivs\n" here.
+msgid "TRANSLATION_AUTHOR\n"
+msgstr "Georgian translation by Ekaterine Papava\n"
+
+msgid "FREE_PACKAGES_COUNT\n"
+msgid_plural "FREE_PACKAGES_COUNT\n"
+msgstr[0] "%d თავისუფალი პაკეტი(სულ %s)\n"
+msgstr[1] "%d თავისუფალი პაკეტი(სულ %s)\n"
+
+msgid "NONFREE_PACKAGES_COUNT\n"
+msgid_plural "NONFREE_PACKAGES_COUNT\n"
+msgstr[0] "%d არათავისუფალი პაკეტი (სულ %s)\n"
+msgstr[1] "%d არათავისუფალი პაკეტი (სულ %s)\n"
+
+msgid "RMS_HAPPY\n"
+msgstr "მხოლოდ თავისუფალი პაკეტები - rms თქვენით იამაყებდა!\n"
+
+msgid "RMS_DISAPPOINTED\n"
+msgstr "10%%-ზე მეტი არათავისუფალი პაკეტი. თავისუფლებას პატივს არ სცემთ?\n"
+
+msgid "HELP_USAGE\n"
+msgstr "გამოყენება: vrms-rpm [პარამეტრები]\n"
+
+msgid "HELP_OPTION_ASCII\n"
+msgstr ""
+"    Display rms ASCII-art when no non-free packages are found,\n"
+"    or when non-free packages are 10%% or more of the total.\n"
+
+msgid "HELP_OPTION_COLOUR\n"
+msgstr ""
+"    Controls whether terminal escape sequences should be used\n"
+"    for colourizing the output. Default is 'auto', which uses colour output\n"
+"    when writing to a terminal, but not when writing to a file or a pipe.\n"
+
+msgid "HELP_OPTION_DESCRIBE\n"
+msgstr "    პაკეტების ჩამოთვლისას ასევე ნაჩვენები იქნება პაკეტის შეჯამებაც (მოკლე აღწერა).\n"
+
+msgid "HELP_OPTION_EVRA\n"
+msgstr ""
+"    პაკეტის სახელთან ერთად ასევე მოხდება მათი ეპოქის:ვერსიის-რელიზის.არქიტექტურის გამოტანაც.\n"
+"    ნაგულისხმევია 'auto', რომელიც ამას, მხოლოდ, იმ პაკეტებისთვის აკეთებს, რომლებიც სახელს იზიარებენ.\n"
+
+msgid "HELP_OPTION_EXPLAIN\n"
+msgstr ""
+"    პაკეტების ჩამოთვლისას ასევე ნაჩვენები იქნება მათი ლიცენზიაც,\n"
+"    რომ დამტკიცდეს მათი თავისუფლება/არათავისუფლება.\n"
+
+msgid "HELP_OPTION_FORMAT\n"
+msgstr ""
+"    Specifies which output format to use.\n"
+"      * text: Human-readable text format. (default)\n"
+"      * json: Consise JSON document.\n"
+"      * json-pretty: JSON, but with newlines and tab-indentation.\n"
+"    Note that all output formats are affected by the --describe, --evra\n"
+"    and --explain options.\n"
+
+msgid "HELP_OPTION_GRAMMAR\n"
+msgstr ""
+"    Specifies the grammar rules to use when parsing licence strings.\n"
+"      * loose: Use a loose, informal grammar.\n"
+"        This is the behaviour employed by vrms-rpm v2.2 and older.\n"
+"      * spdx-strict: Follow the SPDX License Expression grammar.\n"
+"      * spdx-lenient: Same as above, but relax some rules\n"
+"        regarding case-sensitivity and whitespace.\n"
+"    The default value is '%s'.\n"
+
+msgid "HELP_OPTION_HELP\n"
+msgstr "    ამ დახმარების გამოტანა და გასვლა.\n"
+
+msgid "HELP_OPTION_IMAGE\n"
+msgstr ""
+"    Like --ascii, but displays an image using Unicode block characters\n"
+"    and 256-colour mode terminal escape codes.\n"
+
+msgid "HELP_OPTION_LICENCELIST\n"
+msgstr ""
+"    Specifies the list of good licences to use. FILE can be a path\n"
+"    to a file on disk, or one of the bundled licence lists:\n"
+"    %s\n"
+"    The default value is '%s'.\n"
+
+msgid "HELP_OPTION_LIST\n"
+msgstr ""
+"    თავისუფალი და არათავისუფალი პაკეტების რიცხვთან ერთად მათი სახელების გამოტანაც მოხდება.\n"
+"    ნაგულისხმევი მნიშვნელობაა 'არათავისუფალი'.\n"
+
+msgid "HELP_OPTION_VERSION\n"
+msgstr "    ვერსიის ინფორმაციის გამოტანა და გასვლა.\n"
+
+msgid "ERR_MALLOC\n"
+msgstr "vrms-rpm: მეხსიერების გამოყოფის შეცდომა (ვცადე %zu ბაიტის მიღება)\n"
+
+msgid "ERR_PIPE_OPEN_FAILED\n"
+msgstr "vrms-rpm: პროგრამასთან /usr/bin/rpm კომუნიკაციის არხის გახსნა ჩავარდა\n"
+
+msgid "ERR_PIPE_NOEVENTS\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() ფუნქციას მოვლენები არ დაუბრუნებია\n"
+
+msgid "ERR_PIPE_POLL_ERROR\n"
+msgstr "vrms-rpm: pipe_fopen(): poll() ფუნქციამ შეცდომა დააბრუნა\n"
+
+msgid "ERR_PIPE_POLL_HANGUP\n"
+msgstr "vrms-rpm: pipe_fopen(): კომუნიკაციის არხის მეორე მხარემ კავშირი მონაცემების გამოგზავნის გარეშე გაწყვიტა\n"
+
+msgid "ERR_PIPE_READ_FAILED\n"
+msgstr "vrms-rpm: პროგრამასთან /usr/bin/rpm საკომუნიკაციო არხიდან წაკითხვის შეცდომა\n"
+
+msgid "ERR_LICENCES_FAILED\n"
+msgstr "vrms-rpm: კარგი ლიცენზიების სიის წაკითხვის შეცდომა\n"
+
+msgid "ERR_LICENCES_BADFILE\n"
+msgstr "vrms-rpm: \"%s\"-დან კარგი ლიცენზიების სიის წაკითხვა ჩავარდა: %s\n"
+
+msgid "ERR_BADOPT_COLOUR\n"
+msgstr "vrms-rpm: არგუმენტი პარამეტრისთვის --colour უნდა იყოს 'never', 'always', ან 'auto'\n"
+
+msgid "ERR_BADOPT_EVRA\n"
+msgstr "vrms-rpm: არგუმენტები პარამეტრისთვის --evra უნდა იყოს 'never', 'always', ან 'auto'\n"
+
+msgid "ERR_BADOPT_FORMAT\n"
+msgstr "vrms-rpm: არგუმენტები პარამეტრისტვის --format უნდა იყოს 'text', 'json', ან 'json-pretty'\n"
+
+msgid "ERR_BADOPT_GRAMMAR\n"
+msgstr "vrms-rpm: არგუმენტები პარამეტრისთვის --grammar უნდა იყოს 'spdx-strict', 'spdx-lenient', ან 'loose'\n"
+
+msgid "ERR_BADOPT_LIST\n"
+msgstr "vrms-rpm: არგუმენტები პარამეტრისთვის --list უნდა იყოს 'none', 'non-free', 'free' ან 'all'\n"
+
+msgid "ERR_BADOPT_NOARG\n"
+msgstr "vrms-rpm: პარამეტრს \"%s\" არგუმენტი სჭირდება\n"
+
+msgid "ERR_BADOPT_UNKNOWN\n"
+msgstr "vrms-rpm: უცნობი პარამეტრი \"%s\"\n"
