@@ -15,7 +15,7 @@ msgstr ""
 # A place for you to credit yourself!
 # Put something like "Latin translation by Jvlivs Gaivs\n" here.
 msgid "TRANSLATION_AUTHOR\n"
-msgstr "Georgian translation by Ekaterine Papava\n"
+msgstr "ქართული თარგმანის ავტორია ეკატერინე პაპავა\n"
 
 msgid "FREE_PACKAGES_COUNT\n"
 msgid_plural "FREE_PACKAGES_COUNT\n"
