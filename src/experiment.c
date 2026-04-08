@@ -5,9 +5,13 @@
 #include <rpm/header.h>
 #include <rpm/rpmdb.h>
 #include <rpm/rpmlib.h>
+#include <rpm/rpmlog.h>
 #include <rpm/rpmts.h>
 
 int main(void) {
+	FILE *devnull = fopen("/dev/null", "w");
+	rpmlogSetFile(devnull);
+
 	rpmReadConfigFiles(NULL, NULL);
 
 	rpmts ts = NULL;
