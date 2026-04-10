@@ -21,6 +21,7 @@
 #include "src/classifiers.h"
 #include "src/options.h"
 #include "src/pipes.h"
+#include "src/queries.h"
 
 // FIXME: Figure out a way to make this an opaque struct,
 //        while also allowing to create a custom struct for testing.
@@ -52,9 +53,8 @@ struct PackageListItem {
 
 extern struct Pipe* packages_openPipe(const struct Options *opts);
 extern struct PackageData* packages_read(
-	struct Pipe *pipe,
-	struct LicenceClassifier *classifier,
-	const struct Options *opts
+	struct RPMQuery *query,
+	struct LicenceClassifier *classifier
 );
 extern void packages_free(struct PackageData *pd);
 

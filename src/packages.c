@@ -26,6 +26,7 @@
 #include "src/options.h"
 #include "src/packages.h"
 #include "src/pipes.h"
+#include "src/queries.h"
 #include "src/stringutils.h"
 #include "src/versions.h"
 
@@ -66,94 +67,26 @@ static struct PackageData* packages_alloc(void) {
 	return pd;
 }
 
-static int is_defined(const char *value) {
-	return strcmp(value, "(none)") != 0;
-}
-
-/*
- * "gpg-pubkey-XXXXXXXX-YYYYYYYY" packages are "fake" packages
- * in which RPM stores imported GPG keys. These are a special case
- * and should be treated as such.
- */
-static int is_pubkey_package(const char *name, const char *arch, const char *pubkeys, const char *licence) {
-	// Check arch first before engaging in expensive strcmp() calls.
-	return
-		(arch == NULL) &&
-		(strcmp(pubkeys, "1") == 0) &&
-		(strcmp(name, "gpg-pubkey") == 0) &&
-		(strcmp(licence, "pubkey") == 0);
-}
-
 struct PackageData* packages_read(
-	struct Pipe *pipe,
-	struct LicenceClassifier *classifier,
-	const struct Options *opts
+	struct RPMQuery *query,
+	struct LicenceClassifier *classifier
 ) {
-	struct PackageData *pd = NULL;
-	char *line = NULL;
-	char *licenceBuffer = NULL;
-	FILE *f = NULL;
+	struct PackageData *pd = packages_alloc();
 
-	pd = packages_alloc();
+	struct QueryRow row;
+	while(query->next(query, &row)) {
+		char *name = chainbuf_append(&pd->buffer, row.name);
+		char *version = chainbuf_append(&pd->buffer, row.version);
+		char *release = chainbuf_append(&pd->buffer, row.release);
+		
+		char *arch = (row.arch != NULL) ? chainbuf_append(&pd->buffer, row.arch) : NULL;
+		char *summary = (row.summary != NULL) ? chainbuf_append(&pd->buffer, row.summary) : NULL;
+		char *epoch = (row.epoch != NULL ) ? chainbuf_append(&pd->buffer, row.epoch) : NULL;
 
-	/*
-	 * TODO: It would be preferable to use a growable buffer here,
-	 *       instead of hard-coding the size. That would most likely
-	 *       entail switching from fgets(3) to read(2) and performing
-	 *       end-of-line detection ourselves.
-	 *
-	 * The current buffer size is based on Fedora's "fex-emu-rootfs-fedora"
-	 * package, which contains an absolute monster of a licence string,
-	 * totaling at 12490 characters. 16 KiB will be enough for now
-	 * and should provide a bit of margin for the future.
-	 */
-	#define LINEBUF_SIZE (16 * 1024)
-	line = mem_alloc(LINEBUF_SIZE);
-
-	#define LICBUF_SIZE LINEBUF_SIZE
-	licenceBuffer = mem_alloc(LICBUF_SIZE);
-
-	f = pipe_fopen(pipe);
-	if(f == NULL) goto fail;
-
-	const int expected = (opts->describe) ? 8 : 7;
-	char* fields[8];
-
-	while(fgets(line, LINEBUF_SIZE, f) != NULL) {
-		replace_unicode_spaces(line);
-		str_squeeze_char(line, ' ');
-		if(str_split(line, '\t', fields, expected) != expected) continue;
-
-		char *name    = fields[0];
-		char *epoch   = fields[1];
-		char *version = fields[2];
-		char *release = fields[3];
-		char *arch    = fields[4];
-		char *pubkeys = fields[5];
-		char *licence = fields[6];
-		char *summary = fields[7];
-
-		// FIXME: This function can fail, should handle that somehow
-		str_balance_parentheses(trim(licence, NULL), licenceBuffer, LICBUF_SIZE, NULL);
-		licence = chainbuf_append(&pd->buffer, licenceBuffer);
-
-		name = chainbuf_append(&pd->buffer, trim(name, NULL));
-		if(opts->describe) summary = chainbuf_append(&pd->buffer, trim(summary, NULL));
-
-		// Epoch is typically undefined. RPM reports this using the special string "(none)".
-		// Avoid storing unnecessary epoch info by comparing epoch with this special string.
-		// In some very rare cases (hello, "gpg-pubkey" packages!), this can also happen to Arch.
-		epoch = is_defined(epoch) ? chainbuf_append(&pd->buffer, epoch) : NULL;
-		arch = is_defined(arch) ? chainbuf_append(&pd->buffer, arch) : NULL;
-
-		version = chainbuf_append(&pd->buffer, version);
-		release = chainbuf_append(&pd->buffer, release);
-
-		const int is_pubkey = is_pubkey_package(name, arch, pubkeys, licence);
-		struct LicenceTreeNode *classification = is_pubkey
-				? ((struct LicenceTreeNode*)(&PubkeyLicence))
-				: classifier->classify(classifier, licence);
-		pd->count[classification->is_free] += 1;
+		char *licenceText = chainbuf_append(&pd->buffer, row.licence);
+		struct LicenceTreeNode *licenceTree = row.isPubkey
+			? ((struct LicenceTreeNode*)(&PubkeyLicence))
+			: classifier->classify(classifier, licenceText);
 
 		struct Package pkg = {
 			.name = name,
@@ -162,24 +95,18 @@ struct PackageData* packages_read(
 			.version = version,
 			.release = release,
 			.arch = arch,
-			.licence = classification,
-			.is_pubkey = is_pubkey,
+			.licence = licenceTree,
+			.is_pubkey = row.isPubkey,
 		};
-		if(rebuf_append(pd->list, &pkg, sizeof(struct Package)) == NULL) goto fail;
+		if(rebuf_append(pd->list, &pkg, sizeof(struct Package)) == NULL) {
+			packages_free(pd);
+			return NULL;
+		}
+		
+		pd->count[licenceTree->is_free] += 1;
 	}
 
-	fclose(f);
-	mem_free(licenceBuffer);
-	mem_free(line);
 	return pd;
-
-	fail: { // As seen in CVE-2014-1266!
-		if(f != NULL) fclose(f);
-		if(licenceBuffer != NULL) mem_free(licenceBuffer);
-		if(line != NULL) mem_free(line);
-		if(pd != NULL) packages_free(pd);
-		return NULL;
-	}
 }
 
 void packages_free(struct PackageData *pd) {

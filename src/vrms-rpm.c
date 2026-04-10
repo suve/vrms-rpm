@@ -103,12 +103,18 @@ int main(int argc, char *argv[]) {
 		lang_fprint(stderr, MSG_ERR_MALLOC);
 		exit(EXIT_FAILURE);
 	}
-	
-	struct PackageData *pkgs = packages_read(rpmpipe, classifier, &opts);
+
+	struct RPMQuery *query = query_newBinary(&opts, rpmpipe);
+	if(query == NULL) {
+		// TODO: print error message
+		exit(EXIT_FAILURE);
+	}
+	struct PackageData *pkgs = packages_read(query, classifier);
 	if(pkgs == NULL) {
 		lang_fprint(stderr, MSG_ERR_PIPE_READ_FAILED);
 		exit(EXIT_FAILURE);
 	}
+	query->free(query);
 
 	struct Printer *printer = allocPrinter(&opts);
 	if(printer == NULL) {
