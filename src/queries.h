@@ -37,6 +37,8 @@ struct RPMQuery {
 };
 
 extern struct RPMQuery* query_newBinary(struct Options *opts, struct Pipe *pipe);
+#ifdef WITH_LIBRPM
 extern struct RPMQuery* query_newLibrary(struct Options *opts);
+#endif
 
 #endif

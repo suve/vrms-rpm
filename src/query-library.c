@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License along with
  * this program (LICENCE.txt). If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef WITH_LIBRPM
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -91,3 +93,4 @@ struct RPMQuery* query_newLibrary(struct Options *opts) {
 	self->interface.free = &freeQuery;
 	return &self->interface;
 }
+#endif
