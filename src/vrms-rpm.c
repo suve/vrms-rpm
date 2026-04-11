@@ -86,12 +86,14 @@ static struct Printer* allocPrinter(const struct Options *opts) {
 int main(int argc, char *argv[]) {
 	lang_init();
 	struct Options opts = options_parse(argc, argv);
-	
+
+#ifndef WITH_LIBRPM
 	struct Pipe *rpmpipe = packages_openPipe(&opts);
 	if(rpmpipe == NULL) {
 		lang_fprint(stderr, MSG_ERR_PIPE_OPEN_FAILED);
 		exit(EXIT_FAILURE);
 	}
+#endif
 
 	struct LicenceData *licenses = licences_read(opts.licenceList);
 	if(licenses == NULL) {
@@ -104,7 +106,11 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
+#ifdef WITH_LIBRPM
+	struct RPMQuery *query = query_newLibrary(&opts);
+#else
 	struct RPMQuery *query = query_newBinary(&opts, rpmpipe);
+#endif
 	if(query == NULL) {
 		// TODO: print error message
 		exit(EXIT_FAILURE);

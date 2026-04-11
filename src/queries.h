@@ -21,13 +21,13 @@
 #include "src/pipes.h"
 
 struct QueryRow {
-	char *name;
-	char *summary;
-	char *epoch;
-	char *version;
-	char *release;
-	char *arch;
-	char *licence;
+	const char *name;
+	const char *summary;
+	const char *epoch;
+	const char *version;
+	const char *release;
+	const char *arch;
+	const char *licence;
 	int isPubkey;
 };
 
@@ -37,6 +37,6 @@ struct RPMQuery {
 };
 
 extern struct RPMQuery* query_newBinary(struct Options *opts, struct Pipe *pipe);
-// extern struct RPMQuery* query_newLibrary(struct Options *opts);
+extern struct RPMQuery* query_newLibrary(struct Options *opts);
 
 #endif
