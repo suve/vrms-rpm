@@ -104,6 +104,12 @@ msgstr "vrms-rpm: pipe_fopen(): other end of pipe hung up without sending any da
 msgid "ERR_PIPE_READ_FAILED\n"
 msgstr "vrms-rpm: failed to read from pipe to /usr/bin/rpm\n"
 
+msgid "ERR_LIBRPM_READ_CONFIG\n"
+msgstr "vrms-rpm: failed to read librpm config: %s\n"
+
+msgid "ERR_LIBRPM_INIT_ITER\n"
+msgstr "vrms-rpm: failed to create librpm database iterator: %s\n"
+
 msgid "ERR_LICENCES_FAILED\n"
 msgstr "vrms-rpm: failed to read the list of good licences\n"
 

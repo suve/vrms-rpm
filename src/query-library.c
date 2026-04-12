@@ -26,6 +26,7 @@
 #include <rpm/rpmlog.h>
 #include <rpm/rpmts.h>
 
+#include "src/lang.h"
 #include "src/memory.h"
 #include "src/queries.h"
 
@@ -68,6 +69,8 @@ static void freeQuery(struct RPMQuery *query) {
 	mem_free(self);
 }
 
+// FIXME: This function exits on error, while everything else returns NULL
+//        and expects main() to handle it somehow. Should unify this.
 struct RPMQuery* query_newLibrary(struct Options *opts) {
 	struct LibraryQuery *self = mem_alloc(sizeof(struct LibraryQuery));
 	self->withSummary = opts->describe;
@@ -80,14 +83,19 @@ struct RPMQuery* query_newLibrary(struct Options *opts) {
 	self->devNull = fopen("/dev/null", "w");
 	rpmlogSetFile(self->devNull);
 
-	rpmReadConfigFiles(NULL, NULL);
+	if(rpmReadConfigFiles(NULL, NULL) != 0) {
+		lang_fprint(stderr, MSG_ERR_LIBRPM_READ_CONFIG, rpmlogMessage());
+		exit(EXIT_FAILURE);
+	}
 
-	// FIXME: creating a transaction set can fail, should handle that
 	self->transaction = rpmtsCreate();
 	rpmtsSetFlags(self->transaction, rpmtsFlags(self->transaction) | RPMTRANS_FLAG_NOPLUGINS);
 
-	// FIXME: creating an iterator can fail, should handle that
 	self->iter = rpmtsInitIterator(self->transaction, RPMDBI_PACKAGES, NULL, 0);
+	if(self->iter == NULL) {
+		lang_fprint(stderr, MSG_ERR_LIBRPM_INIT_ITER, rpmlogMessage());
+		exit(EXIT_FAILURE);
+	}
 
 	self->interface.next = &getNextRow;
 	self->interface.free = &freeQuery;
